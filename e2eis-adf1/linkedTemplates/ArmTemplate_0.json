@@ -1,0 +1,1396 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "e2eis-adf1"
+		},
+		"Sftp_Connections_AIA_Feed_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'Sftp_Connections_AIA_Feed'"
+		},
+		"SqlServer_mslprd_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SqlServer_mslprd'"
+		},
+		"SqlServer_msluat_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SqlServer_msluat'"
+		},
+		"SqlServer_msldev_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SqlServer_msldev'"
+		},
+		"All_ABI_FILES_TRANSFERS_TO_AZURE_CLOUD_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'All_ABI_FILES_TRANSFERS_TO_AZURE_CLOUD'"
+		},
+		"AzureBlobStorage1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
+		},
+		"AzureDataLakeStorage1_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage1'"
+		},
+		"AzureSqlDatabase1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase1'"
+		},
+		"AzureSqlDatabase2_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase2'"
+		},
+		"CDC_DEV_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'CDC_DEV'"
+		},
+		"ls_Sftp1_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'ls_Sftp1'"
+		},
+		"ls_logging store_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'ls_logging store'"
+		},
+		"Sftp_Connections_AIA_Feed_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "sftpe2eisprod.blob.core.windows.net"
+		},
+		"Sftp_Connections_AIA_Feed_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "sftpe2eisprod.sftpuser"
+		},
+		"All_ABI_FILES_TRANSFERS_TO_AZURE_CLOUD_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sftpe2eisprod.dfs.core.windows.net/"
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://dropboxlandingzone.dfs.core.windows.net/"
+		},
+		"ls_Sftp1_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "sftpe2eisprod.blob.core.windows.net"
+		},
+		"ls_Sftp1_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "sftpe2eisprod.sftpuser"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/Sftp_Connections_AIA_Feed')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "Sftp",
+				"typeProperties": {
+					"host": "[parameters('Sftp_Connections_AIA_Feed_properties_typeProperties_host')]",
+					"port": 22,
+					"skipHostKeyValidation": true,
+					"authenticationType": "Basic",
+					"userName": "[parameters('Sftp_Connections_AIA_Feed_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('Sftp_Connections_AIA_Feed_password')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServer_mslprd')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"connectionString": "[parameters('SqlServer_mslprd_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServer_msluat')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "This will be used to connect with UAT database.",
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"connectionString": "[parameters('SqlServer_msluat_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServer_msldev')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "This connection will WRITE file data into Dev database.",
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"connectionString": "[parameters('SqlServer_msldev_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/All_ABI_FILES_TRANSFERS_TO_AZURE_CLOUD')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('All_ABI_FILES_TRANSFERS_TO_AZURE_CLOUD_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('All_ABI_FILES_TRANSFERS_TO_AZURE_CLOUD_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureBlobStorage1_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStorage1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('AzureDataLakeStorage1_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureSqlDatabase1_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase2')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureSqlDatabase2_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CDC_DEV')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('CDC_DEV_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ls_Sftp1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "Sftp",
+				"typeProperties": {
+					"host": "[parameters('ls_Sftp1_properties_typeProperties_host')]",
+					"port": 22,
+					"skipHostKeyValidation": true,
+					"authenticationType": "Basic",
+					"userName": "[parameters('ls_Sftp1_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('ls_Sftp1_password')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ls_logging store')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('ls_logging store_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/trigger1_inputdata2automation_test_varun')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "This trigger would be used to load data into table automation_test_varun from sftp location AIA from the file inputdata.csv",
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Minute",
+						"interval": 2,
+						"startTime": "2024-02-19T12:40:00",
+						"endTime": "2024-02-19T13:15:00",
+						"timeZone": "Pacific Standard Time"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ABI_AGENCY_ADMIN_CONTACT_DETAILS_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msldev",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2eis_Seq_Number",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "Agency_Code",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_Address",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_Phone",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_Email",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_Primary_Contact_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_Secondary_Contact_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_Role",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_E2EDS_Application_Access_Status",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_Contract_Start_Date",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_Contract_End_Date",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_Contract_Renewal_Date",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_Contract_Termination_Date",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_Contract_Signed_By",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_Primary_Login_Id",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_Primary_Login_Password",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_Logo",
+						"type": "image"
+					},
+					{
+						"name": "Agency_Web_URL_Address",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Record_Load_Date",
+						"type": "date"
+					},
+					{
+						"name": "Record_Loaded_By",
+						"type": "char"
+					},
+					{
+						"name": "Record_Data_Source",
+						"type": "char"
+					},
+					{
+						"name": "Record_Flag_Status",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "ABI_AGENCY_ADMIN_CONTACT_DETAILS"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SqlServer_msldev')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ABI_AGENCY_ADMIN_CONTACT_DETAILS_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msluat",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2eis_Seq_Number",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "Agency_Code",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_Address",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_Phone",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_Email",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_Primary_Contact_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_Secondary_Contact_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_Role",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_E2EDS_Application_Access_Status",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_Contract_Start_Date",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_Contract_End_Date",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_Contract_Renewal_Date",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_Contract_Termination_Date",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_Contract_Signed_By",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_Primary_Login_Id",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_Primary_Login_Password",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_Logo",
+						"type": "image"
+					},
+					{
+						"name": "Agency_Web_URL_Address",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Record_Load_Date",
+						"type": "date"
+					},
+					{
+						"name": "Record_Loaded_By",
+						"type": "char"
+					},
+					{
+						"name": "Record_Data_Source",
+						"type": "char"
+					},
+					{
+						"name": "Record_Flag_Status",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "ABI_AGENCY_ADMIN_CONTACT_DETAILS"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SqlServer_msluat')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ABI_AGENCY_ANNUAL_RATE_DETAILS_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msluat",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2eis_Seq_Number",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "Year",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Segment",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Agent_Contract_Type",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FB_Comp_Statement",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FB_Product_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FB_Comp_Type",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Agency_Comp_Type",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Contract_Starts_With",
+						"type": "nvarchar"
+					},
+					{
+						"name": "E2E_Plan_Description",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Frequency",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FB_Commission_Flat_Rate",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Standard_Amount",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Percent_Of_FB_Payment",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Override_Percent_Of_FB_Payment",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Payment_Type",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Tier1_Percent_Of_FB_Payment",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Tier2_Percent_Of_FB_Payment",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Tier3_Percent_Of_FB_Payment",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Tier4_Percent_Of_FB_Payment",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Enrollment_Year_Start",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Enrollment_Year_End",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Group_Size_Range_Start",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Group_Size_Range_End",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Group_County",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Tier1_Amount",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Tier2_Amount",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Tier3_Amount",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Carrier",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Agency_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Agency_ID",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "Record_Load_Date",
+						"type": "date"
+					},
+					{
+						"name": "Record_Loaded_By",
+						"type": "char"
+					},
+					{
+						"name": "Record_Data_Source",
+						"type": "char"
+					},
+					{
+						"name": "Record_Flag_Status",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "ABI_AGENCY_ANNUAL_RATE_DETAILS"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SqlServer_msluat')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ABI_AGENCY_ANNUAL_RATE_DETAILS_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_mslprd",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2eis_Seq_Number",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "Year",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Segment",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Agent_Contract_Type",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FB_Comp_Statement",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FB_Product_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FB_Comp_Type",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Agency_Comp_Type",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Contract_Starts_With",
+						"type": "nvarchar"
+					},
+					{
+						"name": "E2E_Plan_Description",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Frequency",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FB_Commission_Flat_Rate",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Standard_Amount",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Percent_Of_FB_Payment",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Override_Percent_Of_FB_Payment",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Payment_Type",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Tier1_Percent_Of_FB_Payment",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Tier2_Percent_Of_FB_Payment",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Tier3_Percent_Of_FB_Payment",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Tier4_Percent_Of_FB_Payment",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Enrollment_Year_Start",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Enrollment_Year_End",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Group_Size_Range_Start",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Group_Size_Range_End",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Group_County",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Tier1_Amount",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Tier2_Amount",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Tier3_Amount",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Carrier",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Agency_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Agency_ID",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "Record_Load_Date",
+						"type": "date"
+					},
+					{
+						"name": "Record_Loaded_By",
+						"type": "char"
+					},
+					{
+						"name": "Record_Data_Source",
+						"type": "char"
+					},
+					{
+						"name": "Record_Flag_Status",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "ABI_AGENCY_ANNUAL_RATE_DETAILS"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SqlServer_mslprd')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ABI_AGENCY_ANNUAL_RATE_DETAILS_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msluat",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2eis_Seq_Number",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "Year",
+						"type": "varchar"
+					},
+					{
+						"name": "Segment",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Contract_Type",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_Comp_Statement",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_Product_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_Comp_Type",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_Comp_Type",
+						"type": "varchar"
+					},
+					{
+						"name": "Contract_Starts_With",
+						"type": "varchar"
+					},
+					{
+						"name": "E2E_Plan_Description",
+						"type": "varchar"
+					},
+					{
+						"name": "Frequency",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_Commission_Flat_Rate",
+						"type": "varchar"
+					},
+					{
+						"name": "Standard_Amount",
+						"type": "varchar"
+					},
+					{
+						"name": "Percent_Of_FB_Payment",
+						"type": "varchar"
+					},
+					{
+						"name": "Override_Percent_Of_FB_Payment",
+						"type": "varchar"
+					},
+					{
+						"name": "Payment_Type",
+						"type": "varchar"
+					},
+					{
+						"name": "Tier1_Percent_Of_FB_Payment",
+						"type": "varchar"
+					},
+					{
+						"name": "Tier2_Percent_Of_FB_Payment",
+						"type": "varchar"
+					},
+					{
+						"name": "Tier3_Percent_Of_FB_Payment",
+						"type": "varchar"
+					},
+					{
+						"name": "Tier4_Percent_Of_FB_Payment",
+						"type": "varchar"
+					},
+					{
+						"name": "Enrollment_Year_Start",
+						"type": "varchar"
+					},
+					{
+						"name": "Enrollment_Year_End",
+						"type": "varchar"
+					},
+					{
+						"name": "Group_Size_Range_Start",
+						"type": "varchar"
+					},
+					{
+						"name": "Group_Size_Range_End",
+						"type": "varchar"
+					},
+					{
+						"name": "Group_County",
+						"type": "varchar"
+					},
+					{
+						"name": "Tier1_Amount",
+						"type": "varchar"
+					},
+					{
+						"name": "Tier2_Amount",
+						"type": "varchar"
+					},
+					{
+						"name": "Tier3_Amount",
+						"type": "varchar"
+					},
+					{
+						"name": "Carrier",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Tier5_Percent_Of_FB_Payment",
+						"type": "varchar"
+					},
+					{
+						"name": "Tier6_Percent_Of_FB_Payment",
+						"type": "varchar"
+					},
+					{
+						"name": "Tier7_Percent_Of_FB_Payment",
+						"type": "varchar"
+					},
+					{
+						"name": "Tier8_Percent_Of_FB_Payment",
+						"type": "varchar"
+					},
+					{
+						"name": "Tier9_Percent_Of_FB_Payment",
+						"type": "varchar"
+					},
+					{
+						"name": "Tier10_Percent_Of_FB_Payment",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_ID",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "Record_Load_Date",
+						"type": "date"
+					},
+					{
+						"name": "Record_Loaded_By",
+						"type": "char"
+					},
+					{
+						"name": "Record_Data_Source",
+						"type": "char"
+					},
+					{
+						"name": "Record_Flag_Status",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "ABI_AGENCY_ANNUAL_RATE_DETAILS"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SqlServer_msluat')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ABI_AGENCY_NEWSALE_RENEWALS_PRIOR_YEAR_DETAILS_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msldev",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2eis_Seq_Number",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "Agency_Code",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Code",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Last_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_First_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_UID",
+						"type": "varchar"
+					},
+					{
+						"name": "Member_Contract_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "Comp_Amount",
+						"type": "varchar"
+					},
+					{
+						"name": "Flat_Rate",
+						"type": "varchar"
+					},
+					{
+						"name": "Member_Count",
+						"type": "varchar"
+					},
+					{
+						"name": "Percent_Of_Prem",
+						"type": "varchar"
+					},
+					{
+						"name": "Prem_Paid_Amt",
+						"type": "varchar"
+					},
+					{
+						"name": "Comp_Type",
+						"type": "varchar"
+					},
+					{
+						"name": "Event_Type",
+						"type": "varchar"
+					},
+					{
+						"name": "Initial_Payment_Date",
+						"type": "varchar"
+					},
+					{
+						"name": "Owning_Agency_AOR_Effective_Date",
+						"type": "varchar"
+					},
+					{
+						"name": "Accounting_Date",
+						"type": "varchar"
+					},
+					{
+						"name": "Compensation_Date",
+						"type": "varchar"
+					},
+					{
+						"name": "Original_Effective_Date",
+						"type": "varchar"
+					},
+					{
+						"name": "Benefit_Effective_Date",
+						"type": "varchar"
+					},
+					{
+						"name": "Cancel_Date",
+						"type": "varchar"
+					},
+					{
+						"name": "Product_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "Product_Type",
+						"type": "varchar"
+					},
+					{
+						"name": "Product_Tier_Metal_Level",
+						"type": "varchar"
+					},
+					{
+						"name": "Count_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Bonus_County_Indicator",
+						"type": "varchar"
+					},
+					{
+						"name": "App_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "Exchange_Ind",
+						"type": "varchar"
+					},
+					{
+						"name": "Subscriber_Last_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Subscriber_First_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Subscriber_Middle_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Coverage_From_Date",
+						"type": "varchar"
+					},
+					{
+						"name": "Coverage_To_Date",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "Record_Load_Date",
+						"type": "date"
+					},
+					{
+						"name": "Record_Loaded_By",
+						"type": "char"
+					},
+					{
+						"name": "Record_Data_Source",
+						"type": "char"
+					},
+					{
+						"name": "Record_Flag_Status",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "ABI_AGENCY_NEWSALE_RENEWALS_PRIOR_YEAR_DETAILS"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SqlServer_msldev')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ABI_AGENCY_NEWSALE_RENEWALS_PRIOR_YEAR_DETAILS_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_mslprd",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2eis_Seq_Number",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "Agency_Code",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Code",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Last_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_First_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_UID",
+						"type": "varchar"
+					},
+					{
+						"name": "Member_Contract_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "Comp_Amount",
+						"type": "varchar"
+					},
+					{
+						"name": "Flat_Rate",
+						"type": "varchar"
+					},
+					{
+						"name": "Member_Count",
+						"type": "varchar"
+					},
+					{
+						"name": "Percent_Of_Prem",
+						"type": "varchar"
+					},
+					{
+						"name": "Prem_Paid_Amt",
+						"type": "varchar"
+					},
+					{
+						"name": "Comp_Type",
+						"type": "varchar"
+					},
+					{
+						"name": "Event_Type",
+						"type": "varchar"
+					},
+					{
+						"name": "Initial_Payment_Date",
+						"type": "varchar"
+					},
+					{
+						"name": "Owning_Agency_AOR_Effective_Date",
+						"type": "varchar"
+					},
+					{
+						"name": "Accounting_Date",
+						"type": "varchar"
+					},
+					{
+						"name": "Compensation_Date",
+						"type": "varchar"
+					},
+					{
+						"name": "Original_Effective_Date",
+						"type": "varchar"
+					},
+					{
+						"name": "Benefit_Effective_Date",
+						"type": "varchar"
+					},
+					{
+						"name": "Cancel_Date",
+						"type": "varchar"
+					},
+					{
+						"name": "Product_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "Product_Type",
+						"type": "varchar"
+					},
+					{
+						"name": "Product_Tier_Metal_Level",
+						"type": "varchar"
+					},
+					{
+						"name": "Count_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Bonus_County_Indicator",
+						"type": "varchar"
+					},
+					{
+						"name": "App_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "Exchange_Ind",
+						"type": "varchar"
+					},
+					{
+						"name": "Subscriber_Last_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Subscriber_First_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Subscriber_Middle_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Coverage_From_Date",
+						"type": "varchar"
+					},
+					{
+						"name": "Coverage_To_Date",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "Record_Load_Date",
+						"type": "date"
+					},
+					{
+						"name": "Record_Loaded_By",
+						"type": "char"
+					},
+					{
+						"name": "Record_Data_Source",
+						"type": "char"
+					},
+					{
+						"name": "Record_Flag_Status",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "ABI_AGENCY_NEWSALE_RENEWALS_PRIOR_YEAR_DETAILS"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SqlServer_mslprd')]"
+			]
+		}
+	]
+}
