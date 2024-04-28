@@ -3220,8 +3220,8 @@
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
-									"AIAWeeklyExtractsForAgency": {},
-									"AIASINK": {}
+									"ABMonthlyExtracts1": {},
+									"ABPSINK": {}
 								}
 							},
 							"staging": {},
@@ -3372,6 +3372,8 @@
 					{
 						"name": "VIEW to ABI_COMMISSION_ALL_SALES_REPORT_HISTORY_DATA",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "View to ABI_COMMISSION_ALL_SALES_REPORT_HISTORY",
@@ -3815,6 +3817,43 @@
 								"parameters": {}
 							}
 						]
+					},
+					{
+						"name": "DF_Monthly_Extracts_for_ABI_Agency",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "VIEW to ABI_COMMISSION_ALL_SALES_REPORT_HISTORY_DATA",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_Monthly_Extracts_for_ABI_Agency",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source1": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
 					}
 				],
 				"policy": {
@@ -3837,7 +3876,8 @@
 				"[concat(variables('factoryId'), '/dataflows/dataflow_AIA_Weekly_Extracts')]",
 				"[concat(variables('factoryId'), '/datasets/VW_ABI_Commision_All_Sales_Report_PRD')]",
 				"[concat(variables('factoryId'), '/datasets/ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY_PRD')]",
-				"[concat(variables('factoryId'), '/datasets/ABI_COMMISSION_ALL_SALES_REPORT_HISTORY_PRD')]"
+				"[concat(variables('factoryId'), '/datasets/ABI_COMMISSION_ALL_SALES_REPORT_HISTORY_PRD')]",
+				"[concat(variables('factoryId'), '/dataflows/DF_Monthly_Extracts_for_ABI_Agency')]"
 			]
 		},
 		{
@@ -18418,8 +18458,8 @@
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
-									"AIAWeeklyExtractsForAgency": {},
-									"AIASINK": {}
+									"ABMonthlyExtracts1": {},
+									"ABPSINK": {}
 								}
 							},
 							"staging": {},
@@ -47642,6 +47682,410 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/Sftp_Connections_AIA_Feed')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ABI_COMMISSION_ALL_SALES_REPORT_HISTORY_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_mslprd",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2eis_Seq_Number",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "Payee_AOR",
+						"type": "varchar"
+					},
+					{
+						"name": "Payee_AORName",
+						"type": "varchar"
+					},
+					{
+						"name": "WritingAgentName",
+						"type": "varchar"
+					},
+					{
+						"name": "Carrier",
+						"type": "varchar"
+					},
+					{
+						"name": "Period_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "AccountingDate",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_CompType",
+						"type": "varchar"
+					},
+					{
+						"name": "AgencyCompType",
+						"type": "varchar"
+					},
+					{
+						"name": "Prior_CompType",
+						"type": "varchar"
+					},
+					{
+						"name": "SubscriberName",
+						"type": "varchar"
+					},
+					{
+						"name": "ProductType",
+						"type": "varchar"
+					},
+					{
+						"name": "MemberCount",
+						"type": "varchar"
+					},
+					{
+						"name": "ContractCount",
+						"type": "varchar"
+					},
+					{
+						"name": "FBContractId",
+						"type": "varchar"
+					},
+					{
+						"name": "OriginalEffectiveDate",
+						"type": "varchar"
+					},
+					{
+						"name": "CoverageFromDate",
+						"type": "varchar"
+					},
+					{
+						"name": "CoverageToDate",
+						"type": "varchar"
+					},
+					{
+						"name": "CancelDate",
+						"type": "varchar"
+					},
+					{
+						"name": "County",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Number",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "FBPaymentAmount",
+						"type": "varchar"
+					},
+					{
+						"name": "Frequency",
+						"type": "varchar"
+					},
+					{
+						"name": "FileType",
+						"type": "varchar"
+					},
+					{
+						"name": "CommissionRate",
+						"type": "varchar"
+					},
+					{
+						"name": "RateType",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Commission",
+						"type": "varchar"
+					},
+					{
+						"name": "CommissionType",
+						"type": "varchar"
+					},
+					{
+						"name": "WritingAgentRole",
+						"type": "varchar"
+					},
+					{
+						"name": "WritingAgentPayrollId",
+						"type": "varchar"
+					},
+					{
+						"name": "ManualAdjComments",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_Commission_Flat_Rate",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "Record_Load_Date",
+						"type": "date"
+					},
+					{
+						"name": "Record_Loaded_By",
+						"type": "char"
+					},
+					{
+						"name": "Record_Data_Source",
+						"type": "char"
+					},
+					{
+						"name": "Record_Flag_Status",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "ABI_COMMISSION_ALL_SALES_REPORT_HISTORY"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SqlServer_mslprd')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_mslprd",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2eis_Seq_Number",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "Payee_AOR",
+						"type": "varchar"
+					},
+					{
+						"name": "WritingAgentName",
+						"type": "varchar"
+					},
+					{
+						"name": "WritingAgentPayrollId",
+						"type": "varchar"
+					},
+					{
+						"name": "FBPaymentAmount",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Commission",
+						"type": "varchar"
+					},
+					{
+						"name": "Override_Commission",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "Record_Load_Date",
+						"type": "date"
+					},
+					{
+						"name": "Record_Loaded_By",
+						"type": "char"
+					},
+					{
+						"name": "Record_Data_Source",
+						"type": "char"
+					},
+					{
+						"name": "Record_Flag_Status",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SqlServer_mslprd')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ABI_COMMISSION_ALL_SALES_SUMMARY_VIEW_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_mslprd",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "Payee_AOR",
+						"type": "varchar"
+					},
+					{
+						"name": "Payee_AORName",
+						"type": "varchar"
+					},
+					{
+						"name": "WritingAgentName",
+						"type": "varchar"
+					},
+					{
+						"name": "Carrier",
+						"type": "varchar"
+					},
+					{
+						"name": "Period_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "AccountingDate",
+						"type": "date"
+					},
+					{
+						"name": "FB_CompType",
+						"type": "varchar"
+					},
+					{
+						"name": "AgencyCompType",
+						"type": "varchar"
+					},
+					{
+						"name": "Prior_CompType",
+						"type": "varchar"
+					},
+					{
+						"name": "SubscriberName",
+						"type": "varchar"
+					},
+					{
+						"name": "ProductType",
+						"type": "varchar"
+					},
+					{
+						"name": "MemberCount",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ContractCount",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "FBContractId",
+						"type": "varchar"
+					},
+					{
+						"name": "OriginalEffectiveDate",
+						"type": "date"
+					},
+					{
+						"name": "CoverageFromDate",
+						"type": "date"
+					},
+					{
+						"name": "CoverageToDate",
+						"type": "date"
+					},
+					{
+						"name": "CancelDate",
+						"type": "date"
+					},
+					{
+						"name": "County",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Number",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "FBPaymentAmount",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "Frequency",
+						"type": "varchar"
+					},
+					{
+						"name": "FileType",
+						"type": "varchar"
+					},
+					{
+						"name": "CommissionRate",
+						"type": "decimal",
+						"precision": 10,
+						"scale": 4
+					},
+					{
+						"name": "RateType",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Commission",
+						"type": "decimal",
+						"precision": 10,
+						"scale": 4
+					},
+					{
+						"name": "CommissionType",
+						"type": "varchar"
+					},
+					{
+						"name": "WritingAgentRole",
+						"type": "varchar"
+					},
+					{
+						"name": "WritingAgentPayrollId",
+						"type": "varchar"
+					},
+					{
+						"name": "ManualAdjComments",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_Commission_Flat_Rate",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "ABI_COMMISSION_ALL_SALES_SUMMARY_VIEW"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SqlServer_mslprd')]"
 			]
 		},
 		{
@@ -79942,6 +80386,33 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/All_Sales_Summary_Report')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_Connections_AIA_Feed",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"folderPath": "/MSL_Cloud_Prd/ToAgency/ABI"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Sftp_Connections_AIA_Feed')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/CT_AGENCY_EMP_HIER_DETAILS')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -80775,6 +81246,33 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/SqlServer_msluat')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_Connections_AIA_Feed",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"folderPath": "/MSL_Cloud_Prd/ToAgency/ABI"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Sftp_Connections_AIA_Feed')]"
 			]
 		},
 		{
@@ -91782,6 +92280,164 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/VW_ABI_Commision_All_Sales_Report_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_mslprd",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "Payee_AOR",
+						"type": "varchar"
+					},
+					{
+						"name": "Payee_AORName",
+						"type": "varchar"
+					},
+					{
+						"name": "WritingAgentName",
+						"type": "varchar"
+					},
+					{
+						"name": "Carrier",
+						"type": "varchar"
+					},
+					{
+						"name": "Period_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "AccountingDate",
+						"type": "date"
+					},
+					{
+						"name": "FB_CompType",
+						"type": "varchar"
+					},
+					{
+						"name": "AgencyCompType",
+						"type": "varchar"
+					},
+					{
+						"name": "Prior_CompType",
+						"type": "varchar"
+					},
+					{
+						"name": "SubscriberName",
+						"type": "varchar"
+					},
+					{
+						"name": "ProductType",
+						"type": "varchar"
+					},
+					{
+						"name": "MemberCount",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ContractCount",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "FBContractId",
+						"type": "varchar"
+					},
+					{
+						"name": "OriginalEffectiveDate",
+						"type": "date"
+					},
+					{
+						"name": "CoverageFromDate",
+						"type": "date"
+					},
+					{
+						"name": "CoverageToDate",
+						"type": "date"
+					},
+					{
+						"name": "CancelDate",
+						"type": "date"
+					},
+					{
+						"name": "County",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Number",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "FBPaymentAmount",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "Frequency",
+						"type": "varchar"
+					},
+					{
+						"name": "FileType",
+						"type": "varchar"
+					},
+					{
+						"name": "CommissionRate",
+						"type": "decimal",
+						"precision": 10,
+						"scale": 4
+					},
+					{
+						"name": "RateType",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Commission",
+						"type": "decimal",
+						"precision": 10,
+						"scale": 4
+					},
+					{
+						"name": "CommissionType",
+						"type": "varchar"
+					},
+					{
+						"name": "WritingAgentRole",
+						"type": "varchar"
+					},
+					{
+						"name": "WritingAgentPayrollId",
+						"type": "varchar"
+					},
+					{
+						"name": "ManualAdjComments",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_Commission_Flat_Rate",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "VW_ABI_Commision_All_Sales_Report"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SqlServer_mslprd')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/All_ABI_FILES_TRANSFERS_TO_AZURE_CLOUD')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -92016,6 +92672,121 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/DF_Monthly_Extracts_for_ABI_Agency')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY_PRD",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ABI_SALES_MONTHLY_SUMMARY_REPORT",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          E2eis_Seq_Number as long,",
+						"          Payee_AOR as string,",
+						"          WritingAgentName as string,",
+						"          WritingAgentPayrollId as string,",
+						"          FBPaymentAmount as string,",
+						"          Agent_Commission as string,",
+						"          Override_Commission as string,",
+						"          Agency_ID as string,",
+						"          Record_Load_Date as date,",
+						"          Record_Loaded_By as string,",
+						"          Record_Data_Source as string,",
+						"          Record_Flag_Status as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> source1",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY_PRD')]",
+				"[concat(variables('factoryId'), '/datasets/ABI_SALES_MONTHLY_SUMMARY_REPORT')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflow1')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY_PRD",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "All_Sales_Summary_Report",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          E2eis_Seq_Number as long,",
+						"          Payee_AOR as string,",
+						"          WritingAgentName as string,",
+						"          WritingAgentPayrollId as string,",
+						"          FBPaymentAmount as string,",
+						"          Agent_Commission as string,",
+						"          Override_Commission as string,",
+						"          Agency_ID as string,",
+						"          Record_Load_Date as date,",
+						"          Record_Loaded_By as string,",
+						"          Record_Data_Source as string,",
+						"          Record_Flag_Status as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: '   SELECT *\\n FROM [dbo].[ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY]\\n WHERE [Record_Load_Date] IN (SELECT max([Record_Load_Date]) \\n FROM [dbo].[ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY])',",
+						"     format: 'query') ~> source1",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY_PRD')]",
+				"[concat(variables('factoryId'), '/datasets/All_Sales_Summary_Report')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/dataflow_AIA_Weekly_Extracts')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -92025,24 +92796,25 @@
 					"sources": [
 						{
 							"dataset": {
-								"referenceName": "AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY",
+								"referenceName": "ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY_PRD",
 								"type": "DatasetReference"
 							},
-							"name": "AIAWeeklyExtractsForAgency"
+							"name": "ABMonthlyExtracts1",
+							"description": "Import data from ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY"
 						}
 					],
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "DelimitedText1Sunil",
+								"referenceName": "DelimitedText1",
 								"type": "DatasetReference"
 							},
-							"name": "AIASINK"
+							"name": "ABPSINK"
 						}
 					],
 					"transformations": [
 						{
-							"name": "AIAWeeklyEXTRACTSINCSVFORMAT"
+							"name": "ABIMONTHLYEXTRACTONE"
 						}
 					],
 					"scriptLines": [
@@ -92099,634 +92871,49 @@
 						"     allowSchemaDrift: false,",
 						"     validateSchema: false,",
 						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     query: 'SELECT *\\n FROM [dbo].[AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY]\\n WHERE [Record_Load_Date] IN (SELECT max([Record_Load_Date]) \\n FROM [dbo].[AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY])',",
-						"     format: 'query') ~> AIAWeeklyExtractsForAgency",
-						"AIAWeeklyExtractsForAgency select(skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> AIAWeeklyEXTRACTSINCSVFORMAT",
-						"AIAWeeklyEXTRACTSINCSVFORMAT sink(allowSchemaDrift: true,",
+						"     query: '   SELECT *\\n FROM [dbo].[ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY]\\n WHERE [Record_Load_Date] IN (SELECT max([Record_Load_Date]) \\n FROM [dbo].[ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY])',",
+						"     format: 'query') ~> ABMonthlyExtracts1",
+						"ABMonthlyExtracts1 select(skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> ABIMONTHLYEXTRACTONE",
+						"ABIMONTHLYEXTRACTONE sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
-						"     input(",
-						"          E2eis_Seq_Number as string,",
-						"          Carrier as string,",
-						"          Owning_Agent_of_Record as string,",
-						"          Assigned_Agent_Number as string,",
-						"          Broker_Start_Date as string,",
-						"          Broker_End_Date as string,",
-						"          Product_Type as string,",
-						"          Product_Description as string,",
-						"          IMS_Transaction_ID as string,",
-						"          Policy_Status as string,",
-						"          Policy_ID as string,",
-						"          Group_Name as string,",
-						"          Member_Count as string,",
-						"          {On/Off_Exchange} as string,",
-						"          Exchange_Subscriber_ID as string,",
-						"          Coverage_Type as string,",
-						"          Subscriber_Original_Effective_Date as string,",
-						"          Coverage_Start__Date as string,",
-						"          Coverage_End_Date as string,",
-						"          Paid_Through_Date as string,",
-						"          Subscriber_First_Name as string,",
-						"          Subscriber_Middle_Name as string,",
-						"          Subscriber_Last_Name as string,",
-						"          Subscriber_Full_Name as string,",
-						"          Subscriber_DOB as string,",
-						"          Subscriber_Email as string,",
-						"          Address as string,",
-						"          Address_2 as string,",
-						"          Zip_Code as string,",
-						"          City as string,",
-						"          State as string,",
-						"          County as string,",
-						"          App_Submit_Date as string,",
-						"          Member_Phone_Number_1 as string,",
-						"          Member_Phone_Number_2 as string,",
-						"          Compensation_Type as string,",
-						"          Compensation_Period as string,",
-						"          Compensation_Amount as string,",
-						"          HS_Aligned as string,",
-						"          Main_Upline_Agent as string,",
-						"          Group_Team_Sales as string,",
-						"          Transition_Date as string,",
-						"          Assigned_Agent_Name as string,",
-						"          Agency_ID as string,",
-						"          Record_Load_Date as string,",
-						"          Record_Loaded_By as string,",
-						"          Record_Data_Source as string,",
-						"          Record_Flag_Status as string",
-						"     ),",
 						"     partitionFileNames:['AIA_WEEKLY_EXTRACTS'],",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
-						"     partitionBy('hash', 1)) ~> AIASINK"
+						"     partitionBy('hash', 1)) ~> ABPSINK"
 					]
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY')]",
-				"[concat(variables('factoryId'), '/datasets/DelimitedText1Sunil')]"
+				"[concat(variables('factoryId'), '/datasets/ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY_PRD')]",
+				"[concat(variables('factoryId'), '/datasets/DelimitedText1')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ABI_COMMISSION_ALL_SALES_SUMMARY_VIEW_PRD')]",
+			"name": "[concat(parameters('factoryName'), '/ABI_SALES_MONTHLY_SUMMARY_REPORT')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "SqlServer_mslprd",
+					"referenceName": "Sftp_Connections_AIA_Feed",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "Payee_AOR",
-						"type": "varchar"
-					},
-					{
-						"name": "Payee_AORName",
-						"type": "varchar"
-					},
-					{
-						"name": "WritingAgentName",
-						"type": "varchar"
-					},
-					{
-						"name": "Carrier",
-						"type": "varchar"
-					},
-					{
-						"name": "Period_Name",
-						"type": "varchar"
-					},
-					{
-						"name": "AccountingDate",
-						"type": "date"
-					},
-					{
-						"name": "FB_CompType",
-						"type": "varchar"
-					},
-					{
-						"name": "AgencyCompType",
-						"type": "varchar"
-					},
-					{
-						"name": "Prior_CompType",
-						"type": "varchar"
-					},
-					{
-						"name": "SubscriberName",
-						"type": "varchar"
-					},
-					{
-						"name": "ProductType",
-						"type": "varchar"
-					},
-					{
-						"name": "MemberCount",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "ContractCount",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "FBContractId",
-						"type": "varchar"
-					},
-					{
-						"name": "OriginalEffectiveDate",
-						"type": "date"
-					},
-					{
-						"name": "CoverageFromDate",
-						"type": "date"
-					},
-					{
-						"name": "CoverageToDate",
-						"type": "date"
-					},
-					{
-						"name": "CancelDate",
-						"type": "date"
-					},
-					{
-						"name": "County",
-						"type": "varchar"
-					},
-					{
-						"name": "Agent_Number",
-						"type": "varchar"
-					},
-					{
-						"name": "Agent_Name",
-						"type": "varchar"
-					},
-					{
-						"name": "FBPaymentAmount",
-						"type": "money",
-						"precision": 19,
-						"scale": 4
-					},
-					{
-						"name": "Frequency",
-						"type": "varchar"
-					},
-					{
-						"name": "FileType",
-						"type": "varchar"
-					},
-					{
-						"name": "CommissionRate",
-						"type": "decimal",
-						"precision": 10,
-						"scale": 4
-					},
-					{
-						"name": "RateType",
-						"type": "varchar"
-					},
-					{
-						"name": "Agent_Commission",
-						"type": "decimal",
-						"precision": 10,
-						"scale": 4
-					},
-					{
-						"name": "CommissionType",
-						"type": "varchar"
-					},
-					{
-						"name": "WritingAgentRole",
-						"type": "varchar"
-					},
-					{
-						"name": "WritingAgentPayrollId",
-						"type": "varchar"
-					},
-					{
-						"name": "ManualAdjComments",
-						"type": "varchar"
-					},
-					{
-						"name": "FB_Commission_Flat_Rate",
-						"type": "varchar"
-					}
-				],
+				"type": "DelimitedText",
 				"typeProperties": {
-					"schema": "dbo",
-					"table": "ABI_COMMISSION_ALL_SALES_SUMMARY_VIEW"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/SqlServer_mslprd')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_mslprd",
-					"type": "LinkedServiceReference"
+					"location": {
+						"type": "SftpLocation",
+						"folderPath": "/MSL_Cloud_Prd/ToAgency/ABI"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
 				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2eis_Seq_Number",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "Payee_AOR",
-						"type": "varchar"
-					},
-					{
-						"name": "WritingAgentName",
-						"type": "varchar"
-					},
-					{
-						"name": "WritingAgentPayrollId",
-						"type": "varchar"
-					},
-					{
-						"name": "FBPaymentAmount",
-						"type": "varchar"
-					},
-					{
-						"name": "Agent_Commission",
-						"type": "varchar"
-					},
-					{
-						"name": "Override_Commission",
-						"type": "varchar"
-					},
-					{
-						"name": "Agency_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "Record_Load_Date",
-						"type": "date"
-					},
-					{
-						"name": "Record_Loaded_By",
-						"type": "char"
-					},
-					{
-						"name": "Record_Data_Source",
-						"type": "char"
-					},
-					{
-						"name": "Record_Flag_Status",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY"
-				}
+				"schema": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/SqlServer_mslprd')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/VW_ABI_Commision_All_Sales_Report_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_mslprd",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "Payee_AOR",
-						"type": "varchar"
-					},
-					{
-						"name": "Payee_AORName",
-						"type": "varchar"
-					},
-					{
-						"name": "WritingAgentName",
-						"type": "varchar"
-					},
-					{
-						"name": "Carrier",
-						"type": "varchar"
-					},
-					{
-						"name": "Period_Name",
-						"type": "varchar"
-					},
-					{
-						"name": "AccountingDate",
-						"type": "date"
-					},
-					{
-						"name": "FB_CompType",
-						"type": "varchar"
-					},
-					{
-						"name": "AgencyCompType",
-						"type": "varchar"
-					},
-					{
-						"name": "Prior_CompType",
-						"type": "varchar"
-					},
-					{
-						"name": "SubscriberName",
-						"type": "varchar"
-					},
-					{
-						"name": "ProductType",
-						"type": "varchar"
-					},
-					{
-						"name": "MemberCount",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "ContractCount",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "FBContractId",
-						"type": "varchar"
-					},
-					{
-						"name": "OriginalEffectiveDate",
-						"type": "date"
-					},
-					{
-						"name": "CoverageFromDate",
-						"type": "date"
-					},
-					{
-						"name": "CoverageToDate",
-						"type": "date"
-					},
-					{
-						"name": "CancelDate",
-						"type": "date"
-					},
-					{
-						"name": "County",
-						"type": "varchar"
-					},
-					{
-						"name": "Agent_Number",
-						"type": "varchar"
-					},
-					{
-						"name": "Agent_Name",
-						"type": "varchar"
-					},
-					{
-						"name": "FBPaymentAmount",
-						"type": "money",
-						"precision": 19,
-						"scale": 4
-					},
-					{
-						"name": "Frequency",
-						"type": "varchar"
-					},
-					{
-						"name": "FileType",
-						"type": "varchar"
-					},
-					{
-						"name": "CommissionRate",
-						"type": "decimal",
-						"precision": 10,
-						"scale": 4
-					},
-					{
-						"name": "RateType",
-						"type": "varchar"
-					},
-					{
-						"name": "Agent_Commission",
-						"type": "decimal",
-						"precision": 10,
-						"scale": 4
-					},
-					{
-						"name": "CommissionType",
-						"type": "varchar"
-					},
-					{
-						"name": "WritingAgentRole",
-						"type": "varchar"
-					},
-					{
-						"name": "WritingAgentPayrollId",
-						"type": "varchar"
-					},
-					{
-						"name": "ManualAdjComments",
-						"type": "varchar"
-					},
-					{
-						"name": "FB_Commission_Flat_Rate",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "VW_ABI_Commision_All_Sales_Report"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/SqlServer_mslprd')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ABI_COMMISSION_ALL_SALES_REPORT_HISTORY_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_mslprd",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2eis_Seq_Number",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "Payee_AOR",
-						"type": "varchar"
-					},
-					{
-						"name": "Payee_AORName",
-						"type": "varchar"
-					},
-					{
-						"name": "WritingAgentName",
-						"type": "varchar"
-					},
-					{
-						"name": "Carrier",
-						"type": "varchar"
-					},
-					{
-						"name": "Period_Name",
-						"type": "varchar"
-					},
-					{
-						"name": "AccountingDate",
-						"type": "varchar"
-					},
-					{
-						"name": "FB_CompType",
-						"type": "varchar"
-					},
-					{
-						"name": "AgencyCompType",
-						"type": "varchar"
-					},
-					{
-						"name": "Prior_CompType",
-						"type": "varchar"
-					},
-					{
-						"name": "SubscriberName",
-						"type": "varchar"
-					},
-					{
-						"name": "ProductType",
-						"type": "varchar"
-					},
-					{
-						"name": "MemberCount",
-						"type": "varchar"
-					},
-					{
-						"name": "ContractCount",
-						"type": "varchar"
-					},
-					{
-						"name": "FBContractId",
-						"type": "varchar"
-					},
-					{
-						"name": "OriginalEffectiveDate",
-						"type": "varchar"
-					},
-					{
-						"name": "CoverageFromDate",
-						"type": "varchar"
-					},
-					{
-						"name": "CoverageToDate",
-						"type": "varchar"
-					},
-					{
-						"name": "CancelDate",
-						"type": "varchar"
-					},
-					{
-						"name": "County",
-						"type": "varchar"
-					},
-					{
-						"name": "Agent_Number",
-						"type": "varchar"
-					},
-					{
-						"name": "Agent_Name",
-						"type": "varchar"
-					},
-					{
-						"name": "FBPaymentAmount",
-						"type": "varchar"
-					},
-					{
-						"name": "Frequency",
-						"type": "varchar"
-					},
-					{
-						"name": "FileType",
-						"type": "varchar"
-					},
-					{
-						"name": "CommissionRate",
-						"type": "varchar"
-					},
-					{
-						"name": "RateType",
-						"type": "varchar"
-					},
-					{
-						"name": "Agent_Commission",
-						"type": "varchar"
-					},
-					{
-						"name": "CommissionType",
-						"type": "varchar"
-					},
-					{
-						"name": "WritingAgentRole",
-						"type": "varchar"
-					},
-					{
-						"name": "WritingAgentPayrollId",
-						"type": "varchar"
-					},
-					{
-						"name": "ManualAdjComments",
-						"type": "varchar"
-					},
-					{
-						"name": "FB_Commission_Flat_Rate",
-						"type": "varchar"
-					},
-					{
-						"name": "Agency_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "Record_Load_Date",
-						"type": "date"
-					},
-					{
-						"name": "Record_Loaded_By",
-						"type": "char"
-					},
-					{
-						"name": "Record_Data_Source",
-						"type": "char"
-					},
-					{
-						"name": "Record_Flag_Status",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "ABI_COMMISSION_ALL_SALES_REPORT_HISTORY"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/SqlServer_mslprd')]"
+				"[concat(variables('factoryId'), '/linkedServices/Sftp_Connections_AIA_Feed')]"
 			]
 		}
 	]
