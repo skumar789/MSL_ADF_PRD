@@ -1717,6 +1717,40 @@
 					},
 					"traceLevel": "Fine"
 				}
+			},
+			{
+				"name": "Copy data  ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "DF_Weekly_Extracts_for_Agency",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "ABI_COMMISSION_ALL_SALES_SUMMARY_VIEW_PRD",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"parameters": {
