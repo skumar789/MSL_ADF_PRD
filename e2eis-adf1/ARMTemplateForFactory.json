@@ -3221,7 +3221,7 @@
 								"parameters": {},
 								"datasetParameters": {
 									"ABMonthlyExtracts1": {},
-									"ABPSINK": {}
+									"Sink": {}
 								}
 							},
 							"staging": {},
@@ -18494,7 +18494,7 @@
 								"parameters": {},
 								"datasetParameters": {
 									"ABMonthlyExtracts1": {},
-									"ABPSINK": {}
+									"Sink": {}
 								}
 							},
 							"staging": {},
@@ -93048,12 +93048,12 @@
 								"referenceName": "DelimitedText1",
 								"type": "DatasetReference"
 							},
-							"name": "ABPSINK"
+							"name": "Sink"
 						}
 					],
 					"transformations": [
 						{
-							"name": "ABIMONTHLYEXTRACTONE"
+							"name": "Source"
 						}
 					],
 					"scriptLines": [
@@ -93113,13 +93113,13 @@
 						"     query: '   SELECT *\\n FROM [dbo].[ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY]\\n WHERE [Record_Load_Date] IN (SELECT max([Record_Load_Date]) \\n FROM [dbo].[ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY])',",
 						"     format: 'query') ~> ABMonthlyExtracts1",
 						"ABMonthlyExtracts1 select(skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> ABIMONTHLYEXTRACTONE",
-						"ABIMONTHLYEXTRACTONE sink(allowSchemaDrift: true,",
+						"     skipDuplicateMapOutputs: true) ~> Source",
+						"Source sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
-						"     partitionFileNames:['AIA_WEEKLY_EXTRACTS'],",
+						"     partitionFileNames:['AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTIONS.csv'],",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
-						"     partitionBy('hash', 1)) ~> ABPSINK"
+						"     partitionBy('hash', 1)) ~> Sink"
 					]
 				}
 			},
