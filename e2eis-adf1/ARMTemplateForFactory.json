@@ -3859,11 +3859,6 @@
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
-				"parameters": {
-					"IMS_WEEKLY_LOAD_THURS": {
-						"type": "string"
-					}
-				},
 				"annotations": [],
 				"lastPublishTime": "2024-04-26T14:12:30Z"
 			},
@@ -54381,6 +54376,33 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/ABI_SALES_MONTHLY_SUMMARY_REPORT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_Connections_AIA_Feed",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"folderPath": "/MSL_Cloud_Prd/ToAgency/ABI"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Sftp_Connections_AIA_Feed')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ABI_ZCode_Exception_Feed')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -92718,8 +92740,10 @@
 						"     format: 'table') ~> source1",
 						"source1 sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
+						"     partitionFileNames:['ABI_ALL_SALES_SUMMARY_REPORT.csv'],",
 						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> sink1"
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> sink1"
 					]
 				}
 			},
@@ -92887,33 +92911,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY_PRD')]",
 				"[concat(variables('factoryId'), '/datasets/DelimitedText1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ABI_SALES_MONTHLY_SUMMARY_REPORT')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp_Connections_AIA_Feed",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"folderPath": "/MSL_Cloud_Prd/ToAgency/ABI"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/Sftp_Connections_AIA_Feed')]"
 			]
 		}
 	]
