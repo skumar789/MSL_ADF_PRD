@@ -2303,6 +2303,8 @@
 			{
 				"name": "DF_Monthly_Extracts_for_ABI_Agency",
 				"type": "ExecuteDataFlow",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "VIEW to ABI_COMMISSION_ALL_SALES_REPORT_HISTORY_DATA",
@@ -2322,6 +2324,39 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "DF_Monthly_Extracts_for_ABI_Agency",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_Monthly_Extracts_for_ABI_Agency1",
+				"type": "ExecuteDataFlow",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "DF_Monthly_Extracts_for_ABI_Agency",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_Monthly_Extracts_for_ABI_Agency1",
 						"type": "DataFlowReference"
 					},
 					"compute": {
