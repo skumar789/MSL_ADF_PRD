@@ -3821,6 +3821,8 @@
 					{
 						"name": "DF_Monthly_Extracts_for_ABI_Agency",
 						"type": "ExecuteDataFlow",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "VIEW to ABI_COMMISSION_ALL_SALES_REPORT_HISTORY_DATA",
@@ -3854,6 +3856,45 @@
 							},
 							"traceLevel": "Fine"
 						}
+					},
+					{
+						"name": "DF_Monthly_Extracts_for_ABI_Agency1",
+						"type": "ExecuteDataFlow",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [
+							{
+								"activity": "DF_Monthly_Extracts_for_ABI_Agency",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_Monthly_Extracts_for_ABI_Agency1",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"ABI_COMMISSION_ALL_SALES_REPORT_HISTORY": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
 					}
 				],
 				"policy": {
@@ -3872,7 +3913,8 @@
 				"[concat(variables('factoryId'), '/datasets/VW_ABI_Commision_All_Sales_Report_PRD')]",
 				"[concat(variables('factoryId'), '/datasets/ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY_PRD')]",
 				"[concat(variables('factoryId'), '/datasets/ABI_COMMISSION_ALL_SALES_REPORT_HISTORY_PRD')]",
-				"[concat(variables('factoryId'), '/dataflows/DF_Monthly_Extracts_for_ABI_Agency')]"
+				"[concat(variables('factoryId'), '/dataflows/DF_Monthly_Extracts_for_ABI_Agency')]",
+				"[concat(variables('factoryId'), '/dataflows/DF_Monthly_Extracts_for_ABI_Agency1')]"
 			]
 		},
 		{
@@ -46031,6 +46073,82 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/SqlServer_msluat')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ABI_ALL_SALES_DETAILS_REPORT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_Connections_AIA_Feed",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"folderPath": "/MSL_Cloud_Prd/ToAgency/ABI"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "E2eis_Seq_Number",
+						"type": "String"
+					},
+					{
+						"name": "Payee_AOR",
+						"type": "String"
+					},
+					{
+						"name": "WritingAgentName",
+						"type": "String"
+					},
+					{
+						"name": "WritingAgentPayrollId",
+						"type": "String"
+					},
+					{
+						"name": "FBPaymentAmount",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Commission",
+						"type": "String"
+					},
+					{
+						"name": "Override_Commission",
+						"type": "String"
+					},
+					{
+						"name": "Agency_ID",
+						"type": "String"
+					},
+					{
+						"name": "Record_Load_Date",
+						"type": "String"
+					},
+					{
+						"name": "Record_Loaded_By",
+						"type": "String"
+					},
+					{
+						"name": "Record_Data_Source",
+						"type": "String"
+					},
+					{
+						"name": "Record_Flag_Status",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Sftp_Connections_AIA_Feed')]"
 			]
 		},
 		{
@@ -92750,6 +92868,105 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY_PRD')]",
 				"[concat(variables('factoryId'), '/datasets/ABI_SALES_MONTHLY_SUMMARY_REPORT')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_Monthly_Extracts_for_ABI_Agency1')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ABI_COMMISSION_ALL_SALES_REPORT_HISTORY_PRD",
+								"type": "DatasetReference"
+							},
+							"name": "ABI_COMMISSION_ALL_SALES_REPORT_HISTORY"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ABI_ALL_SALES_DETAILS_REPORT",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          E2eis_Seq_Number as long,",
+						"          Payee_AOR as string,",
+						"          Payee_AORName as string,",
+						"          WritingAgentName as string,",
+						"          Carrier as string,",
+						"          Period_Name as string,",
+						"          AccountingDate as string,",
+						"          FB_CompType as string,",
+						"          AgencyCompType as string,",
+						"          Prior_CompType as string,",
+						"          SubscriberName as string,",
+						"          ProductType as string,",
+						"          MemberCount as string,",
+						"          ContractCount as string,",
+						"          FBContractId as string,",
+						"          OriginalEffectiveDate as string,",
+						"          CoverageFromDate as string,",
+						"          CoverageToDate as string,",
+						"          CancelDate as string,",
+						"          County as string,",
+						"          Agent_Number as string,",
+						"          Agent_Name as string,",
+						"          FBPaymentAmount as string,",
+						"          Frequency as string,",
+						"          FileType as string,",
+						"          CommissionRate as string,",
+						"          RateType as string,",
+						"          Agent_Commission as string,",
+						"          CommissionType as string,",
+						"          WritingAgentRole as string,",
+						"          WritingAgentPayrollId as string,",
+						"          ManualAdjComments as string,",
+						"          FB_Commission_Flat_Rate as string,",
+						"          Agency_ID as string,",
+						"          Record_Load_Date as date,",
+						"          Record_Loaded_By as string,",
+						"          Record_Data_Source as string,",
+						"          Record_Flag_Status as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> ABI_COMMISSION_ALL_SALES_REPORT_HISTORY",
+						"ABI_COMMISSION_ALL_SALES_REPORT_HISTORY sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          E2eis_Seq_Number as string,",
+						"          Payee_AOR as string,",
+						"          WritingAgentName as string,",
+						"          WritingAgentPayrollId as string,",
+						"          FBPaymentAmount as string,",
+						"          Agent_Commission as string,",
+						"          Override_Commission as string,",
+						"          Agency_ID as string,",
+						"          Record_Load_Date as string,",
+						"          Record_Loaded_By as string,",
+						"          Record_Data_Source as string,",
+						"          Record_Flag_Status as string",
+						"     ),",
+						"     partitionFileNames:['ABI_ALL_SALES_DETAILS_REPORT.csv'],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ABI_COMMISSION_ALL_SALES_REPORT_HISTORY_PRD')]",
+				"[concat(variables('factoryId'), '/datasets/ABI_ALL_SALES_DETAILS_REPORT')]"
 			]
 		},
 		{
