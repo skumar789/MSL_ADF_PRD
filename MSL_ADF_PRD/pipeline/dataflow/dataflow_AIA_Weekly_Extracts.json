@@ -12,7 +12,15 @@
 					"name": "AIAWeeklyExtractsForAgency"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "AIAWEEKLYEXTRACTS",
+						"type": "DatasetReference"
+					},
+					"name": "AIASINK"
+				}
+			],
 			"transformations": [
 				{
 					"name": "AIAWeeklyEXTRACTSINCSVFORMAT"
@@ -76,7 +84,11 @@
 				"     query: 'SELECT *\\n FROM [dbo].[AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY]\\n WHERE [Record_Load_Date] IN (SELECT max([Record_Load_Date]) \\n FROM [dbo].[AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY]);',",
 				"     format: 'query') ~> AIAWeeklyExtractsForAgency",
 				"AIAWeeklyExtractsForAgency select(skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> AIAWeeklyEXTRACTSINCSVFORMAT"
+				"     skipDuplicateMapOutputs: true) ~> AIAWeeklyEXTRACTSINCSVFORMAT",
+				"AIAWeeklyEXTRACTSINCSVFORMAT sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> AIASINK"
 			]
 		}
 	}
