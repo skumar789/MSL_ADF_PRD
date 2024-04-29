@@ -6,11 +6,11 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY1_PRD",
+						"referenceName": "AIA_IMS_POLICY_HISTORY_UAT",
 						"type": "DatasetReference"
 					},
-					"name": "ABMonthlyExtracts1",
-					"description": "Import data from AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY"
+					"name": "AIAWEEKLYEXTRACT1",
+					"description": "Import data from AIA_IMS_POLICY_HISTORY"
 				}
 			],
 			"sinks": [
@@ -81,9 +81,9 @@
 				"     allowSchemaDrift: false,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     query: 'SELECT *\\n FROM [dbo].[AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY]\\n WHERE [Record_Load_Date] IN (SELECT max([Record_Load_Date]) \\n FROM [dbo].[AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY])',",
-				"     format: 'query') ~> ABMonthlyExtracts1",
-				"ABMonthlyExtracts1 select(skipDuplicateMapInputs: true,",
+				"     query: '  SELECT *\\n FROM [dbo].[AIA_IMS_POLICY_HISTORY]\\n WHERE [Record_Load_Date] IN (SELECT max([Record_Load_Date]) \\n FROM [dbo].[AIA_IMS_POLICY_HISTORY])',",
+				"     format: 'query') ~> AIAWEEKLYEXTRACT1",
+				"AIAWEEKLYEXTRACT1 select(skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> Source",
 				"Source sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
