@@ -13,6 +13,239 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/AIA_OSCAR_Monthly_Feed_ADFU')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_Connections_AIA_Feed",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_Oscar_Weekly_Feed_ADFU.csv",
+						"folderPath": "/MSL_Cloud_Uat/FromAgency/AIA"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Member_Id",
+						"type": "String"
+					},
+					{
+						"name": "Member_Name",
+						"type": "String"
+					},
+					{
+						"name": "DoB",
+						"type": "String"
+					},
+					{
+						"name": "Account_Creation_Status",
+						"type": "String"
+					},
+					{
+						"name": "Email",
+						"type": "String"
+					},
+					{
+						"name": "Phone_Number",
+						"type": "String"
+					},
+					{
+						"name": "Mailing_Address",
+						"type": "String"
+					},
+					{
+						"name": "State",
+						"type": "String"
+					},
+					{
+						"name": "On_Exchange",
+						"type": "String"
+					},
+					{
+						"name": "Plan",
+						"type": "String"
+					},
+					{
+						"name": "Premium_Amount",
+						"type": "String"
+					},
+					{
+						"name": "APT_ Subsidy",
+						"type": "String"
+					},
+					{
+						"name": "Lives",
+						"type": "String"
+					},
+					{
+						"name": "Coverage_start_date",
+						"type": "String"
+					},
+					{
+						"name": "Coverage_end_date",
+						"type": "String"
+					},
+					{
+						"name": "Policy_status",
+						"type": "String"
+					},
+					{
+						"name": "Renewal_plan",
+						"type": "String"
+					},
+					{
+						"name": "Renewal_premium_amount",
+						"type": "String"
+					},
+					{
+						"name": "Renewal_APTC_subsidy",
+						"type": "String"
+					},
+					{
+						"name": "Renewal_date",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_OSCAR_POLICY_DETAILS_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msldev",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2eis_Seq_Number",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "Agent_Statment_Date",
+						"type": "date"
+					},
+					{
+						"name": "Agency_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Number",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Commission_Note",
+						"type": "varchar"
+					},
+					{
+						"name": "Carrier_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Eff_Date",
+						"type": "date"
+					},
+					{
+						"name": "Client_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Policy_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "Policy_Number",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Coverage_Type",
+						"type": "varchar"
+					},
+					{
+						"name": "Bill_From_Date",
+						"type": "date"
+					},
+					{
+						"name": "Month_of_Bill_From_Date_",
+						"type": "char"
+					},
+					{
+						"name": "live",
+						"type": "char"
+					},
+					{
+						"name": "Premium",
+						"type": "char"
+					},
+					{
+						"name": "Commission",
+						"type": "char"
+					},
+					{
+						"name": "Commission_Entry_Note",
+						"type": "char"
+					},
+					{
+						"name": "Revenue_Type",
+						"type": "char"
+					},
+					{
+						"name": "Balance_Forwarded",
+						"type": "char"
+					},
+					{
+						"name": "Agency_ID",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "Record_Load_Date",
+						"type": "date"
+					},
+					{
+						"name": "Record_Loaded_By",
+						"type": "char"
+					},
+					{
+						"name": "Record_Data_Source",
+						"type": "char"
+					},
+					{
+						"name": "Record_Flag_Status",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "AIA_OSCAR_POLICY_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AIA_OSCAR_POLICY_DETAILS_PRD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -3400,328 +3633,6 @@
 				"typeProperties": {
 					"schema": "dbo",
 					"table": "CT_ALL_AGENCY_PAYEE_DETAILS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DL_PAYMENTS')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_mslprd",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "Policy_Seq_Number",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "PaymentId",
-						"type": "varchar"
-					},
-					{
-						"name": "JobId",
-						"type": "varchar"
-					},
-					{
-						"name": "DataFileType",
-						"type": "varchar"
-					},
-					{
-						"name": "DataFileId",
-						"type": "varchar"
-					},
-					{
-						"name": "AccountingDate",
-						"type": "varchar"
-					},
-					{
-						"name": "FBCompType",
-						"type": "varchar"
-					},
-					{
-						"name": "AgencyCompType",
-						"type": "varchar"
-					},
-					{
-						"name": "SubscriberFirstName",
-						"type": "varchar"
-					},
-					{
-						"name": "SubscriberMiddleName",
-						"type": "varchar"
-					},
-					{
-						"name": "SubscriberLastName",
-						"type": "varchar"
-					},
-					{
-						"name": "ProductType",
-						"type": "varchar"
-					},
-					{
-						"name": "PlanDescription",
-						"type": "varchar"
-					},
-					{
-						"name": "MemberCount",
-						"type": "varchar"
-					},
-					{
-						"name": "ContractCount",
-						"type": "varchar"
-					},
-					{
-						"name": "FBContractId",
-						"type": "varchar"
-					},
-					{
-						"name": "OriginalEffectiveDate",
-						"type": "varchar"
-					},
-					{
-						"name": "CoverageFromDate",
-						"type": "varchar"
-					},
-					{
-						"name": "CancelDate",
-						"type": "varchar"
-					},
-					{
-						"name": "County",
-						"type": "varchar"
-					},
-					{
-						"name": "FBWritingAgentId",
-						"type": "varchar"
-					},
-					{
-						"name": "Carrier",
-						"type": "varchar"
-					},
-					{
-						"name": "FBPaymentAmount",
-						"type": "varchar"
-					},
-					{
-						"name": "Frequency",
-						"type": "varchar"
-					},
-					{
-						"name": "CreatedAt",
-						"type": "varchar"
-					},
-					{
-						"name": "ModifiedAt",
-						"type": "varchar"
-					},
-					{
-						"name": "PriorCompensationType",
-						"type": "varchar"
-					},
-					{
-						"name": "PriorAccountingDate",
-						"type": "varchar"
-					},
-					{
-						"name": "CompensationDate",
-						"type": "varchar"
-					},
-					{
-						"name": "FBUserId",
-						"type": "varchar"
-					},
-					{
-						"name": "CommissionRateFlatRate",
-						"type": "varchar"
-					},
-					{
-						"name": "Record Load Date",
-						"type": "varchar"
-					},
-					{
-						"name": "Record Loaded By",
-						"type": "varchar"
-					},
-					{
-						"name": "Record Data Source",
-						"type": "varchar"
-					},
-					{
-						"name": "Record Flag Status",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "DL_PAYMENTS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DL_PAYMENTS_UAT')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_msluat",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "Policy_Seq_Number",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "PaymentId",
-						"type": "varchar"
-					},
-					{
-						"name": "JobId",
-						"type": "varchar"
-					},
-					{
-						"name": "DataFileType",
-						"type": "varchar"
-					},
-					{
-						"name": "DataFileId",
-						"type": "varchar"
-					},
-					{
-						"name": "AccountingDate",
-						"type": "varchar"
-					},
-					{
-						"name": "FBCompType",
-						"type": "varchar"
-					},
-					{
-						"name": "AgencyCompType",
-						"type": "varchar"
-					},
-					{
-						"name": "SubscriberFirstName",
-						"type": "varchar"
-					},
-					{
-						"name": "SubscriberMiddleName",
-						"type": "varchar"
-					},
-					{
-						"name": "SubscriberLastName",
-						"type": "varchar"
-					},
-					{
-						"name": "ProductType",
-						"type": "varchar"
-					},
-					{
-						"name": "PlanDescription",
-						"type": "varchar"
-					},
-					{
-						"name": "MemberCount",
-						"type": "varchar"
-					},
-					{
-						"name": "ContractCount",
-						"type": "varchar"
-					},
-					{
-						"name": "FBContractId",
-						"type": "varchar"
-					},
-					{
-						"name": "OriginalEffectiveDate",
-						"type": "varchar"
-					},
-					{
-						"name": "CoverageFromDate",
-						"type": "varchar"
-					},
-					{
-						"name": "CancelDate",
-						"type": "varchar"
-					},
-					{
-						"name": "County",
-						"type": "varchar"
-					},
-					{
-						"name": "FBWritingAgentId",
-						"type": "varchar"
-					},
-					{
-						"name": "Carrier",
-						"type": "varchar"
-					},
-					{
-						"name": "FBPaymentAmount",
-						"type": "varchar"
-					},
-					{
-						"name": "Frequency",
-						"type": "varchar"
-					},
-					{
-						"name": "CreatedAt",
-						"type": "varchar"
-					},
-					{
-						"name": "ModifiedAt",
-						"type": "varchar"
-					},
-					{
-						"name": "PriorCompensationType",
-						"type": "varchar"
-					},
-					{
-						"name": "PriorAccountingDate",
-						"type": "varchar"
-					},
-					{
-						"name": "CompensationDate",
-						"type": "varchar"
-					},
-					{
-						"name": "FBUserId",
-						"type": "varchar"
-					},
-					{
-						"name": "CommissionRateFlatRate",
-						"type": "varchar"
-					},
-					{
-						"name": "Record Load Date",
-						"type": "varchar"
-					},
-					{
-						"name": "Record Loaded By",
-						"type": "varchar"
-					},
-					{
-						"name": "Record Data Source",
-						"type": "varchar"
-					},
-					{
-						"name": "Record Flag Status",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "DL_PAYMENTS"
 				}
 			},
 			"dependsOn": []

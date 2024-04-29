@@ -3821,6 +3821,8 @@
 					{
 						"name": "DF_Monthly_Extracts_for_ABI_Agency",
 						"type": "ExecuteDataFlow",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "VIEW to ABI_COMMISSION_ALL_SALES_REPORT_HISTORY_DATA",
@@ -3858,6 +3860,8 @@
 					{
 						"name": "DF_Monthly_Extracts_for_ABI_Agency1",
 						"type": "ExecuteDataFlow",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "DF_Monthly_Extracts_for_ABI_Agency",
@@ -3891,6 +3895,61 @@
 							},
 							"traceLevel": "Fine"
 						}
+					},
+					{
+						"name": "ABI_COMM_RPT_COMMISSIONS_STATEMENT",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "DF_Monthly_Extracts_for_ABI_Agency1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "SqlServerSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ABI_COMM_RPT_COMMISSIONS_STATEMENT_PRD",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ABI_COMM_RPT_COMMISSIONS_STATEMENT_HISTORY_PRD",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
 					}
 				],
 				"policy": {
@@ -3910,7 +3969,9 @@
 				"[concat(variables('factoryId'), '/datasets/ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY_PRD')]",
 				"[concat(variables('factoryId'), '/datasets/ABI_COMMISSION_ALL_SALES_REPORT_HISTORY_PRD')]",
 				"[concat(variables('factoryId'), '/dataflows/DF_Monthly_Extracts_for_ABI_Agency')]",
-				"[concat(variables('factoryId'), '/dataflows/DF_Monthly_Extracts_for_ABI_Agency1')]"
+				"[concat(variables('factoryId'), '/dataflows/DF_Monthly_Extracts_for_ABI_Agency1')]",
+				"[concat(variables('factoryId'), '/datasets/ABI_COMM_RPT_COMMISSIONS_STATEMENT_PRD')]",
+				"[concat(variables('factoryId'), '/datasets/ABI_COMM_RPT_COMMISSIONS_STATEMENT_HISTORY_PRD')]"
 			]
 		},
 		{
@@ -48191,6 +48252,373 @@
 				"typeProperties": {
 					"schema": "dbo",
 					"table": "ABI_COMMISSION_ALL_SALES_SUMMARY_VIEW"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SqlServer_mslprd')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ABI_COMM_RPT_COMMISSIONS_STATEMENT_HISTORY_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_mslprd",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2eis_Seq_Number",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "AgencyId",
+						"type": "varchar"
+					},
+					{
+						"name": "AgencyName",
+						"type": "varchar"
+					},
+					{
+						"name": "Comp_Period",
+						"type": "varchar"
+					},
+					{
+						"name": "ReportSectionSeq",
+						"type": "decimal",
+						"precision": 10,
+						"scale": 0
+					},
+					{
+						"name": "ReportSections",
+						"type": "varchar"
+					},
+					{
+						"name": "AgentType",
+						"type": "varchar"
+					},
+					{
+						"name": "Carrier",
+						"type": "varchar"
+					},
+					{
+						"name": "AgentNumber",
+						"type": "varchar"
+					},
+					{
+						"name": "AgentName",
+						"type": "varchar"
+					},
+					{
+						"name": "Compensation_Type",
+						"type": "varchar"
+					},
+					{
+						"name": "Commission_Amount",
+						"type": "decimal",
+						"precision": 14,
+						"scale": 2
+					},
+					{
+						"name": "Subscriber_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Comp_Type",
+						"type": "varchar"
+					},
+					{
+						"name": "Plan_Type",
+						"type": "varchar"
+					},
+					{
+						"name": "Plan_Description",
+						"type": "varchar"
+					},
+					{
+						"name": "Member_Count",
+						"type": "decimal",
+						"precision": 10,
+						"scale": 0
+					},
+					{
+						"name": "Member_Contract_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "Accounting_Date",
+						"type": "date"
+					},
+					{
+						"name": "OrigEffDate",
+						"type": "date"
+					},
+					{
+						"name": "Cov_From_Date",
+						"type": "date"
+					},
+					{
+						"name": "Cov_To_Date",
+						"type": "date"
+					},
+					{
+						"name": "Cancel_Date",
+						"type": "date"
+					},
+					{
+						"name": "County",
+						"type": "varchar"
+					},
+					{
+						"name": "Writing_Agent",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Comm",
+						"type": "decimal",
+						"precision": 14,
+						"scale": 2
+					},
+					{
+						"name": "Sub_Category",
+						"type": "varchar"
+					},
+					{
+						"name": "PayrollId",
+						"type": "varchar"
+					},
+					{
+						"name": "ReportGroupSeq",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "LOA_AgentNumber",
+						"type": "varchar"
+					},
+					{
+						"name": "LOA_AgentName",
+						"type": "varchar"
+					},
+					{
+						"name": "CompType_PriorCompType",
+						"type": "varchar"
+					},
+					{
+						"name": "LOA_CompeType",
+						"type": "varchar"
+					},
+					{
+						"name": "AgentNumber_HEADER",
+						"type": "varchar"
+					},
+					{
+						"name": "AgentName_HEADER",
+						"type": "varchar"
+					},
+					{
+						"name": "ManualAdj_Comments",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Record_Load_Date",
+						"type": "date"
+					},
+					{
+						"name": "Record_Loaded_By",
+						"type": "char"
+					},
+					{
+						"name": "Record_Data_Source",
+						"type": "char"
+					},
+					{
+						"name": "Record_Flag_Status",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "ABI_COMM_RPT_COMMISSIONS_STATEMENT_HISTORY"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SqlServer_mslprd')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ABI_COMM_RPT_COMMISSIONS_STATEMENT_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_mslprd",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "AgencyId",
+						"type": "varchar"
+					},
+					{
+						"name": "AgencyName",
+						"type": "varchar"
+					},
+					{
+						"name": "Comp_Period",
+						"type": "varchar"
+					},
+					{
+						"name": "ReportSectionSeq",
+						"type": "decimal",
+						"precision": 10,
+						"scale": 0
+					},
+					{
+						"name": "ReportSections",
+						"type": "varchar"
+					},
+					{
+						"name": "AgentType",
+						"type": "varchar"
+					},
+					{
+						"name": "Carrier",
+						"type": "varchar"
+					},
+					{
+						"name": "AgentNumber",
+						"type": "varchar"
+					},
+					{
+						"name": "AgentName",
+						"type": "varchar"
+					},
+					{
+						"name": "Compensation_Type",
+						"type": "varchar"
+					},
+					{
+						"name": "Commission_Amount",
+						"type": "decimal",
+						"precision": 14,
+						"scale": 2
+					},
+					{
+						"name": "Subscriber_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Comp_Type",
+						"type": "varchar"
+					},
+					{
+						"name": "Plan_Type",
+						"type": "varchar"
+					},
+					{
+						"name": "Plan_Description",
+						"type": "varchar"
+					},
+					{
+						"name": "Member_Count",
+						"type": "decimal",
+						"precision": 10,
+						"scale": 0
+					},
+					{
+						"name": "Member_Contract_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "Accounting_Date",
+						"type": "date"
+					},
+					{
+						"name": "OrigEffDate",
+						"type": "date"
+					},
+					{
+						"name": "Cov_From_Date",
+						"type": "date"
+					},
+					{
+						"name": "Cov_To_Date",
+						"type": "date"
+					},
+					{
+						"name": "Cancel_Date",
+						"type": "date"
+					},
+					{
+						"name": "County",
+						"type": "varchar"
+					},
+					{
+						"name": "Writing_Agent",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Comm",
+						"type": "decimal",
+						"precision": 14,
+						"scale": 2
+					},
+					{
+						"name": "Sub_Category",
+						"type": "varchar"
+					},
+					{
+						"name": "PayrollId",
+						"type": "varchar"
+					},
+					{
+						"name": "ReportGroupSeq",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "LOA_AgentNumber",
+						"type": "varchar"
+					},
+					{
+						"name": "LOA_AgentName",
+						"type": "varchar"
+					},
+					{
+						"name": "CompType_PriorCompType",
+						"type": "varchar"
+					},
+					{
+						"name": "LOA_CompeType",
+						"type": "varchar"
+					},
+					{
+						"name": "AgentNumber_HEADER",
+						"type": "varchar"
+					},
+					{
+						"name": "AgentName_HEADER",
+						"type": "varchar"
+					},
+					{
+						"name": "ManualAdj_Comments",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "ABI_COMM_RPT_COMMISSIONS_STATEMENT"
 				}
 			},
 			"dependsOn": [
