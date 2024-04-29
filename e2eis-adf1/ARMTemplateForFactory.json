@@ -3196,6 +3196,8 @@
 					{
 						"name": "DF_AIA_Weekly_Extracts_for_Agency",
 						"type": "ExecuteDataFlow",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "ONE_TIME_DAY2",
@@ -92932,7 +92934,8 @@
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> Source1",
+						"     query: ' SELECT *\\n FROM [dbo].[ABI_COMMISSION_ALL_SALES_REPORT_HISTORY]\\n WHERE [Record_Load_Date] IN (SELECT max([Record_Load_Date]) \\n FROM [dbo].[ABI_COMMISSION_ALL_SALES_REPORT_HISTORY])',",
+						"     format: 'query') ~> Source1",
 						"Source1 sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
