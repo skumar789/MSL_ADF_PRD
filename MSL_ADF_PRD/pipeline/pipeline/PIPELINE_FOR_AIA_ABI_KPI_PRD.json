@@ -2303,6 +2303,8 @@
 			{
 				"name": "DF_Monthly_Extracts_for_ABI_Agency",
 				"type": "ExecuteDataFlow",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "VIEW to ABI_COMMISSION_ALL_SALES_REPORT_HISTORY_DATA",
@@ -2334,6 +2336,8 @@
 			{
 				"name": "DF_Monthly_Extracts_for_ABI_Agency1",
 				"type": "ExecuteDataFlow",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "DF_Monthly_Extracts_for_ABI_Agency",
@@ -2361,6 +2365,59 @@
 					},
 					"traceLevel": "Fine"
 				}
+			},
+			{
+				"name": "ABI_COMM_RPT_COMMISSIONS_STATEMENT",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "DF_Monthly_Extracts_for_ABI_Agency1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SqlServerSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ABI_COMM_RPT_COMMISSIONS_STATEMENT_PRD",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ABI_COMM_RPT_COMMISSIONS_STATEMENT_HISTORY_PRD",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"annotations": [],
