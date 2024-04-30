@@ -2624,7 +2624,7 @@
 						]
 					},
 					{
-						"name": "ONE_TIME_WEEKLY",
+						"name": "ONE_TIME_DAY2",
 						"type": "Copy",
 						"state": "Inactive",
 						"onInactiveMarkAs": "Succeeded",
@@ -3194,11 +3194,13 @@
 						]
 					},
 					{
-						"name": "DF_AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTIONS",
+						"name": "DF_AIA_Weekly_Extracts_for_Agency",
 						"type": "ExecuteDataFlow",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
-								"activity": "DF_AIA_IMS_POLICY_HISTORY",
+								"activity": "ONE_TIME_DAY2",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -3237,7 +3239,7 @@
 						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
-								"activity": "DF_AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTIONS",
+								"activity": "DF_AIA_Weekly_Extracts_for_Agency",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -3897,6 +3899,8 @@
 					{
 						"name": "ABI_COMM_RPT_COMMISSIONS_STATEMENT",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "DF_Monthly_Extracts_for_ABI_Agency1",
@@ -4386,45 +4390,6 @@
 								"parameters": {}
 							}
 						]
-					},
-					{
-						"name": "DF_AIA_IMS_POLICY_HISTORY",
-						"type": "ExecuteDataFlow",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [
-							{
-								"activity": "ONE_TIME_WEEKLY",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dataflow_AIA_Weekly_Extracts",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"AIAWEEKLYEXTRACT2": {},
-									"Sink": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
 					}
 				],
 				"policy": {
