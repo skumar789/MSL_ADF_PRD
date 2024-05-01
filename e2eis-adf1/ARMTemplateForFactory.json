@@ -5219,6 +5219,256 @@
 								"parameters": {}
 							}
 						]
+					},
+					{
+						"name": "COPY_UAT_TO_DEV AIA_AGENCY_EMP_HIER_DETAILS_HISTORY",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "COPY_UAT_TO_DEV AIA_UHC_Weekly_Feed",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "SqlServerSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "E2eis_Seq_Number",
+											"type": "Int64",
+											"physicalType": "bigint"
+										},
+										"sink": {
+											"name": "E2eis_Seq_Number",
+											"type": "Int64",
+											"physicalType": "bigint"
+										}
+									},
+									{
+										"source": {
+											"name": "UserId",
+											"type": "nvarchar"
+										},
+										"sink": {
+											"name": "User_Id",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "FirstName",
+											"type": "nvarchar"
+										},
+										"sink": {
+											"name": "First_Name",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "LastName",
+											"type": "nvarchar"
+										},
+										"sink": {
+											"name": "Last_Name",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Email",
+											"type": "nvarchar"
+										},
+										"sink": {
+											"name": "Email_Address",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Terminated",
+											"type": "nvarchar"
+										},
+										"sink": {
+											"name": "Termination_Flag",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Department",
+											"type": "nvarchar"
+										},
+										"sink": {
+											"name": "Department_Name",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "NpnGrouping",
+											"type": "nvarchar"
+										},
+										"sink": {
+											"name": "NPN_Grouping",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "UplineId",
+											"type": "nvarchar"
+										},
+										"sink": {
+											"name": "Upline_Id",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "UplineFirstName",
+											"type": "nvarchar"
+										},
+										"sink": {
+											"name": "Upline_First_Name",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "UplineLastName",
+											"type": "nvarchar"
+										},
+										"sink": {
+											"name": "Upline_Last_Name",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Level",
+											"type": "nvarchar"
+										},
+										"sink": {
+											"name": "Level_Seq",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Agency_ID",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "Agency_ID",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Record_Load_Date",
+											"type": "DateTime",
+											"physicalType": "date"
+										},
+										"sink": {
+											"name": "Record_Load_Date",
+											"type": "DateTime",
+											"physicalType": "date"
+										}
+									},
+									{
+										"source": {
+											"name": "Record_Loaded_By",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "Record_Loaded_By",
+											"type": "String",
+											"physicalType": "char"
+										}
+									},
+									{
+										"source": {
+											"name": "Record_Data_Source",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "Record_Data_Source",
+											"type": "String",
+											"physicalType": "char"
+										}
+									},
+									{
+										"source": {
+											"name": "Record_Flag_Status",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "Record_Flag_Status",
+											"type": "String",
+											"physicalType": "char"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "AIA_AGENCY_EMP_HIER_DETAILS_HISTORY_UAT",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "AIA_AGENCY_EMP_HIER_DETAILS_HISTORY_DEV",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
 					}
 				],
 				"policy": {
@@ -5244,7 +5494,9 @@
 				"[concat(variables('factoryId'), '/datasets/AIA_OSCAR_POLICY_DETAILS_UAT')]",
 				"[concat(variables('factoryId'), '/datasets/AIA_OSCAR_POLICY_DETAILS_DEV')]",
 				"[concat(variables('factoryId'), '/datasets/AIA_UNITED_HEALTH_CARE_POLICY_DETAILS_UAT')]",
-				"[concat(variables('factoryId'), '/datasets/AIA_UNITED_HEALTH_CARE_POLICY_DETAILS_DEV')]"
+				"[concat(variables('factoryId'), '/datasets/AIA_UNITED_HEALTH_CARE_POLICY_DETAILS_DEV')]",
+				"[concat(variables('factoryId'), '/datasets/AIA_AGENCY_EMP_HIER_DETAILS_HISTORY_UAT')]",
+				"[concat(variables('factoryId'), '/datasets/AIA_AGENCY_EMP_HIER_DETAILS_HISTORY_DEV')]"
 			]
 		},
 		{
