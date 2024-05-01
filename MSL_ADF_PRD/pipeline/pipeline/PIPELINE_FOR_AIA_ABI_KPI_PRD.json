@@ -5,7 +5,14 @@
 			{
 				"name": "DF_AIA_Weekly_Extracts_for_Agency",
 				"type": "ExecuteDataFlow",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "DF_AIA_ALL_CARRIERS_STATEMENT_DETAILS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -598,6 +605,10 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
+					"dataflow": {
+						"referenceName": "AIA_ALL_CARRIERS_STATEMENT_DETAILS",
+						"type": "DataFlowReference"
+					},
 					"compute": {
 						"coreCount": 8,
 						"computeType": "General"
