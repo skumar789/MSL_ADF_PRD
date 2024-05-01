@@ -13,6 +13,63 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/DF_Monthly_Extracts_for_ABI_Agency')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY_PRD",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ABI_SALES_MONTHLY_SUMMARY_REPORT",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          E2eis_Seq_Number as long,",
+						"          Payee_AOR as string,",
+						"          WritingAgentName as string,",
+						"          WritingAgentPayrollId as string,",
+						"          FBPaymentAmount as string,",
+						"          Agent_Commission as string,",
+						"          Override_Commission as string,",
+						"          Agency_ID as string,",
+						"          Record_Load_Date as date,",
+						"          Record_Loaded_By as string,",
+						"          Record_Data_Source as string,",
+						"          Record_Flag_Status as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: '   SELECT *\\n FROM [dbo].[ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY]\\n WHERE [Record_Load_Date] IN (SELECT max([Record_Load_Date]) \\n FROM [dbo].[ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY])',",
+						"     format: 'query') ~> source1",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     partitionFileNames:['ABI_ALL_SALES_SUMMARY_REPORT.csv'],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DF_Monthly_Extracts_for_ABI_Agency1')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -3216,6 +3273,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/dataflow_AIA_Weekly_Extracts')]",
+				"[concat(variables('factoryId'), '/dataflows/DF_Monthly_Extracts_for_ABI_Agency')]",
 				"[concat(variables('factoryId'), '/dataflows/DF_Monthly_Extracts_for_ABI_Agency1')]"
 			]
 		},
