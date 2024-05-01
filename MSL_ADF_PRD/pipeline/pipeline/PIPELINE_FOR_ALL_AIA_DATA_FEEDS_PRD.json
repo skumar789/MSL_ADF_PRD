@@ -3551,6 +3551,8 @@
 			{
 				"name": "AIA_MANUAL_ADJUSTMENT_DETAILS_ADFU_copy1",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_AGENCY_ANNUAL_RATE_DETAILS_ADFU_copy1",
@@ -3569,9 +3571,16 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "SqlServerSource",
-						"queryTimeout": "02:00:00",
-						"partitionOption": "None"
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "SftpReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false,
+							"disableChunking": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
 					},
 					"sink": {
 						"type": "SqlServerSink",
@@ -3760,7 +3769,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "AIA_MANUAL_ADJUSTMENT_DETAILS_UAT",
+						"referenceName": "ABI_Agency_Monthly_Manual_Adjustment_Feed",
 						"type": "DatasetReference"
 					}
 				],
@@ -3774,8 +3783,6 @@
 			{
 				"name": "AIA_ALL_CARRIERS_STATEMENT_DETAILS_ADFU_copy1",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_MANUAL_ADJUSTMENT_DETAILS_ADFU_copy1",
@@ -3794,16 +3801,9 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "DelimitedTextSource",
-						"storeSettings": {
-							"type": "SftpReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false,
-							"disableChunking": false
-						},
-						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
-						}
+						"type": "SqlServerSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
 					},
 					"sink": {
 						"type": "SqlServerSink",
@@ -3822,7 +3822,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "AIA_All_Carriers_Statement_Monthly_Feed_PRD",
+						"referenceName": "AIA_ALL_CARRIERS_STATEMENT_DETAILS_UAT",
 						"type": "DatasetReference"
 					}
 				],
