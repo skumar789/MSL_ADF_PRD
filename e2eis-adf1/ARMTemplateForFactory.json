@@ -1811,6 +1811,8 @@
 					{
 						"name": "AIA_AETNA_NEW_ACTIVE_POLICY_DETAILS_copy1",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_AETNA_OLD_ACTIVE_POLICY_DETAILS",
@@ -2116,6 +2118,351 @@
 								"parameters": {}
 							}
 						]
+					},
+					{
+						"name": "AIA_AMBETTER_ACTIVE_POLICY_DETAILS",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "AIA_AETNA_NEW_ACTIVE_POLICY_DETAILS_copy1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "SqlServerSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "Broker Name",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Broker Name",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Broker NPN",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Broker NPN",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Policy Number",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Policy Number",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Inusred First Name",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Inusred First Name",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Insured Last Name",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Insured Last Name",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Broker Effective Date",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Broker Effective Date",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Broker Term Date",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Broker Term Date",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Policy Effective Date",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Policy Effective Date",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Policy Term Date",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Policy Term Date",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Paid Through Date",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Paid Through Date",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "County",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "County",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "State",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "State",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "On/Off Exchange",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "On/Off Exchange",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Exchange Subscriber ID",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Exchange Subscriber ID",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Member Phone Number",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Member Phone Number",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Member Email",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Member Email",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Member Responsibility",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Member Responsibility",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Member Date Of Birth",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Member Date Of Birth",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Autopay",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Autopay",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Eligible for Commission",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Eligible for Commission",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Number of Members",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Number of Members",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Payable Agent",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Payable Agent",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "AR Policy Type",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "AR Policy Type",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Status",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Status",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "AIA_AMBETTER_ACTIVE_POLICY_DETAILS_UAT",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "AIA_AMBETTER_ACTIVE_POLICY_DETAILS_DEV",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
 					}
 				],
 				"policy": {
@@ -2127,7 +2474,9 @@
 				"[concat(variables('factoryId'), '/datasets/AIA_AETNA_OLD_ACTIVE_POLICY_DETAILS_UAT')]",
 				"[concat(variables('factoryId'), '/datasets/AIA_AETNA_OLD_ACTIVE_POLICY_DETAILS_DEV')]",
 				"[concat(variables('factoryId'), '/datasets/AIA_AETNA_NEW_ACTIVE_POLICY_DETAILS_UAT')]",
-				"[concat(variables('factoryId'), '/datasets/AIA_AETNA_NEW_ACTIVE_POLICY_DETAILS_DEV')]"
+				"[concat(variables('factoryId'), '/datasets/AIA_AETNA_NEW_ACTIVE_POLICY_DETAILS_DEV')]",
+				"[concat(variables('factoryId'), '/datasets/AIA_AMBETTER_ACTIVE_POLICY_DETAILS_UAT')]",
+				"[concat(variables('factoryId'), '/datasets/AIA_AMBETTER_ACTIVE_POLICY_DETAILS_DEV')]"
 			]
 		},
 		{
