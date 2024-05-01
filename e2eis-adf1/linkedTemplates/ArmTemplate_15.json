@@ -13,6 +13,148 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/IMS_HIER_EXP_FILE4_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_Connections_AIA_Feed",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "IMS_HIER_EXP_FILE4_PRD.csv",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/AIA"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "UserId",
+						"type": "String"
+					},
+					{
+						"name": "FirstName",
+						"type": "String"
+					},
+					{
+						"name": "LastName",
+						"type": "String"
+					},
+					{
+						"name": "Email",
+						"type": "String"
+					},
+					{
+						"name": "Terminated",
+						"type": "String"
+					},
+					{
+						"name": "Department",
+						"type": "String"
+					},
+					{
+						"name": "NpnGrouping",
+						"type": "String"
+					},
+					{
+						"name": "UplineId",
+						"type": "String"
+					},
+					{
+						"name": "UplineFirstName",
+						"type": "String"
+					},
+					{
+						"name": "UplineLastName",
+						"type": "String"
+					},
+					{
+						"name": "Level",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IMS_HIER_EXP_FILE5')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_Connections_AIA_Feed",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "IMS_HIER_EXP_FILE5_ADF.csv",
+						"folderPath": "/MSL_Cloud_Dev/FromAgency/AIA"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "UserId",
+						"type": "String"
+					},
+					{
+						"name": "FirstName",
+						"type": "String"
+					},
+					{
+						"name": "LastName",
+						"type": "String"
+					},
+					{
+						"name": "Email",
+						"type": "String"
+					},
+					{
+						"name": "Terminated",
+						"type": "String"
+					},
+					{
+						"name": "Department",
+						"type": "String"
+					},
+					{
+						"name": "NpnGrouping",
+						"type": "String"
+					},
+					{
+						"name": "UplineId",
+						"type": "String"
+					},
+					{
+						"name": "UplineFirstName",
+						"type": "String"
+					},
+					{
+						"name": "UplineLastName",
+						"type": "String"
+					},
+					{
+						"name": "Level",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/IMS_HIER_EXP_FILE5_ADFU')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -13171,7 +13313,9 @@
 				"annotations": [],
 				"lastPublishTime": "2024-04-22T19:08:53Z"
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/IMS_HIER_EXP_FILE5')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/PIPELINE_FOR_AIA_IMS_WEEKLY_LOADS_UAT')]",
@@ -32620,8 +32764,6 @@
 					{
 						"name": "AIA_ALL_CARRIERS_STATEMENT_DETAILS_ADFU_copy1",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_MANUAL_ADJUSTMENT_DETAILS_ADFU_copy1",
@@ -32668,14 +32810,14 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "AIA_All_Carriers_Statement_Monthly_Feed_ADFU",
+								"referenceName": "AIA_All_Carriers_Statement_Monthly_Feed_PRD",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "AIA_ALL_CARRIERS_STATEMENT_DETAILS_UAT",
+								"referenceName": "AIA_ALL_CARRIERS_STATEMENT_DETAILS_PRD",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -39153,158 +39295,6 @@
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
 						"     partitionBy('hash', 1)) ~> sink1"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DF_Monthly_Extracts_for_ABI_Agency1')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "ABI_COMMISSION_ALL_SALES_REPORT_HISTORY_PRD",
-								"type": "DatasetReference"
-							},
-							"name": "Source1"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "ABI_ALL_SALES_DETAILS_REPORT",
-								"type": "DatasetReference"
-							},
-							"name": "Sink1"
-						}
-					],
-					"transformations": [],
-					"scriptLines": [
-						"source(output(",
-						"          E2eis_Seq_Number as long,",
-						"          Payee_AOR as string,",
-						"          Payee_AORName as string,",
-						"          WritingAgentName as string,",
-						"          Carrier as string,",
-						"          Period_Name as string,",
-						"          AccountingDate as string,",
-						"          FB_CompType as string,",
-						"          AgencyCompType as string,",
-						"          Prior_CompType as string,",
-						"          SubscriberName as string,",
-						"          ProductType as string,",
-						"          MemberCount as string,",
-						"          ContractCount as string,",
-						"          FBContractId as string,",
-						"          OriginalEffectiveDate as string,",
-						"          CoverageFromDate as string,",
-						"          CoverageToDate as string,",
-						"          CancelDate as string,",
-						"          County as string,",
-						"          Agent_Number as string,",
-						"          Agent_Name as string,",
-						"          FBPaymentAmount as string,",
-						"          Frequency as string,",
-						"          FileType as string,",
-						"          CommissionRate as string,",
-						"          RateType as string,",
-						"          Agent_Commission as string,",
-						"          CommissionType as string,",
-						"          WritingAgentRole as string,",
-						"          WritingAgentPayrollId as string,",
-						"          ManualAdjComments as string,",
-						"          FB_Commission_Flat_Rate as string,",
-						"          Agency_ID as string,",
-						"          Record_Load_Date as date,",
-						"          Record_Loaded_By as string,",
-						"          Record_Data_Source as string,",
-						"          Record_Flag_Status as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     query: ' SELECT *\\n FROM [dbo].[ABI_COMMISSION_ALL_SALES_REPORT_HISTORY]\\n WHERE [Record_Load_Date] IN (SELECT max([Record_Load_Date]) \\n FROM [dbo].[ABI_COMMISSION_ALL_SALES_REPORT_HISTORY])',",
-						"     format: 'query') ~> Source1",
-						"Source1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          E2eis_Seq_Number as string,",
-						"          Payee_AOR as string,",
-						"          WritingAgentName as string,",
-						"          WritingAgentPayrollId as string,",
-						"          FBPaymentAmount as string,",
-						"          Agent_Commission as string,",
-						"          Override_Commission as string,",
-						"          Agency_ID as string,",
-						"          Record_Load_Date as string,",
-						"          Record_Loaded_By as string,",
-						"          Record_Data_Source as string,",
-						"          Record_Flag_Status as string",
-						"     ),",
-						"     partitionFileNames:['ABI_ALL_SALES_DETAILS_REPORT.csv'],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     partitionBy('hash', 1)) ~> Sink1"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dataflow1')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY_PRD",
-								"type": "DatasetReference"
-							},
-							"name": "source1"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "All_Sales_Summary_Report",
-								"type": "DatasetReference"
-							},
-							"name": "sink1"
-						}
-					],
-					"transformations": [],
-					"scriptLines": [
-						"source(output(",
-						"          E2eis_Seq_Number as long,",
-						"          Payee_AOR as string,",
-						"          WritingAgentName as string,",
-						"          WritingAgentPayrollId as string,",
-						"          FBPaymentAmount as string,",
-						"          Agent_Commission as string,",
-						"          Override_Commission as string,",
-						"          Agency_ID as string,",
-						"          Record_Load_Date as date,",
-						"          Record_Loaded_By as string,",
-						"          Record_Data_Source as string,",
-						"          Record_Flag_Status as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     query: '   SELECT *\\n FROM [dbo].[ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY]\\n WHERE [Record_Load_Date] IN (SELECT max([Record_Load_Date]) \\n FROM [dbo].[ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY])',",
-						"     format: 'query') ~> source1",
-						"source1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> sink1"
 					]
 				}
 			},

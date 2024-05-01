@@ -13,6 +13,158 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/DF_Monthly_Extracts_for_ABI_Agency1')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ABI_COMMISSION_ALL_SALES_REPORT_HISTORY_PRD",
+								"type": "DatasetReference"
+							},
+							"name": "Source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ABI_ALL_SALES_DETAILS_REPORT",
+								"type": "DatasetReference"
+							},
+							"name": "Sink1"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          E2eis_Seq_Number as long,",
+						"          Payee_AOR as string,",
+						"          Payee_AORName as string,",
+						"          WritingAgentName as string,",
+						"          Carrier as string,",
+						"          Period_Name as string,",
+						"          AccountingDate as string,",
+						"          FB_CompType as string,",
+						"          AgencyCompType as string,",
+						"          Prior_CompType as string,",
+						"          SubscriberName as string,",
+						"          ProductType as string,",
+						"          MemberCount as string,",
+						"          ContractCount as string,",
+						"          FBContractId as string,",
+						"          OriginalEffectiveDate as string,",
+						"          CoverageFromDate as string,",
+						"          CoverageToDate as string,",
+						"          CancelDate as string,",
+						"          County as string,",
+						"          Agent_Number as string,",
+						"          Agent_Name as string,",
+						"          FBPaymentAmount as string,",
+						"          Frequency as string,",
+						"          FileType as string,",
+						"          CommissionRate as string,",
+						"          RateType as string,",
+						"          Agent_Commission as string,",
+						"          CommissionType as string,",
+						"          WritingAgentRole as string,",
+						"          WritingAgentPayrollId as string,",
+						"          ManualAdjComments as string,",
+						"          FB_Commission_Flat_Rate as string,",
+						"          Agency_ID as string,",
+						"          Record_Load_Date as date,",
+						"          Record_Loaded_By as string,",
+						"          Record_Data_Source as string,",
+						"          Record_Flag_Status as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: ' SELECT *\\n FROM [dbo].[ABI_COMMISSION_ALL_SALES_REPORT_HISTORY]\\n WHERE [Record_Load_Date] IN (SELECT max([Record_Load_Date]) \\n FROM [dbo].[ABI_COMMISSION_ALL_SALES_REPORT_HISTORY])',",
+						"     format: 'query') ~> Source1",
+						"Source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          E2eis_Seq_Number as string,",
+						"          Payee_AOR as string,",
+						"          WritingAgentName as string,",
+						"          WritingAgentPayrollId as string,",
+						"          FBPaymentAmount as string,",
+						"          Agent_Commission as string,",
+						"          Override_Commission as string,",
+						"          Agency_ID as string,",
+						"          Record_Load_Date as string,",
+						"          Record_Loaded_By as string,",
+						"          Record_Data_Source as string,",
+						"          Record_Flag_Status as string",
+						"     ),",
+						"     partitionFileNames:['ABI_ALL_SALES_DETAILS_REPORT.csv'],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> Sink1"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflow1')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY_PRD",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "All_Sales_Summary_Report",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          E2eis_Seq_Number as long,",
+						"          Payee_AOR as string,",
+						"          WritingAgentName as string,",
+						"          WritingAgentPayrollId as string,",
+						"          FBPaymentAmount as string,",
+						"          Agent_Commission as string,",
+						"          Override_Commission as string,",
+						"          Agency_ID as string,",
+						"          Record_Load_Date as date,",
+						"          Record_Loaded_By as string,",
+						"          Record_Data_Source as string,",
+						"          Record_Flag_Status as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: '   SELECT *\\n FROM [dbo].[ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY]\\n WHERE [Record_Load_Date] IN (SELECT max([Record_Load_Date]) \\n FROM [dbo].[ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY])',",
+						"     format: 'query') ~> source1",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/dataflow_AIA_Weekly_Extracts')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -3063,7 +3215,8 @@
 				"lastPublishTime": "2024-04-26T14:12:30Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dataflow_AIA_Weekly_Extracts')]"
+				"[concat(variables('factoryId'), '/dataflows/dataflow_AIA_Weekly_Extracts')]",
+				"[concat(variables('factoryId'), '/dataflows/DF_Monthly_Extracts_for_ABI_Agency1')]"
 			]
 		},
 		{
