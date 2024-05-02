@@ -5,8 +5,6 @@
 			{
 				"name": "DF_Monthly_Extracts_for_ABI_Agency",
 				"type": "ExecuteDataFlow",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy data into ABI_COMMISSION_ALL_SALES_REPORT_HISTORY",
@@ -38,8 +36,6 @@
 			{
 				"name": "DF_Monthly_Extracts_for_ABI_Agency1",
 				"type": "ExecuteDataFlow",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "DF_Monthly_Extracts_for_ABI_Agency",
@@ -1053,12 +1049,44 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"enableStaging": false
-				}
+					"source": {
+						"type": "SqlServerSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SqlServerSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ABI_COMMISSION_ALL_SALES_SUMMARY_VIEW_PRD",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY_PRD",
+						"type": "DatasetReference"
+					}
+				]
 			},
 			{
 				"name": "Copy data into ABI_COMMISSION_ALL_SALES_REPORT_HISTORY",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy data into ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY",
