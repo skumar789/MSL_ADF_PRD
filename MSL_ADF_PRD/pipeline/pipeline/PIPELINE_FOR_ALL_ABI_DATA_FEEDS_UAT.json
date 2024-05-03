@@ -547,8 +547,6 @@
 			{
 				"name": "Copy data into ABI_FHCP_COMMISION_DETAILS",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy data into ABI_LIFE_SPECIALTY_VENTURE",
@@ -567,9 +565,16 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "SqlServerSource",
-						"queryTimeout": "02:00:00",
-						"partitionOption": "None"
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "SftpReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false,
+							"disableChunking": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
 					},
 					"sink": {
 						"type": "SqlServerSink",
@@ -582,21 +587,9 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "E2eis_Seq_Number",
-									"type": "Int64",
-									"physicalType": "bigint"
-								},
-								"sink": {
-									"name": "E2eis_Seq_Number",
-									"type": "Int64",
-									"physicalType": "bigint"
-								}
-							},
-							{
-								"source": {
 									"name": "Group_Number",
 									"type": "String",
-									"physicalType": "varchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "Group_Number",
@@ -608,7 +601,7 @@
 								"source": {
 									"name": "Plan_Code",
 									"type": "String",
-									"physicalType": "varchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "Plan_Code",
@@ -620,7 +613,7 @@
 								"source": {
 									"name": "Plan_Type_Description",
 									"type": "String",
-									"physicalType": "varchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "Plan_Type_Description",
@@ -632,7 +625,7 @@
 								"source": {
 									"name": "Begin_Commission_Date",
 									"type": "String",
-									"physicalType": "varchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "Begin_Commission_Date",
@@ -644,7 +637,7 @@
 								"source": {
 									"name": "End_Commission_Date",
 									"type": "String",
-									"physicalType": "varchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "End_Commission_Date",
@@ -656,7 +649,7 @@
 								"source": {
 									"name": "Agent_First_Name",
 									"type": "String",
-									"physicalType": "varchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "Agent_First_Name",
@@ -668,7 +661,7 @@
 								"source": {
 									"name": "Agent_Last_Name",
 									"type": "String",
-									"physicalType": "varchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "Agent_Last_Name",
@@ -680,7 +673,7 @@
 								"source": {
 									"name": "Member_Number",
 									"type": "String",
-									"physicalType": "varchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "Member_Number",
@@ -692,7 +685,7 @@
 								"source": {
 									"name": "Member_First_Name",
 									"type": "String",
-									"physicalType": "varchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "Member_First_Name",
@@ -704,7 +697,7 @@
 								"source": {
 									"name": "Member_Last_Name",
 									"type": "String",
-									"physicalType": "varchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "Member_Last_Name",
@@ -716,7 +709,7 @@
 								"source": {
 									"name": "Eligibility_Begin_Date",
 									"type": "String",
-									"physicalType": "varchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "Eligibility_Begin_Date",
@@ -728,7 +721,7 @@
 								"source": {
 									"name": "Eligibility_End_Date",
 									"type": "String",
-									"physicalType": "varchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "Eligibility_End_Date",
@@ -740,7 +733,7 @@
 								"source": {
 									"name": "Commission_Paid",
 									"type": "String",
-									"physicalType": "varchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "Commission_Paid",
@@ -752,7 +745,7 @@
 								"source": {
 									"name": "Commission_Adjustment_Amount",
 									"type": "String",
-									"physicalType": "varchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "Commission_Adjustment_Amount",
@@ -764,7 +757,7 @@
 								"source": {
 									"name": "Adj_Recovery_Reason",
 									"type": "String",
-									"physicalType": "varchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "Adj_Recovery_Reason",
@@ -776,7 +769,7 @@
 								"source": {
 									"name": "Recovery_Term_Date",
 									"type": "String",
-									"physicalType": "varchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "Recovery_Term_Date",
@@ -788,7 +781,7 @@
 								"source": {
 									"name": "Member_DOB",
 									"type": "String",
-									"physicalType": "varchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "Member_DOB",
@@ -800,7 +793,7 @@
 								"source": {
 									"name": "Member_Age",
 									"type": "String",
-									"physicalType": "varchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "Member_Age",
@@ -812,7 +805,7 @@
 								"source": {
 									"name": "Prior_Payement",
 									"type": "String",
-									"physicalType": "varchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "Prior_Payement",
@@ -824,7 +817,7 @@
 								"source": {
 									"name": "Frequency",
 									"type": "String",
-									"physicalType": "varchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "Frequency",
@@ -834,62 +827,14 @@
 							},
 							{
 								"source": {
-									"name": "Agency_ID",
+									"name": "Writing_Agent_Code",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Writing_Agent_Code",
 									"type": "String",
 									"physicalType": "varchar"
-								},
-								"sink": {
-									"name": "Agency_ID",
-									"type": "String",
-									"physicalType": "varchar"
-								}
-							},
-							{
-								"source": {
-									"name": "Record_Load_Date",
-									"type": "DateTime",
-									"physicalType": "date"
-								},
-								"sink": {
-									"name": "Record_Load_Date",
-									"type": "DateTime",
-									"physicalType": "date"
-								}
-							},
-							{
-								"source": {
-									"name": "Record_Loaded_By",
-									"type": "String",
-									"physicalType": "char"
-								},
-								"sink": {
-									"name": "Record_Loaded_By",
-									"type": "String",
-									"physicalType": "char"
-								}
-							},
-							{
-								"source": {
-									"name": "Record_Data_Source",
-									"type": "String",
-									"physicalType": "char"
-								},
-								"sink": {
-									"name": "Record_Data_Source",
-									"type": "String",
-									"physicalType": "char"
-								}
-							},
-							{
-								"source": {
-									"name": "Record_Flag_Status",
-									"type": "String",
-									"physicalType": "char"
-								},
-								"sink": {
-									"name": "Record_Flag_Status",
-									"type": "String",
-									"physicalType": "char"
 								}
 							}
 						],
@@ -902,7 +847,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "ABI_FHCP_COMMISSION_DETAILS_PRD",
+						"referenceName": "ABI_FHCP_Feed_ADFU",
 						"type": "DatasetReference"
 					}
 				],
@@ -1393,6 +1338,8 @@
 			{
 				"name": "Copy data into ABI_AGENCY_PAYEE_DETAILS",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy data into ABI_APPLICATION_TRACKER_DETAILS",
