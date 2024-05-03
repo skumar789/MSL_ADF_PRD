@@ -566,7 +566,14 @@
 				"type": "Copy",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Copy data into ABI_APPLICATION_TRACKER_DATA",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -1080,6 +1087,105 @@
 				"typeProperties": {
 					"enableStaging": false
 				}
+			},
+			{
+				"name": "Copy data into ABI_PAYMENT_EXCEPTION_DETAILS",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SqlServerSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DL_PAYMENT_EXCEPTION_FILE_DATA_ARCHIVE_PRD",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ABI_PAYMENT_EXCEPTION_DETAILS_PRD",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy data into ABI_APPLICATION_TRACKER_DATA",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Copy data into ABI_PAYMENT_EXCEPTION_DETAILS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SqlServerSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ABI_APPLICATION_TRACKER_DATA_PRD",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ABI_APPLICATION_TRACKER_DATA_PRD",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"annotations": [],
