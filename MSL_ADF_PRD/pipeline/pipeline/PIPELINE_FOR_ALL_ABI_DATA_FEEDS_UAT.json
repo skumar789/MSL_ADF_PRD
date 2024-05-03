@@ -1393,8 +1393,6 @@
 			{
 				"name": "Copy data into ABI_AGENCY_PAYEE_DETAILS",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy data into ABI_APPLICATION_TRACKER_DETAILS",
@@ -1413,9 +1411,16 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "SqlServerSource",
-						"queryTimeout": "02:00:00",
-						"partitionOption": "None"
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "SftpReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false,
+							"disableChunking": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
 					},
 					"sink": {
 						"type": "SqlServerSink",
@@ -1820,7 +1825,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "ABI_AGENCY_PAYEE_DETAILS_PRD",
+						"referenceName": "ABI_Agency_Payee_Monthly_Feed_ADFU",
 						"type": "DatasetReference"
 					}
 				],
