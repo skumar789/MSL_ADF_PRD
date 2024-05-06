@@ -9,7 +9,7 @@
 						"referenceName": "AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY1_PRD",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "source11"
 				}
 			],
 			"sinks": [
@@ -27,8 +27,8 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     query: 'SELECT *\\n FROM AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY',",
-				"     format: 'query') ~> source1",
-				"source1 sink(allowSchemaDrift: true,",
+				"     format: 'query') ~> source11",
+				"source11 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          E2eis_Seq_Number as string,",
@@ -60,8 +60,10 @@
 				"          Record_Data_Source as string,",
 				"          Record_Flag_Status as string",
 				"     ),",
+				"     partitionFileNames:['AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTIONS_WEEKLY_EXTRACTS.csv'],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sink1"
 			]
 		}
 	}
