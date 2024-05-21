@@ -3775,6 +3775,74 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "ABI_COMMISSION_ALL_SALES_DETAILS_REPORT_HISTORY_ONETIME",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Copy data into ABI_AGENCY_PAYEE_EMAIL_DISTRIBUTION",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "SftpReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false,
+							"disableChunking": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "SftpWriteSettings",
+							"operationTimeout": "01:00:00",
+							"useTempFileRename": true
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ABI_COMMISSION_ALL_SALES_DETAILS_REPORT_HISTORY_PRD",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ABI_COMMISSION_ALL_SALES_DETAILS_REPORT_HISTORY_PRD",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"annotations": [],
