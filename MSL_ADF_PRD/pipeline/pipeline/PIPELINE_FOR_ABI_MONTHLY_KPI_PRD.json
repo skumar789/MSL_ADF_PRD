@@ -1957,9 +1957,11 @@
 			{
 				"name": "ABI_com_rpt_Commission_Statement",
 				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE_copy1",
+						"activity": "com_rpt_FHCP_Commission_Calc",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -1977,11 +1979,17 @@
 					"storedProcedureName": "[dbo].[ABI_com_rpt_Commission_Statement]",
 					"storedProcedureParameters": {
 						"Month": {
-							"value": "@04",
+							"value": {
+								"value": "@04",
+								"type": "Expression"
+							},
 							"type": "String"
 						},
 						"Year": {
-							"value": "@2024",
+							"value": {
+								"value": "@2024",
+								"type": "Expression"
+							},
 							"type": "String"
 						}
 					}
@@ -1992,10 +2000,8 @@
 				}
 			},
 			{
-				"name": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE_copy1",
+				"name": "com_rpt_FHCP_Commission_Calc",
 				"type": "SqlServerStoredProcedure",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE_copy2",
@@ -2013,7 +2019,17 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"storedProcedureName": "[dbo].[AIA_WEEKLY_POLICY_STATUS_UPDATES]"
+					"storedProcedureName": " [dbo].[com_rpt_FHCP_Commission_Calc]",
+					"storedProcedureParameters": {
+						"Month": {
+							"value": "@04",
+							"type": "String"
+						},
+						"Year": {
+							"value": "@2024",
+							"type": "String"
+						}
+					}
 				},
 				"linkedServiceName": {
 					"referenceName": "SqlServer_mslprd",
