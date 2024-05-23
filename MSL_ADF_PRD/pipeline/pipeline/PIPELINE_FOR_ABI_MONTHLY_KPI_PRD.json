@@ -2006,7 +2006,7 @@
 				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE_copy2",
+						"activity": "ABI_com_rpt_FB_Commission_Manual Adjustments",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -2045,11 +2045,13 @@
 				}
 			},
 			{
-				"name": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE_copy2",
+				"name": "ABI_com_rpt_FB_Commission_Manual Adjustments",
 				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE_copy3",
+						"activity": "ABI_com_rpt_FB_Group_Commission_Calc",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -2067,11 +2069,17 @@
 					"storedProcedureName": "[dbo].[ABI_com_rpt_FB_Commission_Manual Adjustments]",
 					"storedProcedureParameters": {
 						"Month": {
-							"value": "@04",
+							"value": {
+								"value": "@04",
+								"type": "Expression"
+							},
 							"type": "String"
 						},
 						"Year": {
-							"value": "@2024",
+							"value": {
+								"value": "@2024",
+								"type": "Expression"
+							},
 							"type": "String"
 						}
 					}
@@ -2082,10 +2090,8 @@
 				}
 			},
 			{
-				"name": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE_copy3",
+				"name": "ABI_com_rpt_FB_Group_Commission_Calc",
 				"type": "SqlServerStoredProcedure",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE_copy4",
@@ -2103,7 +2109,17 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"storedProcedureName": "[dbo].[AIA_WEEKLY_POLICY_STATUS_UPDATES]"
+					"storedProcedureName": "[dbo].[ABI_com_rpt_FB_Group_Commission_Calc]",
+					"storedProcedureParameters": {
+						"Month": {
+							"value": "@04",
+							"type": "String"
+						},
+						"Year": {
+							"value": "@2024",
+							"type": "String"
+						}
+					}
 				},
 				"linkedServiceName": {
 					"referenceName": "SqlServer_mslprd",
