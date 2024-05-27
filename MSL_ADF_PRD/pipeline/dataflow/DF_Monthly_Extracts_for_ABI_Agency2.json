@@ -5,14 +5,81 @@
 		"typeProperties": {
 			"sources": [
 				{
-					"name": "source1"
+					"dataset": {
+						"referenceName": "ABI_MONTHLY_PAYABLE_COMMISSION_VIEW_PRD",
+						"type": "DatasetReference"
+					},
+					"name": "source1",
+					"description": "Import data from ABI_MONTHLY_PAYABLE_COMMISSION_VIEW_PRD"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ABI_MONTHLY_PAYABLE_REPORT",
+						"type": "DatasetReference"
+					},
+					"name": "sink1",
+					"description": "Export data to ABI_MONTHLY_PAYABLE_REPORT"
+				}
+			],
 			"transformations": [],
 			"scriptLines": [
-				"source(allowSchemaDrift: true,",
-				"     validateSchema: false) ~> source1"
+				"source(output(",
+				"          Source_Of_Record as string,",
+				"          Compensation_Amount as double,",
+				"          Compensation_Month as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT  [Source_Of_Record]\\n      ,[Compensation_Amount]\\n      ,[Compensation_Month]\\n  FROM [dbo].[ABI_MONTHLY_PAYABLE_COMMISSION_VIEW]\\n',",
+				"     format: 'query') ~> source1",
+				"source1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          E2eis_Seq_Number as string,",
+				"          Payee_AOR as string,",
+				"          Payee_AORName as string,",
+				"          WritingAgentName as string,",
+				"          Carrier as string,",
+				"          Period_Name as string,",
+				"          AccountingDate as string,",
+				"          FB_CompType as string,",
+				"          AgencyCompType as string,",
+				"          Prior_CompType as string,",
+				"          SubscriberName as string,",
+				"          ProductType as string,",
+				"          MemberCount as string,",
+				"          ContractCount as string,",
+				"          FBContractId as string,",
+				"          OriginalEffectiveDate as string,",
+				"          CoverageFromDate as string,",
+				"          CoverageToDate as string,",
+				"          CancelDate as string,",
+				"          County as string,",
+				"          Agent_Number as string,",
+				"          Agent_Name as string,",
+				"          FBPaymentAmount as string,",
+				"          Frequency as string,",
+				"          FileType as string,",
+				"          CommissionRate as string,",
+				"          RateType as string,",
+				"          Agent_Commission as string,",
+				"          CommissionType as string,",
+				"          WritingAgentRole as string,",
+				"          WritingAgentPayrollId as string,",
+				"          ManualAdjComments as string,",
+				"          FB_Commission_Flat_Rate as string,",
+				"          Agency_ID as string,",
+				"          Record_Load_Date as string,",
+				"          Record_Loaded_By as string,",
+				"          Record_Data_Source as string,",
+				"          Record_Flag_Status as string",
+				"     ),",
+				"     partitionFileNames:['ABI_MONTHLY_PAYABL_REPORT.csv'],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
 			]
 		}
 	}
