@@ -9,7 +9,7 @@
 				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "AIA_AGENCY_EMP_HIER_DETAILS_HISTORY_PRD",
+						"activity": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE_copy1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -4119,6 +4119,33 @@
 				"userProperties": [],
 				"typeProperties": {
 					"storedProcedureName": "[dbo].[AIA_WEEKLY_POLICY_STATUS_UPDATES]"
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServer_mslprd",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE_copy1",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "AIA_AGENCY_EMP_HIER_DETAILS_HISTORY_PRD",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[AIA_WEEKLY_EMP_HIER_USER_CLEANUP]"
 				},
 				"linkedServiceName": {
 					"referenceName": "SqlServer_mslprd",
