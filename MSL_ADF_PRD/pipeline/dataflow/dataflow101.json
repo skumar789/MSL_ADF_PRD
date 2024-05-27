@@ -1,0 +1,90 @@
+{
+	"name": "dataflow101",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "AIA_AGENCY_EMP_HIER_DETAILS_HISTORY_PRD",
+						"type": "DatasetReference"
+					},
+					"name": "dataflow101",
+					"description": "Import data from AIA_AGENCY_EMP_HIER_DETAILS_HISTORY_PRD"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "AIA_IMS_EMP_HIERARCHY_EXTRACTS",
+						"type": "DatasetReference"
+					},
+					"name": "sink101",
+					"description": "GENERATING FILE AIA_IMS_EMP_HIERARCHY_EXTRACTS.csv\n\n\n\n"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          E2eis_Seq_Number as long,",
+				"          User_Id as string,",
+				"          First_Name as string,",
+				"          Last_Name as string,",
+				"          Email_Address as string,",
+				"          Termination_Flag as string,",
+				"          Department_Name as string,",
+				"          NPN_Grouping as string,",
+				"          Upline_Id as string,",
+				"          Upline_First_Name as string,",
+				"          Upline_Last_Name as string,",
+				"          Level_Seq as string,",
+				"          Agency_ID as string,",
+				"          Record_Load_Date as date,",
+				"          Record_Loaded_By as string,",
+				"          Record_Data_Source as string,",
+				"          Record_Flag_Status as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT [E2eis_Seq_Number]\\n      ,[User_Id]\\n      ,[First_Name]\\n      ,[Last_Name]\\n      ,[Email_Address]\\n      ,[Termination_Flag]\\n      ,[Department_Name]\\n      ,[NPN_Grouping]\\n      ,[Upline_Id]\\n      ,[Upline_First_Name]\\n      ,[Upline_Last_Name]\\n      ,[Level_Seq]\\n      ,[Agency_ID]\\n      ,[Record_Load_Date]\\n      ,[Record_Loaded_By]\\n      ,[Record_Data_Source]\\n      ,[Record_Flag_Status]\\n  FROM [dbo].[AIA_AGENCY_EMP_HIER_DETAILS_HISTORY]\\n',",
+				"     format: 'query') ~> dataflow101",
+				"dataflow101 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          E2eis_Seq_Number as string,",
+				"          Agent_Statement_Date as string,",
+				"          Agency_Name as string,",
+				"          Agent_Name as string,",
+				"          Agent_ID as string,",
+				"          Agent_Number as string,",
+				"          Agent_Commission_Note as string,",
+				"          Carrier_Name as string,",
+				"          Effective_Date as string,",
+				"          Client_Name as string,",
+				"          Policy_ID as string,",
+				"          Policy_Number as string,",
+				"          Coverage_Type as string,",
+				"          Bill_From_Date as string,",
+				"          Month_of_Bill_From_Date as string,",
+				"          Lives as string,",
+				"          Premium_Amount as string,",
+				"          Commission_Amount as string,",
+				"          Commission_Entry_Note as string,",
+				"          Revenue_Type as string,",
+				"          Balance_Forwarded as string,",
+				"          Compensation_Month as string,",
+				"          State as string,",
+				"          Agency_ID as string,",
+				"          Record_Load_Date as string,",
+				"          Record_Loaded_By as string,",
+				"          Record_Data_Source as string,",
+				"          Record_Flag_Status as string",
+				"     ),",
+				"     partitionFileNames:['AIA_IMS_EMP_HIERARCHY_EXTRACTS.csv'],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink101"
+			]
+		}
+	}
+}
