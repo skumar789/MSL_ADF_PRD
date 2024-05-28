@@ -1122,6 +1122,8 @@
 			{
 				"name": "Copy data into ABI_EI16U_COMMISION_DETAILS",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy data into ABI_EI14U_COMMISION_DETAILS",
@@ -4738,6 +4740,452 @@
 				"outputs": [
 					{
 						"referenceName": "ABI_COMMISSION_ALL_SALES_REPORT_HISTORY1_PRD",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy data into ABI_EI13U_COMMISION_DETAILS_copy1",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "ABI_COMMISSION_ALL_SALES_REPORT_HISTORY",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "SftpReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false,
+							"disableChunking": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "SqlServerSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "Agency Code",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Agency_Code",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Agent Code",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Agent_Code",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Agent Last",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Agent_Last",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Agent First",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Agent_First",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "FB UID",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "FB_UID",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Member Contract ID",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Member_Contract_ID",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Comp Amount",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Comp_Amount",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Flat Rate",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Flat_Rate",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Member Count",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Member_Count",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Percent Of Prem",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Percent_Of_Prem",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Prem Paid Amt",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Prem_Paid_Amt",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Comp Type\n\n",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Comp_Type",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Event Type",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Event_Type",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Initial Payment Date",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Initial_Payment_Date",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Owning Agency AOR Effective Date",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Owning_Agency_AOR_Effective_Date",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Accounting Date",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Accounting_Date",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Compensation Date",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Compensation_Date",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Original Effective Date",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Original_Effective_Date",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Benefit Effective Date",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Benefit_Effective_Date",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Cancel Date",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Cancel_Date",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Product ID",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Product_ID",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Product Type",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Product_Type",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Product Tier Metal Level",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Product_Tier_Metal_Level",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "County Name",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "County_Name",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Bonus County Indicator",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Bonus_County_Indicator",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "App ID ",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "App_ID",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Exchange Ind",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Exchange_Ind",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Subscriber Last",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Subscriber_Last",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Subscriber First",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Subscriber_First",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Subscriber Middle",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Subscriber_Middle",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Coverage From Date ",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Coverage_From_Date",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Coverage To Date",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Coverage_To_Date",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ABI_EI13U_Monthly_Feed_ONETIME_FHCP_PRD",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ABI_EI13U_FHCP_COMMISION_REFERENCE_DETAILS_PRD",
 						"type": "DatasetReference"
 					}
 				]
