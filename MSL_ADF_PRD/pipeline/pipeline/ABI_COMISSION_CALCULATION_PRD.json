@@ -42,7 +42,7 @@
 				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "ABI_MONTHLY_COMPENSABLE_TRANSACTION_VIEW_PRD",
+						"activity": "ABI_MONTHLY_PAYABLE_COMMISSION_VIEW_PRD",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -71,11 +71,9 @@
 			{
 				"name": "ABI_COMM_RPT_COMMISSIONS_STATEMENT",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "Copy data into ABI_PAYMENTS_HISTORICAL_DATA",
+						"activity": "Copy data into ABI_APPLICATION_TRACKER_DATA",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -568,9 +566,9 @@
 				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "Copy data into ABI_APPLICATION_TRACKER_DATA",
+						"activity": "ABI_CALCULATION_STEP 7",
 						"dependencyConditions": [
-							"Succeeded"
+							"Failed"
 						]
 					}
 				],
@@ -1041,8 +1039,6 @@
 			{
 				"name": "Copy data into ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "ABI_COMM_RPT_COMMISSIONS_STATEMENT",
@@ -1096,8 +1092,6 @@
 			{
 				"name": "Copy data into ABI_COMMISSION_ALL_SALES_REPORT_HISTORY",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy data into ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY",
@@ -1152,8 +1146,6 @@
 			{
 				"name": "Copy data into ABI_PAYMENT_EXCEPTION_DETAILS",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy data into ABI_FB_PAYMENT_COMMON_HISTORY",
@@ -1293,8 +1285,6 @@
 			{
 				"name": "Copy data into ABI_APPLICATION_TRACKER_DATA",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy data into ABI_PAYMENT_EXCEPTION_DETAILS",
@@ -1434,8 +1424,6 @@
 			{
 				"name": "Copy data into ABI_FB_PAYMENT_COMMON_HISTORY",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy data into ABI_E2E_PLANDESCRIPTION_SEQNO_HISTORY",
@@ -2151,11 +2139,9 @@
 			{
 				"name": "Copy data into ABI_FB_PAYMENTS_HISTORY",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "Copy data into ABI_PAYMENTS_HISTOR",
+						"activity": "ABI_CALCULATION_STEP 8",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -2872,8 +2858,6 @@
 			{
 				"name": "Copy data into ABI_FHCP_Payments_HISTORY",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy data into ABI_FB_PAYMENTS_HOLD_HISTORY",
@@ -2927,8 +2911,6 @@
 			{
 				"name": "Copy data into ABI_E2E_PLANDESCRIPTION_SEQNO_HISTORY",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy data into ABI_FHCP_Payments_HISTORY",
@@ -3008,8 +2990,6 @@
 			{
 				"name": "Copy data into ABI_FB_PAYMENTS_HOLD_HISTORY",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy data into ABI_FB_PAYMENTS_HISTORY",
@@ -3056,427 +3036,6 @@
 				"outputs": [
 					{
 						"referenceName": "ABI_FB_PAYMENTS_HOLD_HISTORY_PRD",
-						"type": "DatasetReference"
-					}
-				]
-			},
-			{
-				"name": "Copy data into ABI_PAYMENTS_HISTOR",
-				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "ABI_CALCULATION_STEP 8",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "SqlServerSource",
-						"queryTimeout": "02:00:00",
-						"partitionOption": "None"
-					},
-					"sink": {
-						"type": "SqlServerSink",
-						"writeBehavior": "insert",
-						"sqlWriterUseTableLock": false
-					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"mappings": [
-							{
-								"source": {
-									"name": "PaymentId",
-									"type": "String",
-									"physicalType": "varchar"
-								},
-								"sink": {
-									"name": "PaymentId",
-									"type": "Int32",
-									"physicalType": "int"
-								}
-							},
-							{
-								"source": {
-									"name": "JobId",
-									"type": "String",
-									"physicalType": "varchar"
-								},
-								"sink": {
-									"name": "JobId",
-									"type": "Int32",
-									"physicalType": "int"
-								}
-							},
-							{
-								"source": {
-									"name": "DataFileType",
-									"type": "String",
-									"physicalType": "varchar"
-								},
-								"sink": {
-									"name": "DataFileType",
-									"type": "Int32",
-									"physicalType": "int"
-								}
-							},
-							{
-								"source": {
-									"name": "DataFileId",
-									"type": "String",
-									"physicalType": "varchar"
-								},
-								"sink": {
-									"name": "DataFileId",
-									"type": "Int32",
-									"physicalType": "int"
-								}
-							},
-							{
-								"source": {
-									"name": "AccountingDate",
-									"type": "String",
-									"physicalType": "varchar"
-								},
-								"sink": {
-									"name": "AccountingDate",
-									"type": "DateTime",
-									"physicalType": "date"
-								}
-							},
-							{
-								"source": {
-									"name": "FBCompType",
-									"type": "String",
-									"physicalType": "varchar"
-								},
-								"sink": {
-									"name": "FBCompType",
-									"type": "Int32",
-									"physicalType": "int"
-								}
-							},
-							{
-								"source": {
-									"name": "AgencyCompType",
-									"type": "String",
-									"physicalType": "varchar"
-								},
-								"sink": {
-									"name": "AgencyCompType",
-									"type": "Int32",
-									"physicalType": "int"
-								}
-							},
-							{
-								"source": {
-									"name": "SubscriberFirstName",
-									"type": "String",
-									"physicalType": "varchar"
-								},
-								"sink": {
-									"name": "SubscriberFirstName",
-									"type": "String",
-									"physicalType": "varchar"
-								}
-							},
-							{
-								"source": {
-									"name": "SubscriberMiddleName",
-									"type": "String",
-									"physicalType": "varchar"
-								},
-								"sink": {
-									"name": "SubscriberMiddleName",
-									"type": "String",
-									"physicalType": "varchar"
-								}
-							},
-							{
-								"source": {
-									"name": "SubscriberLastName",
-									"type": "String",
-									"physicalType": "varchar"
-								},
-								"sink": {
-									"name": "SubscriberLastName",
-									"type": "String",
-									"physicalType": "varchar"
-								}
-							},
-							{
-								"source": {
-									"name": "ProductType",
-									"type": "String",
-									"physicalType": "varchar"
-								},
-								"sink": {
-									"name": "ProductType",
-									"type": "String",
-									"physicalType": "varchar"
-								}
-							},
-							{
-								"source": {
-									"name": "PlanDescription",
-									"type": "String",
-									"physicalType": "varchar"
-								},
-								"sink": {
-									"name": "PlanDescription",
-									"type": "String",
-									"physicalType": "varchar"
-								}
-							},
-							{
-								"source": {
-									"name": "MemberCount",
-									"type": "String",
-									"physicalType": "varchar"
-								},
-								"sink": {
-									"name": "MemberCount",
-									"type": "Int32",
-									"physicalType": "int"
-								}
-							},
-							{
-								"source": {
-									"name": "ContractCount",
-									"type": "String",
-									"physicalType": "varchar"
-								},
-								"sink": {
-									"name": "ContractCount",
-									"type": "Int32",
-									"physicalType": "int"
-								}
-							},
-							{
-								"source": {
-									"name": "FBContractId",
-									"type": "String",
-									"physicalType": "varchar"
-								},
-								"sink": {
-									"name": "FBContractId",
-									"type": "String",
-									"physicalType": "varchar"
-								}
-							},
-							{
-								"source": {
-									"name": "OriginalEffectiveDate",
-									"type": "String",
-									"physicalType": "varchar"
-								},
-								"sink": {
-									"name": "OriginalEffectiveDate",
-									"type": "DateTime",
-									"physicalType": "date"
-								}
-							},
-							{
-								"source": {
-									"name": "CoverageFromDate",
-									"type": "String",
-									"physicalType": "varchar"
-								},
-								"sink": {
-									"name": "CoverageFromDate",
-									"type": "DateTime",
-									"physicalType": "date"
-								}
-							},
-							{
-								"source": {
-									"name": "CancelDate",
-									"type": "String",
-									"physicalType": "varchar"
-								},
-								"sink": {
-									"name": "CancelDate",
-									"type": "DateTime",
-									"physicalType": "date"
-								}
-							},
-							{
-								"source": {
-									"name": "County",
-									"type": "String",
-									"physicalType": "varchar"
-								},
-								"sink": {
-									"name": "County",
-									"type": "String",
-									"physicalType": "varchar"
-								}
-							},
-							{
-								"source": {
-									"name": "FBWritingAgentId",
-									"type": "String",
-									"physicalType": "varchar"
-								},
-								"sink": {
-									"name": "FBWritingAgentId",
-									"type": "String",
-									"physicalType": "varchar"
-								}
-							},
-							{
-								"source": {
-									"name": "Carrier",
-									"type": "String",
-									"physicalType": "varchar"
-								},
-								"sink": {
-									"name": "Carrier",
-									"type": "Int32",
-									"physicalType": "int"
-								}
-							},
-							{
-								"source": {
-									"name": "FBPaymentAmount",
-									"type": "String",
-									"physicalType": "varchar"
-								},
-								"sink": {
-									"name": "FBPaymentAmount",
-									"type": "Decimal",
-									"physicalType": "money",
-									"scale": 4,
-									"precision": 19
-								}
-							},
-							{
-								"source": {
-									"name": "Frequency",
-									"type": "String",
-									"physicalType": "varchar"
-								},
-								"sink": {
-									"name": "Frequency",
-									"type": "Int32",
-									"physicalType": "int"
-								}
-							},
-							{
-								"source": {
-									"name": "CreatedAt",
-									"type": "String",
-									"physicalType": "varchar"
-								},
-								"sink": {
-									"name": "CreatedAt",
-									"type": "DateTimeOffset",
-									"physicalType": "datetimeoffset"
-								}
-							},
-							{
-								"source": {
-									"name": "ModifiedAt",
-									"type": "String",
-									"physicalType": "varchar"
-								},
-								"sink": {
-									"name": "ModifiedAt",
-									"type": "DateTimeOffset",
-									"physicalType": "datetimeoffset"
-								}
-							},
-							{
-								"source": {
-									"name": "PriorCompensationType",
-									"type": "String",
-									"physicalType": "varchar"
-								},
-								"sink": {
-									"name": "PriorCompensationType",
-									"type": "Int32",
-									"physicalType": "int"
-								}
-							},
-							{
-								"source": {
-									"name": "PriorAccountingDate",
-									"type": "String",
-									"physicalType": "varchar"
-								},
-								"sink": {
-									"name": "PriorAccountingDate",
-									"type": "DateTime",
-									"physicalType": "date"
-								}
-							},
-							{
-								"source": {
-									"name": "CompensationDate",
-									"type": "String",
-									"physicalType": "varchar"
-								},
-								"sink": {
-									"name": "CompensationDate",
-									"type": "DateTime",
-									"physicalType": "date"
-								}
-							},
-							{
-								"source": {
-									"name": "FBUserId",
-									"type": "String",
-									"physicalType": "varchar"
-								},
-								"sink": {
-									"name": "FBUserId",
-									"type": "Int64",
-									"physicalType": "bigint"
-								}
-							},
-							{
-								"source": {
-									"name": "CommissionRateFlatRate",
-									"type": "String",
-									"physicalType": "varchar"
-								},
-								"sink": {
-									"name": "CommissionRateFlatRate",
-									"type": "Decimal",
-									"physicalType": "decimal",
-									"scale": 4,
-									"precision": 10
-								}
-							}
-						],
-						"typeConversion": true,
-						"typeConversionSettings": {
-							"allowDataTruncation": true,
-							"treatBooleanAsNumber": false
-						}
-					}
-				},
-				"inputs": [
-					{
-						"referenceName": "DL_PAYMENTS_PRD",
-						"type": "DatasetReference"
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "ABI_PAYMENTS_HISTOR_PRD",
 						"type": "DatasetReference"
 					}
 				]
@@ -3821,8 +3380,6 @@
 			{
 				"name": "ABI_MONTHLY_COMPENSABLE_TRANSACTION_VIEW_PRD",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Copy data into ABI_COMMISSION_ALL_SALES_REPORT_HISTORY",
@@ -3955,6 +3512,109 @@
 					},
 					"traceLevel": "Fine"
 				}
+			},
+			{
+				"name": "ABI_MONTHLY_PAYABLE_COMMISSION_VIEW_PRD",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "ABI_MONTHLY_COMPENSABLE_TRANSACTION_VIEW_PRD",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SqlServerSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "E2eis_Seq_Number",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "E2eis_Satalite_Seq_Number",
+									"type": "Int64",
+									"physicalType": "bigint"
+								}
+							},
+							{
+								"source": {
+									"name": "Agency_ID",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "Agency_ID",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "Source_Of_Record",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "Source_Of_Record",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Compensation_Amount",
+									"type": "String",
+									"physicalType": "nvarchar"
+								},
+								"sink": {
+									"name": "Compensation_Amount",
+									"type": "Double",
+									"physicalType": "float"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ABI_MONTHLY_PAYABLE_COMMISSION_VIEW_PRD",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ABI_MONTHLY_PAYABLE_COMMISSION_HISTORY_PRD",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"annotations": [],
