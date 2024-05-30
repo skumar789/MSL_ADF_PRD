@@ -9,7 +9,7 @@
 				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "AIA_AGENCY_EMP_HIER_DETAILS_HISTORY_ADFU",
+						"activity": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE_copy1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -3498,6 +3498,8 @@
 			{
 				"name": "ONE_TIME_DAY2",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "VIEW TO AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANS_HISTORY",
@@ -4156,6 +4158,35 @@
 				"userProperties": [],
 				"typeProperties": {
 					"storedProcedureName": "[dbo].[AIA_WEEKLY_POLICY_STATUS_UPDATES]"
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msluat",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE_copy1",
+				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "AIA_AGENCY_EMP_HIER_DETAILS_HISTORY_ADFU",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[AIA_WEEKLY_EMP_HIER_USER_CLEANUP]"
 				},
 				"linkedServiceName": {
 					"referenceName": "SqlServer_msluat",
