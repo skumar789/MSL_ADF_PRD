@@ -36,39 +36,6 @@
 				}
 			},
 			{
-				"name": "DF_IMS_WEEKLY_NEW_RECORDS",
-				"type": "ExecuteDataFlow",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "DF_AIA_IMS_HIER_POLICY_DETAILS_WEEKLY_EXTRACT",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"dataflow": {
-						"referenceName": "dataflow_AIA_Weekly_Extracts",
-						"type": "DataFlowReference"
-					},
-					"compute": {
-						"coreCount": 8,
-						"computeType": "General"
-					},
-					"traceLevel": "Fine"
-				}
-			},
-			{
 				"name": "DF_AIA_IMS_HIER_POLICY_DETAILS_WEEKLY_EXTRACT",
 				"type": "ExecuteDataFlow",
 				"state": "Inactive",
@@ -99,7 +66,7 @@
 				"type": "ExecuteDataFlow",
 				"dependsOn": [
 					{
-						"activity": "DF_IMS_WEEKLY_NEW_RECORDS",
+						"activity": "DF_AIA_IMS_POLICY_DETAILS_WEEKLY_EXTRACT",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -116,6 +83,39 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "dataflow99",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_AIA_IMS_POLICY_DETAILS_WEEKLY_EXTRACT",
+				"type": "ExecuteDataFlow",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "DF_AIA_IMS_HIER_POLICY_DETAILS_WEEKLY_EXTRACT",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "dataflow_AIA_Weekly_Extracts",
 						"type": "DataFlowReference"
 					},
 					"compute": {
