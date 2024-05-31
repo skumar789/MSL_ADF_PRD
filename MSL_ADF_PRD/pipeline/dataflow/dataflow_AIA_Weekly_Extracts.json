@@ -3,11 +3,67 @@
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
-			"sources": [],
-			"sinks": [],
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "AIA_IMS_POLICY_HISTORY_PRD",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedText100",
+						"type": "DatasetReference"
+					},
+					"name": "sink1",
+					"description": "GENERATING FILE AIA_IMS_POLICY_DETAILS_LAST_4_MONTHS_EXTRACTS.csv"
+				}
+			],
 			"transformations": [],
 			"scriptLines": [
-				""
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT  [E2eis_Seq_Number]\\n      ,[IMS_Transaction_Id]\\n      ,[Submitter_Id]\\n      ,[Submitter_First_Name]\\n      ,[Submitter_Last_Name]\\n      ,[Florida_Blue_Response]\\n      ,[Date_Time_Submitted]\\n      ,[Agent_Id]\\n      ,[Agent_First_Name]\\n      ,[Agent_Last_Name]\\n      ,[Runner_Name]\\n      ,[Upline_First_Name]\\n      ,[Upline_Last_Name]\\n      ,[Department_Name]\\n      ,[Department_Designation]\\n      ,[Client_First_Name]\\n      ,[Client_Last_Name]\\n      ,[Client_DOB]\\n      ,[Client_Phone]\\n      ,[Client_Email]\\n      ,[Client_Address_1]\\n      ,[Client_Address_2]\\n      ,[Client_City]\\n      ,[Client_State]\\n      ,[Client_Zip]\\n      ,[Member_Count_Enrolled]\\n      ,[Assigned_Id]\\n      ,[Status]\\n      ,[App_Submitted_Date]\\n      ,[Policy_Effective_Date]\\n      ,[Agent_Login_Used]\\n      ,[Carrier]\\n      ,[FFM_Id]\\n      ,[Subscriber_Id]\\n      ,[Client_Sex]\\n      ,[Married]\\n      ,[Pregnant]\\n      ,[Smoker]\\n      ,[American_Native]\\n      ,[Client_Income]\\n      ,[Client_Income_Freq]\\n      ,[Tax_Credit_Amount]\\n      ,[Plan_Premium]\\n      ,[Payment_Amount]\\n      ,[Plan_Name]\\n      ,[Plan_ID]\\n      ,[Insurance_Company]\\n      ,[Plan_Selected]\\n      ,[DateTime_Assigned]\\n      ,[Last_Status_Change]\\n      ,[Agency_ID]\\n      ,[Record_Load_Date]\\n      ,[Record_Loaded_By]\\n      ,[Record_Data_Source]\\n      ,[Record_Flag_Status]\\n  FROM [dbo].[AIA_IMS_POLICY_HISTORY]\\n',",
+				"     format: 'query') ~> source1",
+				"source1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          E2eis_Seq_Number as string,",
+				"          Agent_Statement_Date as string,",
+				"          Agency_Name as string,",
+				"          Agent_Name as string,",
+				"          Agent_ID as string,",
+				"          Agent_Number as string,",
+				"          Agent_Commission_Note as string,",
+				"          Carrier_Name as string,",
+				"          Effective_Date as string,",
+				"          Client_Name as string,",
+				"          Policy_ID as string,",
+				"          Policy_Number as string,",
+				"          Coverage_Type as string,",
+				"          Bill_From_Date as string,",
+				"          Month_of_Bill_From_Date as string,",
+				"          Lives as string,",
+				"          Premium_Amount as string,",
+				"          Commission_Amount as string,",
+				"          Commission_Entry_Note as string,",
+				"          Revenue_Type as string,",
+				"          Balance_Forwarded as string,",
+				"          Compensation_Month as string,",
+				"          State as string,",
+				"          Agency_ID as string,",
+				"          Record_Load_Date as string,",
+				"          Record_Loaded_By as string,",
+				"          Record_Data_Source as string,",
+				"          Record_Flag_Status as string",
+				"     ),",
+				"     partitionFileNames:['AIA_IMS_POLICY_DETAILS_LAST_4_MONTHS_EXTRACTS.csv'],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
 			]
 		}
 	}
