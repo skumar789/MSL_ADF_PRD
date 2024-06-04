@@ -5,16 +5,7 @@
 			{
 				"name": "AIA_AETNA_NEW_ACTIVE_POLICY_DETAILS_copy1",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "AIA_AETNA_OLD_ACTIVE_POLICY_DETAILS",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -237,8 +228,6 @@
 			{
 				"name": "AIA_AMBETTER_ACTIVE_POLICY_DETAILS",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_AETNA_NEW_ACTIVE_POLICY_DETAILS_copy1",
@@ -589,8 +578,6 @@
 			{
 				"name": "AIA_ANTHEM_ACTIVE_POLICY_DETAILS",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_AMBETTER_ACTIVE_POLICY_DETAILS",
@@ -977,8 +964,6 @@
 			{
 				"name": "AIA_CARESOURCE_POLICY_DETAILS_ADFU",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_ANTHEM_ACTIVE_POLICY_DETAILS",
@@ -1317,8 +1302,6 @@
 			{
 				"name": "AIA_CIGNA_ACTIVE_POLICY_DETAILS",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_CARESOURCE_POLICY_DETAILS_ADFU",
@@ -1645,8 +1628,6 @@
 			{
 				"name": "AIA_MOLINA_ACTIVE_POLICY_DETAILS",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_CIGNA_ACTIVE_POLICY_DETAILS",
@@ -1985,9 +1966,20 @@
 									"type": "String"
 								}
 							}
-						]
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
 					}
 				},
+				"inputs": [
+					{
+						"referenceName": "AIA_Molina_Weekly_Feeds_UAT",
+						"type": "DatasetReference"
+					}
+				],
 				"outputs": [
 					{
 						"referenceName": "AIA_MOLINA_ACTIVE_POLICY_DETAILS_UAT",
@@ -1998,8 +1990,6 @@
 			{
 				"name": "AIA_OSCAR_POLICY_DETAILS_ADFU",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_MOLINA_ACTIVE_POLICY_DETAILS",
@@ -3873,7 +3863,14 @@
 				"type": "Copy",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "AIA_BCBSTX_POLICY_DETAILS_ADFU_copy1",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -4096,8 +4093,6 @@
 			{
 				"name": "AIA_UHC_Weekly_Feed_ADFU",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_OSCAR_POLICY_DETAILS_ADFU",
@@ -4942,7 +4937,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "AIA_UNITED_HEALTH_CARE_POLICY_DETAILS",
+						"referenceName": "AIA_UNITED_HEALTH_CARE_POLICY_DETAILS_UAT",
 						"type": "DatasetReference"
 					}
 				]
@@ -4950,8 +4945,6 @@
 			{
 				"name": "Copy data into AIA_BCBSTX_MAIN_POLICY_DETAILS",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_UHC_Weekly_Feed_ADFU",
