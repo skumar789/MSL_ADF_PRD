@@ -9,7 +9,7 @@
 				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE_copy1",
+						"activity": "DF_AIA_IMS_HIER_POLICY_DETAILS_WEEKLY_EXTRACT",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -2416,7 +2416,7 @@
 				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "AIA_IMS_POLICY_DETAILS",
+						"activity": "DF_AIA_IMS_POLICY_DETAILS_WEEKLY_EXTRACT",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -3286,6 +3286,8 @@
 			{
 				"name": "VIEW TO AIA_BOB_ALL_AGENCY_ALLLICY_ALL_TRANS_HISTORY_PO",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "VIEW TO AIA_BOB_ALL_POLICY_DETAILS_HISTORY_PRD",
@@ -5599,8 +5601,6 @@
 			{
 				"name": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE",
 				"type": "SqlServerStoredProcedure",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "DF_Weekly_Extracts_for_Agency",
@@ -5652,6 +5652,72 @@
 				"linkedServiceName": {
 					"referenceName": "SqlServer_mslprd",
 					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "DF_AIA_IMS_HIER_POLICY_DETAILS_WEEKLY_EXTRACT",
+				"type": "ExecuteDataFlow",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE_copy1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "dataflow101",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_AIA_IMS_POLICY_DETAILS_WEEKLY_EXTRACT",
+				"type": "ExecuteDataFlow",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "AIA_IMS_POLICY_DETAILS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "dataflow_AIA_Weekly_Extracts",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
 				}
 			}
 		],
