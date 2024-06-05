@@ -5,16 +5,7 @@
 			{
 				"name": "AIA_AETNA_NEW_ACTIVE_POLICY_DETAILS_copy1",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "AIA_AETNA_OLD_ACTIVE_POLICY_DETAILS",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -237,8 +228,6 @@
 			{
 				"name": "AIA_AMBETTER_ACTIVE_POLICY_DETAILS",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_AETNA_NEW_ACTIVE_POLICY_DETAILS_copy1",
@@ -589,8 +578,6 @@
 			{
 				"name": "AIA_ANTHEM_ACTIVE_POLICY_DETAILS",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_AMBETTER_ACTIVE_POLICY_DETAILS",
@@ -977,8 +964,6 @@
 			{
 				"name": "AIA_CARESOURCE_POLICY_DETAILS_ADFU",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_ANTHEM_ACTIVE_POLICY_DETAILS",
@@ -1315,8 +1300,6 @@
 			{
 				"name": "AIA_CIGNA_ACTIVE_POLICY_DETAILS",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_CARESOURCE_POLICY_DETAILS_ADFU",
@@ -1643,8 +1626,6 @@
 			{
 				"name": "AIA_MOLINA_ACTIVE_POLICY_DETAILS",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_CIGNA_ACTIVE_POLICY_DETAILS",
@@ -2067,8 +2048,6 @@
 			{
 				"name": "AIA_OSCAR_POLICY_DETAILS_ADFU",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_MOLINA_ACTIVE_POLICY_DETAILS",
@@ -4019,7 +3998,14 @@
 				"type": "Copy",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "DF_AIA_ALL_CARRIERS_STATEMENT_DETAILS",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -4242,8 +4228,6 @@
 			{
 				"name": "AIA_UHC_Weekly_Feed_",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_OSCAR_POLICY_DETAILS_ADFU",
@@ -5098,8 +5082,6 @@
 			{
 				"name": "Copy data into AIA_BCBSTX_MAIN_POLICY_DETAILS",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_UHC_Weekly_Feed_",
@@ -5482,6 +5464,72 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "DF_AIA_BOB_AGENCY_ALL_POLICY_HISTORY_WEEKLY",
+				"type": "ExecuteDataFlow",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "AIA_BCBSTX_POLICY_DETAILS_ADFU_copy1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "dataflow99",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_AIA_ALL_CARRIERS_STATEMENT_DETAILS",
+				"type": "ExecuteDataFlow",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "DF_AIA_BOB_AGENCY_ALL_POLICY_HISTORY_WEEKLY",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "AIA_ALL_CARRIERS_STATEMENT_DETAILS",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
 			}
 		],
 		"parameters": {
