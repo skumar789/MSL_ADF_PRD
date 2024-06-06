@@ -1,0 +1,71 @@
+{
+	"name": "dataflow103",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "MSL_ISSUE_TRACKER_LOGS",
+						"type": "DatasetReference"
+					},
+					"name": "dataflow103",
+					"description": "Import data from DBO.MSL_ISSUE_TRACKER_LOGS_PRD"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedText107",
+						"type": "DatasetReference"
+					},
+					"name": "sink1",
+					"description": "Export data to MSL_ISSUE_TRACKER_LOGS_WEEKLY_EXTRACTS_PRD.csv"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          CLIENT_ISSUE_ID as long,",
+				"          CLIENT_ISSUE_CODE as string,",
+				"          CLIENT_ISSUE_DESCR as string,",
+				"          CLIENT_ISSUE_BUSINESS_IMPACT as string,",
+				"          CLIENT_ISSUE_PRIORITY as string,",
+				"          CLIENT_ISSUE_ESCLATION_REQ as boolean,",
+				"          CLIENT_ISSUE_STATUS as integer,",
+				"          CLIENT_ISSUE_COMMENTS as string,",
+				"          CLIENT_ISSUE_APPROX_RESOLUTION_DATE as timestamp,",
+				"          CLIENT_ISSUE_LOG_DATE as timestamp,",
+				"          CLIENT_ISSUE_CREATED_BY as integer,",
+				"          CLIENT_ISSUE_RESOLUTION_BY as integer,",
+				"          CLIENT_ISSUE_RESOLUTION_DATE as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: ' select *  FROM [dbo].[MSL_ISSUE_TRACKER_LOGS] where CAST([CLIENT_ISSUE_LOG_DATE] AS DATE)>=\\'2024-01-01\\'',",
+				"     format: 'query') ~> dataflow103",
+				"dataflow103 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          CLIENT_ISSUE_ID as string,",
+				"          CLIENT_ISSUE_CODE as string,",
+				"          CLIENT_ISSUE_DESCR as string,",
+				"          CLIENT_ISSUE_BUSINESS_IMPACT as string,",
+				"          CLIENT_ISSUE_PRIORITY as string,",
+				"          CLIENT_ISSUE_ESCLATION_REQ as string,",
+				"          CLIENT_ISSUE_STATUS as string,",
+				"          CLIENT_ISSUE_COMMENTS as string,",
+				"          CLIENT_ISSUE_APPROX_RESOLUTION_DATE as string,",
+				"          CLIENT_ISSUE_LOG_DATE as string,",
+				"          CLIENT_ISSUE_CREATED_BY as string,",
+				"          CLIENT_ISSUE_RESOLUTION_BY as string,",
+				"          CLIENT_ISSUE_RESOLUTION_DATE as string",
+				"     ),",
+				"     partitionFileNames:['MSL_ISSUE_TRACKER_LOGS_WEEKLY_EXTRACTS.csv'],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
+			]
+		}
+	}
+}
