@@ -1,5 +1,5 @@
 {
-	"name": "ABI_COMISSION_CALCULATION_UAT",
+	"name": "ABI_COMMISSION_CALCULATION_UAT",
 	"properties": {
 		"activities": [
 			{
@@ -2700,7 +2700,7 @@
 				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "DF_Monthly_Extracts_for_ABI_Agency1",
+						"activity": "DF_Monthly_Extracts_for_ABI_Agency2",
 						"dependencyConditions": [
 							"Failed"
 						]
@@ -2971,6 +2971,39 @@
 				"linkedServiceName": {
 					"referenceName": "SqlServer_msluat",
 					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "DF_Monthly_Extracts_for_ABI_Agency2",
+				"type": "ExecuteDataFlow",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Failed",
+				"dependsOn": [
+					{
+						"activity": "DF_Monthly_Extracts_for_ABI_Agency1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_Monthly_Extracts_for_ABI_Agency2",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
 				}
 			}
 		],
