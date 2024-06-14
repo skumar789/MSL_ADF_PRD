@@ -7432,7 +7432,14 @@
 			{
 				"name": "Copy data into AIA_AGENCY_EMP_HER_DETAILS",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "EVERY_WEEK_DAY2_UPDATES",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -8644,14 +8651,7 @@
 				"type": "Copy",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "EVERY_WEEK_DAY2_UPDATES",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -10582,7 +10582,7 @@
 				"type": "SqlServerStoredProcedure",
 				"dependsOn": [
 					{
-						"activity": "EVERY_WEEK_DAY2_INSERTS",
+						"activity": "Copy data into BOB_ALL_AGENCY_ALL_HISTORY",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -10634,11 +10634,9 @@
 			{
 				"name": "EVERY_WEEK_DAY2_UPDATES",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "Copy data into BOB_ALL_AGENCY_ALL_HISTORY",
+						"activity": "EVERY_WEEK_DAY2_INSERTS",
 						"dependencyConditions": [
 							"Succeeded"
 						]
