@@ -1661,7 +1661,7 @@
 				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "EVERY_WEEK_DAY2_BUSINESS_TEAM",
+						"activity": "EVERY_WEEK_DAY2_INSERTS",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -1831,6 +1831,8 @@
 			{
 				"name": "VIEW TO AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANS_HISTORY",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "VIEW TO AIA_BOB_ALL_POLICY_DETAILS_HISTORY_UAT",
@@ -3479,11 +3481,18 @@
 				]
 			},
 			{
-				"name": "EVERY_WEEK_DAY2_BUSINESS_TEAM",
+				"name": "EVERY_WEEK_DAY2_INSERTS",
 				"type": "Copy",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "EVERY_WEEK_DAY2_UPDATES",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -4042,14 +4051,7 @@
 			{
 				"name": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE",
 				"type": "SqlServerStoredProcedure",
-				"dependsOn": [
-					{
-						"activity": "EVERY_WEEK_DAY2_UPDATES",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -4164,16 +4166,7 @@
 			{
 				"name": "EVERY_WEEK_DAY2_UPDATES",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "VIEW TO AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANS_HISTORY",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -4662,7 +4655,7 @@
 							},
 							{
 								"source": {
-									"name": "HS_Aligned",
+									"name": "Payee_Name",
 									"type": "String",
 									"physicalType": "String"
 								},
@@ -4740,8 +4733,8 @@
 								},
 								"sink": {
 									"name": "Record_Load_Date",
-									"type": "DateTime",
-									"physicalType": "date"
+									"type": "String",
+									"physicalType": "char"
 								}
 							},
 							{
