@@ -1,0 +1,71 @@
+{
+	"name": "AIAWeeklyPolicyStatusSummary",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY_PRD",
+						"type": "DatasetReference"
+					},
+					"name": "source1",
+					"description": "Import data from DBO.AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY_PRD"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedText108",
+						"type": "DatasetReference"
+					},
+					"name": "sink1",
+					"description": "GENERATING FILE AIA_Weekly_Policy_Status_Summary_Extracts.csv"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(allowSchemaDrift: false,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT \\n  carrier, Policy_Status, count(*) Total_Records\\n      FROM [dbo].[AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY]\\n  where  [Record_Load_Date] IN( select max([Record_Load_Date]) FROM \\n [dbo].[AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY]) group by carrier,Policy_Status\\n  order by carrier desc ;',",
+				"     format: 'query') ~> source1",
+				"source1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          E2eis_Seq_Number as string,",
+				"          Agent_Statement_Date as string,",
+				"          Agency_Name as string,",
+				"          Agent_Name as string,",
+				"          Agent_ID as string,",
+				"          Agent_Number as string,",
+				"          Agent_Commission_Note as string,",
+				"          Carrier_Name as string,",
+				"          Effective_Date as string,",
+				"          Client_Name as string,",
+				"          Policy_ID as string,",
+				"          Policy_Number as string,",
+				"          Coverage_Type as string,",
+				"          Bill_From_Date as string,",
+				"          Month_of_Bill_From_Date as string,",
+				"          Lives as string,",
+				"          Premium_Amount as string,",
+				"          Commission_Amount as string,",
+				"          Commission_Entry_Note as string,",
+				"          Revenue_Type as string,",
+				"          Balance_Forwarded as string,",
+				"          Compensation_Month as string,",
+				"          State as string,",
+				"          Agency_ID as string,",
+				"          Record_Load_Date as string,",
+				"          Record_Loaded_By as string,",
+				"          Record_Data_Source as string,",
+				"          Record_Flag_Status as string",
+				"     ),",
+				"     partitionFileNames:['AIA_Weekly_Policy_Status_Summary_Extracts.csv'],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
+			]
+		}
+	}
+}

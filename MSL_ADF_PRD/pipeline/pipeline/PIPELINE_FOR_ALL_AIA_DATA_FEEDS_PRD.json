@@ -4280,7 +4280,7 @@
 				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "DF_AIA_ALL_CARRIERS_STATEMENT_DETAILS",
+						"activity": "Data flow2",
 						"dependencyConditions": [
 							"Failed"
 						]
@@ -5786,7 +5786,7 @@
 				"name": "DF_AIA_ALL_CARRIERS_STATEMENT_DETAILS",
 				"type": "ExecuteDataFlow",
 				"state": "Inactive",
-				"onInactiveMarkAs": "Failed",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "DF_AIA_BOB_AGENCY_ALL_POLICY_HISTORY_WEEKLY",
@@ -6979,6 +6979,64 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "AIA_Weekly_Policy_Status_Summary",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DF_AIA_ALL_CARRIERS_STATEMENT_DETAILS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "AIAWeeklyPolicyStatusSummary",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "Data flow2",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "AIA_Weekly_Policy_Status_Summary",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
 			}
 		],
 		"parameters": {
