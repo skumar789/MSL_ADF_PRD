@@ -4280,9 +4280,9 @@
 				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "DF_AIA_Weekly_All_Policy_Status_Summary",
+						"activity": "Data flow1",
 						"dependencyConditions": [
-							"Failed"
+							"Succeeded"
 						]
 					}
 				],
@@ -6190,6 +6190,8 @@
 			{
 				"name": "AIA_COMMISSION_STATEMENT_HISTORY_LOAD",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_BCBSTX_POLICY_DETAILS_ADFU_copy1",
@@ -6983,14 +6985,7 @@
 				"type": "ExecuteDataFlow",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Failed",
-				"dependsOn": [
-					{
-						"activity": "DF_AIA_Weekly_Policy_Status_Summary",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -7037,6 +7032,33 @@
 						"referenceName": "AIA_Weekly_Policy_Status_Summary",
 						"type": "DataFlowReference"
 					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "Data flow1",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DF_AIA_Weekly_All_Policy_Status_Summary",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
 					"compute": {
 						"coreCount": 8,
 						"computeType": "General"
