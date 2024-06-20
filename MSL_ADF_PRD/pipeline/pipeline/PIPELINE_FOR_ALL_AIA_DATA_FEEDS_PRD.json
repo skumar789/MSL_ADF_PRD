@@ -4280,9 +4280,9 @@
 				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "Data flow1",
+						"activity": "DF_AIA_Commission_Payment_Weekly",
 						"dependencyConditions": [
-							"Succeeded"
+							"Failed"
 						]
 					}
 				],
@@ -6985,7 +6985,14 @@
 				"type": "ExecuteDataFlow",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Failed",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "DF_AIA_Weekly_Policy_Status_Summary",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -7040,7 +7047,7 @@
 				}
 			},
 			{
-				"name": "Data flow1",
+				"name": "DF_AIA_Commission_Payment_Weekly",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [
 					{
@@ -7059,6 +7066,10 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
+					"dataflow": {
+						"referenceName": "AIACommissionPaymentWeekly",
+						"type": "DataFlowReference"
+					},
 					"compute": {
 						"coreCount": 8,
 						"computeType": "General"
