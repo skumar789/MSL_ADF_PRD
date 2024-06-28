@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "DF_AIA_IMS_POLICY_DETAILS_WEEKLY_EXTRACT",
+				"name": "MSL_ISSUE_TRACKER_LOGS",
 				"type": "ExecuteDataFlow",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Succeeded",
@@ -25,40 +25,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "dataflow_AIA_Weekly_Extracts",
-						"type": "DataFlowReference"
-					},
-					"compute": {
-						"coreCount": 8,
-						"computeType": "General"
-					},
-					"traceLevel": "Fine"
-				}
-			},
-			{
-				"name": "DF_AIA_ALL_CARRIERS_STATEMENT_DETAILS",
-				"type": "ExecuteDataFlow",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "DF_AIA_IMS_POLICY_DETAILS_WEEKLY_EXTRACT",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"dataflow": {
-						"referenceName": "AIA_ALL_CARRIERS_STATEMENT_DETAILS",
+						"referenceName": "dataflow103",
 						"type": "DataFlowReference"
 					},
 					"compute": {
@@ -75,7 +42,7 @@
 				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "DF_AIA_IMS_HIER_POLICY_DETAILS_WEEKLY_EXTRACT",
+						"activity": "DF_AIA_ALL_CARRIERS_STATEMENT_DETAILS",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -102,11 +69,146 @@
 				}
 			},
 			{
-				"name": "DF_AIA_IMS_HIER_POLICY_DETAILS_WEEKLY_EXTRACT",
+				"name": "DF_AIA_ALL_CARRIERS_STATEMENT_DETAILS",
+				"type": "ExecuteDataFlow",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "DF_AIA_IMS_HIER_POLICY_DETAILS_WEEKLY_EXTRACT",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "AIA_ALL_CARRIERS_STATEMENT_DETAILS",
+						"type": "DataFlowReference",
+						"parameters": {
+							"parameter1": "Record_Load_Date"
+						}
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_AIA_Weekly_Policy_Status_Summary",
+				"type": "ExecuteDataFlow",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "DF_AIA_Weekly_All_Policy_Status_Summary",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "AIA_Weekly_Policy_Status_Summary",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_AIA_Weekly_All_Policy_Status_Summary",
+				"type": "ExecuteDataFlow",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "DF_AIA_Commission_Payment_Weekly",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "AIA_Weekly_All_Policy_Status_Summary",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_AIA_Commission_Payment_Weekly",
 				"type": "ExecuteDataFlow",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "AIACommissionPaymentWeekly",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_AIA_IMS_HIER_POLICY_DETAILS_WEEKLY_EXTRACT",
+				"type": "ExecuteDataFlow",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "DF_AIA_IMS_POLICY_DETAILS_WEEKLY_EXTRACT",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -128,13 +230,13 @@
 				}
 			},
 			{
-				"name": "MSL_ISSUE_TRACKER_LOGS",
+				"name": "DF_AIA_IMS_POLICY_DETAILS_WEEKLY_EXTRACT",
 				"type": "ExecuteDataFlow",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "DF_AIA_ALL_CARRIERS_STATEMENT_DETAILS",
+						"activity": "DF_AIA_Weekly_Policy_Status_Summary",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -150,7 +252,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "dataflow103",
+						"referenceName": "dataflow_AIA_Weekly_Extracts",
 						"type": "DataFlowReference"
 					},
 					"compute": {
