@@ -3246,7 +3246,7 @@
 				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "Copy data into AIA_ALL_CARRIERS_STATEMENT_DETAILS",
+						"activity": "AIA_COMMISSION_PRIVIOUS_DATA_FILTURE_PRD",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -4889,6 +4889,49 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "AIA_COMMISSION_PRIVIOUS_DATA_FILTURE_PRD",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "Copy data into AIA_ALL_CARRIERS_STATEMENT_DETAILS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": " exec [dbo].[AIA_Commission_Calculation] '04','2024';",
+					"storedProcedureParameters": {
+						"Month": {
+							"value": {
+								"value": "@04",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Year": {
+							"value": {
+								"value": "@2024",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msldev",
+					"type": "LinkedServiceReference"
+				}
 			}
 		],
 		"annotations": [],
