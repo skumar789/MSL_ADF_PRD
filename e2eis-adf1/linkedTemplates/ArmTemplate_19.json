@@ -1,0 +1,2372 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "e2eis-adf1"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_NEWSALE_RENEWAL_ASSIGNMENT_FY2023_PRD_BCP')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_mslbcpprd",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "AIA_NEWSALE_RENEWAL_ASSIGNMENT_FY2023"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_NEWSALE_RENEWAL_ASSIGNMENT_FY2023_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msluat",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2eis_Seq_Number",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "Coverage_Indicator",
+						"type": "nvarchar"
+					},
+					{
+						"name": "IMS_ID_Assignment",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Policy_Number",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Eff_Date",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Bill_From_Date",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Renewal_Period",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Comp_Type",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Statement_Date",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Agency_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Record_Load_Date",
+						"type": "date"
+					},
+					{
+						"name": "Record_Loaded_By",
+						"type": "char"
+					},
+					{
+						"name": "Record_Data_Source",
+						"type": "char"
+					},
+					{
+						"name": "Record_Flag_Status",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "AIA_NEWSALE_RENEWAL_ASSIGNMENT_FY2023"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_NewSale_Renewal_Assignment_Onetime_Feed')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_Connections_AIA_Feed",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_NewSale_Renewal_Assignment_Onetime_Feed_DEV.csv",
+						"folderPath": "/MSL_Cloud_Dev/FromAgency/AIA"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Coverage_Indicator",
+						"type": "String"
+					},
+					{
+						"name": "IMS_ID_Assignment",
+						"type": "String"
+					},
+					{
+						"name": "Policy_Number",
+						"type": "String"
+					},
+					{
+						"name": "Eff_Date",
+						"type": "String"
+					},
+					{
+						"name": "Bill_From_Date",
+						"type": "String"
+					},
+					{
+						"name": "Renewal_Period",
+						"type": "String"
+					},
+					{
+						"name": "Comp_Type",
+						"type": "String"
+					},
+					{
+						"name": "Statement_Date",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_NewSale_Renewal_Assignment_Onetime_Feed_PRD_BCP')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_Connections_AIA_Feed",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_NewSale_Renewal_Assignment_Onetime_Feed_PRD_BCP.csv",
+						"folderPath": "/MSL_Cloud_PRD_BCP/FromAgency/AIA"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Coverage_Indicator",
+						"type": "String"
+					},
+					{
+						"name": "IMS_ID_Assignment",
+						"type": "String"
+					},
+					{
+						"name": "Policy_Number",
+						"type": "String"
+					},
+					{
+						"name": "Eff_Date",
+						"type": "String"
+					},
+					{
+						"name": "Bill_From_Date",
+						"type": "String"
+					},
+					{
+						"name": "Renewal_Period",
+						"type": "String"
+					},
+					{
+						"name": "Comp_Type",
+						"type": "String"
+					},
+					{
+						"name": "Statement_Date",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_NewSale_Renewal_Assignment_Onetime_Feed_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_Connections_AIA_Feed",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_NewSale_Renewal_Assignment_Onetime_Feed_PRD_BCP.csv",
+						"folderPath": "/MSL_Cloud_PRD_BCP/FromAgency/AIA"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Coverage_Indicator",
+						"type": "String"
+					},
+					{
+						"name": "IMS_ID_Assignment",
+						"type": "String"
+					},
+					{
+						"name": "Policy_Number",
+						"type": "String"
+					},
+					{
+						"name": "Eff_Date",
+						"type": "String"
+					},
+					{
+						"name": "Bill_From_Date",
+						"type": "String"
+					},
+					{
+						"name": "Renewal_Period",
+						"type": "String"
+					},
+					{
+						"name": "Comp_Type",
+						"type": "String"
+					},
+					{
+						"name": "Statement_Date",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_OSCAR_Monthly_Feed')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_Connections_AIA_Feed",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_Oscar_Weekly_Feed_ADF.csv",
+						"folderPath": "/MSL_Cloud_Dev/FromAgency/AIA"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Agent Statement Date",
+						"type": "String"
+					},
+					{
+						"name": "Agency Name",
+						"type": "String"
+					},
+					{
+						"name": "Agent Name",
+						"type": "String"
+					},
+					{
+						"name": "Agent ID",
+						"type": "String"
+					},
+					{
+						"name": "Agent Number",
+						"type": "String"
+					},
+					{
+						"name": "Agent Commission Note",
+						"type": "String"
+					},
+					{
+						"name": "Carrier Name",
+						"type": "String"
+					},
+					{
+						"name": "Eff Date",
+						"type": "String"
+					},
+					{
+						"name": "Client Name",
+						"type": "String"
+					},
+					{
+						"name": "Policy ID",
+						"type": "String"
+					},
+					{
+						"name": "Policy Number",
+						"type": "String"
+					},
+					{
+						"name": "Coverage Type",
+						"type": "String"
+					},
+					{
+						"name": "Bill From Date",
+						"type": "String"
+					},
+					{
+						"name": "Month of Bill From Date",
+						"type": "String"
+					},
+					{
+						"name": "Lives",
+						"type": "String"
+					},
+					{
+						"name": "Premium",
+						"type": "String"
+					},
+					{
+						"name": "Commission",
+						"type": "String"
+					},
+					{
+						"name": "Commission Entry Note",
+						"type": "String"
+					},
+					{
+						"name": "Revenue Type",
+						"type": "String"
+					},
+					{
+						"name": "Balance Forwarded",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_OSCAR_Monthly_Feed_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_Connections_AIA_Feed",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_Oscar_Weekly_Feed_UAT.csv",
+						"folderPath": "/MSL_Cloud_Uat/FromAgency/AIA"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Member_Id",
+						"type": "String"
+					},
+					{
+						"name": "Member_Name",
+						"type": "String"
+					},
+					{
+						"name": "DoB",
+						"type": "String"
+					},
+					{
+						"name": "Account_Creation_Status",
+						"type": "String"
+					},
+					{
+						"name": "Email",
+						"type": "String"
+					},
+					{
+						"name": "Phone_Number",
+						"type": "String"
+					},
+					{
+						"name": "Mailing_Address",
+						"type": "String"
+					},
+					{
+						"name": "State",
+						"type": "String"
+					},
+					{
+						"name": "On_Exchange",
+						"type": "String"
+					},
+					{
+						"name": "Plan",
+						"type": "String"
+					},
+					{
+						"name": "Premium_Amount",
+						"type": "String"
+					},
+					{
+						"name": "APT_ Subsidy",
+						"type": "String"
+					},
+					{
+						"name": "Lives",
+						"type": "String"
+					},
+					{
+						"name": "Coverage_start_date",
+						"type": "String"
+					},
+					{
+						"name": "Coverage_end_date",
+						"type": "String"
+					},
+					{
+						"name": "Policy_status",
+						"type": "String"
+					},
+					{
+						"name": "Renewal_plan",
+						"type": "String"
+					},
+					{
+						"name": "Renewal_premium_amount",
+						"type": "String"
+					},
+					{
+						"name": "Renewal_APTC_subsidy",
+						"type": "String"
+					},
+					{
+						"name": "Renewal_date",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_OSCAR_POLICY_DETAILS_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msldev",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2eis_Seq_Number",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "Agent_Statment_Date",
+						"type": "date"
+					},
+					{
+						"name": "Agency_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Number",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Commission_Note",
+						"type": "varchar"
+					},
+					{
+						"name": "Carrier_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Eff_Date",
+						"type": "date"
+					},
+					{
+						"name": "Client_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Policy_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "Policy_Number",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Coverage_Type",
+						"type": "varchar"
+					},
+					{
+						"name": "Bill_From_Date",
+						"type": "date"
+					},
+					{
+						"name": "Month_of_Bill_From_Date_",
+						"type": "char"
+					},
+					{
+						"name": "live",
+						"type": "char"
+					},
+					{
+						"name": "Premium",
+						"type": "char"
+					},
+					{
+						"name": "Commission",
+						"type": "char"
+					},
+					{
+						"name": "Commission_Entry_Note",
+						"type": "char"
+					},
+					{
+						"name": "Revenue_Type",
+						"type": "char"
+					},
+					{
+						"name": "Balance_Forwarded",
+						"type": "char"
+					},
+					{
+						"name": "Agency_ID",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "Record_Load_Date",
+						"type": "date"
+					},
+					{
+						"name": "Record_Loaded_By",
+						"type": "char"
+					},
+					{
+						"name": "Record_Data_Source",
+						"type": "char"
+					},
+					{
+						"name": "Record_Flag_Status",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "AIA_OSCAR_POLICY_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_OSCAR_POLICY_DETAILS_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_mslprd",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2eis_Seq_Number",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "Member_Id",
+						"type": "varchar"
+					},
+					{
+						"name": "Member_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "DoB",
+						"type": "varchar"
+					},
+					{
+						"name": "Account_Creation_Status",
+						"type": "varchar"
+					},
+					{
+						"name": "Email",
+						"type": "varchar"
+					},
+					{
+						"name": "Phone_Number",
+						"type": "varchar"
+					},
+					{
+						"name": "Mailing_Address",
+						"type": "varchar"
+					},
+					{
+						"name": "State",
+						"type": "varchar"
+					},
+					{
+						"name": "On_Exchange",
+						"type": "varchar"
+					},
+					{
+						"name": "Plan",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Premium_Amount",
+						"type": "varchar"
+					},
+					{
+						"name": "APT_Subsidy",
+						"type": "varchar"
+					},
+					{
+						"name": "Lives",
+						"type": "char"
+					},
+					{
+						"name": "Coverage_start_date",
+						"type": "varchar"
+					},
+					{
+						"name": "Coverage_end_date",
+						"type": "varchar"
+					},
+					{
+						"name": "Policy_status",
+						"type": "varchar"
+					},
+					{
+						"name": "Renewal_plan",
+						"type": "char"
+					},
+					{
+						"name": "Renewal_premium_amount",
+						"type": "char"
+					},
+					{
+						"name": "Renewal_APTC_subsidy",
+						"type": "char"
+					},
+					{
+						"name": "Renewal_date",
+						"type": "char"
+					},
+					{
+						"name": "Agency_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Record_Load_Date",
+						"type": "date"
+					},
+					{
+						"name": "Record_Loaded_By",
+						"type": "char"
+					},
+					{
+						"name": "Record_Data_Source",
+						"type": "char"
+					},
+					{
+						"name": "Record_Flag_Status",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "AIA_OSCAR_POLICY_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_OSCAR_POLICY_DETAILS_PRD_BCP')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_mslbcpprd",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2eis_Seq_Number",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "Member_Id",
+						"type": "varchar"
+					},
+					{
+						"name": "Member_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "DoB",
+						"type": "varchar"
+					},
+					{
+						"name": "Account_Creation_Status",
+						"type": "varchar"
+					},
+					{
+						"name": "Email",
+						"type": "varchar"
+					},
+					{
+						"name": "Phone_Number",
+						"type": "varchar"
+					},
+					{
+						"name": "Mailing_Address",
+						"type": "varchar"
+					},
+					{
+						"name": "State",
+						"type": "varchar"
+					},
+					{
+						"name": "On_Exchange",
+						"type": "varchar"
+					},
+					{
+						"name": "Plan",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Premium_Amount",
+						"type": "varchar"
+					},
+					{
+						"name": "APT_Subsidy",
+						"type": "varchar"
+					},
+					{
+						"name": "Lives",
+						"type": "char"
+					},
+					{
+						"name": "Coverage_start_date",
+						"type": "varchar"
+					},
+					{
+						"name": "Coverage_end_date",
+						"type": "varchar"
+					},
+					{
+						"name": "Policy_status",
+						"type": "varchar"
+					},
+					{
+						"name": "Renewal_plan",
+						"type": "char"
+					},
+					{
+						"name": "Renewal_premium_amount",
+						"type": "char"
+					},
+					{
+						"name": "Renewal_APTC_subsidy",
+						"type": "char"
+					},
+					{
+						"name": "Renewal_date",
+						"type": "char"
+					},
+					{
+						"name": "Agency_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Record_Load_Date",
+						"type": "date"
+					},
+					{
+						"name": "Record_Loaded_By",
+						"type": "char"
+					},
+					{
+						"name": "Record_Data_Source",
+						"type": "char"
+					},
+					{
+						"name": "Record_Flag_Status",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "AIA_OSCAR_POLICY_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_OSCAR_POLICY_DETAILS_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msluat",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2eis_Seq_Number",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "Member_Id",
+						"type": "varchar"
+					},
+					{
+						"name": "Member_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "DoB",
+						"type": "varchar"
+					},
+					{
+						"name": "Account_Creation_Status",
+						"type": "varchar"
+					},
+					{
+						"name": "Email",
+						"type": "varchar"
+					},
+					{
+						"name": "Phone_Number",
+						"type": "varchar"
+					},
+					{
+						"name": "Mailing_Address",
+						"type": "varchar"
+					},
+					{
+						"name": "State",
+						"type": "varchar"
+					},
+					{
+						"name": "On_Exchange",
+						"type": "varchar"
+					},
+					{
+						"name": "Plan",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Premium_Amount",
+						"type": "varchar"
+					},
+					{
+						"name": "APT_Subsidy",
+						"type": "varchar"
+					},
+					{
+						"name": "Lives",
+						"type": "char"
+					},
+					{
+						"name": "Coverage_start_date",
+						"type": "varchar"
+					},
+					{
+						"name": "Coverage_end_date",
+						"type": "varchar"
+					},
+					{
+						"name": "Policy_status",
+						"type": "varchar"
+					},
+					{
+						"name": "Renewal_plan",
+						"type": "char"
+					},
+					{
+						"name": "Renewal_premium_amount",
+						"type": "char"
+					},
+					{
+						"name": "Renewal_APTC_subsidy",
+						"type": "char"
+					},
+					{
+						"name": "Renewal_date",
+						"type": "char"
+					},
+					{
+						"name": "Agency_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Record_Load_Date",
+						"type": "date"
+					},
+					{
+						"name": "Record_Loaded_By",
+						"type": "char"
+					},
+					{
+						"name": "Record_Data_Source",
+						"type": "char"
+					},
+					{
+						"name": "Record_Flag_Status",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "AIA_OSCAR_POLICY_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_Oscar_Weekly_Feed_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_Connections_AIA_Feed",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_Oscar_Weekly_Feed_DEV.csv",
+						"folderPath": "/MSL_Cloud_Dev/FromAgency/AIA"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Member_Id",
+						"type": "String"
+					},
+					{
+						"name": "Member_Name",
+						"type": "String"
+					},
+					{
+						"name": "DoB",
+						"type": "String"
+					},
+					{
+						"name": "Account_Creation_Status",
+						"type": "String"
+					},
+					{
+						"name": "Email",
+						"type": "String"
+					},
+					{
+						"name": "Phone_Number",
+						"type": "String"
+					},
+					{
+						"name": "Mailing_Address",
+						"type": "String"
+					},
+					{
+						"name": "State",
+						"type": "String"
+					},
+					{
+						"name": "On_Exchange",
+						"type": "String"
+					},
+					{
+						"name": "Plan",
+						"type": "String"
+					},
+					{
+						"name": "Premium_Amount",
+						"type": "String"
+					},
+					{
+						"name": "APT_ Subsidy",
+						"type": "String"
+					},
+					{
+						"name": "Lives",
+						"type": "String"
+					},
+					{
+						"name": "Coverage_start_date",
+						"type": "String"
+					},
+					{
+						"name": "Coverage_end_date",
+						"type": "String"
+					},
+					{
+						"name": "Policy_status",
+						"type": "String"
+					},
+					{
+						"name": "Renewal_plan",
+						"type": "String"
+					},
+					{
+						"name": "Renewal_premium_amount",
+						"type": "String"
+					},
+					{
+						"name": "Renewal_APTC_subsidy",
+						"type": "String"
+					},
+					{
+						"name": "Renewal_date",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_Oscar_Weekly_Feed_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_Connections_AIA_Feed",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_Oscar_Weekly_Feed_PRD.csv",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/AIA"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Member_Id",
+						"type": "String"
+					},
+					{
+						"name": "Member_Name",
+						"type": "String"
+					},
+					{
+						"name": "DoB",
+						"type": "String"
+					},
+					{
+						"name": "Account_Creation_Status",
+						"type": "String"
+					},
+					{
+						"name": "Email",
+						"type": "String"
+					},
+					{
+						"name": "Phone_Number",
+						"type": "String"
+					},
+					{
+						"name": "Mailing_Address",
+						"type": "String"
+					},
+					{
+						"name": "State",
+						"type": "String"
+					},
+					{
+						"name": "On_Exchange",
+						"type": "String"
+					},
+					{
+						"name": "Plan",
+						"type": "String"
+					},
+					{
+						"name": "Premium_Amount",
+						"type": "String"
+					},
+					{
+						"name": "APT_ Subsidy",
+						"type": "String"
+					},
+					{
+						"name": "Lives",
+						"type": "String"
+					},
+					{
+						"name": "Coverage_start_date",
+						"type": "String"
+					},
+					{
+						"name": "Coverage_end_date",
+						"type": "String"
+					},
+					{
+						"name": "Policy_status",
+						"type": "String"
+					},
+					{
+						"name": "Renewal_plan",
+						"type": "String"
+					},
+					{
+						"name": "Renewal_premium_amount",
+						"type": "String"
+					},
+					{
+						"name": "Renewal_APTC_subsidy",
+						"type": "String"
+					},
+					{
+						"name": "Renewal_date",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_Oscar_Weekly_Feed_PRD_BCP')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_Connections_AIA_Feed",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_Oscar_Weekly_Feed_PRD_BCP.csv",
+						"folderPath": "/MSL_Cloud_PRD_BCP/FromAgency/AIA"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Member_Id",
+						"type": "String"
+					},
+					{
+						"name": "Member_Name",
+						"type": "String"
+					},
+					{
+						"name": "DoB",
+						"type": "String"
+					},
+					{
+						"name": "Account_Creation_Status",
+						"type": "String"
+					},
+					{
+						"name": "Email",
+						"type": "String"
+					},
+					{
+						"name": "Phone_Number",
+						"type": "String"
+					},
+					{
+						"name": "Mailing_Address",
+						"type": "String"
+					},
+					{
+						"name": "State",
+						"type": "String"
+					},
+					{
+						"name": "On_Exchange",
+						"type": "String"
+					},
+					{
+						"name": "Plan",
+						"type": "String"
+					},
+					{
+						"name": "Premium_Amount",
+						"type": "String"
+					},
+					{
+						"name": "APT_ Subsidy",
+						"type": "String"
+					},
+					{
+						"name": "Lives",
+						"type": "String"
+					},
+					{
+						"name": "Coverage_start_date",
+						"type": "String"
+					},
+					{
+						"name": "Coverage_end_date",
+						"type": "String"
+					},
+					{
+						"name": "Policy_status",
+						"type": "String"
+					},
+					{
+						"name": "Renewal_plan",
+						"type": "String"
+					},
+					{
+						"name": "Renewal_premium_amount",
+						"type": "String"
+					},
+					{
+						"name": "Renewal_APTC_subsidy",
+						"type": "String"
+					},
+					{
+						"name": "Renewal_date",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_UHC_Monthly_Feeds')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_Connections_AIA_Feed",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_UHC_Weekly_Feed_ADF.csv",
+						"folderPath": "/MSL_Cloud_Dev/FromAgency/AIA"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Agent_Statement_Date",
+						"type": "String"
+					},
+					{
+						"name": "Agency_Name",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Name",
+						"type": "String"
+					},
+					{
+						"name": "Agent_ID",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Number",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Commission_Note",
+						"type": "String"
+					},
+					{
+						"name": "Carrier_Name",
+						"type": "String"
+					},
+					{
+						"name": "Eff_Date",
+						"type": "String"
+					},
+					{
+						"name": "Client_Name",
+						"type": "String"
+					},
+					{
+						"name": "Policy_ID",
+						"type": "String"
+					},
+					{
+						"name": "Policy_Number",
+						"type": "String"
+					},
+					{
+						"name": "Coverage_Type",
+						"type": "String"
+					},
+					{
+						"name": "Bill_From_Date",
+						"type": "String"
+					},
+					{
+						"name": "Month_of_Bill_From_Date",
+						"type": "String"
+					},
+					{
+						"name": "Lives",
+						"type": "String"
+					},
+					{
+						"name": "Premium",
+						"type": "String"
+					},
+					{
+						"name": "Commission",
+						"type": "String"
+					},
+					{
+						"name": "Commission_Entry_Note",
+						"type": "String"
+					},
+					{
+						"name": "Revenue_Type",
+						"type": "String"
+					},
+					{
+						"name": "Balance_Forwarded",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_UHC_Monthly_Feeds_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_Connections_AIA_Feed",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_UHC_Monthly_Feed_ADFU.csv",
+						"folderPath": "/MSL_Cloud_Uat/FromAgency/AIA"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Agent_Statement_Date",
+						"type": "String"
+					},
+					{
+						"name": "Agency_Name",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Name",
+						"type": "String"
+					},
+					{
+						"name": "Agent_ID",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Number",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Commission_Note",
+						"type": "String"
+					},
+					{
+						"name": "Carrier_Name",
+						"type": "String"
+					},
+					{
+						"name": "Eff_Date",
+						"type": "String"
+					},
+					{
+						"name": "Client_Name",
+						"type": "String"
+					},
+					{
+						"name": "Policy_ID",
+						"type": "String"
+					},
+					{
+						"name": "Policy_Number",
+						"type": "String"
+					},
+					{
+						"name": "Coverage_Type",
+						"type": "String"
+					},
+					{
+						"name": "Bill_From_Date",
+						"type": "String"
+					},
+					{
+						"name": "Month_of_Bill_From_Date",
+						"type": "String"
+					},
+					{
+						"name": "Lives",
+						"type": "String"
+					},
+					{
+						"name": "Premium",
+						"type": "String"
+					},
+					{
+						"name": "Commission",
+						"type": "String"
+					},
+					{
+						"name": "Commission_Entry_Note",
+						"type": "String"
+					},
+					{
+						"name": "Revenue_Type",
+						"type": "String"
+					},
+					{
+						"name": "Balance_Forwarded",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_UHC_POLICY_DETAILS_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msldev",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2eis_Seq_Number",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "Agent_Statment_Date",
+						"type": "date"
+					},
+					{
+						"name": "Agency_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Number",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Commission_Note",
+						"type": "varchar"
+					},
+					{
+						"name": "Carrier_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Eff_Date",
+						"type": "date"
+					},
+					{
+						"name": "Client_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Policy_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "Policy_Number",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Coverage_Type",
+						"type": "varchar"
+					},
+					{
+						"name": "Bill_From_Date",
+						"type": "date"
+					},
+					{
+						"name": "Month_of_Bill_From_Date_",
+						"type": "char"
+					},
+					{
+						"name": "live",
+						"type": "char"
+					},
+					{
+						"name": "Premium",
+						"type": "char"
+					},
+					{
+						"name": "Commission",
+						"type": "char"
+					},
+					{
+						"name": "Commission_Entry_Note",
+						"type": "char"
+					},
+					{
+						"name": "Revenue_Type",
+						"type": "char"
+					},
+					{
+						"name": "Balance_Forwarded",
+						"type": "char"
+					},
+					{
+						"name": "Agency_ID",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "Record_Load_Date",
+						"type": "date"
+					},
+					{
+						"name": "Record_Loaded_By",
+						"type": "char"
+					},
+					{
+						"name": "Record_Data_Source",
+						"type": "char"
+					},
+					{
+						"name": "Record_Flag_Status",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "AIA_UNITED_HEALTH_CARE_POLICY_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_UHC_POLICY_DETAILS_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msluat",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2eis_Seq_Number",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "Agent_Statement_Date",
+						"type": "date"
+					},
+					{
+						"name": "Agency_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Number",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Commission_Note",
+						"type": "varchar"
+					},
+					{
+						"name": "Carrier_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Eff_Date",
+						"type": "date"
+					},
+					{
+						"name": "Client_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Policy_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "Policy_Number",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Coverage_Type",
+						"type": "varchar"
+					},
+					{
+						"name": "Bill_From_Date",
+						"type": "date"
+					},
+					{
+						"name": "Month_of_Bill_From_Date",
+						"type": "char"
+					},
+					{
+						"name": "Lives",
+						"type": "char"
+					},
+					{
+						"name": "Premium",
+						"type": "char"
+					},
+					{
+						"name": "Commission",
+						"type": "char"
+					},
+					{
+						"name": "Commission_Entry_Note",
+						"type": "char"
+					},
+					{
+						"name": "Revenue_Type",
+						"type": "char"
+					},
+					{
+						"name": "Balance_Forwarded",
+						"type": "char"
+					},
+					{
+						"name": "Agency_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Record_Load_Date",
+						"type": "date"
+					},
+					{
+						"name": "Record_Loaded_By",
+						"type": "char"
+					},
+					{
+						"name": "Record_Data_Source",
+						"type": "char"
+					},
+					{
+						"name": "Record_Flag_Status",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "AIA_UHC_POLICY_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_UHC_Weekly_Feed')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_Connections_AIA_Feed",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_UHC_Weekly_Feed_UAT.csv",
+						"folderPath": "/MSL_Cloud_Uat/FromAgency/AIA"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "agentId",
+						"type": "String"
+					},
+					{
+						"name": "agentIdStatus",
+						"type": "String"
+					},
+					{
+						"name": "agentName",
+						"type": "String"
+					},
+					{
+						"name": "agentEmail",
+						"type": "String"
+					},
+					{
+						"name": "agentNpn",
+						"type": "String"
+					},
+					{
+						"name": "memberFirstName",
+						"type": "String"
+					},
+					{
+						"name": "memberLastName",
+						"type": "String"
+					},
+					{
+						"name": "dateOfBirth",
+						"type": "String"
+					},
+					{
+						"name": "memberEmail",
+						"type": "String"
+					},
+					{
+						"name": "memberPhone",
+						"type": "String"
+					},
+					{
+						"name": "memberAddress1",
+						"type": "String"
+					},
+					{
+						"name": "memberAddress2",
+						"type": "String"
+					},
+					{
+						"name": "memberCity",
+						"type": "String"
+					},
+					{
+						"name": "memberState",
+						"type": "String"
+					},
+					{
+						"name": "memberZip",
+						"type": "String"
+					},
+					{
+						"name": "memberStatus",
+						"type": "String"
+					},
+					{
+						"name": "memberCounty",
+						"type": "String"
+					},
+					{
+						"name": "memberNumber",
+						"type": "String"
+					},
+					{
+						"name": "policyEffectiveDate",
+						"type": "String"
+					},
+					{
+						"name": "Agent of Record",
+						"type": "String"
+					},
+					{
+						"name": "contract",
+						"type": "String"
+					},
+					{
+						"name": "pbp",
+						"type": "String"
+					},
+					{
+						"name": "segmentId",
+						"type": "String"
+					},
+					{
+						"name": "applicationNumber",
+						"type": "String"
+					},
+					{
+						"name": "policyTermDate",
+						"type": "String"
+					},
+					{
+						"name": "product",
+						"type": "String"
+					},
+					{
+						"name": "termReasonCode",
+						"type": "String"
+					},
+					{
+						"name": "individualID",
+						"type": "String"
+					},
+					{
+						"name": "householdID",
+						"type": "String"
+					},
+					{
+						"name": "mbiNumber",
+						"type": "String"
+					},
+					{
+						"name": "secondaryPhoneNum",
+						"type": "String"
+					},
+					{
+						"name": "planStatus",
+						"type": "String"
+					},
+					{
+						"name": "planName",
+						"type": "String"
+					},
+					{
+						"name": "secondaryAddressLine1",
+						"type": "String"
+					},
+					{
+						"name": "secondaryAddressLine2",
+						"type": "String"
+					},
+					{
+						"name": "secondaryAddressMemberCity",
+						"type": "String"
+					},
+					{
+						"name": "secondaryAddressMemberState",
+						"type": "String"
+					},
+					{
+						"name": "secondaryAddressMemberZip",
+						"type": "String"
+					},
+					{
+						"name": "secondaryAddressMemberCounty",
+						"type": "String"
+					},
+					{
+						"name": "IFP - FFM APP ID",
+						"type": "String"
+					},
+					{
+						"name": "nmaName80",
+						"type": "String"
+					},
+					{
+						"name": "nmaWidStatus80",
+						"type": "String"
+					},
+					{
+						"name": "nmaNpn80",
+						"type": "String"
+					},
+					{
+						"name": "nmaName70",
+						"type": "String"
+					},
+					{
+						"name": "nmaWidStatus70",
+						"type": "String"
+					},
+					{
+						"name": "nmaNpn70",
+						"type": "String"
+					},
+					{
+						"name": "nmaName60",
+						"type": "String"
+					},
+					{
+						"name": "nmaWidStatus60",
+						"type": "String"
+					},
+					{
+						"name": "nmaNpn60",
+						"type": "String"
+					},
+					{
+						"name": "fmoName50",
+						"type": "String"
+					},
+					{
+						"name": "fmoWidStatus50",
+						"type": "String"
+					},
+					{
+						"name": "fmoNpn50",
+						"type": "String"
+					},
+					{
+						"name": "mgaName40",
+						"type": "String"
+					},
+					{
+						"name": "mgaWidStatus40",
+						"type": "String"
+					},
+					{
+						"name": "mgaNpn40",
+						"type": "String"
+					},
+					{
+						"name": "gaName30",
+						"type": "String"
+					},
+					{
+						"name": "gaWidStatus30",
+						"type": "String"
+					},
+					{
+						"name": "gaNpn30",
+						"type": "String"
+					},
+					{
+						"name": "agentName20",
+						"type": "String"
+					},
+					{
+						"name": "agentWidStatus20",
+						"type": "String"
+					},
+					{
+						"name": "agentWid20",
+						"type": "String"
+					},
+					{
+						"name": "agentNpn20",
+						"type": "String"
+					},
+					{
+						"name": "solicitorName10",
+						"type": "String"
+					},
+					{
+						"name": "solicitorWidStatus10",
+						"type": "String"
+					},
+					{
+						"name": "solicitorWid10",
+						"type": "String"
+					},
+					{
+						"name": "solicitorNpn10",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_UHC_Weekly_Feed_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_Connections_AIA_Feed",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_UHC_Weekly_Feed_DEV.csv",
+						"folderPath": "/MSL_Cloud_Dev/FromAgency/AIA"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "agentId",
+						"type": "String"
+					},
+					{
+						"name": "agentIdStatus",
+						"type": "String"
+					},
+					{
+						"name": "agentName",
+						"type": "String"
+					},
+					{
+						"name": "agentEmail",
+						"type": "String"
+					},
+					{
+						"name": "agentNpn",
+						"type": "String"
+					},
+					{
+						"name": "memberFirstName",
+						"type": "String"
+					},
+					{
+						"name": "memberLastName",
+						"type": "String"
+					},
+					{
+						"name": "dateOfBirth",
+						"type": "String"
+					},
+					{
+						"name": "memberEmail",
+						"type": "String"
+					},
+					{
+						"name": "memberPhone",
+						"type": "String"
+					},
+					{
+						"name": "memberAddress1",
+						"type": "String"
+					},
+					{
+						"name": "memberAddress2",
+						"type": "String"
+					},
+					{
+						"name": "memberCity",
+						"type": "String"
+					},
+					{
+						"name": "memberState",
+						"type": "String"
+					},
+					{
+						"name": "memberZip",
+						"type": "String"
+					},
+					{
+						"name": "memberStatus",
+						"type": "String"
+					},
+					{
+						"name": "memberCounty",
+						"type": "String"
+					},
+					{
+						"name": "memberNumber",
+						"type": "String"
+					},
+					{
+						"name": "policyEffectiveDate",
+						"type": "String"
+					},
+					{
+						"name": "Agent of Record",
+						"type": "String"
+					},
+					{
+						"name": "contract",
+						"type": "String"
+					},
+					{
+						"name": "pbp",
+						"type": "String"
+					},
+					{
+						"name": "segmentId",
+						"type": "String"
+					},
+					{
+						"name": "applicationNumber",
+						"type": "String"
+					},
+					{
+						"name": "policyTermDate",
+						"type": "String"
+					},
+					{
+						"name": "product",
+						"type": "String"
+					},
+					{
+						"name": "termReasonCode",
+						"type": "String"
+					},
+					{
+						"name": "individualID",
+						"type": "String"
+					},
+					{
+						"name": "householdID",
+						"type": "String"
+					},
+					{
+						"name": "mbiNumber",
+						"type": "String"
+					},
+					{
+						"name": "secondaryPhoneNum",
+						"type": "String"
+					},
+					{
+						"name": "planStatus",
+						"type": "String"
+					},
+					{
+						"name": "planName",
+						"type": "String"
+					},
+					{
+						"name": "secondaryAddressLine1",
+						"type": "String"
+					},
+					{
+						"name": "secondaryAddressLine2",
+						"type": "String"
+					},
+					{
+						"name": "secondaryAddressMemberCity",
+						"type": "String"
+					},
+					{
+						"name": "secondaryAddressMemberState",
+						"type": "String"
+					},
+					{
+						"name": "secondaryAddressMemberZip",
+						"type": "String"
+					},
+					{
+						"name": "secondaryAddressMemberCounty",
+						"type": "String"
+					},
+					{
+						"name": "IFP - FFM APP ID",
+						"type": "String"
+					},
+					{
+						"name": "nmaName80",
+						"type": "String"
+					},
+					{
+						"name": "nmaWidStatus80",
+						"type": "String"
+					},
+					{
+						"name": "nmaNpn80",
+						"type": "String"
+					},
+					{
+						"name": "nmaName70",
+						"type": "String"
+					},
+					{
+						"name": "nmaWidStatus70",
+						"type": "String"
+					},
+					{
+						"name": "nmaNpn70",
+						"type": "String"
+					},
+					{
+						"name": "nmaName60",
+						"type": "String"
+					},
+					{
+						"name": "nmaWidStatus60",
+						"type": "String"
+					},
+					{
+						"name": "nmaNpn60",
+						"type": "String"
+					},
+					{
+						"name": "fmoName50",
+						"type": "String"
+					},
+					{
+						"name": "fmoWidStatus50",
+						"type": "String"
+					},
+					{
+						"name": "fmoNpn50",
+						"type": "String"
+					},
+					{
+						"name": "mgaName40",
+						"type": "String"
+					},
+					{
+						"name": "mgaWidStatus40",
+						"type": "String"
+					},
+					{
+						"name": "mgaNpn40",
+						"type": "String"
+					},
+					{
+						"name": "gaName30",
+						"type": "String"
+					},
+					{
+						"name": "gaWidStatus30",
+						"type": "String"
+					},
+					{
+						"name": "gaNpn30",
+						"type": "String"
+					},
+					{
+						"name": "agentName20",
+						"type": "String"
+					},
+					{
+						"name": "agentWidStatus20",
+						"type": "String"
+					},
+					{
+						"name": "agentWid20",
+						"type": "String"
+					},
+					{
+						"name": "agentNpn20",
+						"type": "String"
+					},
+					{
+						"name": "solicitorName10",
+						"type": "String"
+					},
+					{
+						"name": "solicitorWidStatus10",
+						"type": "String"
+					},
+					{
+						"name": "solicitorWid10",
+						"type": "String"
+					},
+					{
+						"name": "solicitorNpn10",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		}
+	]
+}
