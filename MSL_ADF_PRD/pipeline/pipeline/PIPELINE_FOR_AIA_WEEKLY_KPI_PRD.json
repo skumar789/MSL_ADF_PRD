@@ -111,7 +111,7 @@
 				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "DF_AIA_Weekly_All_Policy_Status_Summary",
+						"activity": "MSL_ISSUE_TRACKER_LOGS",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -144,7 +144,7 @@
 				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "DF_AIA_Commission_Payment_Weekly",
+						"activity": "DF_AIA_Weekly_Policy_Status_Summary",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -175,7 +175,14 @@
 				"type": "ExecuteDataFlow",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "DF_AIA_Weekly_All_Policy_Status_Summary",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -236,7 +243,7 @@
 				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "DF_AIA_Weekly_Policy_Status_Summary",
+						"activity": "DF_AIA_CREDICO_BOB",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -253,6 +260,30 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "dataflow_AIA_Weekly_Extracts",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_AIA_CREDICO_BOB",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "dataflow104 CredicoBOB",
 						"type": "DataFlowReference"
 					},
 					"compute": {
