@@ -40878,45 +40878,6 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "MSL_ISSUE_TRACKER_LOGS",
-						"type": "ExecuteDataFlow",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [
-							{
-								"activity": "DF_AIA_BOB_AGENCY_ALL_POLICY_HISTORY_WEEKLY",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dataflow103",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"dataflow103": {},
-									"sink1": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
 						"name": "DF_AIA_BOB_AGENCY_ALL_POLICY_HISTORY_WEEKLY",
 						"type": "ExecuteDataFlow",
 						"state": "Inactive",
@@ -41003,7 +40964,7 @@
 						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
-								"activity": "MSL_ISSUE_TRACKER_LOGS",
+								"activity": "DF_AIA_Commission_Payment_Weekly",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -41144,6 +41105,45 @@
 							},
 							"traceLevel": "Fine"
 						}
+					},
+					{
+						"name": "DF_AIA_Commission_Payment_Weekly",
+						"type": "ExecuteDataFlow",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [
+							{
+								"activity": "DF_AIA_BOB_AGENCY_ALL_POLICY_HISTORY_WEEKLY",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "AIACommissionPaymentWeekly",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"AIACommissionPaymentWeekly": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
 					}
 				],
 				"policy": {
@@ -41153,13 +41153,13 @@
 				"lastPublishTime": "2024-04-26T14:12:30Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dataflow103')]",
 				"[concat(variables('factoryId'), '/dataflows/dataflow99')]",
 				"[concat(variables('factoryId'), '/dataflows/AIA_ALL_CARRIERS_STATEMENT_DETAILS')]",
 				"[concat(variables('factoryId'), '/dataflows/AIA_Weekly_All_Policy_Status_Summary')]",
 				"[concat(variables('factoryId'), '/dataflows/dataflow101')]",
 				"[concat(variables('factoryId'), '/dataflows/dataflow_AIA_Weekly_Extracts')]",
-				"[concat(variables('factoryId'), '/dataflows/dataflow104 CredicoBOB')]"
+				"[concat(variables('factoryId'), '/dataflows/dataflow104 CredicoBOB')]",
+				"[concat(variables('factoryId'), '/dataflows/AIACommissionPaymentWeekly')]"
 			]
 		},
 		{
@@ -41396,45 +41396,6 @@
 							},
 							"traceLevel": "Fine"
 						}
-					},
-					{
-						"name": "DF_AIA_Weekly_Policy_Status_Summary",
-						"type": "ExecuteDataFlow",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [
-							{
-								"activity": "DF_AIA_Weekly_All_Policy_Status_Summary",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "AIA_Weekly_Policy_Status_Summary",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"AIAWeeklyPolicyStatusSummary": {},
-									"sink1": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
 					}
 				],
 				"policy": {
@@ -41449,8 +41410,7 @@
 				"[concat(variables('factoryId'), '/dataflows/dataflow99')]",
 				"[concat(variables('factoryId'), '/dataflows/AIA_ALL_CARRIERS_STATEMENT_DETAILS')]",
 				"[concat(variables('factoryId'), '/dataflows/AIACommissionPaymentWeekly')]",
-				"[concat(variables('factoryId'), '/dataflows/AIA_Weekly_All_Policy_Status_Summary')]",
-				"[concat(variables('factoryId'), '/dataflows/AIA_Weekly_Policy_Status_Summary')]"
+				"[concat(variables('factoryId'), '/dataflows/AIA_Weekly_All_Policy_Status_Summary')]"
 			]
 		},
 		{
