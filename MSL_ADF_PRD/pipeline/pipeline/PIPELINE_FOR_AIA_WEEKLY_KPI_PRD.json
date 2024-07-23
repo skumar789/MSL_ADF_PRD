@@ -3,39 +3,6 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "MSL_ISSUE_TRACKER_LOGS",
-				"type": "ExecuteDataFlow",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "DF_AIA_BOB_AGENCY_ALL_POLICY_HISTORY_WEEKLY",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"dataflow": {
-						"referenceName": "dataflow103",
-						"type": "DataFlowReference"
-					},
-					"compute": {
-						"coreCount": 8,
-						"computeType": "General"
-					},
-					"traceLevel": "Fine"
-				}
-			},
-			{
 				"name": "DF_AIA_BOB_AGENCY_ALL_POLICY_HISTORY_WEEKLY",
 				"type": "ExecuteDataFlow",
 				"state": "Inactive",
@@ -111,7 +78,7 @@
 				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "MSL_ISSUE_TRACKER_LOGS",
+						"activity": "DF_AIA_Commission_Payment_Weekly",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -220,6 +187,39 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "dataflow104 CredicoBOB",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_AIA_Commission_Payment_Weekly",
+				"type": "ExecuteDataFlow",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "DF_AIA_BOB_AGENCY_ALL_POLICY_HISTORY_WEEKLY",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "AIACommissionPaymentWeekly",
 						"type": "DataFlowReference"
 					},
 					"compute": {
