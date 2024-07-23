@@ -40997,7 +40997,7 @@
 						}
 					},
 					{
-						"name": "DF_AIA_Weekly_Policy_Status_Summary",
+						"name": "DF_AIA_Weekly_All_Policy_Status_Summary",
 						"type": "ExecuteDataFlow",
 						"state": "Inactive",
 						"onInactiveMarkAs": "Succeeded",
@@ -41019,89 +41019,11 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataflow": {
-								"referenceName": "AIA_Weekly_Policy_Status_Summary",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"AIAWeeklyPolicyStatusSummary": {},
-									"sink1": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "DF_AIA_Weekly_All_Policy_Status_Summary",
-						"type": "ExecuteDataFlow",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [
-							{
-								"activity": "DF_AIA_Weekly_Policy_Status_Summary",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
 								"referenceName": "AIA_Weekly_All_Policy_Status_Summary",
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
 									"AIAWeeklyAllPolicyStatusSummary": {},
-									"sink1": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "DF_AIA_Commission_Payment_Weekly",
-						"type": "ExecuteDataFlow",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [
-							{
-								"activity": "DF_AIA_Weekly_All_Policy_Status_Summary",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "AIACommissionPaymentWeekly",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"AIACommissionPaymentWeekly": {},
 									"sink1": {}
 								}
 							},
@@ -41234,9 +41156,7 @@
 				"[concat(variables('factoryId'), '/dataflows/dataflow103')]",
 				"[concat(variables('factoryId'), '/dataflows/dataflow99')]",
 				"[concat(variables('factoryId'), '/dataflows/AIA_ALL_CARRIERS_STATEMENT_DETAILS')]",
-				"[concat(variables('factoryId'), '/dataflows/AIA_Weekly_Policy_Status_Summary')]",
 				"[concat(variables('factoryId'), '/dataflows/AIA_Weekly_All_Policy_Status_Summary')]",
-				"[concat(variables('factoryId'), '/dataflows/AIACommissionPaymentWeekly')]",
 				"[concat(variables('factoryId'), '/dataflows/dataflow101')]",
 				"[concat(variables('factoryId'), '/dataflows/dataflow_AIA_Weekly_Extracts')]",
 				"[concat(variables('factoryId'), '/dataflows/dataflow104 CredicoBOB')]"
@@ -61035,6 +60955,8 @@
 					{
 						"name": "Copy data into ABI_EG01_COMMISSION_DETAILS",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "Copy data into ABI_MANUAL_ADJUSTMENT_FEED",
@@ -61097,6 +61019,8 @@
 					{
 						"name": "Copy data into ABI_EI13U_COMMISION_DETAILS",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "Copy data into ABI_EG01_COMMISSION_DETAILS",
@@ -61159,6 +61083,8 @@
 					{
 						"name": "Copy data into ABI_EI14U_COMMISION_DETAILS",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "Copy data into ABI_EI13U_COMMISION_DETAILS",
@@ -61221,6 +61147,8 @@
 					{
 						"name": "Copy data into ABI_EI16U_COMMISION_DETAILS",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "Copy data into ABI_EI14U_COMMISION_DETAILS",
@@ -61962,7 +61890,6 @@
 							},
 							"sink": {
 								"type": "SqlServerSink",
-								"preCopyScript": " DELETE FROM  [dbo].[ABI_AGENCY_ANNUAL_RATE_DETAILS] ;",
 								"writeBehavior": "insert",
 								"sqlWriterUseTableLock": false
 							},
@@ -63744,6 +63671,8 @@
 					{
 						"name": "Copy data into ABI_MANUAL_ADJUSTMENT_FEED",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "ABI_AGENCY_ANNUAL_RATE_DETAILS_TO_HISTORY",
@@ -164091,7 +164020,7 @@
 						"          Record_Data_Source as string,",
 						"          Record_Flag_Status as string",
 						"     ),",
-						"     partitionFileNames:['AIA_Weekly_All_Policy_Status_Summary_Extracts.csv'],",
+						"     partitionFileNames:[' AIA_WEEKLY_ALL_POLICY_STATUS_SUMMARY_EXTRACTS_MMDDYYYY.csv'],",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> sink1"
 					]
