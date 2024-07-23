@@ -40919,6 +40919,8 @@
 					{
 						"name": "DF_AIA_BOB_AGENCY_ALL_POLICY_HISTORY_WEEKLY",
 						"type": "ExecuteDataFlow",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "DF_AIA_ALL_CARRIERS_STATEMENT_DETAILS",
@@ -41192,6 +41194,8 @@
 					{
 						"name": "DF_AIA_CREDICO_BOB",
 						"type": "ExecuteDataFlow",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
@@ -164053,7 +164057,7 @@
 						"     allowSchemaDrift: false,",
 						"     validateSchema: false,",
 						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     query: 'SELECT \\n  carrier as Agency_Name, Policy_Status, count(*) Total_Records\\n      FROM [dbo].[AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY]\\n---  where  [Record_Load_Date] IN( select max([Record_Load_Date]) \\n --- FROM [dbo].[AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY])\\n  group by carrier,Policy_Status',",
+						"     query: ' SELECT \\n  carrier as Agency_Name, Policy_Status, count(*) Total_Records\\n      FROM [dbo].[AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY]\\n---  where  [Record_Load_Date] IN( select max([Record_Load_Date]) \\n --- FROM [dbo].[AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY])\\n  group by carrier,Policy_Status ORDER BY carrier',",
 						"     format: 'query') ~> AIAWeeklyAllPolicyStatusSummary",
 						"AIAWeeklyAllPolicyStatusSummary sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
