@@ -40884,7 +40884,7 @@
 						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
-								"activity": "DF_AIA_CREDICO_BOB",
+								"activity": "AIA_WEEKLY_POLICY_STATUS_CSD_CED_PRE_BOB_UPDATES",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -41042,7 +41042,7 @@
 						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
-								"activity": "DF_AIA_ALL_BOB_WEEKLY_EXTRACT",
+								"activity": "DF_AIA_CREDICO_BOB",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -41079,7 +41079,14 @@
 						"type": "ExecuteDataFlow",
 						"state": "Inactive",
 						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [],
+						"dependsOn": [
+							{
+								"activity": "DF_AIA_ALL_BOB_WEEKLY_EXTRACT",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
 						"policy": {
 							"timeout": "0.12:00:00",
 							"retry": 0,
@@ -41144,6 +41151,26 @@
 							},
 							"traceLevel": "Fine"
 						}
+					},
+					{
+						"name": "AIA_WEEKLY_POLICY_STATUS_CSD_CED_PRE_BOB_UPDATES",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "EXEC [dbo].[AIA_WEEKLY_POLICY_STATUS_CSD_CED_PRE_BOB_UPDATES]"
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer_mslprd",
+							"type": "LinkedServiceReference"
+						}
 					}
 				],
 				"policy": {
@@ -41159,7 +41186,8 @@
 				"[concat(variables('factoryId'), '/dataflows/dataflow101')]",
 				"[concat(variables('factoryId'), '/dataflows/dataflow_AIA_Weekly_Extracts')]",
 				"[concat(variables('factoryId'), '/dataflows/dataflow104 CredicoBOB')]",
-				"[concat(variables('factoryId'), '/dataflows/AIACommissionPaymentWeekly')]"
+				"[concat(variables('factoryId'), '/dataflows/AIACommissionPaymentWeekly')]",
+				"[concat(variables('factoryId'), '/linkedServices/SqlServer_mslprd')]"
 			]
 		},
 		{
@@ -89775,8 +89803,6 @@
 					{
 						"name": "AIA_MOLINA_ACTIVE_POLICY_DETAILS",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_CIGNA_ACTIVE_POLICY_DETAILS",
@@ -90201,8 +90227,6 @@
 					{
 						"name": "AIA_OSCAR_POLICY_DETAILS_ADFU",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_MOLINA_ACTIVE_POLICY_DETAILS",
@@ -92207,8 +92231,6 @@
 					{
 						"name": "AIA_UHC_Weekly_Feed_ADFU",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_OSCAR_POLICY_DETAILS_ADFU",
@@ -93065,8 +93087,6 @@
 					{
 						"name": "Copy data into AIA_BCBSTX_MAIN_POLICY_DETAILS",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_UHC_Weekly_Feed_ADFU",
