@@ -27652,7 +27652,7 @@
 						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
-								"activity": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE_copy1",
+								"activity": "AIA_AGENCY_EMP_HIER_DETAILS_HISTORY_PRD",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -33241,35 +33241,6 @@
 						]
 					},
 					{
-						"name": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE_copy1",
-						"type": "SqlServerStoredProcedure",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [
-							{
-								"activity": "AIA_AGENCY_EMP_HIER_DETAILS_HISTORY_PRD",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "[[dbo].[AIA_WEEKLY_EMP_HIER_USER_CLEANUP]"
-						},
-						"linkedServiceName": {
-							"referenceName": "SqlServer_mslprd",
-							"type": "LinkedServiceReference"
-						}
-					},
-					{
 						"name": "EVERY_WEEK_DAY2_UPDATES",
 						"type": "Copy",
 						"state": "Inactive",
@@ -35374,7 +35345,6 @@
 				"[concat(variables('factoryId'), '/datasets/IMS_POLICY_DETAILS_PRD')]",
 				"[concat(variables('factoryId'), '/datasets/AIA_BOB_ALL_AGENCY_ALL_POLICY_DAY2_INSERT_PRD')]",
 				"[concat(variables('factoryId'), '/datasets/IMS_DATA_EXP_FILE4_PRD')]",
-				"[concat(variables('factoryId'), '/linkedServices/SqlServer_mslprd')]",
 				"[concat(variables('factoryId'), '/datasets/AIA_BOB_ALL_AGENCY_ALL_POLICY_DAY2_UPDATE_PRD')]",
 				"[concat(variables('factoryId'), '/datasets/AIA_BOB_ALL_AGENCY_ALL_POLICY_HISTORY_UAT')]",
 				"[concat(variables('factoryId'), '/datasets/AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY_PRD')]",
@@ -40882,8 +40852,6 @@
 					{
 						"name": "DF_AIA_ALL_CARRIERS_STATEMENT_DETAILS",
 						"type": "ExecuteDataFlow",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "DF_AIA_IMS_HIER_POLICY_DETAILS_WEEKLY_EXTRACT",
@@ -40962,7 +40930,7 @@
 						"type": "ExecuteDataFlow",
 						"dependsOn": [
 							{
-								"activity": "DF_AIA_IMS_POLICY_DETAILS_WEEKLY_EXTRACT",
+								"activity": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE_copy1",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -41071,8 +41039,6 @@
 					{
 						"name": "DF_AIA_Commission_Payment_Weekly",
 						"type": "ExecuteDataFlow",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "DF_AIA_ALL_CARRIERS_STATEMENT_DETAILS",
@@ -41152,6 +41118,33 @@
 						"userProperties": [],
 						"typeProperties": {
 							"storedProcedureName": "[[dbo].[AIA_WEEKLY_POLICY_STATUS_UPDATES]"
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer_mslprd",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE_copy1",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "DF_AIA_IMS_POLICY_DETAILS_WEEKLY_EXTRACT",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[AIA_WEEKLY_EMP_HIER_USER_CLEANUP]"
 						},
 						"linkedServiceName": {
 							"referenceName": "SqlServer_mslprd",
