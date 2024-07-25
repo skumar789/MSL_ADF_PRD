@@ -7,7 +7,14 @@
 				"type": "ExecuteDataFlow",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "DF_AIA_BOB_AGENCY_ALL_POLICY_HISTORY_WEEKLY",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -64,11 +71,9 @@
 			{
 				"name": "DF_AIA_BOB_AGENCY_ALL_POLICY_HISTORY_WEEKLY",
 				"type": "ExecuteDataFlow",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "DF_AIA_IMS_POLICY_DETAILS_EXTRACTWEEKLY",
+						"activity": "DF_AIA_CREDICO_BOB_UAT",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -101,7 +106,7 @@
 				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "DF_AIA_BOB_AGENCY_ALL_POLICY_HISTORY_WEEKLY",
+						"activity": "DF_AIA_IMS_POLICY_DETAILS_EXTRACTWEEKLY",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -166,6 +171,8 @@
 			{
 				"name": "DF_AIA_Weekly_All_Policy_Status_Summary",
 				"type": "ExecuteDataFlow",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "DF_AIA_Commission_Payment_Weekly",
@@ -185,6 +192,57 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "AIA_Weekly_All_Policy_Status_Summary",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "AIA_WEEKLY_POLICY_STATUS_CSD_CED_PRE_BOB_UPDATES",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "AIA_WEEKLY_POLICY_STATUS_CSD_CED_PRE_BOB_UPDATES"
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msluat",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "DF_AIA_CREDICO_BOB_UAT",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "AIA_WEEKLY_POLICY_STATUS_CSD_CED_PRE_BOB_UPDATES",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "dataflowCredicoBOBUAT",
 						"type": "DataFlowReference"
 					},
 					"compute": {
