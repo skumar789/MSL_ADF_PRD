@@ -58181,9 +58181,9 @@
 						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
-								"activity": "Copy data into ABI_EI13U_COMMISION_DETAILS_copy1",
+								"activity": "AIA_WEEKLY_POLICY_STATUS_CSD_CED_PRE_BOB_UPDATES_UAT",
 								"dependencyConditions": [
-									"Failed"
+									"Succeeded"
 								]
 							}
 						],
@@ -61004,20 +61004,30 @@
 						]
 					},
 					{
-						"name": "ABI_COMMISSION_CALCULATION_PRD",
-						"type": "ExecutePipeline",
-						"dependsOn": [],
+						"name": "AIA_WEEKLY_POLICY_STATUS_CSD_CED_PRE_BOB_UPDATES_UAT",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "Copy data into ABI_EI13U_COMMISION_DETAILS_copy1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
 						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
 							"secureInput": false
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"pipeline": {
-								"referenceName": "ABI_COMMISSION_CALCULATION_PRD",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
+							"storedProcedureName": "AIA_WEEKLY_POLICY_STATUS_CSD_CED_PRE_BOB_UPDATES"
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer_mslprd",
+							"type": "LinkedServiceReference"
 						}
 					}
 				],
@@ -61063,7 +61073,7 @@
 				"[concat(variables('factoryId'), '/datasets/ABI_EI13U_FHCP_COMMISION_REFERENCE_DETAILS_PRD')]",
 				"[concat(variables('factoryId'), '/datasets/ABI_AGENCY_ANNUAL_RATE_DETAILS_HISTORY_PRD')]",
 				"[concat(variables('factoryId'), '/datasets/ABI_AGENCY_PAYEE_DETAILS_HISTORY_PRD')]",
-				"[concat(variables('factoryId'), '/pipelines/ABI_COMMISSION_CALCULATION_PRD')]"
+				"[concat(variables('factoryId'), '/linkedServices/SqlServer_mslprd')]"
 			]
 		},
 		{
