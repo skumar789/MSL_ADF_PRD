@@ -2244,7 +2244,7 @@
 				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "ABI_CALCULATION_STEP 7",
+						"activity": "ABI_MONTHLY_COMMISSION_CYCLE_CLOSURE",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -2704,51 +2704,6 @@
 				}
 			},
 			{
-				"name": "ABI_CALCULATION_STEP 7",
-				"type": "SqlServerStoredProcedure",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "DF_Monthly_Extracts_for_ABI_Agency2",
-						"dependencyConditions": [
-							"Failed"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"storedProcedureName": "[dbo].[com_rpt_FHCP_Commission_Calc]",
-					"storedProcedureParameters": {
-						"Month": {
-							"value": {
-								"value": "@'04'",
-								"type": "Expression"
-							},
-							"type": "String"
-						},
-						"Year": {
-							"value": {
-								"value": "@'2024'",
-								"type": "Expression"
-							},
-							"type": "String"
-						}
-					}
-				},
-				"linkedServiceName": {
-					"referenceName": "SqlServer_msluat",
-					"type": "LinkedServiceReference"
-				}
-			},
-			{
 				"name": "ABI_CALCULATION_STEP 6",
 				"type": "SqlServerStoredProcedure",
 				"state": "Inactive",
@@ -3026,6 +2981,35 @@
 						"computeType": "General"
 					},
 					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "ABI_MONTHLY_COMMISSION_CYCLE_CLOSURE",
+				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "DF_Monthly_Extracts_for_ABI_Agency2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "ABI_MONTHLY_COMMISSION_CYCLE_CLOSURE"
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msluat",
+					"type": "LinkedServiceReference"
 				}
 			}
 		],
