@@ -270,7 +270,14 @@
 				"type": "SqlServerStoredProcedure",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "KGR_AIA_WEEKLY_POLICY_STATUS_INACTIVE_UPDATES",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -339,6 +346,28 @@
 				"userProperties": [],
 				"typeProperties": {
 					"storedProcedureName": "AIA_MONTHLY_COMMISSION_CYCLE_CLOSURE"
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServer_mslprd",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "KGR_AIA_WEEKLY_POLICY_STATUS_INACTIVE_UPDATES",
+				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[AIA_WEEKLY_POLICY_STATUS_INACTIVE_UPDATES]"
 				},
 				"linkedServiceName": {
 					"referenceName": "SqlServer_mslprd",
