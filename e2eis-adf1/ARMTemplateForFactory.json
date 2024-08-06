@@ -83789,7 +83789,14 @@
 						"type": "Copy",
 						"state": "Inactive",
 						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [],
+						"dependsOn": [
+							{
+								"activity": "MSL_ISSUE_TRACKER_LOGS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
 						"policy": {
 							"timeout": "0.12:00:00",
 							"retry": 0,
@@ -92438,6 +92445,219 @@
 								"parameters": {}
 							}
 						]
+					},
+					{
+						"name": "MSL_ISSUE_TRACKER_LOGS",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "SftpReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false,
+									"disableChunking": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "SqlServerSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "Ticket ID",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "CLIENT_ISSUE_ID",
+											"type": "Int64",
+											"physicalType": "bigint"
+										}
+									},
+									{
+										"source": {
+											"name": "Status",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "CLIENT_ISSUE_CODE",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Priority",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "CLIENT_ISSUE_DESCR",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Esclation",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "CLIENT_ISSUE_BUSINESS_IMPACT",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Ticket Date",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "CLIENT_ISSUE_PRIORITY",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Created By",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "CLIENT_ISSUE_ESCLATION_REQ",
+											"type": "Boolean",
+											"physicalType": "bit"
+										}
+									},
+									{
+										"source": {
+											"name": "Approx Resolution Date",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "CLIENT_ISSUE_STATUS",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "Assigned To",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "CLIENT_ISSUE_COMMENTS",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Updated By",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "CLIENT_ISSUE_APPROX_RESOLUTION_DATE",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										}
+									},
+									{
+										"source": {
+											"name": "Updated Date",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "CLIENT_ISSUE_LOG_DATE",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										}
+									},
+									{
+										"source": {
+											"name": "Description",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "CLIENT_ISSUE_CREATED_BY",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "Business Impact",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "CLIENT_ISSUE_RESOLUTION_BY",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "Comments",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "CLIENT_ISSUE_RESOLUTION_DATE",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "MSL_ISSUE_TRACKER_LOGS_PRD",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "MSL_ISSUE_TRACKER_LOGSs_PRD",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
 					}
 				],
 				"policy": {
@@ -92501,7 +92721,9 @@
 				"[concat(variables('factoryId'), '/datasets/AIA_Commission_Advances_PRD')]",
 				"[concat(variables('factoryId'), '/datasets/AIA_COMMISSION_ADVANCESs_PRD')]",
 				"[concat(variables('factoryId'), '/datasets/AIA_Commission_Advance_Details_PRD')]",
-				"[concat(variables('factoryId'), '/datasets/AIA_COMMISSION_ADVANCE_DETAILSs_PRD')]"
+				"[concat(variables('factoryId'), '/datasets/AIA_COMMISSION_ADVANCE_DETAILSs_PRD')]",
+				"[concat(variables('factoryId'), '/datasets/MSL_ISSUE_TRACKER_LOGS_PRD')]",
+				"[concat(variables('factoryId'), '/datasets/MSL_ISSUE_TRACKER_LOGSs_PRD')]"
 			]
 		},
 		{
@@ -168813,6 +169035,171 @@
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/MSL_ISSUE_TRACKER_LOGS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_mslprd",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "CLIENT_ISSUE_ID",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "CLIENT_ISSUE_CODE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CLIENT_ISSUE_DESCR",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CLIENT_ISSUE_BUSINESS_IMPACT",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CLIENT_ISSUE_PRIORITY",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CLIENT_ISSUE_ESCLATION_REQ",
+						"type": "bit"
+					},
+					{
+						"name": "CLIENT_ISSUE_STATUS",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CLIENT_ISSUE_COMMENTS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CLIENT_ISSUE_APPROX_RESOLUTION_DATE",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "CLIENT_ISSUE_LOG_DATE",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "CLIENT_ISSUE_CREATED_BY",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CLIENT_ISSUE_RESOLUTION_BY",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CLIENT_ISSUE_RESOLUTION_DATE",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "MSL_ISSUE_TRACKER_LOGS"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SqlServer_mslprd')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MSL_ISSUE_TRACKER_LOGS_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_Connections_AIA_Feed",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "MSL_ISSUE_TRACKER_LOGS.csv",
+						"folderPath": "/MSL_Cloud_PRD_BCP/FromAgency"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Ticket ID",
+						"type": "String"
+					},
+					{
+						"name": "Status",
+						"type": "String"
+					},
+					{
+						"name": "Priority",
+						"type": "String"
+					},
+					{
+						"name": "Esclation",
+						"type": "String"
+					},
+					{
+						"name": "Ticket Date",
+						"type": "String"
+					},
+					{
+						"name": "Created By",
+						"type": "String"
+					},
+					{
+						"name": "Approx Resolution Date",
+						"type": "String"
+					},
+					{
+						"name": "Assigned To",
+						"type": "String"
+					},
+					{
+						"name": "Updated By",
+						"type": "String"
+					},
+					{
+						"name": "Updated Date",
+						"type": "String"
+					},
+					{
+						"name": "Description",
+						"type": "String"
+					},
+					{
+						"name": "Business Impact",
+						"type": "String"
+					},
+					{
+						"name": "Comments",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Sftp_Connections_AIA_Feed')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MSL_ISSUE_TRACKER_LOGSs_PRD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
