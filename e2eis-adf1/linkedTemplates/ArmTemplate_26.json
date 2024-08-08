@@ -13,6 +13,219 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/dataflow103')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "MSL_ISSUE_TRACKER_LOGS",
+								"type": "DatasetReference"
+							},
+							"name": "dataflow103",
+							"description": "Import data from DBO.MSL_ISSUE_TRACKER_LOGS_PRD"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DelimitedText107",
+								"type": "DatasetReference"
+							},
+							"name": "sink1",
+							"description": "Export data to MSL_ISSUE_TRACKER_LOGS_WEEKLY_EXTRACTS_PRD.csv"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          CLIENT_ISSUE_CODE as string,",
+						"          CLIENT_ISSUE_DESCR as string,",
+						"          CLIENT_ISSUE_BUSINESS_IMPACT as string,",
+						"          CLIENT_ISSUE_PRIORITY as string,",
+						"          CLIENT_ISSUE_COMMENTS as string,",
+						"          CLIENT_ISSUE_APPROX_RESOLUTION_DATE as timestamp,",
+						"          CLIENT_ISSUE_LOG_DATE as timestamp,",
+						"          CLIENT_ISSUE_RESOLUTION_DATE as timestamp",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT \\n      [CLIENT_ISSUE_CODE]\\n      ,[CLIENT_ISSUE_DESCR]\\n      ,[CLIENT_ISSUE_BUSINESS_IMPACT]\\n      ,[CLIENT_ISSUE_PRIORITY]\\n      ,[CLIENT_ISSUE_COMMENTS]\\n      ,[CLIENT_ISSUE_APPROX_RESOLUTION_DATE]\\n      ,[CLIENT_ISSUE_LOG_DATE]\\n      ,[CLIENT_ISSUE_RESOLUTION_DATE]\\n  FROM [dbo].[MSL_ISSUE_TRACKER_LOGS]',",
+						"     format: 'query') ~> dataflow103",
+						"dataflow103 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          CLIENT_ISSUE_ID as string,",
+						"          CLIENT_ISSUE_CODE as string,",
+						"          CLIENT_ISSUE_DESCR as string,",
+						"          CLIENT_ISSUE_BUSINESS_IMPACT as string,",
+						"          CLIENT_ISSUE_PRIORITY as string,",
+						"          CLIENT_ISSUE_ESCLATION_REQ as string,",
+						"          CLIENT_ISSUE_STATUS as string,",
+						"          CLIENT_ISSUE_COMMENTS as string,",
+						"          CLIENT_ISSUE_APPROX_RESOLUTION_DATE as string,",
+						"          CLIENT_ISSUE_LOG_DATE as string,",
+						"          CLIENT_ISSUE_CREATED_BY as string,",
+						"          CLIENT_ISSUE_RESOLUTION_BY as string,",
+						"          CLIENT_ISSUE_RESOLUTION_DATE as string",
+						"     ),",
+						"     partitionFileNames:['MSL_ISSUE_TRACKER_LOGS_WEEKLY_EXTRACTS.csv'],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflow104 CredicoBOB')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY_PRD",
+								"type": "DatasetReference"
+							},
+							"name": "source1",
+							"description": "Import data from AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY_PRD"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "AIA_CREDICO_BOB_MMDDYYYY",
+								"type": "DatasetReference"
+							},
+							"name": "sink1",
+							"description": "GENERATING FILE AIA_CREDICO_BOB_MMDDYYYY.csv"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          E2eis_Seq_Number as long,",
+						"          Carrier as string,",
+						"          Owning_Agent_of_Record as string,",
+						"          Assigned_Agent_Number as string,",
+						"          Broker_Start_Date as string,",
+						"          Broker_End_Date as string,",
+						"          Product_Type as string,",
+						"          Product_Description as string,",
+						"          IMS_Transaction_ID as string,",
+						"          Policy_Status as string,",
+						"          Policy_ID as string,",
+						"          Group_Name as string,",
+						"          Member_Count as string,",
+						"          {On/Off_Exchange} as string,",
+						"          Exchange_Subscriber_ID as string,",
+						"          Coverage_Type as string,",
+						"          Subscriber_Original_Effective_Date as string,",
+						"          Coverage_Start__Date as string,",
+						"          Coverage_End_Date as string,",
+						"          Paid_Through_Date as string,",
+						"          Subscriber_First_Name as string,",
+						"          Subscriber_Middle_Name as string,",
+						"          Subscriber_Last_Name as string,",
+						"          Subscriber_Full_Name as string,",
+						"          Subscriber_DOB as string,",
+						"          Subscriber_Email as string,",
+						"          Address as string,",
+						"          Address_2 as string,",
+						"          Zip_Code as string,",
+						"          City as string,",
+						"          State as string,",
+						"          County as string,",
+						"          App_Submit_Date as string,",
+						"          Member_Phone_Number_1 as string,",
+						"          Member_Phone_Number_2 as string,",
+						"          Compensation_Type as string,",
+						"          Compensation_Period as string,",
+						"          Compensation_Amount as string,",
+						"          Payee_Name as string,",
+						"          Main_Upline_Agent as string,",
+						"          Group_Team_Sales as string,",
+						"          Transition_Date as string,",
+						"          Assigned_Agent_Name as string,",
+						"          Agency_ID as string,",
+						"          Record_Load_Date as date,",
+						"          Record_Loaded_By as string,",
+						"          Record_Data_Source as string,",
+						"          Record_Flag_Status as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT  \\n        [E2eis_Seq_Number],  \\n        ISNULL([Carrier], \\'\\') [Carrier],   \\n        ISNULL([Broker_Start_Date], \\'\\') [Broker_Start_Date],  \\n        ISNULL([Broker_End_Date], \\'\\') [Broker_End_Date],  \\n        ISNULL([IMS_Transaction_ID], \\'\\') [IMS_Transaction_ID],  \\n        ISNULL([Policy_Status], \\'\\') [Policy_Status],  \\n        ISNULL([Policy_ID], \\'\\') [Policy_ID],  \\n        ISNULL([Member_Count], \\'\\') [Member_Count],  \\n        ISNULL([Subscriber_Original_Effective_Date], \\'\\') [Subscriber_Original_Effective_Date],  \\n        ISNULL([Coverage_Start__Date], \\'\\') [Coverage_Start__Date],  \\n        ISNULL([Coverage_End_Date], \\'\\') [Coverage_End_Date],   \\n        ISNULL([State], \\'\\') [State],  \\n        ISNULL([County], \\'\\') [County],  \\n        ISNULL([Group_Team_Sales], \\'\\') [Group_Team_Sales] \\n    FROM [dbo].[AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY]\\n    WHERE [Group_Team_Sales] LIKE \\'Credico%\\'\\n\\n\\n\\n      \\n\\n\\n',",
+						"     format: 'query') ~> source1",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          E2eis_Seq_Number as string,",
+						"          Carrier as string,",
+						"          Owning_Agent_of_Record as string,",
+						"          Assigned_Agent_Number as string,",
+						"          Broker_Start_Date as string,",
+						"          Broker_End_Date as string,",
+						"          Product_Type as string,",
+						"          Product_Description as string,",
+						"          IMS_Transaction_ID as string,",
+						"          Policy_Status as string,",
+						"          Policy_ID as string,",
+						"          Group_Name as string,",
+						"          Member_Count as string,",
+						"          {On/Off_Exchange} as string,",
+						"          Exchange_Subscriber_ID as string,",
+						"          Coverage_Type as string,",
+						"          Subscriber_Original_Effective_Date as string,",
+						"          Coverage_Start__Date as string,",
+						"          Coverage_End_Date as string,",
+						"          Paid_Through_Date as string,",
+						"          Subscriber_First_Name as string,",
+						"          Subscriber_Middle_Name as string,",
+						"          Subscriber_Last_Name as string,",
+						"          Subscriber_Full_Name as string,",
+						"          Subscriber_DOB as string,",
+						"          Subscriber_Email as string,",
+						"          Address as string,",
+						"          Address_2 as string,",
+						"          Zip_Code as string,",
+						"          City as string,",
+						"          State as string,",
+						"          County as string,",
+						"          App_Submit_Date as string,",
+						"          Member_Phone_Number_1 as string,",
+						"          Member_Phone_Number_2 as string,",
+						"          Compensation_Type as string,",
+						"          Compensation_Period as string,",
+						"          Compensation_Amount as string,",
+						"          HS_Aligned as string,",
+						"          Main_Upline_Agent as string,",
+						"          Group_Team_Sales as string,",
+						"          Transition_Date as string,",
+						"          Assigned_Agent_Name as string,",
+						"          Agency_ID as string,",
+						"          Record_Load_Date as string,",
+						"          Record_Loaded_By as string,",
+						"          Record_Data_Source as string,",
+						"          Record_Flag_Status as string",
+						"     ),",
+						"     partitionFileNames:['AIA_CREDICO_BOB_WEEKLY_EXTRACT_MMDDYYYY.csv'],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/dataflow99')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -16148,7 +16361,8 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/dataflow99')]",
-				"[concat(variables('factoryId'), '/dataflows/dataflow_AIA_Weekly_Extracts')]"
+				"[concat(variables('factoryId'), '/dataflows/dataflow_AIA_Weekly_Extracts')]",
+				"[concat(variables('factoryId'), '/dataflows/dataflow104 CredicoBOB')]"
 			]
 		},
 		{
