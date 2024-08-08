@@ -15733,7 +15733,7 @@
 						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
-								"activity": "AIA_WEEKLY_POLICY_STATUS_CSD_CED_PRE_BOB_UPDATES",
+								"activity": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -16008,7 +16008,7 @@
 						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
-								"activity": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE",
+								"activity": "AIA_WEEKLY_POLICY_STATUS_INACTIVE_UPDATES",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -16035,7 +16035,14 @@
 						"type": "SqlServerStoredProcedure",
 						"state": "Inactive",
 						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [],
+						"dependsOn": [
+							{
+								"activity": "AIA_WEEKLY_POLICY_STATUS_CSD_CED_PRE_BOB_UPDATES",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
 						"policy": {
 							"timeout": "0.12:00:00",
 							"retry": 0,
@@ -16104,6 +16111,28 @@
 						"userProperties": [],
 						"typeProperties": {
 							"storedProcedureName": "AIA_MONTHLY_COMMISSION_CYCLE_CLOSURE"
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer_mslprd",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "AIA_WEEKLY_POLICY_STATUS_INACTIVE_UPDATES",
+						"type": "SqlServerStoredProcedure",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "AIA_WEEKLY_POLICY_STATUS_INACTIVE_UPDATES"
 						},
 						"linkedServiceName": {
 							"referenceName": "SqlServer_mslprd",

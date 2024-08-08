@@ -28297,6 +28297,8 @@
 					{
 						"name": "AIA_IMS_POLICY_DETAILS_STG_PRD",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_AGENCY_EMP_HIER_DETAILS_HISTORY_PRD",
@@ -28359,6 +28361,8 @@
 					{
 						"name": "AIA_IMS_POLICY_DETAILS_STG1_PRD",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_IMS_POLICY_DETAILS_STG_PRD",
@@ -28421,6 +28425,8 @@
 					{
 						"name": "AIA_IMS_POLICY_DETAILS_STG2_PRD",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_IMS_POLICY_DETAILS_STG1_PRD",
@@ -29985,6 +29991,8 @@
 					{
 						"name": "AIA_IMS_POLICY_DETAILS_STG4_",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_IMS_POLICY_DETAILS_STG3_PRD",
@@ -30047,6 +30055,8 @@
 					{
 						"name": "AIA_IMS_POLICY_DETAILS_HISTORY_PRD",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_IMS_POLICY_DETAILS_STG4_",
@@ -31267,6 +31277,8 @@
 					{
 						"name": "AIA_AGENCY_EMP_HIER_DETAILS1",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_AGENCY_EMP_HIER_DETAILS",
@@ -31329,6 +31341,8 @@
 					{
 						"name": "AIA_AGENCY_EMP_HIER_DETAILS2",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_AGENCY_EMP_HIER_DETAILS1",
@@ -31391,6 +31405,8 @@
 					{
 						"name": "AIA_AGENCY_EMP_HIER_DETAILS",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
@@ -32143,6 +32159,8 @@
 					{
 						"name": "AIA_AGENCY_EMP_HIER_DETAILS3",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_AGENCY_EMP_HIER_DETAILS2",
@@ -32205,6 +32223,8 @@
 					{
 						"name": "AIA_AGENCY_EMP_HIER_DETAILS4",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_AGENCY_EMP_HIER_DETAILS3",
@@ -32267,6 +32287,8 @@
 					{
 						"name": "AIA_AGENCY_EMP_HIER_DETAILS_HISTORY_PRD",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_AGENCY_EMP_HIER_DETAILS4",
@@ -32517,6 +32539,8 @@
 					{
 						"name": "AIA_IMS_POLICY_DETAILS",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_IMS_POLICY_DETAILS_HISTORY_PRD",
@@ -33804,6 +33828,8 @@
 					{
 						"name": "AIA_IMS_POLICY_DETAILS_STG3_PRD",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_IMS_POLICY_DETAILS_STG2_PRD",
@@ -42667,7 +42693,7 @@
 						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
-								"activity": "AIA_WEEKLY_POLICY_STATUS_CSD_CED_PRE_BOB_UPDATES",
+								"activity": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -42942,7 +42968,7 @@
 						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
-								"activity": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE",
+								"activity": "AIA_WEEKLY_POLICY_STATUS_INACTIVE_UPDATES",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -42969,7 +42995,14 @@
 						"type": "SqlServerStoredProcedure",
 						"state": "Inactive",
 						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [],
+						"dependsOn": [
+							{
+								"activity": "AIA_WEEKLY_POLICY_STATUS_CSD_CED_PRE_BOB_UPDATES",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
 						"policy": {
 							"timeout": "0.12:00:00",
 							"retry": 0,
@@ -43038,6 +43071,28 @@
 						"userProperties": [],
 						"typeProperties": {
 							"storedProcedureName": "AIA_MONTHLY_COMMISSION_CYCLE_CLOSURE"
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer_mslprd",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "AIA_WEEKLY_POLICY_STATUS_INACTIVE_UPDATES",
+						"type": "SqlServerStoredProcedure",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "AIA_WEEKLY_POLICY_STATUS_INACTIVE_UPDATES"
 						},
 						"linkedServiceName": {
 							"referenceName": "SqlServer_mslprd",
