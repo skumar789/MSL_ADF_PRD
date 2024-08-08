@@ -43067,8 +43067,6 @@
 					{
 						"name": "DF_AIA_IMS_HIER_POLICY_DETAILS_WEEKLY_EXTRACT_UAT",
 						"type": "ExecuteDataFlow",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE1",
@@ -43106,8 +43104,6 @@
 					{
 						"name": "DF_AIA_IMS_POLICY_DETAILS_EXTRACTWEEKLY_UAT",
 						"type": "ExecuteDataFlow",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "DF_AIA_IMS_HIER_POLICY_DETAILS_WEEKLY_EXTRACT_UAT",
@@ -43145,8 +43141,6 @@
 					{
 						"name": "DF_AIA_BOB_AGENCY_ALL_POLICY_HISTORY_WEEKLY_UAT",
 						"type": "ExecuteDataFlow",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "DF_AIA_CREDICO_BOB_UAT",
@@ -43184,8 +43178,6 @@
 					{
 						"name": "DF_AIA_ALL_CARRIERS_STATEMENT_DETAILS_UAT",
 						"type": "ExecuteDataFlow",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "DF_AIA_IMS_POLICY_DETAILS_EXTRACTWEEKLY_UAT",
@@ -43225,8 +43217,6 @@
 					{
 						"name": "DF_AIA_Commission_Payment_Weekly_UAT",
 						"type": "ExecuteDataFlow",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "DF_AIA_ALL_CARRIERS_STATEMENT_DETAILS_UAT",
@@ -43307,7 +43297,7 @@
 						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
-								"activity": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE",
+								"activity": "AIA_WEEKLY_POLICY_STATUS_INACTIVE_UPDATES_UAT",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -43332,11 +43322,9 @@
 					{
 						"name": "DF_AIA_CREDICO_BOB_UAT",
 						"type": "ExecuteDataFlow",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
-								"activity": "AIA_WEEKLY_POLICY_STATUS_CSD_CED_PRE_BOB_UPDATES_UAT",
+								"activity": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -43371,8 +43359,6 @@
 					{
 						"name": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE1",
 						"type": "SqlServerStoredProcedure",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "DF_AIA_BOB_AGENCY_ALL_POLICY_HISTORY_WEEKLY_UAT",
@@ -43402,7 +43388,14 @@
 						"type": "SqlServerStoredProcedure",
 						"state": "Inactive",
 						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [],
+						"dependsOn": [
+							{
+								"activity": "AIA_WEEKLY_POLICY_STATUS_CSD_CED_PRE_BOB_UPDATES_UAT",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
 						"policy": {
 							"timeout": "0.12:00:00",
 							"retry": 0,
@@ -43442,6 +43435,28 @@
 						"userProperties": [],
 						"typeProperties": {
 							"storedProcedureName": "AIA_MONTHLY_COMMISSION_CYCLE_CLOSURE"
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer_msluat",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "AIA_WEEKLY_POLICY_STATUS_INACTIVE_UPDATES_UAT",
+						"type": "SqlServerStoredProcedure",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "AIA_WEEKLY_POLICY_STATUS_INACTIVE_UPDATES"
 						},
 						"linkedServiceName": {
 							"referenceName": "SqlServer_msluat",
@@ -156567,7 +156582,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "SftpLocation",
-						"folderPath": "/MSL_Cloud_Prd/ToAgency/AIA"
+						"folderPath": "/MSL_Cloud_Uat/ToAgency/AIA"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -156987,7 +157002,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "SftpLocation",
-						"folderPath": "/MSL_Cloud_Prd/ToAgency/AIA"
+						"folderPath": "/MSL_Cloud_Uat/ToAgency/AIA"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -157127,7 +157142,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "SftpLocation",
-						"folderPath": "/MSL_Cloud_Prd/ToAgency/AIA"
+						"folderPath": "/MSL_Cloud_Uat/ToAgency/AIA"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -157767,7 +157782,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "SftpLocation",
-						"folderPath": "/MSL_Cloud_Prd/ToAgency/AIA"
+						"folderPath": "/MSL_Cloud_Uat/ToAgency/AIA"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -170327,11 +170342,11 @@
 					"sources": [
 						{
 							"dataset": {
-								"referenceName": "AIA_COMMISSION_PAYMENT_HISTORY_PRD",
+								"referenceName": "AIA_COMMISSION_PAYMENT_HISTORY_UAT",
 								"type": "DatasetReference"
 							},
 							"name": "AIACommissionPaymentWeekly",
-							"description": "Import data from AIA_COMMISSION_PAYMENT_HISTORY_PRD"
+							"description": "Import data from AIA_COMMISSION_PAYMENT_HISTORY_UAT"
 						}
 					],
 					"sinks": [
@@ -170458,7 +170473,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/AIA_COMMISSION_PAYMENT_HISTORY_PRD')]",
+				"[concat(variables('factoryId'), '/datasets/AIA_COMMISSION_PAYMENT_HISTORY_UAT')]",
 				"[concat(variables('factoryId'), '/datasets/DelimitedText111')]"
 			]
 		},
@@ -170548,11 +170563,11 @@
 					"sources": [
 						{
 							"dataset": {
-								"referenceName": "AIA_ALL_CARRIERS_STATEMENT_DETAILS_PRD",
+								"referenceName": "AIA_ALL_CARRIERS_STATEMENT_DETAILS_UAT",
 								"type": "DatasetReference"
 							},
 							"name": "AIAAllCarriersStatementDetails",
-							"description": "Import data from DBO.AIA_ALL_CARRIERS_STATEMENT_DETAILS_PRD"
+							"description": "Import data from DBO.AIA_ALL_CARRIERS_STATEMENT_DETAILS_UAT"
 						}
 					],
 					"sinks": [
@@ -170644,7 +170659,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/AIA_ALL_CARRIERS_STATEMENT_DETAILS_PRD')]",
+				"[concat(variables('factoryId'), '/datasets/AIA_ALL_CARRIERS_STATEMENT_DETAILS_UAT')]",
 				"[concat(variables('factoryId'), '/datasets/DelimitedText106')]"
 			]
 		},
@@ -171183,11 +171198,11 @@
 					"sources": [
 						{
 							"dataset": {
-								"referenceName": "AIA_AGENCY_EMP_HIER_DETAILS_HISTORY_PRD",
+								"referenceName": "AIA_AGENCY_EMP_HIER_DETAILS_HISTORY_UAT",
 								"type": "DatasetReference"
 							},
 							"name": "dataflow102",
-							"description": "Import data from AIA_AGENCY_EMP_HIER_DETAILS_HISTORY_PRD"
+							"description": "Import data from AIA_AGENCY_EMP_HIER_DETAILS_HISTORY_UAT"
 						}
 					],
 					"sinks": [
@@ -171265,7 +171280,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/AIA_AGENCY_EMP_HIER_DETAILS_HISTORY_PRD')]",
+				"[concat(variables('factoryId'), '/datasets/AIA_AGENCY_EMP_HIER_DETAILS_HISTORY_UAT')]",
 				"[concat(variables('factoryId'), '/datasets/DelimitedText102')]"
 			]
 		},
@@ -171632,11 +171647,11 @@
 					"sources": [
 						{
 							"dataset": {
-								"referenceName": "AIA_BOB_ALL_AGENCY_ALL_POLICY_HISTORY_PRD",
+								"referenceName": "AIA_BOB_ALL_AGENCY_ALL_POLICY_HISTORY_UAT",
 								"type": "DatasetReference"
 							},
 							"name": "source99",
-							"description": "Import data from AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY_PRD"
+							"description": "Import data from AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY_UAT"
 						}
 					],
 					"sinks": [
@@ -171746,7 +171761,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/AIA_BOB_ALL_AGENCY_ALL_POLICY_HISTORY_PRD')]",
+				"[concat(variables('factoryId'), '/datasets/AIA_BOB_ALL_AGENCY_ALL_POLICY_HISTORY_UAT')]",
 				"[concat(variables('factoryId'), '/datasets/DelimitedText105')]"
 			]
 		},
