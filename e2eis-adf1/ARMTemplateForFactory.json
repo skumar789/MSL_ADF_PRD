@@ -84366,7 +84366,7 @@
 						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
-								"activity": "Copy data into AIA_ALL_CARRIERS_STATEMENT_DETAILS",
+								"activity": "AIA_Commission_Advance_Details_PRD",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -87109,6 +87109,477 @@
 								"parameters": {}
 							}
 						]
+					},
+					{
+						"name": "AIA_OOS_Adjustments_PRD",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "Copy data into AIA_ALL_CARRIERS_STATEMENT_DETAILS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "SqlServerSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "E2eis_Seq_Number",
+											"type": "Int64",
+											"physicalType": "bigint"
+										},
+										"sink": {
+											"name": "E2eis_Seq_Number",
+											"type": "Int64",
+											"physicalType": "bigint"
+										}
+									},
+									{
+										"source": {
+											"name": "PAYEE_NAME",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "PAYEE_NAME",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "COMP_TYPE",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "COMP_TYPE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "DESCRIPTION",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "DESCRIPTION",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "AGENT_COMMISSION",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "AGENT_COMMISSION",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Agency_ID",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "Agency_ID",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Record_Data_Source",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Record_Data_Source",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Record_Flag_Status",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Record_Flag_Status",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "AIA_OOS_Adjustmentss_PRD",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "AIA_OOS_Adjustmentss_DEV",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "AIA_Commission_Advances_PRD",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "AIA_OOS_Adjustments_PRD",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "SqlServerSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "E2eis_Seq_Number",
+											"type": "Int64",
+											"physicalType": "bigint"
+										},
+										"sink": {
+											"name": "E2eis_Seq_Number",
+											"type": "Int64",
+											"physicalType": "bigint"
+										}
+									},
+									{
+										"source": {
+											"name": "PAYEE_NAME",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "PAYEE_NAME",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "DATE_PAID",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "DATE_PAID",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "FOR_PERIOD",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "FOR_PERIOD",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "ADVANCE_USED",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "ADVANCE_USED",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "ADVANCE_AMOUNT",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "ADVANCE_AMOUNT",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CURRENT_PERIOD",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CURRENT_PERIOD",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "ADVANCE_REMAINING",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "ADVANCE_REMAINING",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Agency_ID",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "Agency_ID",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Record_Load_Date",
+											"type": "DateTime",
+											"physicalType": "date"
+										},
+										"sink": {
+											"name": "Record_Load_Date",
+											"type": "DateTime",
+											"physicalType": "date"
+										}
+									},
+									{
+										"source": {
+											"name": "Record_Loaded_By",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Record_Loaded_By",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Record_Data_Source",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Record_Data_Source",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Record_Flag_Status",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Record_Flag_Status",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "AIA_COMMISSION_ADVANCESs_PRD",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "AIA_COMMISSION_ADVANCESs_DEV",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "AIA_Commission_Advance_Details_PRD",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "AIA_Commission_Advances_PRD",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "SqlServerSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "Payee_Name",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PAYEE_NAME",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Date_Paid",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "DATE_PAID",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Amount",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "AMOUNT",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "For_Period",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "FOR_PERIOD",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "AIA_COMMISSION_ADVANCE_DETAILSs_PRD",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "AIA_COMMISSION_ADVANCE_DETAILSs_DEV",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
 					}
 				],
 				"policy": {
@@ -87164,7 +87635,13 @@
 				"[concat(variables('factoryId'), '/datasets/AIA_U65_OEP_Advanced_Enrollment_Customs_DEV')]",
 				"[concat(variables('factoryId'), '/datasets/AIA_U65_OEP_ADVANCED_ENROLLMENT_CUSTOM_DEV')]",
 				"[concat(variables('factoryId'), '/datasets/AIA_F04_Individual_Ineligible_Saless_DEV')]",
-				"[concat(variables('factoryId'), '/datasets/AIA_F04_INDIVIDUAL_INLIGIBLE_SALES_DEV')]"
+				"[concat(variables('factoryId'), '/datasets/AIA_F04_INDIVIDUAL_INLIGIBLE_SALES_DEV')]",
+				"[concat(variables('factoryId'), '/datasets/AIA_OOS_Adjustmentss_PRD')]",
+				"[concat(variables('factoryId'), '/datasets/AIA_OOS_Adjustmentss_DEV')]",
+				"[concat(variables('factoryId'), '/datasets/AIA_COMMISSION_ADVANCESs_PRD')]",
+				"[concat(variables('factoryId'), '/datasets/AIA_COMMISSION_ADVANCESs_DEV')]",
+				"[concat(variables('factoryId'), '/datasets/AIA_COMMISSION_ADVANCE_DETAILSs_PRD')]",
+				"[concat(variables('factoryId'), '/datasets/AIA_COMMISSION_ADVANCE_DETAILSs_DEV')]"
 			]
 		},
 		{
@@ -94707,7 +95184,7 @@
 						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
-								"activity": "AIA_ALL_CARRIERS_STATEMENT_DETAILS_ADFU_copy1",
+								"activity": "AIA_Commission_Advance_Details_PRD",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -95464,7 +95941,7 @@
 						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
-								"activity": "AIA_CIGNA_ACTIVE_POLICY_DETAILS_copy1",
+								"activity": "AIA_ALL_CARRIERS_STATEMENT_DETAILS_ADFU_copy1",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -103606,6 +104083,8 @@
 					{
 						"name": "AIA_OOS_Adjustmentss_UAT",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_ALL_CARRIERS_STATEMENT_DETAILS_ADFU_copy1",
@@ -103624,9 +104103,16 @@
 						"userProperties": [],
 						"typeProperties": {
 							"source": {
-								"type": "SqlServerSource",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "SftpReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false,
+									"disableChunking": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
 							},
 							"sink": {
 								"type": "SqlServerSink",
@@ -103639,21 +104125,9 @@
 								"mappings": [
 									{
 										"source": {
-											"name": "E2eis_Seq_Number",
-											"type": "Int64",
-											"physicalType": "bigint"
-										},
-										"sink": {
-											"name": "E2eis_Seq_Number",
-											"type": "Int64",
-											"physicalType": "bigint"
-										}
-									},
-									{
-										"source": {
-											"name": "PAYEE_NAME",
+											"name": "Payee_Name",
 											"type": "String",
-											"physicalType": "varchar"
+											"physicalType": "String"
 										},
 										"sink": {
 											"name": "PAYEE_NAME",
@@ -103663,9 +104137,9 @@
 									},
 									{
 										"source": {
-											"name": "COMP_TYPE",
+											"name": "Comp Type",
 											"type": "String",
-											"physicalType": "varchar"
+											"physicalType": "String"
 										},
 										"sink": {
 											"name": "COMP_TYPE",
@@ -103675,9 +104149,9 @@
 									},
 									{
 										"source": {
-											"name": "DESCRIPTION",
+											"name": "Description",
 											"type": "String",
-											"physicalType": "varchar"
+											"physicalType": "String"
 										},
 										"sink": {
 											"name": "DESCRIPTION",
@@ -103687,48 +104161,12 @@
 									},
 									{
 										"source": {
-											"name": "AGENT_COMMISSION",
+											"name": "Agent Commission",
 											"type": "String",
-											"physicalType": "varchar"
+											"physicalType": "String"
 										},
 										"sink": {
 											"name": "AGENT_COMMISSION",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Agency_ID",
-											"type": "String",
-											"physicalType": "nvarchar"
-										},
-										"sink": {
-											"name": "Agency_ID",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Record_Data_Source",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Record_Data_Source",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Record_Flag_Status",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Record_Flag_Status",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -103743,7 +104181,7 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "AIA_OOS_Adjustmentss_PRD",
+								"referenceName": "AIA_OOS_Adjustments_UAT",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -103759,6 +104197,8 @@
 					{
 						"name": "AIA_COMMISSION_ADVANCESs_UAT",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_OOS_Adjustmentss_UAT",
@@ -103777,9 +104217,16 @@
 						"userProperties": [],
 						"typeProperties": {
 							"source": {
-								"type": "SqlServerSource",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "SftpReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false,
+									"disableChunking": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
 							},
 							"sink": {
 								"type": "SqlServerSink",
@@ -103792,21 +104239,9 @@
 								"mappings": [
 									{
 										"source": {
-											"name": "E2eis_Seq_Number",
-											"type": "Int64",
-											"physicalType": "bigint"
-										},
-										"sink": {
-											"name": "E2eis_Seq_Number",
-											"type": "Int64",
-											"physicalType": "bigint"
-										}
-									},
-									{
-										"source": {
-											"name": "PAYEE_NAME",
+											"name": "Payee_Name",
 											"type": "String",
-											"physicalType": "varchar"
+											"physicalType": "String"
 										},
 										"sink": {
 											"name": "PAYEE_NAME",
@@ -103816,9 +104251,9 @@
 									},
 									{
 										"source": {
-											"name": "DATE_PAID",
+											"name": "Date_Paid",
 											"type": "String",
-											"physicalType": "varchar"
+											"physicalType": "String"
 										},
 										"sink": {
 											"name": "DATE_PAID",
@@ -103828,9 +104263,9 @@
 									},
 									{
 										"source": {
-											"name": "FOR_PERIOD",
+											"name": "For_Period",
 											"type": "String",
-											"physicalType": "varchar"
+											"physicalType": "String"
 										},
 										"sink": {
 											"name": "FOR_PERIOD",
@@ -103840,9 +104275,9 @@
 									},
 									{
 										"source": {
-											"name": "ADVANCE_USED",
+											"name": "Advance_Used",
 											"type": "String",
-											"physicalType": "varchar"
+											"physicalType": "String"
 										},
 										"sink": {
 											"name": "ADVANCE_USED",
@@ -103852,9 +104287,9 @@
 									},
 									{
 										"source": {
-											"name": "ADVANCE_AMOUNT",
+											"name": "Advance_Amount",
 											"type": "String",
-											"physicalType": "varchar"
+											"physicalType": "String"
 										},
 										"sink": {
 											"name": "ADVANCE_AMOUNT",
@@ -103864,9 +104299,9 @@
 									},
 									{
 										"source": {
-											"name": "CURRENT_PERIOD",
+											"name": "Current_Period",
 											"type": "String",
-											"physicalType": "varchar"
+											"physicalType": "String"
 										},
 										"sink": {
 											"name": "CURRENT_PERIOD",
@@ -103876,48 +104311,12 @@
 									},
 									{
 										"source": {
-											"name": "ADVANCE_REMAINING",
+											"name": "Advance_Remaining",
 											"type": "String",
-											"physicalType": "varchar"
+											"physicalType": "String"
 										},
 										"sink": {
 											"name": "ADVANCE_REMAINING",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Agency_ID",
-											"type": "String",
-											"physicalType": "nvarchar"
-										},
-										"sink": {
-											"name": "Agency_ID",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Record_Data_Source",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Record_Data_Source",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Record_Flag_Status",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Record_Flag_Status",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -103932,7 +104331,7 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "AIA_COMMISSION_ADVANCESs_PRD",
+								"referenceName": "AIA_Commission_Advances_UAT",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -103948,6 +104347,8 @@
 					{
 						"name": "AIA_COMMISSION_ADVANCE_DETAILSs_UAT",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_COMMISSION_ADVANCESs_UAT",
@@ -103966,9 +104367,16 @@
 						"userProperties": [],
 						"typeProperties": {
 							"source": {
-								"type": "SqlServerSource",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "SftpReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false,
+									"disableChunking": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
 							},
 							"sink": {
 								"type": "SqlServerSink",
@@ -103981,21 +104389,9 @@
 								"mappings": [
 									{
 										"source": {
-											"name": "E2eis_Seq_Number",
-											"type": "Int64",
-											"physicalType": "bigint"
-										},
-										"sink": {
-											"name": "E2eis_Seq_Number",
-											"type": "Int64",
-											"physicalType": "bigint"
-										}
-									},
-									{
-										"source": {
-											"name": "PAYEE_NAME",
+											"name": "Payee_Name",
 											"type": "String",
-											"physicalType": "varchar"
+											"physicalType": "String"
 										},
 										"sink": {
 											"name": "PAYEE_NAME",
@@ -104005,9 +104401,9 @@
 									},
 									{
 										"source": {
-											"name": "DATE_PAID",
+											"name": "Date_Paid",
 											"type": "String",
-											"physicalType": "varchar"
+											"physicalType": "String"
 										},
 										"sink": {
 											"name": "DATE_PAID",
@@ -104017,9 +104413,9 @@
 									},
 									{
 										"source": {
-											"name": "AMOUNT",
+											"name": "Amount",
 											"type": "String",
-											"physicalType": "varchar"
+											"physicalType": "String"
 										},
 										"sink": {
 											"name": "AMOUNT",
@@ -104029,48 +104425,12 @@
 									},
 									{
 										"source": {
-											"name": "FOR_PERIOD",
+											"name": "For_Period",
 											"type": "String",
-											"physicalType": "varchar"
+											"physicalType": "String"
 										},
 										"sink": {
 											"name": "FOR_PERIOD",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Agency_ID",
-											"type": "String",
-											"physicalType": "nvarchar"
-										},
-										"sink": {
-											"name": "Agency_ID",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Record_Data_Source",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Record_Data_Source",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Record_Flag_Status",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "Record_Flag_Status",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -104085,7 +104445,7 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "AIA_COMMISSION_ADVANCE_DETAILSs_PRD",
+								"referenceName": "AIA_Commission_Advance_Details_UAT",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -104148,11 +104508,11 @@
 				"[concat(variables('factoryId'), '/datasets/AIA_AGENCY_PAYEE_DETAILS_HISTORY_UAT')]",
 				"[concat(variables('factoryId'), '/datasets/AIA_AGENCY_ANNUAL_RATE_DETAILS_HISTORY_UAT')]",
 				"[concat(variables('factoryId'), '/linkedServices/SqlServer_msluat')]",
-				"[concat(variables('factoryId'), '/datasets/AIA_OOS_Adjustmentss_PRD')]",
+				"[concat(variables('factoryId'), '/datasets/AIA_OOS_Adjustments_UAT')]",
 				"[concat(variables('factoryId'), '/datasets/AIA_OOS_Adjustmentss_UAT')]",
-				"[concat(variables('factoryId'), '/datasets/AIA_COMMISSION_ADVANCESs_PRD')]",
+				"[concat(variables('factoryId'), '/datasets/AIA_Commission_Advances_UAT')]",
 				"[concat(variables('factoryId'), '/datasets/AIA_COMMISSION_ADVANCESs_UAT')]",
-				"[concat(variables('factoryId'), '/datasets/AIA_COMMISSION_ADVANCE_DETAILSs_PRD')]",
+				"[concat(variables('factoryId'), '/datasets/AIA_Commission_Advance_Details_UAT')]",
 				"[concat(variables('factoryId'), '/datasets/AIA_COMMISSION_ADVANCE_DETAILSs_UAT')]"
 			]
 		},
@@ -140207,6 +140567,85 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/AIA_COMMISSION_ADVANCESs_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msldev",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2eis_Seq_Number",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "PAYEE_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "DATE_PAID",
+						"type": "varchar"
+					},
+					{
+						"name": "FOR_PERIOD",
+						"type": "varchar"
+					},
+					{
+						"name": "ADVANCE_USED",
+						"type": "varchar"
+					},
+					{
+						"name": "ADVANCE_AMOUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "CURRENT_PERIOD",
+						"type": "varchar"
+					},
+					{
+						"name": "ADVANCE_REMAINING",
+						"type": "varchar"
+					},
+					{
+						"name": "COMP_PERIOD",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Record_Load_Date",
+						"type": "date"
+					},
+					{
+						"name": "Record_Loaded_By",
+						"type": "varchar"
+					},
+					{
+						"name": "Record_Data_Source",
+						"type": "varchar"
+					},
+					{
+						"name": "Record_Flag_Status",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "AIA_COMMISSION_ADVANCES"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SqlServer_msldev')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AIA_COMMISSION_ADVANCESs_PRD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -140354,6 +140793,69 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/SqlServer_msluat')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_COMMISSION_ADVANCE_DETAILSs_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msldev",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2eis_Seq_Number",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "PAYEE_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "DATE_PAID",
+						"type": "varchar"
+					},
+					{
+						"name": "AMOUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "COMP_PERIOD",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Record_Load_Date",
+						"type": "date"
+					},
+					{
+						"name": "Record_Loaded_By",
+						"type": "varchar"
+					},
+					{
+						"name": "Record_Data_Source",
+						"type": "varchar"
+					},
+					{
+						"name": "Record_Flag_Status",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "AIA_COMMISSION_ADVANCE_DETAILS"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SqlServer_msldev')]"
 			]
 		},
 		{
@@ -142568,6 +143070,51 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/AIA_Commission_Advance_Details_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_Connections_AIA_Feed",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_Commission_Advance_Details_UAT.csv",
+						"folderPath": "/MSL_Cloud_Uat/FromAgency/AIA"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Payee_Name",
+						"type": "String"
+					},
+					{
+						"name": "Date_Paid",
+						"type": "String"
+					},
+					{
+						"name": "Amount",
+						"type": "String"
+					},
+					{
+						"name": "For_Period",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Sftp_Connections_AIA_Feed')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AIA_Commission_Advances_PRD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -142583,6 +143130,63 @@
 						"type": "SftpLocation",
 						"fileName": "AIA_Commission_Advances_PRD.csv",
 						"folderPath": "/MSL_Cloud_Prd/FromAgency/AIA"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Payee_Name",
+						"type": "String"
+					},
+					{
+						"name": "Date_Paid",
+						"type": "String"
+					},
+					{
+						"name": "For_Period",
+						"type": "String"
+					},
+					{
+						"name": "Advance_Used",
+						"type": "String"
+					},
+					{
+						"name": "Advance_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Current_Period",
+						"type": "String"
+					},
+					{
+						"name": "Advance_Remaining",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Sftp_Connections_AIA_Feed')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_Commission_Advances_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_Connections_AIA_Feed",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_Commission_Advances_UAT.csv",
+						"folderPath": "/MSL_Cloud_Uat/FromAgency/AIA"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -154362,6 +154966,118 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/Sftp_Connections_AIA_Feed')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_OOS_Adjustments_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_Connections_AIA_Feed",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_OOS_Adjustments_UAT.csv",
+						"folderPath": "/MSL_Cloud_Uat/FromAgency/AIA"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Payee_Name",
+						"type": "String"
+					},
+					{
+						"name": "Comp Type",
+						"type": "String"
+					},
+					{
+						"name": "Description",
+						"type": "String"
+					},
+					{
+						"name": "Agent Commission",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Sftp_Connections_AIA_Feed')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_OOS_Adjustmentss_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msldev",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2eis_Seq_Number",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "PAYEE_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "COMP_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "DESCRIPTION",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_COMMISSION",
+						"type": "varchar"
+					},
+					{
+						"name": "COMP_PERIOD",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Record_Load_Date",
+						"type": "date"
+					},
+					{
+						"name": "Record_Loaded_By",
+						"type": "varchar"
+					},
+					{
+						"name": "Record_Data_Source",
+						"type": "varchar"
+					},
+					{
+						"name": "Record_Flag_Status",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "AIA_OOS_ADJUSTMENTS"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SqlServer_msldev')]"
 			]
 		},
 		{
