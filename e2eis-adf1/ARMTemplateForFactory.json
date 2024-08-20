@@ -57980,8 +57980,10 @@
 						]
 					},
 					{
-						"name": "Data flow1",
+						"name": "DF_Monthly_Extracts_for_ABI_Agency1",
 						"type": "ExecuteDataFlow",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
@@ -57992,6 +57994,15 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_Monthly_Extracts_for_ABI_Agency1",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"Source1": {},
+									"Sink1": {}
+								}
+							},
 							"staging": {},
 							"compute": {
 								"coreCount": 8,
@@ -58001,9 +58012,18 @@
 						}
 					},
 					{
-						"name": "Data flow2",
+						"name": "DF_Monthly_Extracts_for_ABI_Agency",
 						"type": "ExecuteDataFlow",
-						"dependsOn": [],
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [
+							{
+								"activity": "DF_Monthly_Extracts_for_ABI_Agency1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
 						"policy": {
 							"timeout": "0.12:00:00",
 							"retry": 0,
@@ -58013,6 +58033,15 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_Monthly_Extracts_for_ABI_Agency",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source1": {},
+									"sink1": {}
+								}
+							},
 							"staging": {},
 							"compute": {
 								"coreCount": 8,
@@ -58072,7 +58101,9 @@
 				"[concat(variables('factoryId'), '/datasets/ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY_PRD')]",
 				"[concat(variables('factoryId'), '/datasets/ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY_DEV')]",
 				"[concat(variables('factoryId'), '/datasets/ABI_COMMISSION_ALL_SALES_DETAIL_HISTORY_PRD')]",
-				"[concat(variables('factoryId'), '/datasets/ABI_COMMISSION_ALL_SALES_DETAIL_HISTORY_DEV')]"
+				"[concat(variables('factoryId'), '/datasets/ABI_COMMISSION_ALL_SALES_DETAIL_HISTORY_DEV')]",
+				"[concat(variables('factoryId'), '/dataflows/DF_Monthly_Extracts_for_ABI_Agency1')]",
+				"[concat(variables('factoryId'), '/dataflows/DF_Monthly_Extracts_for_ABI_Agency')]"
 			]
 		},
 		{
@@ -108621,7 +108652,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "SftpLocation",
-						"folderPath": "/MSL_Cloud_Prd/ToAgency/ABI"
+						"folderPath": "/MSL_Cloud_Dev/ToAgency/ABI"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -124301,7 +124332,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "SftpLocation",
-						"folderPath": "/MSL_Cloud_Prd/ToAgency/ABI"
+						"folderPath": "/MSL_Cloud_Dev/ToAgency/ABI"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -179875,11 +179906,11 @@
 					"sources": [
 						{
 							"dataset": {
-								"referenceName": "ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY_PRD",
+								"referenceName": "ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY_DEV",
 								"type": "DatasetReference"
 							},
 							"name": "source1",
-							"description": "Import data from ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY_PRD"
+							"description": "Import data from ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY_DEV"
 						}
 					],
 					"sinks": [
@@ -179923,7 +179954,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY_PRD')]",
+				"[concat(variables('factoryId'), '/datasets/ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY_DEV')]",
 				"[concat(variables('factoryId'), '/datasets/ABI_SALES_MONTHLY_SUMMARY_REPORT_UAT')]"
 			]
 		},
@@ -179937,11 +179968,11 @@
 					"sources": [
 						{
 							"dataset": {
-								"referenceName": "ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY_PRD",
+								"referenceName": "ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY_DEV",
 								"type": "DatasetReference"
 							},
 							"name": "Source1",
-							"description": "Import data from ABI_COMMISSION_ALL_SALES_REPORT_HISTORY_PRD"
+							"description": "Import data from ABI_COMMISSION_ALL_SALES_REPORT_HISTORY_DEV"
 						}
 					],
 					"sinks": [
@@ -180011,7 +180042,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY_PRD')]",
+				"[concat(variables('factoryId'), '/datasets/ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY_DEV')]",
 				"[concat(variables('factoryId'), '/datasets/ABI_ALL_SALES_DETAILS_REPORT_UAT')]"
 			]
 		},
