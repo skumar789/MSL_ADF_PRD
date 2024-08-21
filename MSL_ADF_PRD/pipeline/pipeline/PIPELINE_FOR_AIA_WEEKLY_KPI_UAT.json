@@ -196,8 +196,6 @@
 			{
 				"name": "AIA_WEEKLY_POLICY_STATUS_CSD_CED_PRE_BOB_UPDATES_UAT",
 				"type": "SqlServerStoredProcedure",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_WEEKLY_POLICY_STATUS_INACTIVE_UPDATES_UAT",
@@ -283,8 +281,6 @@
 			{
 				"name": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE",
 				"type": "SqlServerStoredProcedure",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_WEEKLY_POLICY_STATUS_CSD_CED_PRE_BOB_UPDATES_UAT",
@@ -341,9 +337,14 @@
 			{
 				"name": "AIA_WEEKLY_POLICY_STATUS_INACTIVE_UPDATES_UAT",
 				"type": "SqlServerStoredProcedure",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "AIA_WEEKLY_DUPLICATE_POLICY_DELETE_UAT",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -354,6 +355,26 @@
 				"userProperties": [],
 				"typeProperties": {
 					"storedProcedureName": "AIA_WEEKLY_POLICY_STATUS_INACTIVE_UPDATES"
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msluat",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "AIA_WEEKLY_DUPLICATE_POLICY_DELETE_UAT",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "AIA_WEEKLY_DUPLICATE_POLICY_DELETE"
 				},
 				"linkedServiceName": {
 					"referenceName": "SqlServer_msluat",
