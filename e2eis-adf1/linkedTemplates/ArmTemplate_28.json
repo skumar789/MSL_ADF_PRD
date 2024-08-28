@@ -15777,42 +15777,11 @@
 						}
 					},
 					{
-						"name": "AIA_WEEKLY_POLICY_STATUS_CSD_CED_PRE_BOB_UPDATES",
-						"type": "SqlServerStoredProcedure",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [
-							{
-								"activity": "AIA_WEEKLY_POLICY_STATUS_INACTIVE_UPDATES",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "AIA_WEEKLY_POLICY_STATUS_CSD_CED_PRE_BOB_UPDATES"
-						},
-						"linkedServiceName": {
-							"referenceName": "SqlServer_mslprd",
-							"type": "LinkedServiceReference"
-						}
-					},
-					{
 						"name": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE",
 						"type": "SqlServerStoredProcedure",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
-								"activity": "AIA_WEEKLY_POLICY_STATUS_CSD_CED_PRE_BOB_UPDATES",
+								"activity": "AIA_WEEKLY_POLICY_STATUS_PRE_UPDATES_PRD",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -15893,10 +15862,35 @@
 						}
 					},
 					{
-						"name": "AIA_WEEKLY_POLICY_STATUS_INACTIVE_UPDATES",
+						"name": "AIA_WEEKLY_POLICY_STATUS_PRE_UPDATES_PRD",
 						"type": "SqlServerStoredProcedure",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [
+							{
+								"activity": "AIA_WEEKLY_DUPLICATE_POLICY_DELETE_PRD",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "AIA_WEEKLY_POLICY_STATUS_PRE_UPDATES"
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer_mslprd",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "AIA_WEEKLY_DUPLICATE_POLICY_DELETE_PRD",
+						"type": "SqlServerStoredProcedure",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
@@ -15907,7 +15901,7 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"storedProcedureName": "AIA_WEEKLY_POLICY_STATUS_INACTIVE_UPDATES"
+							"storedProcedureName": "AIA_WEEKLY_DUPLICATE_POLICY_DELETE"
 						},
 						"linkedServiceName": {
 							"referenceName": "SqlServer_mslprd",
