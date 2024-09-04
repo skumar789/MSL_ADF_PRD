@@ -13,6 +13,136 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/dataflow_AIA_Weekly_Extracts')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "AIA_IMS_POLICY_HISTORY_PRD",
+								"type": "DatasetReference"
+							},
+							"name": "source104"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DelimitedText104",
+								"type": "DatasetReference"
+							},
+							"name": "sink104",
+							"description": "GENERATING FILE AIA_IMS_POLICY_DETAILS_LAST_4_MONTHS_EXTRACTS.csv"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          E2eis_Seq_Number as long,",
+						"          IMS_Transaction_Id as string,",
+						"          Submitter_Id as string,",
+						"          Submitter_First_Name as string,",
+						"          Submitter_Last_Name as string,",
+						"          Florida_Blue_Response as string,",
+						"          Date_Time_Submitted as string,",
+						"          Agent_Id as string,",
+						"          Agent_First_Name as string,",
+						"          Agent_Last_Name as string,",
+						"          Runner_Name as string,",
+						"          Upline_First_Name as string,",
+						"          Upline_Last_Name as string,",
+						"          Department_Name as string,",
+						"          Department_Designation as string,",
+						"          Client_First_Name as string,",
+						"          Client_Last_Name as string,",
+						"          Client_DOB as string,",
+						"          Client_Phone as string,",
+						"          Client_Email as string,",
+						"          Client_Address_1 as string,",
+						"          Client_Address_2 as string,",
+						"          Client_City as string,",
+						"          Client_State as string,",
+						"          Client_Zip as string,",
+						"          Member_Count_Enrolled as string,",
+						"          Assigned_Id as string,",
+						"          Status as string,",
+						"          App_Submitted_Date as string,",
+						"          Policy_Effective_Date as string,",
+						"          Agent_Login_Used as string,",
+						"          Carrier as string,",
+						"          FFM_Id as string,",
+						"          Subscriber_Id as string,",
+						"          Client_Sex as string,",
+						"          Married as string,",
+						"          Pregnant as string,",
+						"          Smoker as string,",
+						"          American_Native as string,",
+						"          Client_Income as string,",
+						"          Client_Income_Freq as string,",
+						"          Tax_Credit_Amount as string,",
+						"          Plan_Premium as string,",
+						"          Payment_Amount as string,",
+						"          Plan_Name as string,",
+						"          Plan_ID as string,",
+						"          Insurance_Company as string,",
+						"          Plan_Selected as string,",
+						"          DateTime_Assigned as string,",
+						"          Last_Status_Change as string,",
+						"          Agency_ID as string,",
+						"          Record_Load_Date as date,",
+						"          Record_Loaded_By as string,",
+						"          Record_Data_Source as string,",
+						"          Record_Flag_Status as string",
+						"     ),",
+						"     allowSchemaDrift: false,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT  [E2eis_Seq_Number]\\n      ,[IMS_Transaction_Id]\\n      ,[Submitter_Id]\\n      ,[Submitter_First_Name]\\n      ,[Submitter_Last_Name]\\n      ,[Florida_Blue_Response]\\n      ,[Date_Time_Submitted]\\n      ,[Agent_Id]\\n      ,[Agent_First_Name]\\n      ,[Agent_Last_Name]\\n      ,[Runner_Name]\\n      ,[Upline_First_Name]\\n      ,[Upline_Last_Name]\\n      ,[Department_Name]\\n      ,[Department_Designation]\\n      ,[Client_First_Name]\\n      ,[Client_Last_Name]\\n      ,[Client_DOB]\\n      ,[Client_Phone]\\n      ,[Client_Email]\\n      ,[Client_Address_1]\\n      ,[Client_Address_2]\\n      ,[Client_City]\\n      ,[Client_State]\\n      ,[Client_Zip]\\n      ,[Member_Count_Enrolled]\\n      ,[Assigned_Id]\\n      ,[Status]\\n      ,[App_Submitted_Date]\\n      ,[Policy_Effective_Date]\\n      ,[Agent_Login_Used]\\n      ,[Carrier]\\n      ,[FFM_Id]\\n      ,[Subscriber_Id]\\n      ,[Client_Sex]\\n      ,[Married]\\n      ,[Pregnant]\\n      ,[Smoker]\\n      ,[American_Native]\\n      ,[Client_Income]\\n      ,[Client_Income_Freq]\\n      ,[Tax_Credit_Amount]\\n      ,[Plan_Premium]\\n      ,[Payment_Amount]\\n      ,[Plan_Name]\\n      ,[Plan_ID]\\n      ,[Insurance_Company]\\n      ,[Plan_Selected]\\n      ,[DateTime_Assigned]\\n      ,[Last_Status_Change]\\n      ,[Agency_ID]\\n      ,[Record_Load_Date]\\n      ,[Record_Loaded_By]\\n      ,[Record_Data_Source]\\n      ,[Record_Flag_Status]\\n  FROM [dbo].[AIA_IMS_POLICY_HISTORY]\\n',",
+						"     format: 'query') ~> source104",
+						"source104 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          E2eis_Seq_Number as string,",
+						"          Agent_Statement_Date as string,",
+						"          Agency_Name as string,",
+						"          Agent_Name as string,",
+						"          Agent_ID as string,",
+						"          Agent_Number as string,",
+						"          Agent_Commission_Note as string,",
+						"          Carrier_Name as string,",
+						"          Effective_Date as string,",
+						"          Client_Name as string,",
+						"          Policy_ID as string,",
+						"          Policy_Number as string,",
+						"          Coverage_Type as string,",
+						"          Bill_From_Date as string,",
+						"          Month_of_Bill_From_Date as string,",
+						"          Lives as string,",
+						"          Premium_Amount as string,",
+						"          Commission_Amount as string,",
+						"          Commission_Entry_Note as string,",
+						"          Revenue_Type as string,",
+						"          Balance_Forwarded as string,",
+						"          Compensation_Month as string,",
+						"          State as string,",
+						"          Agency_ID as string,",
+						"          Record_Load_Date as string,",
+						"          Record_Loaded_By as string,",
+						"          Record_Data_Source as string,",
+						"          Record_Flag_Status as string",
+						"     ),",
+						"     partitionFileNames:['AIA_IMS_POLICY_DETAILS_LAST_3_MONTHS_EXTRACTS_MMDDYYYY.csv'],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink104"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ABI_COMMISSION_CALCULATION_DEV')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -18562,7 +18692,9 @@
 				"annotations": [],
 				"lastPublishTime": "2024-04-26T14:12:30Z"
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dataflow_AIA_Weekly_Extracts')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/PIPELINE_FOR_AIA_WEEKLY_KPI_PRD')]",
@@ -18990,7 +19122,9 @@
 				"annotations": [],
 				"lastPublishTime": "2024-04-26T14:12:30Z"
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dataflow_AIA_Weekly_Extracts')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/PIPELINE_FOR_AIA_WEEKLY_KPI_UAT')]",
