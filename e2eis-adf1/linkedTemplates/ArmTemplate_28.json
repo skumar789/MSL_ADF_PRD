@@ -19079,8 +19079,6 @@
 					{
 						"name": "DF_AIA_BOB_AGENCY_ALL_POLICY_HISTORY_WEEKLY_UAT",
 						"type": "ExecuteDataFlow",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "DF_AIA_CREDICO_BOB_UAT",
@@ -19235,39 +19233,8 @@
 						}
 					},
 					{
-						"name": "AIA_WEEKLY_POLICY_STATUS_CSD_CED_PRE_BOB_UPDATES_UAT",
-						"type": "SqlServerStoredProcedure",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [
-							{
-								"activity": "AIA_WEEKLY_POLICY_STATUS_INACTIVE_UPDATES_UAT",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "AIA_WEEKLY_POLICY_STATUS_CSD_CED_PRE_BOB_UPDATES"
-						},
-						"linkedServiceName": {
-							"referenceName": "SqlServer_msluat",
-							"type": "LinkedServiceReference"
-						}
-					},
-					{
 						"name": "DF_AIA_CREDICO_BOB_UAT",
 						"type": "ExecuteDataFlow",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE",
@@ -19338,7 +19305,7 @@
 						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
-								"activity": "AIA_WEEKLY_POLICY_STATUS_CSD_CED_PRE_BOB_UPDATES_UAT",
+								"activity": "AIA_WEEKLY_POLICY_STATUS_PRE_UPDATES_UAT",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -19353,7 +19320,7 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"storedProcedureName": "[[dbo].[AIA_WEEKLY_POLICY_STATUS_UPDATES]"
+							"storedProcedureName": "SP_AIA_WEEKLY_POLICY_STATUS_UPDATES"
 						},
 						"linkedServiceName": {
 							"referenceName": "SqlServer_msluat",
@@ -19390,7 +19357,36 @@
 						}
 					},
 					{
-						"name": "AIA_WEEKLY_POLICY_STATUS_INACTIVE_UPDATES_UAT",
+						"name": "AIA_WEEKLY_DUPLICATE_POLICY_DELETE_UAT",
+						"type": "SqlServerStoredProcedure",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [
+							{
+								"activity": "SP_AIA_ALL_AGENCIES_WEEKLY_NEW_POLICIES_CONSOLIDATION",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "SP_AIA_WEEKLY_DUPLICATE_POLICY_DELETE"
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer_msluat",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "AIA_WEEKLY_POLICY_STATUS_PRE_UPDATES_UAT",
 						"type": "SqlServerStoredProcedure",
 						"state": "Inactive",
 						"onInactiveMarkAs": "Succeeded",
@@ -19411,7 +19407,7 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"storedProcedureName": "AIA_WEEKLY_POLICY_STATUS_INACTIVE_UPDATES"
+							"storedProcedureName": "SP_AIA_WEEKLY_POLICY_STATUS_PRE_UPDATES"
 						},
 						"linkedServiceName": {
 							"referenceName": "SqlServer_msluat",
@@ -19419,7 +19415,36 @@
 						}
 					},
 					{
-						"name": "AIA_WEEKLY_DUPLICATE_POLICY_DELETE_UAT",
+						"name": "SP_AIA_ALL_AGENCIES_WEEKLY_NEW_POLICIES_CONSOLIDATION",
+						"type": "SqlServerStoredProcedure",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [
+							{
+								"activity": "SP_AIA_IMS_WEEKLY_POLICY_DATA_CONSOLIDATION_UAT",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "SP_AIA_ALL_AGENCIES_WEEKLY_NEW_POLICIES_CONSOLIDATION"
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer_msluat",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "SP_AIA_IMS_WEEKLY_POLICY_DATA_CONSOLIDATION_UAT",
 						"type": "SqlServerStoredProcedure",
 						"state": "Inactive",
 						"onInactiveMarkAs": "Succeeded",
@@ -19433,7 +19458,7 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"storedProcedureName": "AIA_WEEKLY_DUPLICATE_POLICY_DELETE"
+							"storedProcedureName": "SP_AIA_IMS_WEEKLY_POLICY_DATA_CONSOLIDATION"
 						},
 						"linkedServiceName": {
 							"referenceName": "SqlServer_msluat",
