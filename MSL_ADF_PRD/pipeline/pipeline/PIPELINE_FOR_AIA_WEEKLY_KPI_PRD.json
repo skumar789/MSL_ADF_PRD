@@ -357,7 +357,14 @@
 				"type": "SqlServerStoredProcedure",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "SP_AIA_ALL_AGENCIES_WEEKLY_NEW_POLICIES_CONSOLIDATION",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -368,6 +375,53 @@
 				"userProperties": [],
 				"typeProperties": {
 					"storedProcedureName": "AIA_WEEKLY_DUPLICATE_POLICY_DELETE"
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServer_mslprd",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "SP_AIA_ALL_AGENCIES_WEEKLY_NEW_POLICIES_CONSOLIDATION",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "SP_AIA_IMS_WEEKLY_POLICY_DATA_CONSOLIDATION_PRD",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "SP_AIA_ALL_AGENCIES_WEEKLY_NEW_POLICIES_CONSOLIDATION"
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServer_mslprd",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "SP_AIA_IMS_WEEKLY_POLICY_DATA_CONSOLIDATION_PRD",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "SP_AIA_IMS_WEEKLY_POLICY_DATA_CONSOLIDATION"
 				},
 				"linkedServiceName": {
 					"referenceName": "SqlServer_mslprd",
