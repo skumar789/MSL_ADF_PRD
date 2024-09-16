@@ -1,0 +1,92 @@
+{
+	"name": "dataflow104 SIM BOB",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "SIM_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY_UAT",
+						"type": "DatasetReference"
+					},
+					"name": "source1",
+					"description": "Import data from SIM_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY_UAT"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "SIM_ALL_BOB_MMDDYYYY",
+						"type": "DatasetReference"
+					},
+					"name": "sink1",
+					"description": "GENERATING FILE SIM_ALL_BOB_MMDDYYYY.csv"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          E2eis_Seq_Number as long,",
+				"          Carrier as string,",
+				"          Owning_Agent_of_Record as string,",
+				"          Assigned_Agent_Number as string,",
+				"          Broker_Start_Date as string,",
+				"          Broker_End_Date as string,",
+				"          Product_Type as string,",
+				"          Product_Description as string,",
+				"          IMS_Transaction_ID as string,",
+				"          Policy_Status as string,",
+				"          Policy_ID as string,",
+				"          Group_Name as string,",
+				"          Member_Count as string,",
+				"          {On/Off_Exchange} as string,",
+				"          Exchange_Subscriber_ID as string,",
+				"          Coverage_Type as string,",
+				"          Subscriber_Original_Effective_Date as string,",
+				"          Coverage_Start_Date as string,",
+				"          Coverage_End_Date as string,",
+				"          Paid_Through_Date as string,",
+				"          Subscriber_First_Name as string,",
+				"          Subscriber_Middle_Name as string,",
+				"          Subscriber_Last_Name as string,",
+				"          Subscriber_Full_Name as string,",
+				"          Subscriber_DOB as string,",
+				"          Subscriber_Email as string,",
+				"          Address as string,",
+				"          Address_2 as string,",
+				"          Zip_Code as string,",
+				"          City as string,",
+				"          State as string,",
+				"          County as string,",
+				"          App_Submit_Date as string,",
+				"          Member_Phone_Number_1 as string,",
+				"          Member_Phone_Number_2 as string,",
+				"          Compensation_Type as string,",
+				"          Compensation_Period as string,",
+				"          Compensation_Amount as string,",
+				"          Payee_Name as string,",
+				"          Main_Upline_Agent as string,",
+				"          Group_Team_Sales as string,",
+				"          Transition_Date as string,",
+				"          Assigned_Agent_Name as string,",
+				"          Agency_ID as string,",
+				"          Record_Load_Date as date,",
+				"          Record_Loaded_By as string,",
+				"          Record_Data_Source as string,",
+				"          Record_Flag_Status as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT *\\n FROM [SIM_103].[SIM_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY]\\n WHERE [Record_Load_Date] IN (SELECT max([Record_Load_Date]) \\n   FROM [SIM_103].SIM_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY\\n)',",
+				"     format: 'query') ~> source1",
+				"source1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['SIM_ALL_BOB_MMDDYYYY.csv'],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sink1"
+			]
+		}
+	}
+}

@@ -902,6 +902,8 @@
 			{
 				"name": "SP_SIM_ALL_AGENCIES_WEEKLY_NEW_POLICIES_CONSOLIDATION",
 				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "SIM_UNITED_HEALTH_GROUP_WEEKLY_FEED_UAT",
@@ -924,6 +926,124 @@
 				"linkedServiceName": {
 					"referenceName": "SqlServer_msluat",
 					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "SP_SIM_WEEKLY_DUPLICATE_POLICY_DELETE_UAT",
+				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "SP_SIM_ALL_AGENCIES_WEEKLY_NEW_POLICIES_CONSOLIDATION",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "SP_SIM_WEEKLY_DUPLICATE_POLICY_DELETE"
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msluat",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "SP_SIM_WEEKLY_POLICY_STATUS_PRE_UPDATES_UAT",
+				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "SP_SIM_WEEKLY_DUPLICATE_POLICY_DELETE_UAT",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "SP_SIM_WEEKLY_POLICY_STATUS_PRE_UPDATES"
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msluat",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "SP_SIM_WEEKLY_POLICY_STATUS_UPDATES_UAT",
+				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "SP_SIM_WEEKLY_POLICY_STATUS_PRE_UPDATES_UAT",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "SP_SIM_WEEKLY_POLICY_STATUS_UPDATES"
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msluat",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "DF_SIM_BOB_FILE",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "SP_SIM_WEEKLY_POLICY_STATUS_UPDATES_UAT",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "dataflow104 SIM BOB",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
 				}
 			}
 		],
