@@ -12687,6 +12687,129 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "AIA_ALL_CARRIERS_IMS_TRANSACTION_ID_ULTIMATE_TRUTH_UAT",
+				"description": "This will be monthly feed that tracks IMS Transaction IDS maintained by Client .",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "AIA_IMS_HEALTH_SHERPA_DATA_EXPORT_DEV",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "SftpReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false,
+							"disableChunking": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "SqlServerSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "Policy_ID",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "POLICY_ID",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "IMS_Transaction_ID",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "IMS_TRANSACTION_ID",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Employee_ID",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "EMPLOYEE_ID",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Full_Name",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "FULL_NAME",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Department_Name",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "DEPARTMENT_NAME",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "AIA_All_Carriers_IMS_Transaction_ID_Ultimate_Truth_UAT",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "AIA_ALL_CARRIERSS_IMS_TRANSACTION_ID_ULTIMATE_TRUTH_UAT",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"parameters": {
