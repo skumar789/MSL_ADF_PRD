@@ -1,12 +1,10 @@
 {
-	"name": "PIPELINE_FOR_ALL_SIM_WEEKLY_DATA_FEEDS_DEV",
+	"name": "PIPELINE_FOR_ALL_SIM_WEEKLY_DATA_FEEDS_PRD",
 	"properties": {
 		"activities": [
 			{
 				"name": "SIM_UNITED_HEALTH_GROUP_WEEKLY_FEED_UAT",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -959,7 +957,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "SIM_103_SIM_UNITED_HEALTH_GROUP_WEEKLY_DEV",
+						"referenceName": "SIM_103_SIM_UNITED_HEALTH_GROUP_WEEKLY_PRD",
 						"type": "DatasetReference"
 					}
 				]
@@ -967,8 +965,6 @@
 			{
 				"name": "SP_SIM_ALL_AGENCIES_WEEKLY_NEW_POLICIES_CONSOLIDATION",
 				"type": "SqlServerStoredProcedure",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "SIM_UNITED_HEALTH_GROUP_WEEKLY_FEED_UAT",
@@ -989,15 +985,13 @@
 					"storedProcedureName": "[SIM_103].[SP_SIM_ALL_AGENCIES_WEEKLY_NEW_POLICIES_CONSOLIDATION]"
 				},
 				"linkedServiceName": {
-					"referenceName": "SqlServer_msldev",
+					"referenceName": "SqlServer_mslprd",
 					"type": "LinkedServiceReference"
 				}
 			},
 			{
-				"name": "SP_SIM_WEEKLY_DUPLICATE_POLICY_DELETE_UAT",
+				"name": "SP_SIM_WEEKLY_DUPLICATE_POLICY_DELETE_PRD",
 				"type": "SqlServerStoredProcedure",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "SP_SIM_ALL_AGENCIES_WEEKLY_NEW_POLICIES_CONSOLIDATION",
@@ -1018,7 +1012,7 @@
 					"storedProcedureName": "[SIM_103].[SP_SIM_WEEKLY_DUPLICATE_POLICY_DELETE]"
 				},
 				"linkedServiceName": {
-					"referenceName": "SqlServer_msldev",
+					"referenceName": "SqlServer_mslprd",
 					"type": "LinkedServiceReference"
 				}
 			},
@@ -1029,7 +1023,7 @@
 				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "SP_SIM_WEEKLY_DUPLICATE_POLICY_DELETE_UAT",
+						"activity": "SP_SIM_WEEKLY_DUPLICATE_POLICY_DELETE_PRD",
 						"dependencyConditions": [
 							"Succeeded"
 						]
