@@ -24872,6 +24872,63 @@
 								"parameters": {}
 							}
 						]
+					},
+					{
+						"name": "AIA_IMS_BOB_WEEKLY_DATA_LOADS_CONSOLIDATION_DEV_copy2",
+						"description": "AIA_IMS_BOB_WEEKLY_DATA_LOADS_CONSOLIDATION",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "AIA_IMS_BOB_WEEKLY_DATA_LOADS_CONSOLIDATION_DEV_copy1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"sqlReaderQuery": "\nSELECT *\n\n  FROM [AIA_102].AIA_IMS_BOB_WEEKLY_DATA_LOADS_CONSOLIDATION \n\n   WHERE AIA_102.AIA_IMS_BOB_WEEKLY_DATA_LOADS_CONSOLIDATION.Policy_ID NOT IN (SELECT \n\n      AIA_102.AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY.Policy_ID\n\n        FROM [AIA_102].[AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY] );",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "SqlServerSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "AIA_BOB_ALL_AGENCY_ALL_POLICY_HISTORY_PRD",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "AIA_BOB_ALL_AGENCY_ALL_POLICY_HISTORY_DEV",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
 					}
 				],
 				"policy": {
