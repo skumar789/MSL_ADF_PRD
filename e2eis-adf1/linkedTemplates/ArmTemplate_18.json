@@ -13,6 +13,49 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/AIA_Commission_Advance_Details_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_Connections_AIA_Feed",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_Commission_Advance_Details_UAT.csv",
+						"folderPath": "/MSL_Cloud_Uat/FromAgency/AIA"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Payee_Name",
+						"type": "String"
+					},
+					{
+						"name": "Date_Paid",
+						"type": "String"
+					},
+					{
+						"name": "Amount",
+						"type": "String"
+					},
+					{
+						"name": "For_Period",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AIA_Commission_Advances_DEV')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -2079,71 +2122,6 @@
 						"type": "String"
 					}
 				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AIA_FLORIDA_BLUE_IMS_TRANSACTION_ID_ULTIMATE_TRUTH_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_mslprd",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "POLICY_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "IMS_TRANSACTION_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "EMPLOYEE_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "FULL_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "DEPARTMENT_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "AIA_FLORIDA_BLUE_IMS_TRANSACTION_ID_ULTIMATE_TRUTH"
-				}
 			},
 			"dependsOn": []
 		}
