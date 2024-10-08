@@ -328,6 +328,69 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/PIPELINE_FOR_AIA_WEEKLY_KPI_DEV')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "AIA_SP_WEEKLY_DUPLICATE_POLICY_DELETE_DEV",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[AIA_102].[AIA_SP_WEEKLY_DUPLICATE_POLICY_DELETE]"
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer_msldev",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "AIA_WEEKLY_POLICY_STATUS_PRE_UPDATES_DEV",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "AIA_SP_WEEKLY_DUPLICATE_POLICY_DELETE_DEV",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[AIA_102].[AIA_SP_WEEKLY_POLICY_STATUS_PRE_UPDATES]"
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer_msldev",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SqlServer_msldev')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ABI_AGENCY_ADMIN_CONTACT_DETAILS_DEV')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -724,27 +787,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/SqlServer_mslprd')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ABI_AGENCY_ANNUAL_RATE_DETAILS_HISTORY_PRD_BCP')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_mslbcpprd",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "ABI_AGENCY_ANNUAL_RATE_DETAILS_HISTORY"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/SqlServer_mslbcpprd')]"
 			]
 		}
 	]
