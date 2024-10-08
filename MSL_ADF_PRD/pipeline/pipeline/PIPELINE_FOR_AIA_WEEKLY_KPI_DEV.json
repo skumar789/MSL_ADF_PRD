@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Stored procedure1",
+				"name": "AIA_SP_WEEKLY_DUPLICATE_POLICY_DELETE_DEV",
 				"type": "SqlServerStoredProcedure",
 				"dependsOn": [],
 				"policy": {
@@ -13,12 +13,26 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": []
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[AIA_102].[AIA_SP_WEEKLY_DUPLICATE_POLICY_DELETE]"
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msldev",
+					"type": "LinkedServiceReference"
+				}
 			},
 			{
-				"name": "Stored procedure2",
+				"name": "AIA_WEEKLY_POLICY_STATUS_PRE_UPDATES_DEV",
 				"type": "SqlServerStoredProcedure",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "AIA_SP_WEEKLY_DUPLICATE_POLICY_DELETE_DEV",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -26,7 +40,14 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": []
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[AIA_102].[AIA_SP_WEEKLY_POLICY_STATUS_PRE_UPDATES]"
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msldev",
+					"type": "LinkedServiceReference"
+				}
 			}
 		],
 		"annotations": []
