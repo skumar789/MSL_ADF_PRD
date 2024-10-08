@@ -15088,6 +15088,418 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/PIPELINE_FOR_AIA_WEEKLY_KPI_DEV')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "DF_AIA_IMS_HIER_POLICY_DETAILS_WEEKLY_EXTRACT_UAT",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dataflow101",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"dataflow102UAT": {},
+									"sink102": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "DF_AIA_IMS_POLICY_DETAILS_EXTRACTWEEKLY_UAT",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "DF_AIA_IMS_HIER_POLICY_DETAILS_WEEKLY_EXTRACT_UAT",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dataflow102",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source102": {},
+									"sink102": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "DF_AIA_BOB_AGENCY_ALL_POLICY_HISTORY_WEEKLY_UAT",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "DF_AIA_CREDICO_BOB_UAT",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dataflow99",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source99FULLBOB": {},
+									"sink99generatedfile": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "DF_AIA_ALL_CARRIERS_STATEMENT_DETAILS_UAT",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "DF_AIA_IMS_POLICY_DETAILS_EXTRACTWEEKLY_UAT",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "AIA_ALL_CARRIERS_STATEMENT_DETAILS",
+								"type": "DataFlowReference",
+								"parameters": {
+									"parameter1": "Record_Load_Date"
+								},
+								"datasetParameters": {
+									"AIAAllCarriersStatementDetailsUAT": {},
+									"sink1UAT": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "DF_AIA_Commission_Payment_Weekly_UAT",
+						"type": "ExecuteDataFlow",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [
+							{
+								"activity": "DF_AIA_ALL_CARRIERS_STATEMENT_DETAILS_UAT",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "AIACommissionPaymentWeekly",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"AIACommissionPaymentWeekly": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "DF_AIA_Weekly_All_Policy_Status_Summary_UAT",
+						"type": "ExecuteDataFlow",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [
+							{
+								"activity": "DF_AIA_Commission_Payment_Weekly_UAT",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "AIA_Weekly_All_Policy_Status_Summary",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"AIAWeeklyAllPolicyStatusSummary": {},
+									"sinklast": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "DF_AIA_CREDICO_BOB_UAT",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dataflowCredicoBOBUAT",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"sourceCredicoBOB": {},
+									"sinkCredicoBOBgenerate": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE1",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "DF_AIA_BOB_AGENCY_ALL_POLICY_HISTORY_WEEKLY_UAT",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[AIA_102].[AIA_SP_WEEKLY_EMP_HIER_USER_CLEANUP]"
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer_msldev",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "AIA_WEEKLY_POLICY_STATUS_PRE_UPDATES_UAT",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[AIA_102].[AIA_SP_WEEKLY_POLICY_STATUS_UPDATES]"
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer_msldev",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "AIA_MONTHLY_COMMISSION_CYCLE_CLOSURE",
+						"type": "SqlServerStoredProcedure",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [
+							{
+								"activity": "DF_AIA_Weekly_All_Policy_Status_Summary_UAT",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "AIA_MONTHLY_COMMISSION_CYCLE_CLOSURE"
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer_msluat",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "AIA_WEEKLY_DUPLICATE_POLICY_DELETE_UAT",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[AIA_102].[AIA_SP_WEEKLY_DUPLICATE_POLICY_DELETE]"
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer_msldev",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "AIA_WEEKLY_POLICY_STATUS_PRE_UPDATES_UAT",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "AIA_WEEKLY_DUPLICATE_POLICY_DELETE_UAT",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[AIA_102].[AIA_SP_WEEKLY_POLICY_STATUS_PRE_UPDATES]"
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer_msldev",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": [],
+				"lastPublishTime": "2024-04-26T14:12:30Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dataflowCredicoBOBUAT')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/PIPELINE_FOR_AIA_WEEKLY_KPI_PRD')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -15515,436 +15927,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/dataflow_AIA_Weekly_Extracts')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/PIPELINE_FOR_AIA_WEEKLY_KPI_UAT')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "DF_AIA_IMS_HIER_POLICY_DETAILS_WEEKLY_EXTRACT_UAT",
-						"type": "ExecuteDataFlow",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [
-							{
-								"activity": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dataflow101",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"dataflow102UAT": {},
-									"sink102": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "DF_AIA_IMS_POLICY_DETAILS_EXTRACTWEEKLY_UAT",
-						"type": "ExecuteDataFlow",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [
-							{
-								"activity": "DF_AIA_IMS_HIER_POLICY_DETAILS_WEEKLY_EXTRACT_UAT",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dataflow102",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source102": {},
-									"sink102": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "DF_AIA_BOB_AGENCY_ALL_POLICY_HISTORY_WEEKLY_UAT",
-						"type": "ExecuteDataFlow",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [
-							{
-								"activity": "DF_AIA_CREDICO_BOB_UAT",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dataflow99",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source99FULLBOB": {},
-									"sink99generatedfile": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "DF_AIA_ALL_CARRIERS_STATEMENT_DETAILS_UAT",
-						"type": "ExecuteDataFlow",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [
-							{
-								"activity": "DF_AIA_IMS_POLICY_DETAILS_EXTRACTWEEKLY_UAT",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "AIA_ALL_CARRIERS_STATEMENT_DETAILS",
-								"type": "DataFlowReference",
-								"parameters": {
-									"parameter1": "Record_Load_Date"
-								},
-								"datasetParameters": {
-									"AIAAllCarriersStatementDetailsUAT": {},
-									"sink1UAT": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "DF_AIA_Commission_Payment_Weekly_UAT",
-						"type": "ExecuteDataFlow",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [
-							{
-								"activity": "DF_AIA_ALL_CARRIERS_STATEMENT_DETAILS_UAT",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "AIACommissionPaymentWeekly",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"AIACommissionPaymentWeekly": {},
-									"sink1": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "DF_AIA_Weekly_All_Policy_Status_Summary_UAT",
-						"type": "ExecuteDataFlow",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [
-							{
-								"activity": "DF_AIA_Commission_Payment_Weekly_UAT",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "AIA_Weekly_All_Policy_Status_Summary",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"AIAWeeklyAllPolicyStatusSummary": {},
-									"sinklast": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "DF_AIA_CREDICO_BOB_UAT",
-						"type": "ExecuteDataFlow",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [
-							{
-								"activity": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dataflowCredicoBOBUAT",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"sourceCredicoBOB": {},
-									"sinkCredicoBOBgenerate": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE1",
-						"type": "SqlServerStoredProcedure",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [
-							{
-								"activity": "DF_AIA_BOB_AGENCY_ALL_POLICY_HISTORY_WEEKLY_UAT",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "[[dbo].[AIA_WEEKLY_EMP_HIER_USER_CLEANUP]"
-						},
-						"linkedServiceName": {
-							"referenceName": "SqlServer_msluat",
-							"type": "LinkedServiceReference"
-						}
-					},
-					{
-						"name": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE",
-						"type": "SqlServerStoredProcedure",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [
-							{
-								"activity": "AIA_WEEKLY_POLICY_STATUS_PRE_UPDATES_UAT",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "[[AIA_102].[AIA_SP_WEEKLY_POLICY_STATUS_UPDATES]"
-						},
-						"linkedServiceName": {
-							"referenceName": "SqlServer_msldev",
-							"type": "LinkedServiceReference"
-						}
-					},
-					{
-						"name": "AIA_MONTHLY_COMMISSION_CYCLE_CLOSURE",
-						"type": "SqlServerStoredProcedure",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [
-							{
-								"activity": "DF_AIA_Weekly_All_Policy_Status_Summary_UAT",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "AIA_MONTHLY_COMMISSION_CYCLE_CLOSURE"
-						},
-						"linkedServiceName": {
-							"referenceName": "SqlServer_msluat",
-							"type": "LinkedServiceReference"
-						}
-					},
-					{
-						"name": "AIA_WEEKLY_DUPLICATE_POLICY_DELETE_UAT",
-						"type": "SqlServerStoredProcedure",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "[[AIA_102].[AIA_SP_WEEKLY_DUPLICATE_POLICY_DELETE]"
-						},
-						"linkedServiceName": {
-							"referenceName": "SqlServer_msldev",
-							"type": "LinkedServiceReference"
-						}
-					},
-					{
-						"name": "AIA_WEEKLY_POLICY_STATUS_PRE_UPDATES_UAT",
-						"type": "SqlServerStoredProcedure",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [
-							{
-								"activity": "AIA_WEEKLY_DUPLICATE_POLICY_DELETE_UAT",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "[[AIA_102].[AIA_SP_WEEKLY_POLICY_STATUS_PRE_UPDATES]"
-						},
-						"linkedServiceName": {
-							"referenceName": "SqlServer_msldev",
-							"type": "LinkedServiceReference"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": [],
-				"lastPublishTime": "2024-04-26T14:12:30Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dataflowCredicoBOBUAT')]"
 			]
 		},
 		{
