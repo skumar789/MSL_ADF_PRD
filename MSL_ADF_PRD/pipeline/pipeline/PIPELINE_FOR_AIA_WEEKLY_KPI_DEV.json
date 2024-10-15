@@ -71,8 +71,6 @@
 			{
 				"name": "DF_AIA_BOB_AGENCY_ALL_POLICY_HISTORY_WEEKLY_UAT",
 				"type": "ExecuteDataFlow",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "DF_AIA_CREDICO_BOB_UAT",
@@ -206,16 +204,7 @@
 			{
 				"name": "DF_AIA_CREDICO_BOB_UAT",
 				"type": "ExecuteDataFlow",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -266,35 +255,6 @@
 				}
 			},
 			{
-				"name": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE",
-				"type": "SqlServerStoredProcedure",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "AIA_WEEKLY_POLICY_STATUS_PRE_UPDATES_UAT",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"storedProcedureName": "[AIA_102].[AIA_SP_WEEKLY_POLICY_STATUS_UPDATES]"
-				},
-				"linkedServiceName": {
-					"referenceName": "SqlServer_msldev",
-					"type": "LinkedServiceReference"
-				}
-			},
-			{
 				"name": "AIA_MONTHLY_COMMISSION_CYCLE_CLOSURE",
 				"type": "SqlServerStoredProcedure",
 				"state": "Inactive",
@@ -320,57 +280,6 @@
 				},
 				"linkedServiceName": {
 					"referenceName": "SqlServer_msluat",
-					"type": "LinkedServiceReference"
-				}
-			},
-			{
-				"name": "AIA_WEEKLY_DUPLICATE_POLICY_DELETE_UAT",
-				"type": "SqlServerStoredProcedure",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"storedProcedureName": "[AIA_102].[AIA_SP_WEEKLY_DUPLICATE_POLICY_DELETE]"
-				},
-				"linkedServiceName": {
-					"referenceName": "SqlServer_msldev",
-					"type": "LinkedServiceReference"
-				}
-			},
-			{
-				"name": "AIA_WEEKLY_POLICY_STATUS_PRE_UPDATES_UAT",
-				"type": "SqlServerStoredProcedure",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "AIA_WEEKLY_DUPLICATE_POLICY_DELETE_UAT",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"storedProcedureName": "[AIA_102].[AIA_SP_WEEKLY_POLICY_STATUS_PRE_UPDATES]"
-				},
-				"linkedServiceName": {
-					"referenceName": "SqlServer_msldev",
 					"type": "LinkedServiceReference"
 				}
 			}
