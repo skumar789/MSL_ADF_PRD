@@ -13,62 +13,6 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/AIA_KPI_MEMBERCOUNT_BY_CARRIER_DEPARTMENT_PAYEE_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_mslprd",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "Policy_Id",
-						"type": "varchar"
-					},
-					{
-						"name": "Policy_Status",
-						"type": "varchar"
-					},
-					{
-						"name": "Carrier",
-						"type": "varchar"
-					},
-					{
-						"name": "IMS_Transaction_Id",
-						"type": "varchar"
-					},
-					{
-						"name": "Agent_Id",
-						"type": "varchar"
-					},
-					{
-						"name": "Department_Name",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Payee_Name",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Member_Count_Enrolled",
-						"type": "varchar"
-					},
-					{
-						"name": "Policy_Effective_Date",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "AIA_KPI_MEMBERCOUNT_BY_CARRIER_DEPARTMENT_PAYEE"
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/AIA_MANUAL_ADJUSTMENT_DETAILS_DEV')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -2424,6 +2368,65 @@
 					"schema": "dbo",
 					"table": "AIA_NEWSALE_RENEWAL_ASSIGNMENT_FY2023"
 				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_NewSale_Renewal_Assignment_Onetime_Feed')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_Connections_AIA_Feed",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_NewSale_Renewal_Assignment_Onetime_Feed_DEV.csv",
+						"folderPath": "/MSL_Cloud_Dev/FromAgency/AIA"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Coverage_Indicator",
+						"type": "String"
+					},
+					{
+						"name": "IMS_ID_Assignment",
+						"type": "String"
+					},
+					{
+						"name": "Policy_Number",
+						"type": "String"
+					},
+					{
+						"name": "Eff_Date",
+						"type": "String"
+					},
+					{
+						"name": "Bill_From_Date",
+						"type": "String"
+					},
+					{
+						"name": "Renewal_Period",
+						"type": "String"
+					},
+					{
+						"name": "Comp_Type",
+						"type": "String"
+					},
+					{
+						"name": "Statement_Date",
+						"type": "String"
+					}
+				]
 			},
 			"dependsOn": []
 		}
