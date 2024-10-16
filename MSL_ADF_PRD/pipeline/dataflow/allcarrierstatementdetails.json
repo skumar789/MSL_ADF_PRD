@@ -1,5 +1,5 @@
 {
-	"name": "AIA_ALL_CARRIERS_STATEMENT_DETAILS",
+	"name": "allcarrierstatementdetails",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
@@ -9,17 +9,18 @@
 						"referenceName": "AIA_ALL_CARRIERS_STATEMENT_DETAILS_UAT",
 						"type": "DatasetReference"
 					},
-					"name": "AIAAllCarriersStatementDetailsUAT",
-					"description": "Import data from DBO.AIA_ALL_CARRIERS_STATEMENT_DETAILS_UAT"
+					"name": "source1AIAAllCarriersStatementDetailsUAT",
+					"description": "Import data from AIA_102.AIA_ALL_CARRIERS_STATEMENT_DETAILS_UAT"
 				}
 			],
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "DelimitedText106",
+						"referenceName": "AIA_ALL_CARRIERS_STATEMENT_DETAILS_EXTRACTS_MMDDYYYY",
 						"type": "DatasetReference"
 					},
-					"name": "sink1UAT"
+					"name": "sink1aiaallcarrierstatementdetails",
+					"description": "data export to AIA_ALL_CARRIERS_STATEMENT_DETAILS_EXTRACTS_MMDDYYYY.csv"
 				}
 			],
 			"transformations": [],
@@ -58,33 +59,53 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     query: 'select  *  from [AIA_102].[AIA_ALL_CARRIERS_STATEMENT_DETAILS] where Record_Load_Date IN (\\n    select max(Record_Load_Date) from [AIA_102].[AIA_ALL_CARRIERS_STATEMENT_DETAILS]);',",
-				"     format: 'query') ~> AIAAllCarriersStatementDetailsUAT",
-				"AIAAllCarriersStatementDetailsUAT sink(allowSchemaDrift: true,",
+				"     format: 'query') ~> source1AIAAllCarriersStatementDetailsUAT",
+				"source1AIAAllCarriersStatementDetailsUAT sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          E2eis_Seq_Number as string,",
-				"          Agent_Statement_Date as string,",
-				"          Agency_Name as string,",
-				"          Agent_Name as string,",
-				"          Agent_ID as string,",
-				"          Agent_Number as string,",
-				"          Agent_Commission_Note as string,",
-				"          Carrier_Name as string,",
-				"          Effective_Date as string,",
-				"          Client_Name as string,",
+				"          Carrier as string,",
+				"          Owning_Agent_of_Record as string,",
+				"          Assigned_Agent_Number as string,",
+				"          Broker_Start_Date as string,",
+				"          Broker_End_Date as string,",
+				"          Product_Type as string,",
+				"          Product_Description as string,",
+				"          IMS_Transaction_ID as string,",
+				"          Policy_Status as string,",
 				"          Policy_ID as string,",
-				"          Policy_Number as string,",
+				"          Group_Name as string,",
+				"          Member_Count as string,",
+				"          {On/Off_Exchange} as string,",
+				"          Exchange_Subscriber_ID as string,",
 				"          Coverage_Type as string,",
-				"          Bill_From_Date as string,",
-				"          Month_of_Bill_From_Date as string,",
-				"          Lives as string,",
-				"          Premium_Amount as string,",
-				"          Commission_Amount as string,",
-				"          Commission_Entry_Note as string,",
-				"          Revenue_Type as string,",
-				"          Balance_Forwarded as string,",
-				"          Compensation_Month as string,",
+				"          Subscriber_Original_Effective_Date as string,",
+				"          Coverage_Start__Date as string,",
+				"          Coverage_End_Date as string,",
+				"          Paid_Through_Date as string,",
+				"          Subscriber_First_Name as string,",
+				"          Subscriber_Middle_Name as string,",
+				"          Subscriber_Last_Name as string,",
+				"          Subscriber_Full_Name as string,",
+				"          Subscriber_DOB as string,",
+				"          Subscriber_Email as string,",
+				"          Address as string,",
+				"          Address_2 as string,",
+				"          Zip_Code as string,",
+				"          City as string,",
 				"          State as string,",
+				"          County as string,",
+				"          App_Submit_Date as string,",
+				"          Member_Phone_Number_1 as string,",
+				"          Member_Phone_Number_2 as string,",
+				"          Compensation_Type as string,",
+				"          Compensation_Period as string,",
+				"          Compensation_Amount as string,",
+				"          HS_Aligned as string,",
+				"          Main_Upline_Agent as string,",
+				"          Group_Team_Sales as string,",
+				"          Transition_Date as string,",
+				"          Assigned_Agent_Name as string,",
 				"          Agency_ID as string,",
 				"          Record_Load_Date as string,",
 				"          Record_Loaded_By as string,",
@@ -94,7 +115,7 @@
 				"     partitionFileNames:['AIA_ALL_CARRIERS_STATEMENT_DETAILS_EXTRACTS_MMDDYYYY.csv'],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     partitionBy('hash', 1)) ~> sink1UAT"
+				"     partitionBy('hash', 1)) ~> sink1aiaallcarrierstatementdetails"
 			]
 		}
 	}
