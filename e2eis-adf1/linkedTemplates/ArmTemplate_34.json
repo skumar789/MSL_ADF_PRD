@@ -13,6 +13,101 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/dataflow104 SIM BOB')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "SIM_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY_UAT",
+								"type": "DatasetReference"
+							},
+							"name": "source1",
+							"description": "Import data from SIM_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY_UAT"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "SIM_ALL_BOB_MMDDYYYY",
+								"type": "DatasetReference"
+							},
+							"name": "sink1",
+							"description": "GENERATING FILE SIM_ALL_BOB_MMDDYYYY.csv"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          E2eis_Seq_Number as long,",
+						"          Carrier as string,",
+						"          Owning_Agent_of_Record as string,",
+						"          Assigned_Agent_Number as string,",
+						"          Broker_Start_Date as string,",
+						"          Broker_End_Date as string,",
+						"          Product_Type as string,",
+						"          Product_Description as string,",
+						"          IMS_Transaction_ID as string,",
+						"          Policy_Status as string,",
+						"          Policy_ID as string,",
+						"          Group_Name as string,",
+						"          Member_Count as string,",
+						"          {On/Off_Exchange} as string,",
+						"          Exchange_Subscriber_ID as string,",
+						"          Coverage_Type as string,",
+						"          Subscriber_Original_Effective_Date as string,",
+						"          Coverage_Start_Date as string,",
+						"          Coverage_End_Date as string,",
+						"          Paid_Through_Date as string,",
+						"          Subscriber_First_Name as string,",
+						"          Subscriber_Middle_Name as string,",
+						"          Subscriber_Last_Name as string,",
+						"          Subscriber_Full_Name as string,",
+						"          Subscriber_DOB as string,",
+						"          Subscriber_Email as string,",
+						"          Address as string,",
+						"          Address_2 as string,",
+						"          Zip_Code as string,",
+						"          City as string,",
+						"          State as string,",
+						"          County as string,",
+						"          App_Submit_Date as string,",
+						"          Member_Phone_Number_1 as string,",
+						"          Member_Phone_Number_2 as string,",
+						"          Compensation_Type as string,",
+						"          Compensation_Period as string,",
+						"          Compensation_Amount as string,",
+						"          Payee_Name as string,",
+						"          Main_Upline_Agent as string,",
+						"          Group_Team_Sales as string,",
+						"          Transition_Date as string,",
+						"          Assigned_Agent_Name as string,",
+						"          Agency_ID as string,",
+						"          Record_Load_Date as date,",
+						"          Record_Loaded_By as string,",
+						"          Record_Data_Source as string,",
+						"          Record_Flag_Status as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT *\\n FROM [SIM_103].[SIM_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY]\\n WHERE [Record_Load_Date] IN (SELECT max([Record_Load_Date]) \\n   FROM [SIM_103].SIM_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY\\n)',",
+						"     format: 'query') ~> source1",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     partitionFileNames:['SIM_ALL_BOB_MMDDYYYY.csv'],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/dataflow99')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -22,7 +117,7 @@
 					"sources": [
 						{
 							"dataset": {
-								"referenceName": "AIA_BOB_ALL_AGENCY_ALL_POLICY_HISTORY_UAT",
+								"referenceName": "AIA_BOB_ALL_AGENCY_ALL_POLICY_HISTORY_PRD",
 								"type": "DatasetReference"
 							},
 							"name": "source99FULLBOB",
@@ -94,7 +189,7 @@
 						"     allowSchemaDrift: false,",
 						"     validateSchema: false,",
 						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     query: '\\n\\n\\n\\nSELECT [E2eis_Seq_Number]\\n      ,[Carrier]\\n      ,[Owning_Agent_of_Record]\\n      ,[Assigned_Agent_Number]\\n      ,[Broker_Start_Date]\\n      ,[Broker_End_Date]\\n      ,[Product_Type]\\n      ,[Product_Description]\\n      ,[IMS_Transaction_ID]\\n      ,[Policy_Status]\\n      ,[Policy_ID]\\n      ,[Group_Name]\\n      ,[Member_Count]\\n      ,[On/Off_Exchange]\\n      ,[Exchange_Subscriber_ID]\\n      ,[Coverage_Type]\\n      ,[Subscriber_Original_Effective_Date]\\n      ,[Coverage_Start__Date]\\n      ,[Coverage_End_Date]\\n      ,[Paid_Through_Date]\\n      ,[Subscriber_First_Name]\\n      ,[Subscriber_Middle_Name]\\n      ,[Subscriber_Last_Name]\\n      ,[Subscriber_Full_Name]\\n      ,[Subscriber_DOB]\\n      ,[Subscriber_Email]\\n      ,[Address]\\n      ,[Address_2]\\n      ,[Zip_Code]\\n      ,[City]\\n      ,[State]\\n      ,[County]\\n      ,[App_Submit_Date]\\n      ,[Member_Phone_Number_1]\\n      ,[Member_Phone_Number_2]\\n      ,[Compensation_Type]\\n      ,[Compensation_Period]\\n      ,[Compensation_Amount]\\n      ,[Payee_Name]\\n      ,[Main_Upline_Agent]\\n      ,[Group_Team_Sales]\\n      ,[Transition_Date]\\n      ,[Assigned_Agent_Name]\\n      ,[Agency_ID]\\n      ,[Record_Load_Date]\\n      ,[Record_Loaded_By]\\n      ,[Record_Data_Source]\\n      ,[Record_Flag_Status]\\n  FROM [AIA_102].[AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY]\\n\\n\\n\\n\\n\\n      \\n\\n\\n',",
+						"     query: '\\n\\n\\n\\n\\nSELECT [E2eis_Seq_Number]\\n      ,[Carrier]\\n      ,[Owning_Agent_of_Record]\\n      ,[Assigned_Agent_Number]\\n      ,[Broker_Start_Date]\\n      ,[Broker_End_Date]\\n      ,[Product_Type]\\n      ,[Product_Description]\\n      ,[IMS_Transaction_ID]\\n      ,[Policy_Status]\\n      ,[Policy_ID]\\n      ,[Group_Name]\\n      ,[Member_Count]\\n      ,[On/Off_Exchange]\\n      ,[Exchange_Subscriber_ID]\\n      ,[Coverage_Type]\\n      ,[Subscriber_Original_Effective_Date]\\n      ,[Coverage_Start__Date]\\n      ,[Coverage_End_Date]\\n      ,[Paid_Through_Date]\\n      ,[Subscriber_First_Name]\\n      ,[Subscriber_Middle_Name]\\n      ,[Subscriber_Last_Name]\\n      ,[Subscriber_Full_Name]\\n      ,[Subscriber_DOB]\\n      ,[Subscriber_Email]\\n      ,[Address]\\n      ,[Address_2]\\n      ,[Zip_Code]\\n      ,[City]\\n      ,[State]\\n      ,[County]\\n      ,[App_Submit_Date]\\n      ,[Member_Phone_Number_1]\\n      ,[Member_Phone_Number_2]\\n      ,[Compensation_Type]\\n      ,[Compensation_Period]\\n      ,[Compensation_Amount]\\n      ,[Payee_Name]\\n      ,[Main_Upline_Agent]\\n      ,[Group_Team_Sales]\\n      ,[Transition_Date]\\n      ,[Assigned_Agent_Name]\\n      ,[Agency_ID]\\n      ,[Record_Load_Date]\\n      ,[Record_Loaded_By]\\n      ,[Record_Data_Source]\\n      ,[Record_Flag_Status]\\n  FROM [dbo].[AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY]\\n\\n\\n\\n\\n\\n      \\n\\n\\n',",
 						"     format: 'query') ~> source99FULLBOB",
 						"source99FULLBOB sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
@@ -5023,7 +5118,7 @@
 						"typeProperties": {
 							"source": {
 								"type": "SqlServerSource",
-								"sqlReaderQuery": "select * from ABI_COMMISSION_ALL_SALES_SUMMARY where Period_Name='July 2024';",
+								"sqlReaderQuery": "select * from ABI_COMMISSION_ALL_SALES_SUMMARY where Period_Name='August 2024';",
 								"queryTimeout": "02:00:00",
 								"partitionOption": "None"
 							},
@@ -5287,7 +5382,7 @@
 						"typeProperties": {
 							"source": {
 								"type": "SqlServerSource",
-								"sqlReaderQuery": "select * from ABI_COMMISSION_ALL_SALES_REPORT_DETAIL where Period_Name='July 2024';",
+								"sqlReaderQuery": "select * from ABI_COMMISSION_ALL_SALES_REPORT_DETAIL where Period_Name='August 2024';",
 								"queryTimeout": "02:00:00",
 								"partitionOption": "None"
 							},
@@ -20309,7 +20404,7 @@
 							},
 							"sink": {
 								"type": "SqlServerSink",
-								"preCopyScript": "\n---DELETE FROM AIA_102.AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY\n--WHERE e2eis_seq_number IN (\n--'1327084')",
+								"preCopyScript": "\n",
 								"writeBehavior": "insert",
 								"sqlWriterUseTableLock": false
 							},
@@ -20324,7 +20419,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "E2eis_Seq_Number",
+											"name": "E2EIS_SEQ_NUMBER",
 											"type": "Int64",
 											"physicalType": "bigint"
 										}
@@ -20336,7 +20431,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Carrier",
+											"name": "CARRIER",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20348,7 +20443,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Owning_Agent_of_Record",
+											"name": "OWNING_AGENT_OF_RECORD",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20360,7 +20455,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Assigned_Agent_Number",
+											"name": "ASSIGNED_AGENT_NUMBER",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20372,7 +20467,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Broker_Start_Date",
+											"name": "BROKER_START_DATE",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20384,7 +20479,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Broker_End_Date",
+											"name": "BROKER_END_DATE",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20396,7 +20491,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Product_Type",
+											"name": "PRODUCT_TYPE",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20408,7 +20503,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Product_Description",
+											"name": "PRODUCT_DESCRIPTION",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20420,7 +20515,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "IMS_Transaction_ID",
+											"name": "IMS_TRANSACTION_ID",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20432,7 +20527,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Policy_Status",
+											"name": "POLICY_STATUS",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20444,7 +20539,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Policy_ID",
+											"name": "POLICY_ID",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20456,7 +20551,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Group_Name",
+											"name": "GROUP_NAME",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20468,7 +20563,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Member_Count",
+											"name": "MEMBER_COUNT",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20480,7 +20575,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "On/Off_Exchange",
+											"name": "ON/OFF_EXCHANGE",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20492,7 +20587,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Exchange_Subscriber_ID",
+											"name": "EXCHANGE_SUBSCRIBER_ID",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20504,7 +20599,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Coverage_Type",
+											"name": "COVERAGE_TYPE",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20516,7 +20611,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Subscriber_Original_Effective_Date",
+											"name": "SUBSCRIBER_ORIGINAL_EFFECTIVE_DATE",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20528,7 +20623,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Coverage_Start__Date",
+											"name": "COVERAGE_START__DATE",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20540,7 +20635,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Coverage_End_Date",
+											"name": "COVERAGE_END_DATE",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20552,7 +20647,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Paid_Through_Date",
+											"name": "PAID_THROUGH_DATE",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20564,7 +20659,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Subscriber_First_Name",
+											"name": "SUBSCRIBER_FIRST_NAME",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20576,7 +20671,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Subscriber_Middle_Name",
+											"name": "SUBSCRIBER_MIDDLE_NAME",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20588,7 +20683,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Subscriber_Last_Name",
+											"name": "SUBSCRIBER_LAST_NAME",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20600,7 +20695,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Subscriber_Full_Name",
+											"name": "SUBSCRIBER_FULL_NAME",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20612,7 +20707,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Subscriber_DOB",
+											"name": "SUBSCRIBER_DOB",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20624,7 +20719,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Subscriber_Email",
+											"name": "SUBSCRIBER_EMAIL",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20636,7 +20731,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Address",
+											"name": "ADDRESS",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20648,7 +20743,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Address_2",
+											"name": "ADDRESS_2",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20660,7 +20755,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Zip_Code",
+											"name": "ZIP_CODE",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20672,7 +20767,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "City",
+											"name": "CITY",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20684,7 +20779,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "State",
+											"name": "STATE",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20696,7 +20791,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "County",
+											"name": "COUNTY",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20708,7 +20803,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "App_Submit_Date",
+											"name": "APP_SUBMIT_DATE",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20720,7 +20815,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Member_Phone_Number_1",
+											"name": "MEMBER_PHONE_NUMBER_1",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20732,7 +20827,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Member_Phone_Number_2",
+											"name": "MEMBER_PHONE_NUMBER_2",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20744,7 +20839,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Compensation_Type",
+											"name": "COMPENSATION_TYPE",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20756,7 +20851,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Compensation_Period",
+											"name": "COMPENSATION_PERIOD",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20768,7 +20863,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Compensation_Amount",
+											"name": "COMPENSATION_AMOUNT",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20780,7 +20875,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Payee_Name",
+											"name": "PAYEE_NAME",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20792,7 +20887,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Main_Upline_Agent",
+											"name": "MAIN_UPLINE_AGENT",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20804,7 +20899,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Group_Team_Sales",
+											"name": "GROUP_TEAM_SALES",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20816,7 +20911,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Transition_Date",
+											"name": "TRANSITION_DATE",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20828,7 +20923,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Assigned_Agent_Name",
+											"name": "ASSIGNED_AGENT_NAME",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20840,7 +20935,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Agency_ID",
+											"name": "AGENCY_ID",
 											"type": "String",
 											"physicalType": "varchar"
 										}
@@ -20852,7 +20947,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Record_Load_Date",
+											"name": "RECORD_LOAD_DATE",
 											"type": "DateTime",
 											"physicalType": "date"
 										}
@@ -20864,7 +20959,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Record_Loaded_By",
+											"name": "RECORD_LOADED_BY",
 											"type": "String",
 											"physicalType": "char"
 										}
@@ -20876,7 +20971,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Record_Data_Source",
+											"name": "RECORD_DATA_SOURCE",
 											"type": "String",
 											"physicalType": "char"
 										}
@@ -20888,7 +20983,7 @@
 											"physicalType": "String"
 										},
 										"sink": {
-											"name": "Record_Flag_Status",
+											"name": "RECORD_FLAG_STATUS",
 											"type": "String",
 											"physicalType": "char"
 										}
@@ -34288,7 +34383,7 @@
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
-									"AIAAllCarriersStatementDetailsUAT": {},
+									"aiaallcarrierstatementdetailsprd": {},
 									"sink1UAT": {}
 								}
 							},
@@ -34490,6 +34585,8 @@
 						"name": "DF_AIA_ALL_BOB_WEEKLY_EXTRACT",
 						"description": "STEP_10",
 						"type": "ExecuteDataFlow",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
@@ -34507,44 +34604,6 @@
 								"datasetParameters": {
 									"source99FULLBOB": {},
 									"sink99generatedfile": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "DF_AIA_ALL_CARRIERS_STATEMENT_DETAILS",
-						"description": "STEP_10",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [
-							{
-								"activity": "DF_AIA_IMS_HIER_POLICY_DETAILS_WEEKLY_EXTRACT",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "AIA_ALL_CARRIERS_STATEMENT_DETAILS",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"AIAAllCarriersStatementDetailsUAT": {},
-									"sink1UAT": {}
 								}
 							},
 							"staging": {},
@@ -34599,6 +34658,8 @@
 						"name": "DF_AIA_IMS_HIER_POLICY_DETAILS_WEEKLY_EXTRACT",
 						"description": "STEP_10",
 						"type": "ExecuteDataFlow",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE_copy1",
@@ -34637,6 +34698,8 @@
 						"name": "DF_AIA_IMS_POLICY_DETAILS_WEEKLY_EXTRACT",
 						"description": "STEP_10",
 						"type": "ExecuteDataFlow",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "DF_AIA_CREDICO_BOB",
@@ -34675,6 +34738,8 @@
 						"name": "DF_AIA_CREDICO_BOB",
 						"description": "STEP_10",
 						"type": "ExecuteDataFlow",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "DF_AIA_ALL_BOB_WEEKLY_EXTRACT",
@@ -34717,7 +34782,7 @@
 						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
-								"activity": "DF_AIA_ALL_CARRIERS_STATEMENT_DETAILS",
+								"activity": "DF_AIA_ALL_CARRIERS_STATEMENT_DETAILS_PRD",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -34753,6 +34818,8 @@
 						"name": "KGR_DATA_UPDATES_CLEANUP_HISTORY_TABLE_copy1",
 						"description": "STEP_10",
 						"type": "SqlServerStoredProcedure",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "DF_AIA_IMS_POLICY_DETAILS_WEEKLY_EXTRACT",
@@ -34805,6 +34872,46 @@
 						"linkedServiceName": {
 							"referenceName": "SqlServer_mslprd",
 							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "DF_AIA_ALL_CARRIERS_STATEMENT_DETAILS_PRD",
+						"description": "STEP_11",
+						"type": "ExecuteDataFlow",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [
+							{
+								"activity": "DF_AIA_IMS_HIER_POLICY_DETAILS_WEEKLY_EXTRACT",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dataflow104 ALL_CARRIER_STATEMENT_DETAILS_PRD",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"DFAIAALLcarrierstatementdetailsPRD": {},
+									"sink1allcarrierstatementdetailsprd": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
 						}
 					}
 				],
@@ -44593,7 +44700,9 @@
 				},
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dataflow104 SIM BOB')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/PIPELINE_FOR_ALL_SIM_WEEKLY_DATA_FEEDS_UAT')]",
@@ -46201,7 +46310,9 @@
 				},
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dataflow104 SIM BOB')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/trigger_AIA_FIles_Data_Loads')]",
