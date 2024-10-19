@@ -7697,7 +7697,7 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "Payee_Name",
+									"name": "PAYEE_NAME",
 									"type": "String",
 									"physicalType": "String"
 								},
@@ -7709,7 +7709,7 @@
 							},
 							{
 								"source": {
-									"name": "Comp Type",
+									"name": "COMP_TYPE",
 									"type": "String",
 									"physicalType": "String"
 								},
@@ -7721,7 +7721,7 @@
 							},
 							{
 								"source": {
-									"name": "Description",
+									"name": "DESCRIPTION",
 									"type": "String",
 									"physicalType": "String"
 								},
@@ -7733,7 +7733,7 @@
 							},
 							{
 								"source": {
-									"name": "Agent Commission",
+									"name": "AGENT_COMMISSION",
 									"type": "String",
 									"physicalType": "String"
 								},
@@ -7809,7 +7809,7 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "Payee_Name",
+									"name": "PAYEE_NAME",
 									"type": "String",
 									"physicalType": "String"
 								},
@@ -7821,7 +7821,7 @@
 							},
 							{
 								"source": {
-									"name": "Date_Paid",
+									"name": "DATE_PAID",
 									"type": "String",
 									"physicalType": "String"
 								},
@@ -7833,7 +7833,7 @@
 							},
 							{
 								"source": {
-									"name": "For_Period",
+									"name": "FOR_PERIOD",
 									"type": "String",
 									"physicalType": "String"
 								},
@@ -7845,7 +7845,7 @@
 							},
 							{
 								"source": {
-									"name": "Advance_Used",
+									"name": "ADVANCE_USED",
 									"type": "String",
 									"physicalType": "String"
 								},
@@ -7857,7 +7857,7 @@
 							},
 							{
 								"source": {
-									"name": "Advance_Amount",
+									"name": "ADVANCE_AMOUNT",
 									"type": "String",
 									"physicalType": "String"
 								},
@@ -7869,7 +7869,7 @@
 							},
 							{
 								"source": {
-									"name": "Current_Period",
+									"name": "CURRENT_PERIOD",
 									"type": "String",
 									"physicalType": "String"
 								},
@@ -7881,7 +7881,7 @@
 							},
 							{
 								"source": {
-									"name": "Advance_Remaining",
+									"name": "ADVANCE_REMAINING",
 									"type": "String",
 									"physicalType": "String"
 								},
@@ -7957,7 +7957,7 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "Payee_Name",
+									"name": "PAYEE_NAME",
 									"type": "String",
 									"physicalType": "String"
 								},
@@ -7969,7 +7969,7 @@
 							},
 							{
 								"source": {
-									"name": "Date Paid",
+									"name": "DATE_PAID",
 									"type": "String",
 									"physicalType": "String"
 								},
@@ -7981,7 +7981,7 @@
 							},
 							{
 								"source": {
-									"name": "Amount",
+									"name": "AMOUNT",
 									"type": "String",
 									"physicalType": "String"
 								},
@@ -7993,7 +7993,7 @@
 							},
 							{
 								"source": {
-									"name": "For Period",
+									"name": "FOR_PERIOD",
 									"type": "String",
 									"physicalType": "String"
 								},
@@ -12599,7 +12599,7 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "Policy_ID",
+									"name": "Policy ID",
 									"type": "String",
 									"physicalType": "String"
 								},
@@ -14078,6 +14078,130 @@
 				"outputs": [
 					{
 						"referenceName": "AIA_U65_APPLICATION_TRACKER_UAT",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "AIA_FLORIDA_BLUE_IMS_TRANSACTION_ID_ULTIMATE_TRUTH_PRD",
+				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "AIA_U65_Application_Tracker_UAT",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "SftpReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false,
+							"disableChunking": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "SqlServerSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "Policy ID",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "POLICY_ID",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "IMS_Transaction_ID",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "IMS_TRANSACTION_ID",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Employee_ID",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "EMPLOYEE_ID",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Full_Name",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "FULL_NAME",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Department_Name",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "DEPARTMENT_NAME",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "AIA_All_Carriers_IMS_Transaction_ID_Ultimate_Truth_FloridaBlue_UAT",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "AIA_FLORIDA_BLUE_IMS_TRANSACTION_ID_ULTIMATE_TRUTH_UAT",
 						"type": "DatasetReference"
 					}
 				]
