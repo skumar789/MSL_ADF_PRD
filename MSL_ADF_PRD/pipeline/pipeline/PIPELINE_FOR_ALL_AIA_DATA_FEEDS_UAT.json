@@ -2833,9 +2833,16 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "SqlServerSource",
-						"queryTimeout": "02:00:00",
-						"partitionOption": "None"
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "SftpReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false,
+							"disableChunking": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
 					},
 					"sink": {
 						"type": "SqlServerSink",
@@ -3240,7 +3247,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "AIA_AGENCY_PAYEE_DETAILS_PRD",
+						"referenceName": "ABI_Agency_Payee_Monthly_Feed_UAT",
 						"type": "DatasetReference"
 					}
 				],
@@ -3274,9 +3281,16 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "SqlServerSource",
-						"queryTimeout": "02:00:00",
-						"partitionOption": "None"
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "SftpReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false,
+							"disableChunking": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
 					},
 					"sink": {
 						"type": "SqlServerSink",
@@ -3681,7 +3695,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "AIA_AGENCY_ANNUAL_RATE_DETAILS_PRD",
+						"referenceName": "ABI_Agency_Rate_Annual_Feed_UAT",
 						"type": "DatasetReference"
 					}
 				],
@@ -6757,6 +6771,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
+						"sqlReaderQuery": "select  *  from AIA_AGENCY_PAYEE_DETAILS where Record_Load_Date IN (\n    select max(Record_Load_Date) from AIA_AGENCY_PAYEE_DETAILS);\n",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -7186,6 +7201,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
+						"sqlReaderQuery": "select  *  from AIA_AGENCY_ANNUAL_RATE_DETAILS where Record_Load_Date IN (\n    select max(Record_Load_Date) from AIA_AGENCY_ANNUAL_RATE_DETAILS);",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
