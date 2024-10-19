@@ -3533,6 +3533,8 @@
 					{
 						"name": "Copy data into AIA_AGENCY_ANNUAL_RATE_DETAILS",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_PAYEE_DETAILS_TO_HISTORY_DEV",
@@ -6687,6 +6689,8 @@
 					{
 						"name": "AIA_ANNUAL_RATE_DETAILS_TO_HISTORY_DEV",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "Copy data into AIA_AGENCY_ANNUAL_RATE_DETAILS",
@@ -20862,6 +20866,7 @@
 						"typeProperties": {
 							"source": {
 								"type": "SqlServerSource",
+								"sqlReaderQuery": "select  *  from AIA_AGENCY_PAYEE_DETAILS where Record_Load_Date IN (\n    select max(Record_Load_Date) from AIA_AGENCY_PAYEE_DETAILS);\n",
 								"queryTimeout": "02:00:00",
 								"partitionOption": "None"
 							},
@@ -21293,6 +21298,7 @@
 						"typeProperties": {
 							"source": {
 								"type": "SqlServerSource",
+								"sqlReaderQuery": "select  *  from AIA_AGENCY_ANNUAL_RATE_DETAILS where Record_Load_Date IN (\n    select max(Record_Load_Date) from AIA_AGENCY_ANNUAL_RATE_DETAILS);\n",
 								"queryTimeout": "02:00:00",
 								"partitionOption": "None"
 							},
@@ -32055,8 +32061,6 @@
 					{
 						"name": "AIA_AGENCY_PAYEE_DETAILS_UAT",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_NewSale_Renewal_Assignment_Onetime_Feed_ADFU_copy1",
@@ -32075,16 +32079,9 @@
 						"userProperties": [],
 						"typeProperties": {
 							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "SftpReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false,
-									"disableChunking": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
+								"type": "SqlServerSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
 							},
 							"sink": {
 								"type": "SqlServerSink",
@@ -32365,7 +32362,7 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "AIA_Agency_Payee_Monthly_Feed_UAT",
+								"referenceName": "AIA_AGENCY_PAYEE_DETAILS_PRD",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -32381,8 +32378,6 @@
 					{
 						"name": "AIA_AGENCY_ANNUAL_RATE_DETAILS_UAT",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_PAYEE_DETAILS_TO_HISTORY_UAT",
@@ -32401,16 +32396,9 @@
 						"userProperties": [],
 						"typeProperties": {
 							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "SftpReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false,
-									"disableChunking": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
+								"type": "SqlServerSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
 							},
 							"sink": {
 								"type": "SqlServerSink",
@@ -32743,7 +32731,7 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "AIA_Agency_Rate_Annual_Feed_UAT",
+								"referenceName": "AIA_AGENCY_ANNUAL_RATE_DETAILS_PRD",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -35812,8 +35800,6 @@
 					{
 						"name": "AIA_PAYEE_DETAILS_TO_HISTORY_UAT",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_AGENCY_PAYEE_DETAILS_UAT",
@@ -36243,8 +36229,6 @@
 					{
 						"name": "AIA_ANNUAL_RATE_DETAILS_TO_HISTORY_UAT",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_AGENCY_ANNUAL_RATE_DETAILS_UAT",
