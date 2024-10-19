@@ -3533,8 +3533,6 @@
 					{
 						"name": "Copy data into AIA_AGENCY_ANNUAL_RATE_DETAILS",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_PAYEE_DETAILS_TO_HISTORY_DEV",
@@ -3553,9 +3551,16 @@
 						"userProperties": [],
 						"typeProperties": {
 							"source": {
-								"type": "SqlServerSource",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "SftpReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false,
+									"disableChunking": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
 							},
 							"sink": {
 								"type": "SqlServerSink",
@@ -3960,7 +3965,7 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "AIA_AGENCY_ANNUAL_RATE_DETAILS_PRD",
+								"referenceName": "ABI_Agency_Rate_Annual_Feed_DEV",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -6752,8 +6757,6 @@
 					{
 						"name": "AIA_ANNUAL_RATE_DETAILS_TO_HISTORY_DEV",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "Copy data into AIA_AGENCY_ANNUAL_RATE_DETAILS",
@@ -6773,6 +6776,7 @@
 						"typeProperties": {
 							"source": {
 								"type": "SqlServerSource",
+								"sqlReaderQuery": "select  *  from AIA_102.AIA_AGENCY_ANNUAL_RATE_DETAILS where Record_Load_Date IN (\n    select max(Record_Load_Date) from AIA_102.AIA_AGENCY_ANNUAL_RATE_DETAILS);",
 								"queryTimeout": "02:00:00",
 								"partitionOption": "None"
 							},
