@@ -6,8 +6,6 @@
 				"name": "AIA_AETNA_NEW_ACTIVE_POLICY_DETAILS",
 				"description": "STEP_6",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -19,16 +17,9 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "DelimitedTextSource",
-						"storeSettings": {
-							"type": "SftpReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false,
-							"disableChunking": false
-						},
-						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
-						}
+						"type": "SqlServerSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
 					},
 					"sink": {
 						"type": "SqlServerSink",
@@ -41,12 +32,24 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "Segment",
-									"type": "String",
-									"physicalType": "String"
+									"name": "E2eis_Seq_Number",
+									"type": "Int64",
+									"physicalType": "bigint"
 								},
 								"sink": {
+									"name": "E2EIS_SEQ_NUMBER",
+									"type": "Int64",
+									"physicalType": "bigint"
+								}
+							},
+							{
+								"source": {
 									"name": "Segment",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "SEGMENT",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -55,10 +58,10 @@
 								"source": {
 									"name": "Product 1",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Product 1",
+									"name": "PRODUCT_1",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -67,10 +70,10 @@
 								"source": {
 									"name": "Product 2",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Product 2",
+									"name": "PRODUCT_2",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -79,10 +82,10 @@
 								"source": {
 									"name": "Product 3",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Product 3",
+									"name": "PRODUCT_3",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -91,10 +94,10 @@
 								"source": {
 									"name": "Product 4",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Product 4",
+									"name": "PRODUCT_4",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -103,10 +106,10 @@
 								"source": {
 									"name": "Customer name",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Customer name",
+									"name": "CUSTOMER_NAME",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -115,10 +118,10 @@
 								"source": {
 									"name": "Customer no",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Customer no",
+									"name": "CUSTOMER_NO",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -127,10 +130,10 @@
 								"source": {
 									"name": "Effective date",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Effective date",
+									"name": "EFFECTIVE_DATE",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -139,10 +142,10 @@
 								"source": {
 									"name": "State",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "State",
+									"name": "STATE",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -151,10 +154,10 @@
 								"source": {
 									"name": "Medical subscribers",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Medical subscribers",
+									"name": "MEDICAL_SUBSCRIBERS",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -163,10 +166,10 @@
 								"source": {
 									"name": "YTD prem",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "YTD prem",
+									"name": "YTD_PREM",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -175,10 +178,10 @@
 								"source": {
 									"name": "YTD comp",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "YTD comp",
+									"name": "YTD_COMP",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -187,10 +190,10 @@
 								"source": {
 									"name": "Tax withholding",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Tax withholding",
+									"name": "TAX_WITHHOLDING",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -199,10 +202,10 @@
 								"source": {
 									"name": "Net compensation",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Net compensation",
+									"name": "NET_COMPENSATION",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -211,12 +214,72 @@
 								"source": {
 									"name": "Status",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Status",
+									"name": "STATUS",
 									"type": "String",
 									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Agency_ID",
+									"type": "String",
+									"physicalType": "nvarchar"
+								},
+								"sink": {
+									"name": "AGENCY_ID",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Record_Load_Date",
+									"type": "DateTime",
+									"physicalType": "date"
+								},
+								"sink": {
+									"name": "RECORD_LOAD_DATE",
+									"type": "DateTime",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "Record_Loaded_By",
+									"type": "String",
+									"physicalType": "char"
+								},
+								"sink": {
+									"name": "RECORD_LOADED_BY",
+									"type": "String",
+									"physicalType": "char"
+								}
+							},
+							{
+								"source": {
+									"name": "Record_Data_Source",
+									"type": "String",
+									"physicalType": "char"
+								},
+								"sink": {
+									"name": "RECORD_DATA_SOURCE",
+									"type": "String",
+									"physicalType": "char"
+								}
+							},
+							{
+								"source": {
+									"name": "Record_Flag_Status",
+									"type": "String",
+									"physicalType": "char"
+								},
+								"sink": {
+									"name": "RECORD_FLAG_STATUS",
+									"type": "String",
+									"physicalType": "char"
 								}
 							}
 						],
@@ -229,13 +292,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "AIA_Aetna_Main_Weekly_Feed_PRD",
+						"referenceName": "AIA_AETNA_NEW_ACTIVE_POLICY_DETAILS_PRD",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "AIA_AETNA_NEW_ACTIVE_POLICY_DETAILS_PRD",
+						"referenceName": "AIA_AETNA_NEW_ACTIVE_POLICY_DETAILS_PROD",
 						"type": "DatasetReference"
 					}
 				]
@@ -244,8 +307,6 @@
 				"name": "AIA_AMBETTER_ACTIVE_POLICY_DETAILS",
 				"description": "STEP_6",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_AETNA_NEW_ACTIVE_POLICY_DETAILS",
@@ -264,16 +325,9 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "DelimitedTextSource",
-						"storeSettings": {
-							"type": "SftpReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false,
-							"disableChunking": false
-						},
-						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
-						}
+						"type": "SqlServerSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
 					},
 					"sink": {
 						"type": "SqlServerSink",
@@ -286,12 +340,24 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "Broker Name",
-									"type": "String",
-									"physicalType": "String"
+									"name": "E2eis_Seq_Number",
+									"type": "Int64",
+									"physicalType": "bigint"
 								},
 								"sink": {
+									"name": "E2EIS_SEQ_NUMBER",
+									"type": "Int64",
+									"physicalType": "bigint"
+								}
+							},
+							{
+								"source": {
 									"name": "Broker Name",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "BROKER_NAME",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -300,10 +366,10 @@
 								"source": {
 									"name": "Broker NPN",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Broker NPN",
+									"name": "BROKER_NPN",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -312,10 +378,10 @@
 								"source": {
 									"name": "Policy Number",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Policy Number",
+									"name": "POLICY_NUMBER",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -324,10 +390,10 @@
 								"source": {
 									"name": "Inusred First Name",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Inusred First Name",
+									"name": "INUSRED_FIRST_NAME",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -336,10 +402,10 @@
 								"source": {
 									"name": "Insured Last Name",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Insured Last Name",
+									"name": "INSURED_LAST_NAME",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -348,10 +414,10 @@
 								"source": {
 									"name": "Broker Effective Date",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Broker Effective Date",
+									"name": "BROKER_EFFECTIVE_DATE",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -360,10 +426,10 @@
 								"source": {
 									"name": "Broker Term Date",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Broker Term Date",
+									"name": "BROKER_TERM_DATE",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -372,10 +438,10 @@
 								"source": {
 									"name": "Policy Effective Date",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Policy Effective Date",
+									"name": "POLICY_EFFECTIVE_DATE",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -384,10 +450,10 @@
 								"source": {
 									"name": "Policy Term Date",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Policy Term Date",
+									"name": "POLICY_TERM_DATE",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -396,10 +462,10 @@
 								"source": {
 									"name": "Paid Through Date",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Paid Through Date",
+									"name": "PAID_THROUGH_DATE",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -408,10 +474,10 @@
 								"source": {
 									"name": "County",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "County",
+									"name": "COUNTY",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -420,10 +486,10 @@
 								"source": {
 									"name": "State",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "State",
+									"name": "STATE",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -432,10 +498,10 @@
 								"source": {
 									"name": "On/Off Exchange",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "On/Off Exchange",
+									"name": "ON/OFF EXCHANGE",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -444,10 +510,10 @@
 								"source": {
 									"name": "Exchange Subscriber ID",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Exchange Subscriber ID",
+									"name": "EXCHANGE_SUBSCRIBER_ID",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -456,10 +522,10 @@
 								"source": {
 									"name": "Member Phone Number",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Member Phone Number",
+									"name": "MEMBER_PHONE_NUMBER",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -468,10 +534,10 @@
 								"source": {
 									"name": "Member Email",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Member Email",
+									"name": "MEMBER_EMAIL",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -480,10 +546,10 @@
 								"source": {
 									"name": "Member Responsibility",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Member Responsibility",
+									"name": "MEMBER_RESPONSIBILITY",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -492,10 +558,10 @@
 								"source": {
 									"name": "Member Date Of Birth",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Member Date Of Birth",
+									"name": "MEMBER_DATE_OF_BIRTH",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -504,10 +570,10 @@
 								"source": {
 									"name": "Autopay",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Autopay",
+									"name": "AUTOPAY",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -516,10 +582,10 @@
 								"source": {
 									"name": "Eligible for Commission",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Eligible for Commission",
+									"name": "ELIGIBLE_FOR_COMMISSION",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -528,10 +594,10 @@
 								"source": {
 									"name": "Number of Members",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Number of Members",
+									"name": "NUMBER_OF_MEMBERS",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -540,10 +606,10 @@
 								"source": {
 									"name": "Payable Agent",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Payable Agent",
+									"name": "PAYABLE_AGENT",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -552,10 +618,10 @@
 								"source": {
 									"name": "AR Policy Type",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "AR Policy Type",
+									"name": "AR_POLICY_TYPE",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -564,12 +630,72 @@
 								"source": {
 									"name": "Status",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Status",
+									"name": "STATUS",
 									"type": "String",
 									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Agency_ID",
+									"type": "String",
+									"physicalType": "nvarchar"
+								},
+								"sink": {
+									"name": "AGENCY_ID",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Record_Load_Date",
+									"type": "DateTime",
+									"physicalType": "date"
+								},
+								"sink": {
+									"name": "RECORD_LOAD_DATE",
+									"type": "DateTime",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "Record_Loaded_By",
+									"type": "String",
+									"physicalType": "char"
+								},
+								"sink": {
+									"name": "RECORD_LOADED_BY",
+									"type": "String",
+									"physicalType": "char"
+								}
+							},
+							{
+								"source": {
+									"name": "Record_Data_Source",
+									"type": "String",
+									"physicalType": "char"
+								},
+								"sink": {
+									"name": "RECORD_DATA_SOURCE",
+									"type": "String",
+									"physicalType": "char"
+								}
+							},
+							{
+								"source": {
+									"name": "Record_Flag_Status",
+									"type": "String",
+									"physicalType": "char"
+								},
+								"sink": {
+									"name": "RECORD_FLAG_STATUS",
+									"type": "String",
+									"physicalType": "char"
 								}
 							}
 						],
@@ -582,13 +708,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "AIA_Ambetter_Weekly_Feed_PRD",
+						"referenceName": "AIA_AMBETTER_ACTIVE_POLICY_DETAILS_PRD",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "AIA_AMBETTER_ACTIVE_POLICY_DETAILS_PRD",
+						"referenceName": "AIA_AMBETTER_ACTIVE_POLICY_DETAILS_PROD",
 						"type": "DatasetReference"
 					}
 				]
@@ -597,8 +723,6 @@
 				"name": "AIA_ANTHEM_ACTIVE_POLICY_DETAILS",
 				"description": "STEP_6",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_AMBETTER_ACTIVE_POLICY_DETAILS",
@@ -617,16 +741,9 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "DelimitedTextSource",
-						"storeSettings": {
-							"type": "SftpReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false,
-							"disableChunking": false
-						},
-						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
-						}
+						"type": "SqlServerSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
 					},
 					"sink": {
 						"type": "SqlServerSink",
@@ -639,12 +756,24 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "Client Name",
-									"type": "String",
-									"physicalType": "String"
+									"name": "E2eis_Seq_Number",
+									"type": "Int64",
+									"physicalType": "bigint"
 								},
 								"sink": {
+									"name": "E2EIS_SEQ_NUMBER",
+									"type": "Int64",
+									"physicalType": "bigint"
+								}
+							},
+							{
+								"source": {
 									"name": "Client Name",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "CLIENT_NAME",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -653,10 +782,10 @@
 								"source": {
 									"name": "Client ID",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Client ID",
+									"name": "CLIENT_ID",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -665,10 +794,10 @@
 								"source": {
 									"name": "Market",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Market",
+									"name": "MARKET",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -677,10 +806,10 @@
 								"source": {
 									"name": "Status",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Status",
+									"name": "STATUS",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -689,10 +818,10 @@
 								"source": {
 									"name": "State",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "State",
+									"name": "STATE",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -701,10 +830,10 @@
 								"source": {
 									"name": "Exchange",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Exchange",
+									"name": "EXCHANGE",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -713,10 +842,10 @@
 								"source": {
 									"name": "Effective Date",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Effective Date",
+									"name": "EFFECTIVE_DATE",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -725,10 +854,10 @@
 								"source": {
 									"name": "Original Effective Date",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Original Effective Date",
+									"name": "ORIGINAL_EFFECTIVE_DATE",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -737,10 +866,10 @@
 								"source": {
 									"name": "Cancellation Date",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Cancellation Date",
+									"name": "CANCELLATION_DATE",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -749,10 +878,10 @@
 								"source": {
 									"name": "Product",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Product",
+									"name": "PRODUCT",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -761,10 +890,10 @@
 								"source": {
 									"name": "Plan Name",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Plan Name",
+									"name": "PLAN_NAME",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -773,10 +902,10 @@
 								"source": {
 									"name": "New Business",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "New Business",
+									"name": "NEW_BUSINESS",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -785,10 +914,10 @@
 								"source": {
 									"name": "Bill Status",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Bill Status",
+									"name": "BILL_STATUS",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -797,10 +926,10 @@
 								"source": {
 									"name": "Bill Due Date",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Bill Due Date",
+									"name": "BILL_DUE_DATE",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -809,10 +938,10 @@
 								"source": {
 									"name": "Renewal Month",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Renewal Month",
+									"name": "RENEWAL_MONTH",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -821,7 +950,7 @@
 								"source": {
 									"name": "ACA",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "ACA",
@@ -833,10 +962,10 @@
 								"source": {
 									"name": "Family ID",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Family ID",
+									"name": "FAMILY_ID",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -845,10 +974,10 @@
 								"source": {
 									"name": "Group Size",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Group Size",
+									"name": "GROUP_SIZE",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -857,10 +986,10 @@
 								"source": {
 									"name": "Writing Agent",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Writing Agent",
+									"name": "WRITING_AGENT",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -869,10 +998,10 @@
 								"source": {
 									"name": "Writing TIN",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Writing TIN",
+									"name": "WRITING_TIN",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -881,10 +1010,10 @@
 								"source": {
 									"name": "Paid Agent",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Paid Agent",
+									"name": "PAID_AGENT",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -893,10 +1022,10 @@
 								"source": {
 									"name": "Paid TIN",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Paid TIN",
+									"name": "PAID_TIN",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -905,10 +1034,10 @@
 								"source": {
 									"name": "Parent Agent",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Parent Agent",
+									"name": "PARENT_AGENT",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -917,10 +1046,10 @@
 								"source": {
 									"name": "Parent TIN",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Parent TIN",
+									"name": "PARENT_TIN",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -929,10 +1058,10 @@
 								"source": {
 									"name": "Reporting Agent",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Reporting Agent",
+									"name": "REPORTING_AGENT",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -941,10 +1070,10 @@
 								"source": {
 									"name": "Reporting TIN",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Reporting TIN",
+									"name": "REPORTING_TIN",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -953,12 +1082,72 @@
 								"source": {
 									"name": "Funding Type",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Funding Type",
+									"name": "FUNDING_TYPE",
 									"type": "String",
 									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Agency_ID",
+									"type": "String",
+									"physicalType": "nvarchar"
+								},
+								"sink": {
+									"name": "AGENCY_ID",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Record_Load_Date",
+									"type": "DateTime",
+									"physicalType": "date"
+								},
+								"sink": {
+									"name": "RECORD_LOAD_DATE",
+									"type": "DateTime",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "Record_Loaded_By",
+									"type": "String",
+									"physicalType": "char"
+								},
+								"sink": {
+									"name": "RECORD_LOADED_BY",
+									"type": "String",
+									"physicalType": "char"
+								}
+							},
+							{
+								"source": {
+									"name": "Record_Data_Source",
+									"type": "String",
+									"physicalType": "char"
+								},
+								"sink": {
+									"name": "RECORD_DATA_SOURCE",
+									"type": "String",
+									"physicalType": "char"
+								}
+							},
+							{
+								"source": {
+									"name": "Record_Flag_Status",
+									"type": "String",
+									"physicalType": "char"
+								},
+								"sink": {
+									"name": "RECORD_FLAG_STATUS",
+									"type": "String",
+									"physicalType": "char"
 								}
 							}
 						],
@@ -971,13 +1160,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "AIA_Anthem_Bcbs_Weekly_Feed_PRD",
+						"referenceName": "AIA_ANTHEM_ACTIVE_POLICY_DETAILS_PRD",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "AIA_ANTHEM_ACTIVE_POLICY_DETAILS_PRD",
+						"referenceName": "AIA_ANTHEM_ACTIVE_POLICY_DETAILS_PROD",
 						"type": "DatasetReference"
 					}
 				]
@@ -986,8 +1175,6 @@
 				"name": "AIA_CARESOURCE_POLICY_DETAILS_PRD",
 				"description": "STEP_6",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_ANTHEM_ACTIVE_POLICY_DETAILS",
@@ -1006,16 +1193,9 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "DelimitedTextSource",
-						"storeSettings": {
-							"type": "SftpReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false,
-							"disableChunking": false
-						},
-						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
-						}
+						"type": "SqlServerSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
 					},
 					"sink": {
 						"type": "SqlServerSink"
@@ -1026,12 +1206,24 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "Producer_ID",
-									"type": "String",
-									"physicalType": "String"
+									"name": "E2eis_Seq_Number",
+									"type": "Int64",
+									"physicalType": "bigint"
 								},
 								"sink": {
+									"name": "E2EIS_SEQ_NUMBER",
+									"type": "Int64",
+									"physicalType": "bigint"
+								}
+							},
+							{
+								"source": {
 									"name": "Producer_ID",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "PRODUCER_ID",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1040,10 +1232,10 @@
 								"source": {
 									"name": "Producer_Name",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Producer_Name",
+									"name": "PRODUCER_NAME",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1052,10 +1244,10 @@
 								"source": {
 									"name": "Member_ID",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Member_ID",
+									"name": "MEMBER_ID",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1064,10 +1256,10 @@
 								"source": {
 									"name": "Member_Name",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Member_Name",
+									"name": "MEMBER_NAME",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1076,10 +1268,10 @@
 								"source": {
 									"name": "Subscriber_DoB",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Subscriber_DoB",
+									"name": "SUBSCRIBER_DOB",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1088,10 +1280,10 @@
 								"source": {
 									"name": "Policy_State",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Policy_State",
+									"name": "POLICY_STATE",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1100,7 +1292,7 @@
 								"source": {
 									"name": "ZIP",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "ZIP",
@@ -1112,10 +1304,10 @@
 								"source": {
 									"name": "Phone",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Phone",
+									"name": "PHONE",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1124,10 +1316,10 @@
 								"source": {
 									"name": "Product",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Product",
+									"name": "PRODUCT",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1136,10 +1328,10 @@
 								"source": {
 									"name": "Policy_ID",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Policy_ID",
+									"name": "POLICY_ID",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1148,10 +1340,10 @@
 								"source": {
 									"name": "Number_of_Dependents",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "nvarchar"
 								},
 								"sink": {
-									"name": "Number_of_Dependents",
+									"name": "NUMBER_OF_DEPENDENTS",
 									"type": "String",
 									"physicalType": "nvarchar"
 								}
@@ -1160,10 +1352,10 @@
 								"source": {
 									"name": "Effective_Date",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Effective_Date",
+									"name": "EFFECTIVE_DATE",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1172,10 +1364,10 @@
 								"source": {
 									"name": "Termination_Date",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Termination_Date",
+									"name": "TERMINATION_DATE",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1184,10 +1376,10 @@
 								"source": {
 									"name": "Policy_Status",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Policy_Status",
+									"name": "POLICY_STATUS",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1196,10 +1388,10 @@
 								"source": {
 									"name": "Aging_Status",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Aging_Status",
+									"name": "AGING_STATUS",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1208,10 +1400,10 @@
 								"source": {
 									"name": "Premium_Amount",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Premium_Amount",
+									"name": "PREMIUM_AMOUNT",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1220,10 +1412,10 @@
 								"source": {
 									"name": "Tax_Credit_Amt",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Tax_Credit_Amt",
+									"name": "TAX_CREDIT_AMT",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1232,10 +1424,10 @@
 								"source": {
 									"name": "Current_Balance",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Current_Balance",
+									"name": "CURRENT_BALANCE",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1244,10 +1436,10 @@
 								"source": {
 									"name": "Paid_Through_Date",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Paid_Through_Date",
+									"name": "PAID_THROUGH_DATE",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1256,10 +1448,10 @@
 								"source": {
 									"name": "Last_Paid_Date",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Last_Paid_Date",
+									"name": "LAST_PAID_DATE",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1268,10 +1460,10 @@
 								"source": {
 									"name": "Holder_Email",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Holder_Email",
+									"name": "HOLDER_EMAIL",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1280,10 +1472,10 @@
 								"source": {
 									"name": "Auto_Pay",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Auto_Pay",
+									"name": "AUTO_PAY",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1292,12 +1484,72 @@
 								"source": {
 									"name": "Current_Balance_Due_Date",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Current_Balance_Due_Date",
+									"name": "CURRENT_BALANCE_DUE_DATE",
 									"type": "String",
 									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Agency_ID",
+									"type": "String",
+									"physicalType": "nvarchar"
+								},
+								"sink": {
+									"name": "AGENCY_ID",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Record_Load_Date",
+									"type": "DateTime",
+									"physicalType": "date"
+								},
+								"sink": {
+									"name": "RECORD_LOAD_DATE",
+									"type": "DateTime",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "Record_Loaded_By",
+									"type": "String",
+									"physicalType": "char"
+								},
+								"sink": {
+									"name": "RECORD_LOADED_BY",
+									"type": "String",
+									"physicalType": "char"
+								}
+							},
+							{
+								"source": {
+									"name": "Record_Data_Source",
+									"type": "String",
+									"physicalType": "char"
+								},
+								"sink": {
+									"name": "RECORD_DATA_SOURCE",
+									"type": "String",
+									"physicalType": "char"
+								}
+							},
+							{
+								"source": {
+									"name": "Record_Flag_Status",
+									"type": "String",
+									"physicalType": "char"
+								},
+								"sink": {
+									"name": "RECORD_FLAG_STATUS",
+									"type": "String",
+									"physicalType": "char"
 								}
 							}
 						],
@@ -1310,13 +1562,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "AIA_CareSource_Weekly_Feed_PRD",
+						"referenceName": "AIA_CARESOURCE_POLICY_DETAILS_PRD",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "AIA_CARESOURCE_POLICY_DETAILS_PRD",
+						"referenceName": "AIA_CARESOURCE_POLICY_DETAILS_PROD",
 						"type": "DatasetReference"
 					}
 				]
@@ -1325,8 +1577,6 @@
 				"name": "AIA_CIGNA_ACTIVE_POLICY_DETAILS",
 				"description": "STEP_6",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_CARESOURCE_POLICY_DETAILS_PRD",
@@ -1345,16 +1595,9 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "DelimitedTextSource",
-						"storeSettings": {
-							"type": "SftpReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false,
-							"disableChunking": false
-						},
-						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
-						}
+						"type": "SqlServerSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
 					},
 					"sink": {
 						"type": "SqlServerSink",
@@ -1639,13 +1882,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "AIA_Cigna_Weekly_Feed_PRD",
+						"referenceName": "AIA_CIGNA_ACTIVE_POLICY_DETAILS_PRD",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "AIA_CIGNA_ACTIVE_POLICY_DETAILS_PRD",
+						"referenceName": "AIA_CIGNA_ACTIVE_POLICY_DETAILS_PROD",
 						"type": "DatasetReference"
 					}
 				]
@@ -1654,8 +1897,6 @@
 				"name": "AIA_MOLINA_ACTIVE_POLICY_DETAILS",
 				"description": "STEP_6",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_CIGNA_ACTIVE_POLICY_DETAILS",
@@ -1674,16 +1915,9 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "DelimitedTextSource",
-						"storeSettings": {
-							"type": "SftpReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false,
-							"disableChunking": false
-						},
-						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
-						}
+						"type": "SqlServerSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
 					},
 					"sink": {
 						"type": "SqlServerSink",
@@ -1696,12 +1930,24 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "Broker_NPN",
-									"type": "String",
-									"physicalType": "String"
+									"name": "E2eis_Seq_Number",
+									"type": "Int64",
+									"physicalType": "bigint"
 								},
 								"sink": {
+									"name": "E2EIS_SEQ_NUMBER",
+									"type": "Int64",
+									"physicalType": "bigint"
+								}
+							},
+							{
+								"source": {
 									"name": "Broker_NPN",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "BROKER_NPN",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1710,10 +1956,10 @@
 								"source": {
 									"name": "Broker_First_Name",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Broker_First_Name",
+									"name": "BROKER_FIRST_NAME",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1722,10 +1968,10 @@
 								"source": {
 									"name": "Broker_Last_Name",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Broker_Last_Name",
+									"name": "BROKER_LAST_NAME",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1734,10 +1980,10 @@
 								"source": {
 									"name": "Member_First_Name",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Member_First_Name",
+									"name": "MEMBER_FIRST_NAME",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1746,10 +1992,10 @@
 								"source": {
 									"name": "Member_Last_Name",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Member_Last_Name",
+									"name": "MEMBER_LAST_NAME",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1758,10 +2004,10 @@
 								"source": {
 									"name": "Address1",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Address1",
+									"name": "ADDRESS1",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1770,10 +2016,10 @@
 								"source": {
 									"name": "Address2",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Address2",
+									"name": "ADDRESS2",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1782,10 +2028,10 @@
 								"source": {
 									"name": "City",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "City",
+									"name": "CITY",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1794,10 +2040,10 @@
 								"source": {
 									"name": "State",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "State",
+									"name": "STATE",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1806,10 +2052,10 @@
 								"source": {
 									"name": "Zip",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Zip",
+									"name": "ZIP",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1818,10 +2064,10 @@
 								"source": {
 									"name": "State2",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "State2",
+									"name": "STATE2",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1830,10 +2076,10 @@
 								"source": {
 									"name": "dob",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "dob",
+									"name": "DOB",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1842,10 +2088,10 @@
 								"source": {
 									"name": "Gender",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Gender",
+									"name": "GENDER",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1854,10 +2100,10 @@
 								"source": {
 									"name": "Application_Date",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Application_Date",
+									"name": "APPLICATION_DATE",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1866,10 +2112,10 @@
 								"source": {
 									"name": "Effective_date",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Effective_date",
+									"name": "EFFECTIVE_DATE",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1878,10 +2124,10 @@
 								"source": {
 									"name": "Product",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Product",
+									"name": "PRODUCT",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1890,10 +2136,10 @@
 								"source": {
 									"name": "End_Date",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "End_Date",
+									"name": "END_DATE",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1902,10 +2148,10 @@
 								"source": {
 									"name": "Status",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Status",
+									"name": "STATUS",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1914,10 +2160,10 @@
 								"source": {
 									"name": "Member_Premium",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Member_Premium",
+									"name": "MEMBER_PREMIUM",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1926,10 +2172,10 @@
 								"source": {
 									"name": "Total_Premium",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Total_Premium",
+									"name": "TOTAL_PREMIUM",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1938,10 +2184,10 @@
 								"source": {
 									"name": "Paid_Through_Date",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Paid_Through_Date",
+									"name": "PAID_THROUGH_DATE",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1950,10 +2196,10 @@
 								"source": {
 									"name": "Net_Due_Amount",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Net_Due_Amount",
+									"name": "NET_DUE_AMOUNT",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1962,10 +2208,10 @@
 								"source": {
 									"name": "Scheduled_Term_Date",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Scheduled_Term_Date",
+									"name": "SCHEDULED_TERM_DATE",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1974,7 +2220,7 @@
 								"source": {
 									"name": "HIX_ID",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "HIX_ID",
@@ -1986,10 +2232,10 @@
 								"source": {
 									"name": "Subscriber_ID",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Subscriber_ID",
+									"name": "SUBSCRIBER_ID",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -1998,10 +2244,10 @@
 								"source": {
 									"name": "Member_Count",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Member_Count",
+									"name": "MEMBER_COUNT",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -2010,10 +2256,10 @@
 								"source": {
 									"name": "Member_Bussiness_Phone",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Member_Bussiness_Phone",
+									"name": "MEMBER_BUSSINESS_PHONE",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -2022,10 +2268,10 @@
 								"source": {
 									"name": "Original_Effective_Date",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Original_Effective_Date",
+									"name": "ORIGINAL_EFFECTIVE_DATE",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -2034,10 +2280,10 @@
 								"source": {
 									"name": "Broker_Start_Date",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Broker_Start_Date",
+									"name": "BROKER_START_DATE",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -2046,12 +2292,72 @@
 								"source": {
 									"name": "Broker_End_Date",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Broker_End_Date",
+									"name": "BROKER_END_DATE",
 									"type": "String",
 									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Agency_ID",
+									"type": "String",
+									"physicalType": "nvarchar"
+								},
+								"sink": {
+									"name": "AGENCY_ID",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Record_Load_Date",
+									"type": "DateTime",
+									"physicalType": "date"
+								},
+								"sink": {
+									"name": "RECORD_LOAD_DATE",
+									"type": "DateTime",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "Record_Loaded_By",
+									"type": "String",
+									"physicalType": "char"
+								},
+								"sink": {
+									"name": "RECORD_LOADED_BY",
+									"type": "String",
+									"physicalType": "char"
+								}
+							},
+							{
+								"source": {
+									"name": "Record_Data_Source",
+									"type": "String",
+									"physicalType": "char"
+								},
+								"sink": {
+									"name": "RECORD_DATA_SOURCE",
+									"type": "String",
+									"physicalType": "char"
+								}
+							},
+							{
+								"source": {
+									"name": "Record_Flag_Status",
+									"type": "String",
+									"physicalType": "char"
+								},
+								"sink": {
+									"name": "RECORD_FLAG_STATUS",
+									"type": "String",
+									"physicalType": "char"
 								}
 							}
 						],
@@ -2064,13 +2370,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "AIA_Molina_Weekly_Feed_PRD",
+						"referenceName": "AIA_MOLINA_ACTIVE_POLICY_DETAILS_PRD",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "AIA_MOLINA_ACTIVE_POLICY_DETAILS_PRD",
+						"referenceName": "AIA_MOLINA_ACTIVE_POLICY_DETAILS_PROD",
 						"type": "DatasetReference"
 					}
 				]
@@ -2079,8 +2385,6 @@
 				"name": "AIA_OSCAR_POLICY_DETAILS_",
 				"description": "STEP_6",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_MOLINA_ACTIVE_POLICY_DETAILS",
@@ -2099,16 +2403,9 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "DelimitedTextSource",
-						"storeSettings": {
-							"type": "SftpReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false,
-							"disableChunking": false
-						},
-						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
-						}
+						"type": "SqlServerSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
 					},
 					"sink": {
 						"type": "SqlServerSink",
@@ -2121,12 +2418,24 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "Member_Id",
-									"type": "String",
-									"physicalType": "String"
+									"name": "E2eis_Seq_Number",
+									"type": "Int64",
+									"physicalType": "bigint"
 								},
 								"sink": {
+									"name": "E2EIS_SEQ_NUMBER",
+									"type": "Int64",
+									"physicalType": "bigint"
+								}
+							},
+							{
+								"source": {
 									"name": "Member_Id",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "MEMBER_ID",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -2135,10 +2444,10 @@
 								"source": {
 									"name": "Member_Name",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Member_Name",
+									"name": "MEMBER_NAME",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -2147,10 +2456,10 @@
 								"source": {
 									"name": "DoB",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "DoB",
+									"name": "DOB",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -2159,10 +2468,10 @@
 								"source": {
 									"name": "Account_Creation_Status",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Account_Creation_Status",
+									"name": "ACCOUNT_CREATION_STATUS",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -2171,10 +2480,10 @@
 								"source": {
 									"name": "Email",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Email",
+									"name": "EMAIL",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -2183,10 +2492,10 @@
 								"source": {
 									"name": "Phone_Number",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Phone_Number",
+									"name": "PHONE_NUMBER",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -2195,10 +2504,10 @@
 								"source": {
 									"name": "Mailing_Address",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Mailing_Address",
+									"name": "MAILING_ADDRESS",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -2207,10 +2516,10 @@
 								"source": {
 									"name": "State",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "State",
+									"name": "STATE",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -2219,10 +2528,10 @@
 								"source": {
 									"name": "On_Exchange",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "On_Exchange",
+									"name": "ON_EXCHANGE",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -2231,10 +2540,10 @@
 								"source": {
 									"name": "Plan",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "nvarchar"
 								},
 								"sink": {
-									"name": "Plan",
+									"name": "PLAN",
 									"type": "String",
 									"physicalType": "nvarchar"
 								}
@@ -2243,10 +2552,10 @@
 								"source": {
 									"name": "Premium_Amount",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Premium_Amount",
+									"name": "PREMIUM_AMOUNT",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -2255,10 +2564,10 @@
 								"source": {
 									"name": "APT_Subsidy",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "APT_Subsidy",
+									"name": "APT_SUBSIDY",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -2267,10 +2576,10 @@
 								"source": {
 									"name": "Lives",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "char"
 								},
 								"sink": {
-									"name": "Lives",
+									"name": "LIVES",
 									"type": "String",
 									"physicalType": "char"
 								}
@@ -2279,10 +2588,10 @@
 								"source": {
 									"name": "Coverage_start_date",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Coverage_start_date",
+									"name": "COVERAGE_START_DATE",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -2291,10 +2600,10 @@
 								"source": {
 									"name": "Coverage_end_date",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Coverage_end_date",
+									"name": "COVERAGE_END_DATE",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -2303,10 +2612,10 @@
 								"source": {
 									"name": "Policy_status",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Policy_status",
+									"name": "POLICY_STATUS",
 									"type": "String",
 									"physicalType": "varchar"
 								}
@@ -2315,10 +2624,10 @@
 								"source": {
 									"name": "Renewal_plan",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "char"
 								},
 								"sink": {
-									"name": "Renewal_plan",
+									"name": "RENEWAL_PLAN",
 									"type": "String",
 									"physicalType": "char"
 								}
@@ -2327,10 +2636,10 @@
 								"source": {
 									"name": "Renewal_premium_amount",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "char"
 								},
 								"sink": {
-									"name": "Renewal_premium_amount",
+									"name": "RENEWAL_PREMIUM_AMOUNT",
 									"type": "String",
 									"physicalType": "char"
 								}
@@ -2339,10 +2648,10 @@
 								"source": {
 									"name": "Renewal_APTC_subsidy",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "char"
 								},
 								"sink": {
-									"name": "Renewal_APTC_subsidy",
+									"name": "RENEWAL_APTC_SUBSIDY",
 									"type": "String",
 									"physicalType": "char"
 								}
@@ -2351,10 +2660,70 @@
 								"source": {
 									"name": "Renewal_date",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "char"
 								},
 								"sink": {
-									"name": "Renewal_date",
+									"name": "RENEWAL_DATE",
+									"type": "String",
+									"physicalType": "char"
+								}
+							},
+							{
+								"source": {
+									"name": "Agency_ID",
+									"type": "String",
+									"physicalType": "nvarchar"
+								},
+								"sink": {
+									"name": "AGENCY_ID",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Record_Load_Date",
+									"type": "DateTime",
+									"physicalType": "date"
+								},
+								"sink": {
+									"name": "RECORD_LOAD_DATE",
+									"type": "DateTime",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "Record_Loaded_By",
+									"type": "String",
+									"physicalType": "char"
+								},
+								"sink": {
+									"name": "RECORD_LOADED_BY",
+									"type": "String",
+									"physicalType": "char"
+								}
+							},
+							{
+								"source": {
+									"name": "Record_Data_Source",
+									"type": "String",
+									"physicalType": "char"
+								},
+								"sink": {
+									"name": "RECORD_DATA_SOURCE",
+									"type": "String",
+									"physicalType": "char"
+								}
+							},
+							{
+								"source": {
+									"name": "Record_Flag_Status",
+									"type": "String",
+									"physicalType": "char"
+								},
+								"sink": {
+									"name": "RECORD_FLAG_STATUS",
 									"type": "String",
 									"physicalType": "char"
 								}
@@ -2369,13 +2738,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "AIA_Oscar_Weekly_Feed_PRD",
+						"referenceName": "AIA_OSCAR_POLICY_DETAILS_PRD",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "AIA_OSCAR_POLICY_DETAILS_PRD",
+						"referenceName": "AIA_OSCAR_POLICY_DETAILS_PROD",
 						"type": "DatasetReference"
 					}
 				]
@@ -4113,8 +4482,6 @@
 				"name": "AIA_UHC_Weekly_Feed_",
 				"description": "STEP_6",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_OSCAR_POLICY_DETAILS_",
@@ -4133,16 +4500,9 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "DelimitedTextSource",
-						"storeSettings": {
-							"type": "SftpReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false,
-							"disableChunking": false
-						},
-						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
-						}
+						"type": "SqlServerSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
 					},
 					"sink": {
 						"type": "SqlServerSink",
@@ -4155,9 +4515,21 @@
 						"mappings": [
 							{
 								"source": {
+									"name": "E2eis_Seq_Number",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "E2eis_Seq_Number",
+									"type": "Int64",
+									"physicalType": "bigint"
+								}
+							},
+							{
+								"source": {
 									"name": "AGENT_ID",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "AGENT_ID",
@@ -4169,7 +4541,7 @@
 								"source": {
 									"name": "AGENT_ID_STATUS",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "AGENT_ID_STATUS",
@@ -4181,7 +4553,7 @@
 								"source": {
 									"name": "AGENT_NAME",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "AGENT_NAME",
@@ -4193,7 +4565,7 @@
 								"source": {
 									"name": "AGENT_EMAIL",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "AGENT_EMAIL",
@@ -4205,7 +4577,7 @@
 								"source": {
 									"name": "AGENT_NPN",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "AGENT_NPN",
@@ -4217,7 +4589,7 @@
 								"source": {
 									"name": "MEMBER_FIRST_NAME",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "MEMBER_FIRST_NAME",
@@ -4229,7 +4601,7 @@
 								"source": {
 									"name": "MEMBER_LAST_NAME",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "MEMBER_LAST_NAME",
@@ -4241,7 +4613,7 @@
 								"source": {
 									"name": "DATE_OF_BIRTH",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "DATE_OF_BIRTH",
@@ -4253,7 +4625,7 @@
 								"source": {
 									"name": "MEMBERE_MAIL",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "MEMBERE_MAIL",
@@ -4265,7 +4637,7 @@
 								"source": {
 									"name": "MEMBER_PHONE",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "MEMBER_PHONE",
@@ -4277,7 +4649,7 @@
 								"source": {
 									"name": "MEMBER_ADDRESS1",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "MEMBER_ADDRESS1",
@@ -4289,7 +4661,7 @@
 								"source": {
 									"name": "MEMBER_ADDRESS2",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "MEMBER_ADDRESS2",
@@ -4301,7 +4673,7 @@
 								"source": {
 									"name": "MEMBER_CITY",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "MEMBER_CITY",
@@ -4313,7 +4685,7 @@
 								"source": {
 									"name": "MEMBER_STATE",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "MEMBER_STATE",
@@ -4325,7 +4697,7 @@
 								"source": {
 									"name": "MEMBER_ZIP",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "MEMBER_ZIP",
@@ -4337,7 +4709,7 @@
 								"source": {
 									"name": "MEMBER_STATUS",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "MEMBER_STATUS",
@@ -4349,7 +4721,7 @@
 								"source": {
 									"name": "MEMBER_COUNTY",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "MEMBER_COUNTY",
@@ -4361,7 +4733,7 @@
 								"source": {
 									"name": "MEMBER_NUMBER",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "MEMBER_NUMBER",
@@ -4373,7 +4745,7 @@
 								"source": {
 									"name": "POLICY_EFFECTIVE_DATE",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "POLICY_EFFECTIVE_DATE",
@@ -4385,7 +4757,7 @@
 								"source": {
 									"name": "AGENT_OF_RECORD",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "AGENT_OF_RECORD",
@@ -4397,7 +4769,7 @@
 								"source": {
 									"name": "CONTRACT_ID",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "CONTRACT_ID",
@@ -4409,7 +4781,7 @@
 								"source": {
 									"name": "PBP",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "PBP",
@@ -4421,7 +4793,7 @@
 								"source": {
 									"name": "SEGMENT_ID",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "SEGMENT_ID",
@@ -4433,7 +4805,7 @@
 								"source": {
 									"name": "APPLICATION_NUMBER",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "APPLICATION_NUMBER",
@@ -4445,7 +4817,7 @@
 								"source": {
 									"name": "POLICY_TERM_DATE",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "POLICY_TERM_DATE",
@@ -4457,7 +4829,7 @@
 								"source": {
 									"name": "PRODUCT",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "PRODUCT",
@@ -4469,7 +4841,7 @@
 								"source": {
 									"name": "TERM_REASON_CODE",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "TERM_REASON_CODE",
@@ -4481,7 +4853,7 @@
 								"source": {
 									"name": "INDIVIDUAL_ID",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "INDIVIDUAL_ID",
@@ -4493,7 +4865,7 @@
 								"source": {
 									"name": "HOUSEHOLD_ID",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "HOUSEHOLD_ID",
@@ -4505,7 +4877,7 @@
 								"source": {
 									"name": "MBI_NUMBER",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "MBI_NUMBER",
@@ -4517,7 +4889,7 @@
 								"source": {
 									"name": "SECONDARY_PHONE_NUM",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "SECONDARY_PHONE_NUM",
@@ -4529,7 +4901,7 @@
 								"source": {
 									"name": "PLAN_STATUS",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "PLAN_STATUS",
@@ -4541,7 +4913,7 @@
 								"source": {
 									"name": "PLAN_NAME",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "PLAN_NAME",
@@ -4553,7 +4925,7 @@
 								"source": {
 									"name": "SECONDARY_ADDRESSLINE1",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "SECONDARY_ADDRESSLINE1",
@@ -4565,7 +4937,7 @@
 								"source": {
 									"name": "SECONDARY_ADDRESSLINE2",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "SECONDARY_ADDRESSLINE2",
@@ -4577,7 +4949,7 @@
 								"source": {
 									"name": "SECONDARY_ADDRESS_MEMBER_CITY",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "SECONDARY_ADDRESS_MEMBER_CITY",
@@ -4589,7 +4961,7 @@
 								"source": {
 									"name": "SECONDARY_ADDRESS_MEMBER_STATE",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "SECONDARY_ADDRESS_MEMBER_STATE",
@@ -4601,7 +4973,7 @@
 								"source": {
 									"name": "SECONDARY_ADDRESS_MEMBER_ZIP",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "SECONDARY_ADDRESS_MEMBER_ZIP",
@@ -4613,7 +4985,7 @@
 								"source": {
 									"name": "SECONDARY_ADDRESS_MEMBER_COUNTY",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "SECONDARY_ADDRESS_MEMBER_COUNTY",
@@ -4625,7 +4997,7 @@
 								"source": {
 									"name": "IFP_FFM_APP_ID",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "IFP_FFM_APP_ID",
@@ -4637,7 +5009,7 @@
 								"source": {
 									"name": "NMANAME80",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "NMANAME80",
@@ -4649,7 +5021,7 @@
 								"source": {
 									"name": "NMAWIDSTATUS80",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "NMAWIDSTATUS80",
@@ -4661,7 +5033,7 @@
 								"source": {
 									"name": "NMANPN80",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "NMANPN80",
@@ -4673,7 +5045,7 @@
 								"source": {
 									"name": "NMANAME70",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "NMANAME70",
@@ -4685,7 +5057,7 @@
 								"source": {
 									"name": "NMAWIDSTATUS70",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "NMAWIDSTATUS70",
@@ -4697,7 +5069,7 @@
 								"source": {
 									"name": "NMANPN70",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "NMANPN70",
@@ -4709,7 +5081,7 @@
 								"source": {
 									"name": "NMANAME60",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "NMANAME60",
@@ -4721,7 +5093,7 @@
 								"source": {
 									"name": "NMAWIDSTATUS60",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "NMAWIDSTATUS60",
@@ -4733,7 +5105,7 @@
 								"source": {
 									"name": "NMANPN60",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "NMANPN60",
@@ -4745,7 +5117,7 @@
 								"source": {
 									"name": "FMONAME50",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "FMONAME50",
@@ -4757,7 +5129,7 @@
 								"source": {
 									"name": "FMOWIDSTATUS50",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "FMOWIDSTATUS50",
@@ -4769,7 +5141,7 @@
 								"source": {
 									"name": "FMONPN50",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "FMONPN50",
@@ -4781,7 +5153,7 @@
 								"source": {
 									"name": "MGANAME40",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "MGANAME40",
@@ -4793,7 +5165,7 @@
 								"source": {
 									"name": "MGAWIDSTATUS40",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "MGAWIDSTATUS40",
@@ -4805,7 +5177,7 @@
 								"source": {
 									"name": "MGANPN40",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "MGANPN40",
@@ -4817,7 +5189,7 @@
 								"source": {
 									"name": "GANAME30",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "GANAME30",
@@ -4829,7 +5201,7 @@
 								"source": {
 									"name": "GAWIDSTATUS30",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "GAWIDSTATUS30",
@@ -4841,7 +5213,7 @@
 								"source": {
 									"name": "GANPN30",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "GANPN30",
@@ -4853,7 +5225,7 @@
 								"source": {
 									"name": "AGENT_NAME20",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "AGENT_NAME20",
@@ -4865,7 +5237,7 @@
 								"source": {
 									"name": "AGENT_WID_STATUS20",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "AGENT_WID_STATUS20",
@@ -4877,7 +5249,7 @@
 								"source": {
 									"name": "AGENT_WID20",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "AGENT_WID20",
@@ -4889,7 +5261,7 @@
 								"source": {
 									"name": "AGENT_NPN20",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "AGENT_NPN20",
@@ -4901,7 +5273,7 @@
 								"source": {
 									"name": "SOLICITOR_NAME10",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "SOLICITOR_NAME10",
@@ -4913,7 +5285,7 @@
 								"source": {
 									"name": "SOLICITOR_WID_STATUS10",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "SOLICITOR_WID_STATUS10",
@@ -4925,7 +5297,7 @@
 								"source": {
 									"name": "SOLICITOR_WID10",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "SOLICITOR_WID10",
@@ -4937,12 +5309,72 @@
 								"source": {
 									"name": "SOLICITOR_NPN10",
 									"type": "String",
-									"physicalType": "String"
+									"physicalType": "varchar"
 								},
 								"sink": {
 									"name": "SOLICITOR_NPN10",
 									"type": "String",
 									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Agency_ID",
+									"type": "String",
+									"physicalType": "nvarchar"
+								},
+								"sink": {
+									"name": "Agency_ID",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Record_Load_Date",
+									"type": "DateTime",
+									"physicalType": "date"
+								},
+								"sink": {
+									"name": "Record_Load_Date",
+									"type": "DateTime",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "Record_Loaded_By",
+									"type": "String",
+									"physicalType": "char"
+								},
+								"sink": {
+									"name": "Record_Loaded_By",
+									"type": "String",
+									"physicalType": "char"
+								}
+							},
+							{
+								"source": {
+									"name": "Record_Data_Source",
+									"type": "String",
+									"physicalType": "char"
+								},
+								"sink": {
+									"name": "Record_Data_Source",
+									"type": "String",
+									"physicalType": "char"
+								}
+							},
+							{
+								"source": {
+									"name": "Record_Flag_Status",
+									"type": "String",
+									"physicalType": "char"
+								},
+								"sink": {
+									"name": "Record_Flag_Status",
+									"type": "String",
+									"physicalType": "char"
 								}
 							}
 						],
@@ -4955,13 +5387,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "AIA_UHC_Weekly_Feed_PRD",
+						"referenceName": "AIA_UNITED_HEALTH_CARE_POLICY_DETAILS_PRD",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "AIA_UNITED_HEALTH_CARE_POLICY_DETAILS_PRD",
+						"referenceName": "AIA_UNITED_HEALTH_CARE_POLICY_DETAILS_PROD",
 						"type": "DatasetReference"
 					}
 				]
@@ -4970,8 +5402,6 @@
 				"name": "AIA_BCBSTX_MAIN_POLICY_DETAILS",
 				"description": "STEP_6",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_UHC_Weekly_Feed_",
@@ -4990,16 +5420,9 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "DelimitedTextSource",
-						"storeSettings": {
-							"type": "SftpReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false,
-							"disableChunking": false
-						},
-						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
-						}
+						"type": "SqlServerSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
 					},
 					"sink": {
 						"type": "SqlServerSink",
@@ -5344,13 +5767,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "AIA_BCBSTX_Main_Weekly_Feed_PRD",
+						"referenceName": "AIA_BCBSTX_MAIN_POLICY_DETAILS_PRD",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "AIA_BCBSTX_MAIN_POLICY_DETAILS_PRD",
+						"referenceName": "AIA_BCBSTX_MAIN_POLICY_DETAILS_PROD",
 						"type": "DatasetReference"
 					}
 				]
