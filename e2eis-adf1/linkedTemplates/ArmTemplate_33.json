@@ -13,6 +13,68 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/SIM_CareSource_Weekly_Feed_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_Connections_AIA_Feed",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "SIM_CareSource_Weekly_Feed_DEV.txt",
+						"folderPath": "/MSL_Cloud_Dev/FromAgency/SIM"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Producer_ID\tProducer_Name\tMember_ID\tMember_Name\tSubscriber_DoB\tPolicy_State\tZIP\tPhone\tProduct\tPolicy_ID\tNumber_of_Dependents\tEffective_Date\tTermination_Date\tPolicy_Status\tAging_Status\tPremium_Amount\tTax_Credit_Amt\tCurrent_Balance\tPaid_Through_Date\tLast_Paid_Date\tHolder_Email\tAuto_Pay\tCurrent_Balance_Due_Date",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_Cigna_Weekly_Feed_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_Connections_AIA_Feed",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "SIM_Cigna_Weekly_Feed_DEV.txt",
+						"folderPath": "/MSL_Cloud_Dev/FromAgency/SIM"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Subscriber_ID\tCustomer_Number\tPrimary_Last_Name\tPrimary_First_Name\tWriting_Agent_NPN\tWriting_Agent\tProduct_Type\tON_OFF_Exchange\tSubsidy\tTotal_Premium\tAPTC\tPremium_Customer_Responsibility\tPlan_Name\tPolicy_Status\tEffective_Date\tDate_Application_Received\tRenewal_Month\tPaid_Through_Date\tTermination_Date\tState\tCustomer_Email_Address\tCustomer_Phone_Number",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SIM_MOLINA_ACTIVE_POLICY_DETAILS_DEV')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -25547,6 +25609,8 @@
 						"name": "NEW_BOB_TO_LATEST_BOB_DEV",
 						"description": "",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_BOB_WEEKLY_HISTORY_BACKUP_DATA_LOCKED",
@@ -26171,7 +26235,7 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "ABI_BOOK_OF_BUSSINESS_ALL_CARRIERS_DEV",
+								"referenceName": "AIA_BOOK_OF_BUSSINESS_ALL_CARRIERS_DEV",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
