@@ -10776,6 +10776,11 @@
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
+					"sink": {
+						"type": "SqlServerSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
 					"enableStaging": false,
 					"translator": {
 						"type": "TabularTranslator",
@@ -11260,12 +11265,23 @@
 									"type": "String"
 								}
 							}
-						]
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
 					}
 				},
 				"inputs": [
 					{
 						"referenceName": "AIA_BOB_ALL_AGENCY_ALL_POLICY_HISTORY_UAT",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "AIA_BOB_ALL_AGENCY_ALL_POLICY_HISTORY_PRD",
 						"type": "DatasetReference"
 					}
 				]
@@ -23626,6 +23642,8 @@
 			{
 				"name": "SP_AIA_ALL_AGENCIES_WEEKLY_NEW_POLICIES_CONSOLIDATION",
 				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "SP_AIA_IMS_WEEKLY_POLICY_DATA_CONSOLIDATION_PRD",
@@ -24215,6 +24233,8 @@
 			{
 				"name": "AIA_SP_BOB_CONSOLIDATION_WEEKLY_CLEANUP_PRD",
 				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_SP_WEEKLY_FILES_NULL_CLEANUP_PRD",
@@ -24242,6 +24262,8 @@
 			{
 				"name": "AIA_SP_WEEKLY_FILES_NULL_CLEANUP_PRD",
 				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "SP_AIA_ALL_AGENCIES_WEEKLY_NEW_POLICIES_CONSOLIDATION",
