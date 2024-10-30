@@ -5540,6 +5540,8 @@
 					{
 						"name": "ABI_AGENCY_PAYEE_DETAILS_TO_HISTORY",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "Copy data into ABI_AGENCY_PAYEE_DETAILS",
@@ -5559,6 +5561,7 @@
 						"typeProperties": {
 							"source": {
 								"type": "SqlServerSource",
+								"sqlReaderQuery": "select  *  from ABI_AGENCY_PAYEE_DETAILS where Record_Load_Date IN (\n    select max(Record_Load_Date) from ABI_AGENCY_PAYEE_DETAILS);    \n\t",
 								"queryTimeout": "02:00:00",
 								"partitionOption": "None"
 							},
@@ -5571,6 +5574,18 @@
 							"translator": {
 								"type": "TabularTranslator",
 								"mappings": [
+									{
+										"source": {
+											"name": "E2eis_Seq_Number",
+											"type": "Int64",
+											"physicalType": "bigint"
+										},
+										"sink": {
+											"name": "E2eis_Seq_Number",
+											"type": "Int64",
+											"physicalType": "bigint"
+										}
+									},
 									{
 										"source": {
 											"name": "Contract_Year",
