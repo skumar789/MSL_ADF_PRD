@@ -13,6 +13,167 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/MSL_ISSUE_TRACKER_LOGS_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_Connections_AIA_Feed",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "MSL_ISSUE_TRACKER_LOGS.csv",
+						"folderPath": "/MSL_Cloud_PRD_BCP/FromAgency"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Ticket ID",
+						"type": "String"
+					},
+					{
+						"name": "Status",
+						"type": "String"
+					},
+					{
+						"name": "Priority",
+						"type": "String"
+					},
+					{
+						"name": "Esclation",
+						"type": "String"
+					},
+					{
+						"name": "Ticket Date",
+						"type": "String"
+					},
+					{
+						"name": "Created By",
+						"type": "String"
+					},
+					{
+						"name": "Approx Resolution Date",
+						"type": "String"
+					},
+					{
+						"name": "Assigned To",
+						"type": "String"
+					},
+					{
+						"name": "Updated By",
+						"type": "String"
+					},
+					{
+						"name": "Updated Date",
+						"type": "String"
+					},
+					{
+						"name": "Description",
+						"type": "String"
+					},
+					{
+						"name": "Business Impact",
+						"type": "String"
+					},
+					{
+						"name": "Comments",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MSL_ISSUE_TRACKER_LOGSs_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_mslprd",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "CLIENT_ISSUE_ID",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "CLIENT_ISSUE_CODE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CLIENT_ISSUE_DESCR",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CLIENT_ISSUE_BUSINESS_IMPACT",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CLIENT_ISSUE_PRIORITY",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CLIENT_ISSUE_ESCLATION_REQ",
+						"type": "bit"
+					},
+					{
+						"name": "CLIENT_ISSUE_STATUS",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CLIENT_ISSUE_COMMENTS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CLIENT_ISSUE_APPROX_RESOLUTION_DATE",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "CLIENT_ISSUE_LOG_DATE",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "CLIENT_ISSUE_CREATED_BY",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CLIENT_ISSUE_RESOLUTION_BY",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CLIENT_ISSUE_RESOLUTION_DATE",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "MSL_ISSUE_TRACKER_LOGS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SIM_103_SIM_UNITED_HEALTH_GROUP_WEEKLY_DEV')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -2252,68 +2413,6 @@
 				"schema": [
 					{
 						"name": "Segment\tProduct 1\tProduct 2\tProduct 3\tProduct 4\tCustomer name\tCustomer no\tEffective date\tState\tMedical subscribers\tYTD prem\tYTD comp\tTax withholding\tNet compensation\tStatus",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_Ambetter_Weekly_Feed_DEV')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp_Connections_AIA_Feed",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "SIM_Ambetter_Weekly_Feed_DEV.txt",
-						"folderPath": "/MSL_Cloud_Dev/FromAgency/SIM"
-					},
-					"columnDelimiter": "\t",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "BROKER_NAME\tBROKER_NPN\tPOLICY_NUMBER\tINUSRED_FIRST_NAME\tINSURED_LAST_NAME\tBROKER_EFFECTIVE_DATE\tBROKER_TERM_DATE\tPOLICY_EFFECTIVE_DATE\tPOLICY_TERM_DATE\tPAID_THROUGH_DATE\tCOUNTY\tSTATE\tON/OFF EXCHANGE\tEXCHANGE_SUBSCRIBER_ID\tMEMBER_PHONE_NUMBER\tMEMBER_EMAIL\tMEMBER_RESPONSIBILITY\tMEMBER_DATE_OF_BIRTH\tAUTOPAY\tELIGIBLE_FOR_COMMISSION\tNUMBER_OF_MEMBERS\tPAYABLE_AGENT\tAR_POLICY_TYPE\tSTATUS",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_Anthem_Bcbs_Weekly_Feed_DEV')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp_Connections_AIA_Feed",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "SIM_Anthem_Bcbs_Weekly_Feed_DEV.txt",
-						"folderPath": "/MSL_Cloud_Dev/FromAgency/SIM"
-					},
-					"columnDelimiter": "\t",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "Client Name\tClient ID\tMarket\tStatus\tState\tExchange\tEffective Date\tOriginal Effective Date\tCancellation Date\tProduct\tPlan Name\tNew Business\tBill Status\tBill Due Date\tRenewal Month\tACA\tFamily ID\tGroup Size\tWriting Agent\tWriting TIN\tPaid Agent\tPaid TIN\tParent Agent\tParent TIN\tReporting Agent\tReporting TIN\tFunding Type",
 						"type": "String"
 					}
 				]
