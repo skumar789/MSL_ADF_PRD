@@ -13,6 +13,150 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/dataflowCredicoBOBUAT')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "AIA_BOB_ALL_AGENCY_ALL_POLICY_HISTORY_UAT",
+								"type": "DatasetReference"
+							},
+							"name": "sourceCredicoBOB",
+							"description": "Import data from AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY_UAT"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "AIA_CREDICO_BOB_MMDDYYYY_UAT",
+								"type": "DatasetReference"
+							},
+							"name": "sinkCredicoBOBgenerate",
+							"description": "GENERATING FILE AIA_CREDICO_BOB_MMDDYYYY.csv"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          E2eis_Seq_Number as long,",
+						"          Carrier as string,",
+						"          Owning_Agent_of_Record as string,",
+						"          Assigned_Agent_Number as string,",
+						"          Broker_Start_Date as string,",
+						"          Broker_End_Date as string,",
+						"          Product_Type as string,",
+						"          Product_Description as string,",
+						"          IMS_Transaction_ID as string,",
+						"          Policy_Status as string,",
+						"          Policy_ID as string,",
+						"          Group_Name as string,",
+						"          Member_Count as string,",
+						"          {On/Off_Exchange} as string,",
+						"          Exchange_Subscriber_ID as string,",
+						"          Coverage_Type as string,",
+						"          Subscriber_Original_Effective_Date as string,",
+						"          Coverage_Start__Date as string,",
+						"          Coverage_End_Date as string,",
+						"          Paid_Through_Date as string,",
+						"          Subscriber_First_Name as string,",
+						"          Subscriber_Middle_Name as string,",
+						"          Subscriber_Last_Name as string,",
+						"          Subscriber_Full_Name as string,",
+						"          Subscriber_DOB as string,",
+						"          Subscriber_Email as string,",
+						"          Address as string,",
+						"          Address_2 as string,",
+						"          Zip_Code as string,",
+						"          City as string,",
+						"          State as string,",
+						"          County as string,",
+						"          App_Submit_Date as string,",
+						"          Member_Phone_Number_1 as string,",
+						"          Member_Phone_Number_2 as string,",
+						"          Compensation_Type as string,",
+						"          Compensation_Period as string,",
+						"          Compensation_Amount as string,",
+						"          Payee_Name as string,",
+						"          Main_Upline_Agent as string,",
+						"          Group_Team_Sales as string,",
+						"          Transition_Date as string,",
+						"          Assigned_Agent_Name as string,",
+						"          Agency_ID as string,",
+						"          Record_Load_Date as string,",
+						"          Record_Loaded_By as string,",
+						"          Record_Data_Source as string,",
+						"          Record_Flag_Status as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT  \\n        [E2eis_Seq_Number],  \\n        ISNULL([Carrier], \\'\\') [Carrier],   \\n        ISNULL([Broker_Start_Date], \\'\\') [Broker_Start_Date],  \\n        ISNULL([Broker_End_Date], \\'\\') [Broker_End_Date],  \\n        ISNULL([IMS_Transaction_ID], \\'\\') [IMS_Transaction_ID],  \\n        ISNULL([Policy_Status], \\'\\') [Policy_Status],  \\n        ISNULL([Policy_ID], \\'\\') [Policy_ID],  \\n        ISNULL([Member_Count], \\'\\') [Member_Count],  \\n        ISNULL([Subscriber_Original_Effective_Date], \\'\\') [Subscriber_Original_Effective_Date],  \\n        ISNULL([Coverage_Start__Date], \\'\\') [Coverage_Start__Date],  \\n        ISNULL([Coverage_End_Date], \\'\\') [Coverage_End_Date],   \\n        ISNULL([State], \\'\\') [State],  \\n        ISNULL([County], \\'\\') [County],  \\n        ISNULL([Group_Team_Sales], \\'\\') [Group_Team_Sales] \\n    FROM [AIA_102].[AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY]\\n    WHERE [Group_Team_Sales] LIKE \\'Credico%\\'',",
+						"     format: 'query') ~> sourceCredicoBOB",
+						"sourceCredicoBOB sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          E2eis_Seq_Number as string,",
+						"          Carrier as string,",
+						"          Owning_Agent_of_Record as string,",
+						"          Assigned_Agent_Number as string,",
+						"          Broker_Start_Date as string,",
+						"          Broker_End_Date as string,",
+						"          Product_Type as string,",
+						"          Product_Description as string,",
+						"          IMS_Transaction_ID as string,",
+						"          Policy_Status as string,",
+						"          Policy_ID as string,",
+						"          Group_Name as string,",
+						"          Member_Count as string,",
+						"          {On/Off_Exchange} as string,",
+						"          Exchange_Subscriber_ID as string,",
+						"          Coverage_Type as string,",
+						"          Subscriber_Original_Effective_Date as string,",
+						"          Coverage_Start__Date as string,",
+						"          Coverage_End_Date as string,",
+						"          Paid_Through_Date as string,",
+						"          Subscriber_First_Name as string,",
+						"          Subscriber_Middle_Name as string,",
+						"          Subscriber_Last_Name as string,",
+						"          Subscriber_Full_Name as string,",
+						"          Subscriber_DOB as string,",
+						"          Subscriber_Email as string,",
+						"          Address as string,",
+						"          Address_2 as string,",
+						"          Zip_Code as string,",
+						"          City as string,",
+						"          State as string,",
+						"          County as string,",
+						"          App_Submit_Date as string,",
+						"          Member_Phone_Number_1 as string,",
+						"          Member_Phone_Number_2 as string,",
+						"          Compensation_Type as string,",
+						"          Compensation_Period as string,",
+						"          Compensation_Amount as string,",
+						"          HS_Aligned as string,",
+						"          Main_Upline_Agent as string,",
+						"          Group_Team_Sales as string,",
+						"          Transition_Date as string,",
+						"          Assigned_Agent_Name as string,",
+						"          Agency_ID as string,",
+						"          Record_Load_Date as string,",
+						"          Record_Loaded_By as string,",
+						"          Record_Data_Source as string,",
+						"          Record_Flag_Status as string",
+						"     ),",
+						"     partitionFileNames:['AIA_CREDICO_BOB_MMDDYYYY.csv'],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sinkCredicoBOBgenerate"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/dataflow_AIA_Weekly_Extracts')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -32437,7 +32581,9 @@
 				"annotations": [],
 				"lastPublishTime": "2024-04-25T10:56:49Z"
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dataflowCredicoBOBUAT')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/PIPELINE_FOR_AIA_WEEKLY_KPI_DEV')]",
@@ -32776,7 +32922,9 @@
 				"annotations": [],
 				"lastPublishTime": "2024-04-26T14:12:30Z"
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dataflowCredicoBOBUAT')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/PIPELINE_FOR_AIA_WEEKLY_KPI_PRD')]",
