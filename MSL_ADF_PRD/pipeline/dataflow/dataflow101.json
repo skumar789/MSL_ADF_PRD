@@ -47,7 +47,7 @@
 				"     allowSchemaDrift: false,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     query: '\\nSelect User_Id,First_Name,Last_Name,Email_Address,Termination_Flag,Department_Name,NPN_Grouping,Upline_Id,\\n\\nUpline_First_Name,Upline_Last_Name,Level_Seq, max(Record_Load_date)\\n\\nfrom [AIA_102].[AIA_AGENCY_EMP_HIER_DETAILS_HISTORY] where USER_ID\\n\\nnot in (Select Employee_ID  from [dbo].[AIA_AGENCY_PAYEE_DETAILS])\\n\\nGroup by\\n\\nUser_Id,First_Name,Last_Name,Email_Address,Termination_Flag,Department_Name,NPN_Grouping,Upline_Id,\\n\\nUpline_First_Name,Upline_Last_Name,Level_Seq \\n\\n',",
+				"     query: 'SELECT User_Id, \\n       First_Name, \\n       Last_Name, \\n       Email_Address, \\n       Termination_Flag, \\n       Department_Name, \\n       NPN_Grouping, \\n       Upline_Id,\\n       Upline_First_Name, \\n       Upline_Last_Name, \\n       Level_Seq, \\n       MAX(Record_Load_date) AS Max_Record_Load_date\\nFROM [dbo].[AIA_AGENCY_EMP_HIER_DETAILS_HISTORY] AS emp\\nWHERE NOT EXISTS (\\n    SELECT 1\\n    FROM [dbo].[AIA_AGENCY_PAYEE_DETAILS] AS payee\\n    WHERE payee.Employee_ID = emp.USER_ID\\n)\\nGROUP BY User_Id, \\n         First_Name, \\n         Last_Name, \\n         Email_Address, \\n         Termination_Flag, \\n         Department_Name, \\n         NPN_Grouping, \\n         Upline_Id,\\n         Upline_First_Name, \\n         Upline_Last_Name, \\n         Level_Seq\\nORDER BY User_Id;\\n',",
 				"     format: 'query') ~> dataflow102UAT",
 				"dataflow102UAT sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
