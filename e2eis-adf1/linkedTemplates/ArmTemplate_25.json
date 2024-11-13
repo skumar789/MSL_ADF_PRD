@@ -13,6 +13,77 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/AIA_MONTHY_MANUAL_ENROLLMENTS_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_Connections_AIA_Feed",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_monthy_manual_enrollments_DEV.csv",
+						"folderPath": "/MSL_Cloud_Dev/FromAgency/AIA"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Agent First Name",
+						"type": "String"
+					},
+					{
+						"name": "Agent Last Name",
+						"type": "String"
+					},
+					{
+						"name": "Client First Name",
+						"type": "String"
+					},
+					{
+						"name": "Client Last Name",
+						"type": "String"
+					},
+					{
+						"name": "Client DOB",
+						"type": "String"
+					},
+					{
+						"name": "Lives",
+						"type": "String"
+					},
+					{
+						"name": "Effective Date",
+						"type": "String"
+					},
+					{
+						"name": "Carrier",
+						"type": "String"
+					},
+					{
+						"name": "FFM ID",
+						"type": "String"
+					},
+					{
+						"name": "H-Number",
+						"type": "String"
+					},
+					{
+						"name": "Agent ID",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AIA_Molina_Weekly_Feed')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1774,67 +1845,6 @@
 				],
 				"typeProperties": {
 					"schema": "AIA_102",
-					"table": "AIA_OOS_ADJUSTMENTS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AIA_OOS_Adjustmentss_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_mslprd",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2eis_Seq_Number",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "PAYEE_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "COMP_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "DESCRIPTION",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_COMMISSION",
-						"type": "varchar"
-					},
-					{
-						"name": "Agency_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Record_Load_Date",
-						"type": "date"
-					},
-					{
-						"name": "Record_Loaded_By",
-						"type": "varchar"
-					},
-					{
-						"name": "Record_Data_Source",
-						"type": "varchar"
-					},
-					{
-						"name": "Record_Flag_Status",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
 					"table": "AIA_OOS_ADJUSTMENTS"
 				}
 			},

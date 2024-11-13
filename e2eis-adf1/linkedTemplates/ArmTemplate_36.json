@@ -13,6 +13,37 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/SIM_BCBS_TX_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_Connections_AIA_Feed",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "SIM_BCBS_TX_UAT.txt",
+						"folderPath": "/MSL_Cloud_Uat/FromAgency/SIM"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "COVERAGE_STATE\tPREMIUM_STATUS\tPRIMARY_LAST_NAME\tPRIMARY_FIRST_NAME\tDOB\tACCOUNT_NUMBER\tPOLICY_STATUS\tPRODUCT_NAME\tGROUP_NUMBER\tCOVERAGE_EFFECTIVE_DATE\tPAID_TO_DATE\tTERM_DATE\tRENEWAL_TYPE\tPRODUCER_NAME\tNINE_DIGIT_PRODUCER_NUMBER\tADDRESS_1\tADDRESS_2\tCITY\tSTATE\tZIP_CODE\tPHONE_NUMBER\tCELL_PHONE_NUMBER\tWORK_PHONE_NUMBER\tEMAIL_ADDRESS\tFAX_NUMBER",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SIM_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY_PRD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -2973,37 +3004,6 @@
 					},
 					{
 						"name": "Term Date",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_CareSource_Weekly_Feed_DEV')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp_Connections_AIA_Feed",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "SIM_CareSource_Weekly_Feed_DEV.txt",
-						"folderPath": "/MSL_Cloud_Dev/FromAgency/SIM"
-					},
-					"columnDelimiter": "\t",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "Producer_ID\tProducer_Name\tMember_ID\tMember_Name\tSubscriber_DoB\tPolicy_State\tZIP\tPhone\tProduct\tPolicy_ID\tNumber_of_Dependents\tEffective_Date\tTermination_Date\tPolicy_Status\tAging_Status\tPremium_Amount\tTax_Credit_Amt\tCurrent_Balance\tPaid_Through_Date\tLast_Paid_Date\tHolder_Email\tAuto_Pay\tCurrent_Balance_Due_Date",
 						"type": "String"
 					}
 				]
