@@ -13,6 +13,327 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/SIM_BCBS_TX_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_Connections_AIA_Feed",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "SIM_BCBS_TX_SIM_DEV.txt",
+						"folderPath": "/MSL_Cloud_Dev/FromAgency/SIM"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "COVERAGE_STATE\tPREMIUM_STATUS\tPRIMARY_LAST_NAME\tPRIMARY_FIRST_NAME\tDOB\tACCOUNT_NUMBER\tPOLICY_STATUS\tPRODUCT_NAME\tGROUP_NUMBER\tCOVERAGE_EFFECTIVE_DATE\tPAID_TO_DATE\tTERM_DATE\tRENEWAL_TYPE\tPRODUCER_NAME\tNINE_DIGIT_PRODUCER_NUMBER\tADDRESS_1\tADDRESS_2\tCITY\tSTATE\tZIP_CODE\tPHONE_NUMBER\tCELL_PHONE_NUMBER\tWORK_PHONE_NUMBER\tEMAIL_ADDRESS\tFAX_NUMBER",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_BCBS_TX_POLICY_DETAILS_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msldev",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "COVERAGE_STATE",
+						"type": "varchar"
+					},
+					{
+						"name": "PREMIUM_STATUS",
+						"type": "varchar"
+					},
+					{
+						"name": "PRIMARY_LAST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "PRIMARY_FIRST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "DOB",
+						"type": "varchar"
+					},
+					{
+						"name": "ACCOUNT_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "POLICY_STATUS",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCT_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "GROUP_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "COVERAGE_EFFECTIVE_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "PAID_TO_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "TERM_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "RENEWAL_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "NINE_DIGIT_PRODUCER_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "ADDRESS_1",
+						"type": "varchar"
+					},
+					{
+						"name": "ADDRESS_2",
+						"type": "varchar"
+					},
+					{
+						"name": "CITY",
+						"type": "varchar"
+					},
+					{
+						"name": "STATE",
+						"type": "varchar"
+					},
+					{
+						"name": "ZIP_CODE",
+						"type": "varchar"
+					},
+					{
+						"name": "PHONE_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "CELL_PHONE_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "WORK_PHONE_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "EMAIL_ADDRESS",
+						"type": "varchar"
+					},
+					{
+						"name": "FAX_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_BCBS_TX_POLICY_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_BCBS_TX_POLICY_DETAILS_PRD_BCP')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_mslbcpprd",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "COVERAGE_STATE",
+						"type": "varchar"
+					},
+					{
+						"name": "PREMIUM_STATUS",
+						"type": "varchar"
+					},
+					{
+						"name": "PRIMARY_LAST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "PRIMARY_FIRST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "DOB",
+						"type": "varchar"
+					},
+					{
+						"name": "ACCOUNT_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "POLICY_STATUS",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCT_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "GROUP_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "COVERAGE_EFFECTIVE_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "PAID_TO_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "TERM_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "RENEWAL_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "NINE_DIGIT_PRODUCER_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "ADDRESS_1",
+						"type": "varchar"
+					},
+					{
+						"name": "ADDRESS_2",
+						"type": "varchar"
+					},
+					{
+						"name": "CITY",
+						"type": "varchar"
+					},
+					{
+						"name": "STATE",
+						"type": "varchar"
+					},
+					{
+						"name": "ZIP_CODE",
+						"type": "varchar"
+					},
+					{
+						"name": "PHONE_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "CELL_PHONE_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "WORK_PHONE_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "EMAIL_ADDRESS",
+						"type": "varchar"
+					},
+					{
+						"name": "FAX_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_BCBS_TX_POLICY_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SIM_BCBS_TX_POLICY_DETAILS_UAT')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -2658,357 +2979,6 @@
 					"schema": "SIM_103",
 					"table": "SIM_COMMISSION_DETAILS"
 				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_COMMISSION_DETAILS_UAT')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_msluat",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "PARTY_ID ",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "STATEMENT_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "WRITING_AGENT_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "WRITING_AGENT_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENT_REFERENCE",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "MEDICARE_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "AARP_MEMBER_ID / EXCHANGE ID",
-						"type": "varchar"
-					},
-					{
-						"name": "POLICY_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "ORIGINAL_EFFECTIVE_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "PLAN_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "CONTRACT",
-						"type": "varchar"
-					},
-					{
-						"name": "PBP",
-						"type": "varchar"
-					},
-					{
-						"name": "PLAN_CODE",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_STATE",
-						"type": "varchar"
-					},
-					{
-						"name": "AREA_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_COUNTY",
-						"type": "varchar"
-					},
-					{
-						"name": "COMMISSION_ACTION",
-						"type": "varchar"
-					},
-					{
-						"name": "PAYMENT_PERIOD",
-						"type": "varchar"
-					},
-					{
-						"name": "PREM_AMOUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "UAD_ACTIVITY",
-						"type": "varchar"
-					},
-					{
-						"name": "COMMISSION",
-						"type": "varchar"
-					},
-					{
-						"name": "TERM_REASON",
-						"type": "varchar"
-					},
-					{
-						"name": "REDUCTION_INDICATOR",
-						"type": "varchar"
-					},
-					{
-						"name": "COMP_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "PRIOR_PLAN",
-						"type": "varchar"
-					},
-					{
-						"name": "TERM_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "SIM_103",
-					"table": "SIM_COMMISSION_DETAILS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_COMMISSION_FEED_DEV')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp_Connections_AIA_Feed",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "SIM_COMMISSION_FEED_DEV.csv",
-						"folderPath": "/MSL_Cloud_Dev/FromAgency/SIM"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "Party ID",
-						"type": "String"
-					},
-					{
-						"name": "Agent Name",
-						"type": "String"
-					},
-					{
-						"name": "Agent ID",
-						"type": "String"
-					},
-					{
-						"name": "Statement Date",
-						"type": "String"
-					},
-					{
-						"name": "Writing Agent ID",
-						"type": "String"
-					},
-					{
-						"name": "Writing Agent Name",
-						"type": "String"
-					},
-					{
-						"name": "Client Reference #",
-						"type": "String"
-					},
-					{
-						"name": "Member Name",
-						"type": "String"
-					},
-					{
-						"name": "MedicareID",
-						"type": "String"
-					},
-					{
-						"name": "AARP Member ID / Exchange ID",
-						"type": "String"
-					},
-					{
-						"name": "Policy Number",
-						"type": "String"
-					},
-					{
-						"name": "Original Effective Date",
-						"type": "String"
-					},
-					{
-						"name": "Plan Type",
-						"type": "String"
-					},
-					{
-						"name": "Contract",
-						"type": "String"
-					},
-					{
-						"name": "PBP",
-						"type": "String"
-					},
-					{
-						"name": "Plan Code",
-						"type": "String"
-					},
-					{
-						"name": "Member State",
-						"type": "String"
-					},
-					{
-						"name": "Area ID",
-						"type": "String"
-					},
-					{
-						"name": "Member County",
-						"type": "String"
-					},
-					{
-						"name": "Commission Action",
-						"type": "String"
-					},
-					{
-						"name": "Payment Period",
-						"type": "String"
-					},
-					{
-						"name": "Prem Amount",
-						"type": "String"
-					},
-					{
-						"name": "UAD Activity",
-						"type": "String"
-					},
-					{
-						"name": "Commission",
-						"type": "String"
-					},
-					{
-						"name": "Term Reason",
-						"type": "String"
-					},
-					{
-						"name": "Reduction Indicator",
-						"type": "String"
-					},
-					{
-						"name": "Comp Type",
-						"type": "String"
-					},
-					{
-						"name": "Prior Plan",
-						"type": "String"
-					},
-					{
-						"name": "Term Date",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_COMMISSION_FEED_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp_Connections_AIA_Feed",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "SIM_COMMISSION_FEED_PRD.csv",
-						"folderPath": "/MSL_Cloud_Prd/FromAgency/SIM"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "CARRIER",
-						"type": "String"
-					},
-					{
-						"name": "STATE",
-						"type": "String"
-					},
-					{
-						"name": "PRODUCT",
-						"type": "String"
-					},
-					{
-						"name": "RATE",
-						"type": "String"
-					},
-					{
-						"name": "METHOD",
-						"type": "String"
-					}
-				]
 			},
 			"dependsOn": []
 		}
