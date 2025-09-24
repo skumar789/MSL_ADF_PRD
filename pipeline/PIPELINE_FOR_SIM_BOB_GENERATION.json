@@ -1,0 +1,217 @@
+{
+	"name": "PIPELINE_FOR_SIM_BOB_GENERATION",
+	"properties": {
+		"activities": [
+			{
+				"name": "UpdateStatusInProgress",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[SIM_103].[SIM_SP_UPDATE_STATUS]",
+					"storedProcedureParameters": {
+						"PeriodName": {
+							"value": {
+								"value": "@pipeline().parameters.PeriodName",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"State": {
+							"value": {
+								"value": "@pipeline().parameters.State",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Status": {
+							"value": "IN PROGRESS",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "e2eis_APP_PROD",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "ExecuteBOBProcess",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "UpdateStatusInProgress",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": {
+						"value": "@if(equals(pipeline().parameters.State, 'OOS'), '[SIM_103].[SIM_SP_BOB_PROCESS_OOS]', '[SIM_103].[SIM_SP_BOB_PROCESS_FL]')\n\n",
+						"type": "Expression"
+					},
+					"storedProcedureParameters": {
+						"PeriodName": {
+							"value": {
+								"value": "@pipeline().parameters.PeriodName",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"PreviousPeriodName": {
+							"value": {
+								"value": "@pipeline().parameters.PreviousPeriodName",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"IsRegeneration": {
+							"value": {
+								"value": "@pipeline().parameters.IsRegeneration",
+								"type": "Expression"
+							},
+							"type": "Boolean"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "e2eis_APP_PROD",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "UpdateStatusSuccess",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "ExecuteBOBProcess",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[SIM_103].[SIM_SP_UPDATE_STATUS]",
+					"storedProcedureParameters": {
+						"PeriodName": {
+							"value": {
+								"value": "@pipeline().parameters.PeriodName",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"State": {
+							"value": {
+								"value": "@pipeline().parameters.State",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Status": {
+							"value": "COMPLETED",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "e2eis_APP_PROD",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "UpdateStatusFailure",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "ExecuteBOBProcess",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[SIM_103].[SIM_SP_UPDATE_STATUS]",
+					"storedProcedureParameters": {
+						"PeriodName": {
+							"value": {
+								"value": "@pipeline().parameters.PeriodName",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"State": {
+							"value": {
+								"value": "@pipeline().parameters.State",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Status": {
+							"value": "FAILED",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "e2eis_APP_PROD",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"concurrency": 2,
+		"parameters": {
+			"PeriodName": {
+				"type": "string"
+			},
+			"PreviousPeriodName": {
+				"type": "string"
+			},
+			"State": {
+				"type": "string"
+			},
+			"IsRegeneration": {
+				"type": "bool",
+				"defaultValue": false
+			},
+			"AuditID": {
+				"type": "int",
+				"defaultValue": 0
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2025-09-01T21:26:44Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
