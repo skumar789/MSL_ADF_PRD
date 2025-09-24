@@ -1,0 +1,1342 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "DFMSLALLPRD"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/Agent_Type_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "e2eis_APP_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "Employee_Type",
+						"type": "varchar"
+					},
+					{
+						"name": "AgentType",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "ABI_101",
+					"table": "ABI_AGENT_TYPE"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Agent_Type_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServere2eis_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "Employee_Type",
+						"type": "varchar"
+					},
+					{
+						"name": "AgentType",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "Agent_Type"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/All_All_Sales_Detail_june_2025_Run2')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "ABI_All_Sales_Details_February 2025_Run3.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/ABI"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "PAYEE_AOR\tPAYEE_AORNAME\tWRITIN_GAGENT_NAME\tCARRIER\tPERIOD_NAME\tACCOUNTING_DATE\tFB_COMP_TYPE\tAGENCY_COMP_TYPE\tPRIOR_COMP_TYPE\tSUBSCRIBER_NAME\tPRODUCT_TYPE\tMEMBER_COUNT\tCONTRACT_COUNT\tFB_CONTRACT_ID\tORIGINAL_EFFECTIVE_DATE\tCOVERAGE_FROM_DATE\tCOVERAGE_TO_DATE\tCANCEL_DATE\tCOUNTY\tAGENT_NUMBER\tAGENT_NAME\tFB_PAYMENT_AMOUNT\tFREQUENCY\tFILE_TYPE\tCOMMISSION_RATE\tRATE_TYPE\tAGENT_COMMISSION\tCOMMISSION_TYPE\tWRITING_AGENT_ROLE\tWRITING_AGENT_PAYROLL_ID\tMANUAL_ADJ_COMMENTS\tFB_COMMISSION_FLAT_RATE\tWEEK\tStage for next cycle Processing",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/COMM_RPT_COMMISSIONS_STATEMENT_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServere2eis_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "AgencyId",
+						"type": "varchar"
+					},
+					{
+						"name": "AgencyName",
+						"type": "varchar"
+					},
+					{
+						"name": "Comp_Period",
+						"type": "varchar"
+					},
+					{
+						"name": "ReportSectionSeq",
+						"type": "decimal",
+						"precision": 10,
+						"scale": 0
+					},
+					{
+						"name": "ReportSections",
+						"type": "varchar"
+					},
+					{
+						"name": "AgentType",
+						"type": "varchar"
+					},
+					{
+						"name": "Carrier",
+						"type": "varchar"
+					},
+					{
+						"name": "AgentNumber",
+						"type": "varchar"
+					},
+					{
+						"name": "AgentName",
+						"type": "varchar"
+					},
+					{
+						"name": "Compensation_Type",
+						"type": "varchar"
+					},
+					{
+						"name": "Commission_Amount",
+						"type": "decimal",
+						"precision": 14,
+						"scale": 2
+					},
+					{
+						"name": "Subscriber_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Comp_Type",
+						"type": "varchar"
+					},
+					{
+						"name": "Plan_Type",
+						"type": "varchar"
+					},
+					{
+						"name": "Plan_Description",
+						"type": "varchar"
+					},
+					{
+						"name": "Member_Count",
+						"type": "decimal",
+						"precision": 10,
+						"scale": 0
+					},
+					{
+						"name": "Member_Contract_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "Accounting_Date",
+						"type": "date"
+					},
+					{
+						"name": "OrigEffDate",
+						"type": "date"
+					},
+					{
+						"name": "Cov_From_Date",
+						"type": "date"
+					},
+					{
+						"name": "Cov_To_Date",
+						"type": "date"
+					},
+					{
+						"name": "Cancel_Date",
+						"type": "date"
+					},
+					{
+						"name": "County",
+						"type": "varchar"
+					},
+					{
+						"name": "Writing_Agent",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Comm",
+						"type": "decimal",
+						"precision": 14,
+						"scale": 2
+					},
+					{
+						"name": "Sub_Category",
+						"type": "varchar"
+					},
+					{
+						"name": "PayrollId",
+						"type": "varchar"
+					},
+					{
+						"name": "ReportGroupSeq",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "LOA_AgentNumber",
+						"type": "varchar"
+					},
+					{
+						"name": "LOA_AgentName",
+						"type": "varchar"
+					},
+					{
+						"name": "CompType_PriorCompType",
+						"type": "varchar"
+					},
+					{
+						"name": "LOA_CompeType",
+						"type": "varchar"
+					},
+					{
+						"name": "AgentNumber_HEADER",
+						"type": "varchar"
+					},
+					{
+						"name": "AgentName_HEADER",
+						"type": "varchar"
+					},
+					{
+						"name": "ManualAdj_Comments",
+						"type": "varchar"
+					},
+					{
+						"name": "SEQNO",
+						"type": "bigint",
+						"precision": 19
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "COMM_RPT_COMMISSIONS_STATEMENT"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Commission_Dispute_Form_applied_insurance_solution_Euler_Fernandes_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "Commission_Dispute_Form_Applied_Chloe_Yoder_PRD.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "AGENT_AOR_CODE\tID_TYPE\tID_CONTRACT_NUMBER\tPRODUCT_TYPE\tTRANSACTION_TYPE\tBEGIN_COMP_MONTH\tEND_COMP_MONTH\tPRODUCT_NAME\tSUBSCRIBER_FIRST_NAME\tSUBSCRIBER_LAST_NAME\tSUBSCRIBER_DOB\tCONTRACT_EFFECTIVE_DATE\tDENTAL_CONTRACT_STATUS\tDENTAL_MONTHLY_PREMIUM\tISSUE_COMMENTS\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CompensationTypes_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServere2eis_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "CompensationTypeId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Name",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "CompensationTypes"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"folderPath": "/MSL_Cloud_Prd/ToAgency/SIM"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "String"
+					},
+					{
+						"name": "CARRIER",
+						"type": "String"
+					},
+					{
+						"name": "AGENCY_NAME",
+						"type": "String"
+					},
+					{
+						"name": "AGENCY_IDENTIFIER",
+						"type": "String"
+					},
+					{
+						"name": "AGENT_ID",
+						"type": "String"
+					},
+					{
+						"name": "AGENT_NPN",
+						"type": "String"
+					},
+					{
+						"name": "AGENT_FULL_NAME",
+						"type": "String"
+					},
+					{
+						"name": "PLAN_NAME",
+						"type": "String"
+					},
+					{
+						"name": "PRODUCT",
+						"type": "String"
+					},
+					{
+						"name": "CONTRACT_ID",
+						"type": "String"
+					},
+					{
+						"name": "CONTRACT_MEMBER_COUNT",
+						"type": "String"
+					},
+					{
+						"name": "MEMBER_RELATIOSHIP",
+						"type": "String"
+					},
+					{
+						"name": "MEMBER_FIRST_NAME",
+						"type": "String"
+					},
+					{
+						"name": "MEMBER_LAST_NAME",
+						"type": "String"
+					},
+					{
+						"name": "MEMBER_DOB",
+						"type": "String"
+					},
+					{
+						"name": "COUNTY_NAME",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_INDICATOR",
+						"type": "String"
+					},
+					{
+						"name": "PRIMARY_MEMBER_ID",
+						"type": "String"
+					},
+					{
+						"name": "PRODUCT_TYPE",
+						"type": "String"
+					},
+					{
+						"name": "BEST_AVAILABLE_POSTAL_CODE",
+						"type": "String"
+					},
+					{
+						"name": "COVERAGE_EFFECTIVE_DATE",
+						"type": "String"
+					},
+					{
+						"name": "COVERAGE_EXPIRATION_DATE",
+						"type": "String"
+					},
+					{
+						"name": "AGENT_CONTRACT_START_DATE",
+						"type": "String"
+					},
+					{
+						"name": "AGENT_CONTRACT_TERM_DATE",
+						"type": "String"
+					},
+					{
+						"name": "MEMBER_ORIGINAL_EFFECTIVE_DATE",
+						"type": "String"
+					},
+					{
+						"name": "CONTRACT_STATUS",
+						"type": "String"
+					},
+					{
+						"name": "CARRIER_CONTRACT_ID",
+						"type": "String"
+					},
+					{
+						"name": "ACTIVITY_FLAG",
+						"type": "String"
+					},
+					{
+						"name": "POLICY_RANK",
+						"type": "String"
+					},
+					{
+						"name": "POLICY_ADDED_DATE",
+						"type": "String"
+					},
+					{
+						"name": "POLICY_RETENTION_DATE",
+						"type": "String"
+					},
+					{
+						"name": "POLICY_REMOVED_DATE",
+						"type": "String"
+					},
+					{
+						"name": "POLICY_CANCELLED_DATE",
+						"type": "String"
+					},
+					{
+						"name": "POLICY_LAST_RECEIVED_DATE",
+						"type": "String"
+					},
+					{
+						"name": "PERIOD_NAME",
+						"type": "String"
+					},
+					{
+						"name": "PERIOD_DESCRIPTION",
+						"type": "String"
+					},
+					{
+						"name": "PERIOD_START_DATE",
+						"type": "String"
+					},
+					{
+						"name": "PERIOD_END_DATE",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText2')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "SIM_OOS_BOB",
+						"folderPath": "/MSL_Cloud_Prd/ToAgency/SIM"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "String"
+					},
+					{
+						"name": "CARRIER",
+						"type": "String"
+					},
+					{
+						"name": "AGENCY_NAME",
+						"type": "String"
+					},
+					{
+						"name": "AGENCY_IDENTIFIER",
+						"type": "String"
+					},
+					{
+						"name": "AGENT_ID",
+						"type": "String"
+					},
+					{
+						"name": "AGENT_NPN",
+						"type": "String"
+					},
+					{
+						"name": "AGENT_FULL_NAME",
+						"type": "String"
+					},
+					{
+						"name": "PLAN_NAME",
+						"type": "String"
+					},
+					{
+						"name": "PRODUCT",
+						"type": "String"
+					},
+					{
+						"name": "CONTRACT_ID",
+						"type": "String"
+					},
+					{
+						"name": "CONTRACT_MEMBER_COUNT",
+						"type": "String"
+					},
+					{
+						"name": "MEMBER_RELATIOSHIP",
+						"type": "String"
+					},
+					{
+						"name": "MEMBER_FIRST_NAME",
+						"type": "String"
+					},
+					{
+						"name": "MEMBER_LAST_NAME",
+						"type": "String"
+					},
+					{
+						"name": "MEMBER_DOB",
+						"type": "String"
+					},
+					{
+						"name": "COUNTY_NAME",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_INDICATOR",
+						"type": "String"
+					},
+					{
+						"name": "PRIMARY_MEMBER_ID",
+						"type": "String"
+					},
+					{
+						"name": "PRODUCT_TYPE",
+						"type": "String"
+					},
+					{
+						"name": "BEST_AVAILABLE_POSTAL_CODE",
+						"type": "String"
+					},
+					{
+						"name": "COVERAGE_EFFECTIVE_DATE",
+						"type": "String"
+					},
+					{
+						"name": "COVERAGE_EXPIRATION_DATE",
+						"type": "String"
+					},
+					{
+						"name": "AGENT_CONTRACT_START_DATE",
+						"type": "String"
+					},
+					{
+						"name": "AGENT_CONTRACT_TERM_DATE",
+						"type": "String"
+					},
+					{
+						"name": "MEMBER_ORIGINAL_EFFECTIVE_DATE",
+						"type": "String"
+					},
+					{
+						"name": "CONTRACT_STATUS",
+						"type": "String"
+					},
+					{
+						"name": "CARRIER_CONTRACT_ID",
+						"type": "String"
+					},
+					{
+						"name": "ACTIVITY_FLAG",
+						"type": "String"
+					},
+					{
+						"name": "POLICY_RANK",
+						"type": "String"
+					},
+					{
+						"name": "POLICY_ADDED_DATE",
+						"type": "String"
+					},
+					{
+						"name": "POLICY_RETENTION_DATE",
+						"type": "String"
+					},
+					{
+						"name": "POLICY_REMOVED_DATE",
+						"type": "String"
+					},
+					{
+						"name": "POLICY_CANCELLED_DATE",
+						"type": "String"
+					},
+					{
+						"name": "POLICY_LAST_RECEIVED_DATE",
+						"type": "String"
+					},
+					{
+						"name": "PERIOD_NAME",
+						"type": "String"
+					},
+					{
+						"name": "PERIOD_DESCRIPTION",
+						"type": "String"
+					},
+					{
+						"name": "PERIOD_START_DATE",
+						"type": "String"
+					},
+					{
+						"name": "PERIOD_END_DATE",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText4')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "SIM_BOOK_OF_BUSSINESS_ALL_CARRIERS_FB_MMDDYYYY.csv",
+						"folderPath": "/MSL_Cloud_Prd/ToAgency/SIM"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "String"
+					},
+					{
+						"name": "CARRIER",
+						"type": "String"
+					},
+					{
+						"name": "AGENCY_NAME",
+						"type": "String"
+					},
+					{
+						"name": "AGENCY_IDENTIFIER",
+						"type": "String"
+					},
+					{
+						"name": "AGENT_ID",
+						"type": "String"
+					},
+					{
+						"name": "AGENT_NPN",
+						"type": "String"
+					},
+					{
+						"name": "AGENT_FULL_NAME",
+						"type": "String"
+					},
+					{
+						"name": "PLAN_NAME",
+						"type": "String"
+					},
+					{
+						"name": "PRODUCT",
+						"type": "String"
+					},
+					{
+						"name": "CONTRACT_ID",
+						"type": "String"
+					},
+					{
+						"name": "CONTRACT_MEMBER_COUNT",
+						"type": "String"
+					},
+					{
+						"name": "MEMBER_RELATIOSHIP",
+						"type": "String"
+					},
+					{
+						"name": "MEMBER_FIRST_NAME",
+						"type": "String"
+					},
+					{
+						"name": "MEMBER_LAST_NAME",
+						"type": "String"
+					},
+					{
+						"name": "MEMBER_DOB",
+						"type": "String"
+					},
+					{
+						"name": "COUNTY_NAME",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_INDICATOR",
+						"type": "String"
+					},
+					{
+						"name": "PRIMARY_MEMBER_ID",
+						"type": "String"
+					},
+					{
+						"name": "PRODUCT_TYPE",
+						"type": "String"
+					},
+					{
+						"name": "BEST_AVAILABLE_POSTAL_CODE",
+						"type": "String"
+					},
+					{
+						"name": "COVERAGE_EFFECTIVE_DATE",
+						"type": "String"
+					},
+					{
+						"name": "COVERAGE_EXPIRATION_DATE",
+						"type": "String"
+					},
+					{
+						"name": "AGENT_CONTRACT_START_DATE",
+						"type": "String"
+					},
+					{
+						"name": "AGENT_CONTRACT_TERM_DATE",
+						"type": "String"
+					},
+					{
+						"name": "MEMBER_ORIGINAL_EFFECTIVE_DATE",
+						"type": "String"
+					},
+					{
+						"name": "CONTRACT_STATUS",
+						"type": "String"
+					},
+					{
+						"name": "CARRIER_CONTRACT_ID",
+						"type": "String"
+					},
+					{
+						"name": "ACTIVITY_FLAG",
+						"type": "String"
+					},
+					{
+						"name": "POLICY_RANK",
+						"type": "String"
+					},
+					{
+						"name": "POLICY_ADDED_DATE",
+						"type": "String"
+					},
+					{
+						"name": "POLICY_RETENTION_DATE",
+						"type": "String"
+					},
+					{
+						"name": "POLICY_REMOVED_DATE",
+						"type": "String"
+					},
+					{
+						"name": "POLICY_CANCELLED_DATE",
+						"type": "String"
+					},
+					{
+						"name": "POLICY_LAST_RECEIVED_DATE",
+						"type": "String"
+					},
+					{
+						"name": "PERIOD_NAME",
+						"type": "String"
+					},
+					{
+						"name": "PERIOD_DESCRIPTION",
+						"type": "String"
+					},
+					{
+						"name": "PERIOD_START_DATE",
+						"type": "String"
+					},
+					{
+						"name": "PERIOD_END_DATE",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText5')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"folderPath": "/MSL_Cloud_Prd/ToAgency/AIA"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText6')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"folderPath": "/MSL_Cloud_Prd/ToAgency/AIA"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText7')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "sim.xlsx",
+						"folderPath": "/MSL_Cloud_Prd/ToAgency/SIM"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "PK\u0003\u0004\u0014\u0000\u0006\u0000\b\u0000\u0000\u0000!\u0000b�h^\u0001\u0000\u0000�\u0004\u0000\u0000\u0013\u0000\b\u0002[Content_Types].xml �\u0004\u0002(�\u0000\u0002\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000���N�0\u0010E�H�C�-Jܲ@\b5��\u0012*Q>�ēƪc[�ii����\u0010B�\u0015j7�\u0012��{2��h�nm���ƻR\f����U^\u001b7/���%�\u0017\u0019�rZY�\u0014\u001b@1\u0019__�f�\u0000�q��R4D�AJ�\u001ah\u0015\u0016>����V\u0011�ƹ\f�Z�9����NV�\u00118ʩ�\u0010��\u0013�ji){^��-I\u0004�\"{�\u0016v^�P!XS)bR�r��K�s(�3�`c\u0002�0���\u000e���\u0006��7\u001eM4\u001a����ZƐk+�|\\|z�(���P��6\u0015h_-[�@�!���\u0000Pk��\u0016�2n�}�?\u0015�L��� ��%�\u0013\u001c��\u001bd����dN\u0018\"m",
+						"type": "String"
+					},
+					{
+						"name": "�ǞDO97*�~��ɸ8�O�c\u001c|n��\u0007�\u0004E��\u0014�\u0011���B\u0010��!$}�����;{���[����2�\u0006\u0000\u0000��\u0003\u0000PK\u0003\u0004\u0014\u0000\u0006\u0000\b\u0000\u0000\u0000!\u0000�U0#�\u0000\u0000\u0000L\u0002\u0000\u0000\u000b\u0000\b\u0002_rels/.rels �\u0004\u0002(�\u0000\u0002\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000��MO�0\f��H�����ݐ\u0010BKwAH�!T~�I�\u000f���$\u001bݿ'\u001c\u0010T\u001a�\u0003G�~����<���!��4��\u0012\u0014;#�w����qu\u0007*&r�Fq���\u0011v�����GJy(v��*����K��#F��D�\u0010�.W\u001a\t\u0013�\u001c�\u0016=��Z�MY�b��\u0001�BS����7��ϛז��",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/FHCP_Payments_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "e2eis_APP_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "Period_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Group_Number",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Number",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Role",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Plan_Code",
+						"type": "varchar"
+					},
+					{
+						"name": "Plan_Type_Description",
+						"type": "varchar"
+					},
+					{
+						"name": "Member_Number",
+						"type": "varchar"
+					},
+					{
+						"name": "Member_First_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Member_Last_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Eligibility_Begin_Date",
+						"type": "date"
+					},
+					{
+						"name": "Eligibility_End_Date",
+						"type": "date"
+					},
+					{
+						"name": "Commission_Paid",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 3
+					},
+					{
+						"name": "Commission_Adjustment",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 3
+					},
+					{
+						"name": "adj_reason_Recovery",
+						"type": "varchar"
+					},
+					{
+						"name": "New_Renewal",
+						"type": "varchar"
+					},
+					{
+						"name": "CompYear",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "FBCompType",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "AgencyCompType",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "RateType",
+						"type": "varchar"
+					},
+					{
+						"name": "CommissionRate",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 3
+					},
+					{
+						"name": "Agent_Commission",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 3
+					},
+					{
+						"name": "Comments",
+						"type": "varchar"
+					},
+					{
+						"name": "Frequency",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "WritingAgentPayrollId",
+						"type": "varchar"
+					},
+					{
+						"name": "TransactionId",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "CommissionType",
+						"type": "varchar"
+					},
+					{
+						"name": "Override_AgentNumber",
+						"type": "varchar"
+					},
+					{
+						"name": "Override_AgentName",
+						"type": "varchar"
+					},
+					{
+						"name": "WritingAgentRole",
+						"type": "varchar"
+					},
+					{
+						"name": "Contract_Id_Group_Number",
+						"type": "varchar"
+					},
+					{
+						"name": "PAYEE_AOR",
+						"type": "varchar"
+					},
+					{
+						"name": "PAYEE_AORNAME",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "ABI_101",
+					"table": "ABI_FHCP_PAYMENTS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IMS_DATA_EXP_FILE1_0_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "IMS_DATA_EXP_FILE1_0_PRD.txt",
+						"folderPath": "/MSL_Cloud_App_Prd/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "ID\tSUBMITTER_ID\tSUBMITTER_FIRST_NAME\tSUBMITTER_LAST_NAME\tFLORIDA_BLUE_RESPONSE\tDATETIME_SUBMITTED\tAGENT_ID\tAGENTFIRSTNAME\tAGENTLASTNAME\tRUNNER_NAME\tUPLINE_FIRST_NAME\tUPLINE_LAST_NAME\tDEPARTMENT_NAME\tDEPARTMENT_DESIGNATION\tCLIENT_FIRST_NAME\tCLIENT_LAST_NAME\tCLIENT_DOB\tCLIENT_PHONE\tCLIENT_SSN\tCLIENT_EMAIL\tCLIENT_ADDRESS_1\tCLIENT_ADDRESS_2\tCLIENT_CITY\tCLIENT_STATE\tCLIENT_ZIP\tMEMBER_COUNT_ENROLLED\tCLIENT_SEX\tPRODUCT_CHANGE\tMARRIED\tDEPENDENTS\tPREGNANT\tSMOKER\tAMERICAN_NATIVE\tEMPLOYER_NAME\tEMPLOYER_NUMBER\tCLIENT_INCOME\tCLIENT_INCOME_FREQ\tSPOUSAL_FIRST_NAME\tSPOUSAL_LAST_NAME\tSPOUSAL_SSN\tSPOUSAL_DOB\tSPOUSAL_EMPLOYER_NAME\tSPOUSAL_EMPLOYER_NUMBER\tSPOUSAL_INCOME\tSPOUSE\tDOMESTIC_PARTNER\tDEPENDENT_0_FIRST_NAME\tDEPENDENT_0_LAST_NAME\tDEPENDENT_0_DOB\tDEPENDENT_0_SEX\tDEPENDENT_0_SSN\tDEPENDENT_0_COVERED\tDEPENDENT_1_FIRST_NAME\tDEPENDENT_1_LAST_NAME\tDEPENDENT_1_DOB\tDEPENDENT_1_SEX\tDEPENDENT_1_SSN\tDEPENDENT_1_COVERED\tDEPENDENT_2_FIRST_NAME\tDEPENDENT_2_LAST_NAME\tDEPENDENT_2_DOB\tDEPENDENT_2_SEX\tDEPENDENT_2_SSN\tDEPENDENT_2_COVERED\tDEPENDENT_3_FIRST_NAME\tDEPENDENT_3_LAST_NAME\tDEPENDENT_3_DOB\tDEPENDENT_3_SEX\tDEPENDENT_3_SSN\tDEPENDENT_3_COVERED\tDEPENDENT_4_FIRST_NAME\tDEPENDENT_4_LAST_NAME\tDEPENDENT_4_DOB\tDEPENDENT_4_SEX\tDEPENDENT_4_SSN\tDEPENDENT_4_COVERED\tDEPENDENT_5_FIRST_NAME\tDEPENDENT_5_LAST_NAME\tDEPENDENT_5_DOB\tDEPENDENT_5_SEX\tDEPENDENT_5_SSN\tDEPENDENT_5_COVERED\tDEPENDENT_6_FIRST_NAME\tDEPENDENT_6_LAST_NAME\tDEPENDENT_6_DOB\tDEPENDENT_6_SEX\tDEPENDENT_6_SSN\tDEPENDENT_6_COVERED\tDEPENDENT_7_FIRST_NAME\tDEPENDENT_7_LAST_NAME\tDEPENDENT_7_DOB\tDEPENDENT_7_SEX\tDEPENDENT_7_SSN\tDEPENDENT_7_COVERED\tDEPENDENT_8_FIRST_NAME\tDEPENDENT_8_LAST_NAME\tDEPENDENT_8_DOB\tDEPENDENT_8_SEX\tDEPENDENT_8_SSN\tDEPENDENT_8_COVERED\tTAX_CREDIT_AMOUNT\tPLAN_PREMIUM\tPAYMENT_AMOUNT\tPLAN_NAME\tPLAN_ID\tINSURANCE_COMPANY\tPLAN_SELECTED\tCREDIT_CARD\tEXP_DATE\tCVC\tDATE_PROCESSED\tASSIGNED_ID\tDATETIME_ASSIGNED\tSTATUS\tAPP_SUBMITTED_DATE\tPOLICY_EFFECTIVE_DATE\tAGENT_LOGIN_USED\tLAST_STATUS_CHANGE\tSUBMITTED_TO_FLORIDABLUE\tCARRIER\tFEDERALLY_FACILITATED_MARKET_PLACE_ID\tSUBSCRIBER_ID\tEXPIRATION_DATE\tCONSENT_CONFIRME_DATE\tCONSENT_CONFIRMED_BY",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IMS_DATA_EXP_FILE1_0_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "IMS_DATA_EXP_FILE1_0_PRD.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Id\tSubmitter_ID\tSubmitterFirstName\tSubmitterLastName\tFlorida_Blue_Response\tDateTime_Submitted\tAgent_Id\tAgentFirstName\tAgentLastName\tRunner_Name\tUplineFirstName\tUplineLastName\tDepartmentName\tDepartmentDesignation\tClient_First_Name\tClient_Last_Name\tClient_DOB\tClient_Phone\tClient_SSN\tClient_Email\tClient_Address_1\tClient_Address_2\tClient_City\tClient_State\tClient_Zip\tMember_Count_Enrolled\tClient_Sex\tProduct_Change\tMarried\tDependents\tPregnant\tSmoker\tAmerican_Native\tEmployer_Name\tEmployer_Number\tClient_Income\tClient_Income_Freq\tSpousal_First_Name\tSpousal_Last_Name\tSpousal_SSN\tSpousal_DOB\tSpousal_Employer_Name\tSpousal_Employer_Number\tSpousal_Income\tSpouse\tDomestic_Partner\tDependent_0_First_Name\tDependent_0_Last_Name\tDependent_0_DOB\tDependent_0_Sex\tDependent_0_SSN\tDependent_0_Covered\tDependent_1_First_Name\tDependent_1_Last_Name\tDependent_1_DOB\tDependent_1_Sex\tDependent_1_SSN\tDependent_1_Covered\tDependent_2_First_Name\tDependent_2_Last_Name\tDependent_2_DOB\tDependent_2_Sex\tDependent_2_SSN\tDependent_2_Covered\tDependent_3_First_Name\tDependent_3_Last_Name\tDependent_3_DOB\tDependent_3_Sex\tDependent_3_SSN\tDependent_3_Covered\tDependent_4_First_Name\tDependent_4_Last_Name\tDependent_4_DOB\tDependent_4_Sex\tDependent_4_SSN\tDependent_4_Covered\tDependent_5_First_Name\tDependent_5_Last_Name\tDependent_5_DOB\tDependent_5_Sex\tDependent_5_SSN\tDependent_5_Covered\tDependent_6_First_Name\tDependent_6_Last_Name\tDependent_6_DOB\tDependent_6_Sex\tDependent_6_SSN\tDependent_6_Covered\tDependent_7_First_Name\tDependent_7_Last_Name\tDependent_7_DOB\tDependent_7_Sex\tDependent_7_SSN\tDependent_7_Covered\tDependent_8_First_Name\tDependent_8_Last_Name\tDependent_8_DOB\tDependent_8_Sex\tDependent_8_SSN\tDependent_8_Covered\tTax_Credit_Amount\tPlan_Premium\tPayment_Amount\tPlan_Name\tPlan_ID\tInsurance_Company\tPlan_Selected\tCredit_Card\tExp_Date\tCVC\tDate_Processed\tAssigned_Id\tDateTime_Assigned\tStatus\tApp_Submitted_Date\tPolicy_Effective_Date\tAgent_Login_Used\tLastStatusChange\tSubmittedToFloridaBlue\tCarrier\tFederallyFacilitatedMarketplaceId\tSubscriberId\tExpirationDate\tConsentConfirmedAt\tConsentConfirmedBy",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IMS_DATA_EXP_FILE1_P_1_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "IMS_DATA_EXP_FILE1_1_PRD.txt",
+						"folderPath": "/MSL_Cloud_App_Prd/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "ID\tSUBMITTER_ID\tSUBMITTER_FIRST_NAME\tSUBMITTER_LAST_NAME\tFLORIDA_BLUE_RESPONSE\tDATETIME_SUBMITTED\tAGENT_ID\tAGENTFIRSTNAME\tAGENTLASTNAME\tRUNNER_NAME\tUPLINE_FIRST_NAME\tUPLINE_LAST_NAME\tDEPARTMENT_NAME\tDEPARTMENT_DESIGNATION\tCLIENT_FIRST_NAME\tCLIENT_LAST_NAME\tCLIENT_DOB\tCLIENT_PHONE\tCLIENT_SSN\tCLIENT_EMAIL\tCLIENT_ADDRESS_1\tCLIENT_ADDRESS_2\tCLIENT_CITY\tCLIENT_STATE\tCLIENT_ZIP\tMEMBER_COUNT_ENROLLED\tCLIENT_SEX\tPRODUCT_CHANGE\tMARRIED\tDEPENDENTS\tPREGNANT\tSMOKER\tAMERICAN_NATIVE\tEMPLOYER_NAME\tEMPLOYER_NUMBER\tCLIENT_INCOME\tCLIENT_INCOME_FREQ\tSPOUSAL_FIRST_NAME\tSPOUSAL_LAST_NAME\tSPOUSAL_SSN\tSPOUSAL_DOB\tSPOUSAL_EMPLOYER_NAME\tSPOUSAL_EMPLOYER_NUMBER\tSPOUSAL_INCOME\tSPOUSE\tDOMESTIC_PARTNER\tDEPENDENT_0_FIRST_NAME\tDEPENDENT_0_LAST_NAME\tDEPENDENT_0_DOB\tDEPENDENT_0_SEX\tDEPENDENT_0_SSN\tDEPENDENT_0_COVERED\tDEPENDENT_1_FIRST_NAME\tDEPENDENT_1_LAST_NAME\tDEPENDENT_1_DOB\tDEPENDENT_1_SEX\tDEPENDENT_1_SSN\tDEPENDENT_1_COVERED\tDEPENDENT_2_FIRST_NAME\tDEPENDENT_2_LAST_NAME\tDEPENDENT_2_DOB\tDEPENDENT_2_SEX\tDEPENDENT_2_SSN\tDEPENDENT_2_COVERED\tDEPENDENT_3_FIRST_NAME\tDEPENDENT_3_LAST_NAME\tDEPENDENT_3_DOB\tDEPENDENT_3_SEX\tDEPENDENT_3_SSN\tDEPENDENT_3_COVERED\tDEPENDENT_4_FIRST_NAME\tDEPENDENT_4_LAST_NAME\tDEPENDENT_4_DOB\tDEPENDENT_4_SEX\tDEPENDENT_4_SSN\tDEPENDENT_4_COVERED\tDEPENDENT_5_FIRST_NAME\tDEPENDENT_5_LAST_NAME\tDEPENDENT_5_DOB\tDEPENDENT_5_SEX\tDEPENDENT_5_SSN\tDEPENDENT_5_COVERED\tDEPENDENT_6_FIRST_NAME\tDEPENDENT_6_LAST_NAME\tDEPENDENT_6_DOB\tDEPENDENT_6_SEX\tDEPENDENT_6_SSN\tDEPENDENT_6_COVERED\tDEPENDENT_7_FIRST_NAME\tDEPENDENT_7_LAST_NAME\tDEPENDENT_7_DOB\tDEPENDENT_7_SEX\tDEPENDENT_7_SSN\tDEPENDENT_7_COVERED\tDEPENDENT_8_FIRST_NAME\tDEPENDENT_8_LAST_NAME\tDEPENDENT_8_DOB\tDEPENDENT_8_SEX\tDEPENDENT_8_SSN\tDEPENDENT_8_COVERED\tTAX_CREDIT_AMOUNT\tPLAN_PREMIUM\tPAYMENT_AMOUNT\tPLAN_NAME\tPLAN_ID\tINSURANCE_COMPANY\tPLAN_SELECTED\tCREDIT_CARD\tEXP_DATE\tCVC\tDATE_PROCESSED\tASSIGNED_ID\tDATETIME_ASSIGNED\tSTATUS\tAPP_SUBMITTED_DATE\tPOLICY_EFFECTIVE_DATE\tAGENT_LOGIN_USED\tLAST_STATUS_CHANGE\tSUBMITTED_TO_FLORIDABLUE\tCARRIER\tFEDERALLY_FACILITATED_MARKET_PLACE_ID\tSUBSCRIBER_ID\tEXPIRATION_DATE\tCONSENT_CONFIRME_DATE\tCONSENT_CONFIRMED_BY",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IMS_DATA_EXP_FILE1_P_1_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "IMS_DATA_EXP_FILE1_1_PRD.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Id\tSubmitter_ID\tSubmitterFirstName\tSubmitterLastName\tFlorida_Blue_Response\tDateTime_Submitted\tAgent_Id\tAgentFirstName\tAgentLastName\tRunner_Name\tUplineFirstName\tUplineLastName\tDepartmentName\tDepartmentDesignation\tClient_First_Name\tClient_Last_Name\tClient_DOB\tClient_Phone\tClient_SSN\tClient_Email\tClient_Address_1\tClient_Address_2\tClient_City\tClient_State\tClient_Zip\tMember_Count_Enrolled\tClient_Sex\tProduct_Change\tMarried\tDependents\tPregnant\tSmoker\tAmerican_Native\tEmployer_Name\tEmployer_Number\tClient_Income\tClient_Income_Freq\tSpousal_First_Name\tSpousal_Last_Name\tSpousal_SSN\tSpousal_DOB\tSpousal_Employer_Name\tSpousal_Employer_Number\tSpousal_Income\tSpouse\tDomestic_Partner\tDependent_0_First_Name\tDependent_0_Last_Name\tDependent_0_DOB\tDependent_0_Sex\tDependent_0_SSN\tDependent_0_Covered\tDependent_1_First_Name\tDependent_1_Last_Name\tDependent_1_DOB\tDependent_1_Sex\tDependent_1_SSN\tDependent_1_Covered\tDependent_2_First_Name\tDependent_2_Last_Name\tDependent_2_DOB\tDependent_2_Sex\tDependent_2_SSN\tDependent_2_Covered\tDependent_3_First_Name\tDependent_3_Last_Name\tDependent_3_DOB\tDependent_3_Sex\tDependent_3_SSN\tDependent_3_Covered\tDependent_4_First_Name\tDependent_4_Last_Name\tDependent_4_DOB\tDependent_4_Sex\tDependent_4_SSN\tDependent_4_Covered\tDependent_5_First_Name\tDependent_5_Last_Name\tDependent_5_DOB\tDependent_5_Sex\tDependent_5_SSN\tDependent_5_Covered\tDependent_6_First_Name\tDependent_6_Last_Name\tDependent_6_DOB\tDependent_6_Sex\tDependent_6_SSN\tDependent_6_Covered\tDependent_7_First_Name\tDependent_7_Last_Name\tDependent_7_DOB\tDependent_7_Sex\tDependent_7_SSN\tDependent_7_Covered\tDependent_8_First_Name\tDependent_8_Last_Name\tDependent_8_DOB\tDependent_8_Sex\tDependent_8_SSN\tDependent_8_Covered\tTax_Credit_Amount\tPlan_Premium\tPayment_Amount\tPlan_Name\tPlan_ID\tInsurance_Company\tPlan_Selected\tCredit_Card\tExp_Date\tCVC\tDate_Processed\tAssigned_Id\tDateTime_Assigned\tStatus\tApp_Submitted_Date\tPolicy_Effective_Date\tAgent_Login_Used\tLastStatusChange\tSubmittedToFloridaBlue\tCarrier\tFederallyFacilitatedMarketplaceId\tSubscriberId\tExpirationDate\tConsentConfirmedAt\tConsentConfirmedBy",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IMS_DATA_EXP_FILE1_P_2_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "IMS_DATA_EXP_FILE1_2_PRD.txt",
+						"folderPath": "/MSL_Cloud_App_Prd/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "ID\tSUBMITTER_ID\tSUBMITTER_FIRST_NAME\tSUBMITTER_LAST_NAME\tFLORIDA_BLUE_RESPONSE\tDATETIME_SUBMITTED\tAGENT_ID\tAGENTFIRSTNAME\tAGENTLASTNAME\tRUNNER_NAME\tUPLINE_FIRST_NAME\tUPLINE_LAST_NAME\tDEPARTMENT_NAME\tDEPARTMENT_DESIGNATION\tCLIENT_FIRST_NAME\tCLIENT_LAST_NAME\tCLIENT_DOB\tCLIENT_PHONE\tCLIENT_SSN\tCLIENT_EMAIL\tCLIENT_ADDRESS_1\tCLIENT_ADDRESS_2\tCLIENT_CITY\tCLIENT_STATE\tCLIENT_ZIP\tMEMBER_COUNT_ENROLLED\tCLIENT_SEX\tPRODUCT_CHANGE\tMARRIED\tDEPENDENTS\tPREGNANT\tSMOKER\tAMERICAN_NATIVE\tEMPLOYER_NAME\tEMPLOYER_NUMBER\tCLIENT_INCOME\tCLIENT_INCOME_FREQ\tSPOUSAL_FIRST_NAME\tSPOUSAL_LAST_NAME\tSPOUSAL_SSN\tSPOUSAL_DOB\tSPOUSAL_EMPLOYER_NAME\tSPOUSAL_EMPLOYER_NUMBER\tSPOUSAL_INCOME\tSPOUSE\tDOMESTIC_PARTNER\tDEPENDENT_0_FIRST_NAME\tDEPENDENT_0_LAST_NAME\tDEPENDENT_0_DOB\tDEPENDENT_0_SEX\tDEPENDENT_0_SSN\tDEPENDENT_0_COVERED\tDEPENDENT_1_FIRST_NAME\tDEPENDENT_1_LAST_NAME\tDEPENDENT_1_DOB\tDEPENDENT_1_SEX\tDEPENDENT_1_SSN\tDEPENDENT_1_COVERED\tDEPENDENT_2_FIRST_NAME\tDEPENDENT_2_LAST_NAME\tDEPENDENT_2_DOB\tDEPENDENT_2_SEX\tDEPENDENT_2_SSN\tDEPENDENT_2_COVERED\tDEPENDENT_3_FIRST_NAME\tDEPENDENT_3_LAST_NAME\tDEPENDENT_3_DOB\tDEPENDENT_3_SEX\tDEPENDENT_3_SSN\tDEPENDENT_3_COVERED\tDEPENDENT_4_FIRST_NAME\tDEPENDENT_4_LAST_NAME\tDEPENDENT_4_DOB\tDEPENDENT_4_SEX\tDEPENDENT_4_SSN\tDEPENDENT_4_COVERED\tDEPENDENT_5_FIRST_NAME\tDEPENDENT_5_LAST_NAME\tDEPENDENT_5_DOB\tDEPENDENT_5_SEX\tDEPENDENT_5_SSN\tDEPENDENT_5_COVERED\tDEPENDENT_6_FIRST_NAME\tDEPENDENT_6_LAST_NAME\tDEPENDENT_6_DOB\tDEPENDENT_6_SEX\tDEPENDENT_6_SSN\tDEPENDENT_6_COVERED\tDEPENDENT_7_FIRST_NAME\tDEPENDENT_7_LAST_NAME\tDEPENDENT_7_DOB\tDEPENDENT_7_SEX\tDEPENDENT_7_SSN\tDEPENDENT_7_COVERED\tDEPENDENT_8_FIRST_NAME\tDEPENDENT_8_LAST_NAME\tDEPENDENT_8_DOB\tDEPENDENT_8_SEX\tDEPENDENT_8_SSN\tDEPENDENT_8_COVERED\tTAX_CREDIT_AMOUNT\tPLAN_PREMIUM\tPAYMENT_AMOUNT\tPLAN_NAME\tPLAN_ID\tINSURANCE_COMPANY\tPLAN_SELECTED\tCREDIT_CARD\tEXP_DATE\tCVC\tDATE_PROCESSED\tASSIGNED_ID\tDATETIME_ASSIGNED\tSTATUS\tAPP_SUBMITTED_DATE\tPOLICY_EFFECTIVE_DATE\tAGENT_LOGIN_USED\tLAST_STATUS_CHANGE\tSUBMITTED_TO_FLORIDABLUE\tCARRIER\tFEDERALLY_FACILITATED_MARKET_PLACE_ID\tSUBSCRIBER_ID\tEXPIRATION_DATE\tCONSENT_CONFIRME_DATE\tCONSENT_CONFIRMED_BY",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IMS_DATA_EXP_FILE1_P_2_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "IMS_DATA_EXP_FILE1_2_PRD.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Id\tSubmitter_ID\tSubmitterFirstName\tSubmitterLastName\tFlorida_Blue_Response\tDateTime_Submitted\tAgent_Id\tAgentFirstName\tAgentLastName\tRunner_Name\tUplineFirstName\tUplineLastName\tDepartmentName\tDepartmentDesignation\tClient_First_Name\tClient_Last_Name\tClient_DOB\tClient_Phone\tClient_SSN\tClient_Email\tClient_Address_1\tClient_Address_2\tClient_City\tClient_State\tClient_Zip\tMember_Count_Enrolled\tClient_Sex\tProduct_Change\tMarried\tDependents\tPregnant\tSmoker\tAmerican_Native\tEmployer_Name\tEmployer_Number\tClient_Income\tClient_Income_Freq\tSpousal_First_Name\tSpousal_Last_Name\tSpousal_SSN\tSpousal_DOB\tSpousal_Employer_Name\tSpousal_Employer_Number\tSpousal_Income\tSpouse\tDomestic_Partner\tDependent_0_First_Name\tDependent_0_Last_Name\tDependent_0_DOB\tDependent_0_Sex\tDependent_0_SSN\tDependent_0_Covered\tDependent_1_First_Name\tDependent_1_Last_Name\tDependent_1_DOB\tDependent_1_Sex\tDependent_1_SSN\tDependent_1_Covered\tDependent_2_First_Name\tDependent_2_Last_Name\tDependent_2_DOB\tDependent_2_Sex\tDependent_2_SSN\tDependent_2_Covered\tDependent_3_First_Name\tDependent_3_Last_Name\tDependent_3_DOB\tDependent_3_Sex\tDependent_3_SSN\tDependent_3_Covered\tDependent_4_First_Name\tDependent_4_Last_Name\tDependent_4_DOB\tDependent_4_Sex\tDependent_4_SSN\tDependent_4_Covered\tDependent_5_First_Name\tDependent_5_Last_Name\tDependent_5_DOB\tDependent_5_Sex\tDependent_5_SSN\tDependent_5_Covered\tDependent_6_First_Name\tDependent_6_Last_Name\tDependent_6_DOB\tDependent_6_Sex\tDependent_6_SSN\tDependent_6_Covered\tDependent_7_First_Name\tDependent_7_Last_Name\tDependent_7_DOB\tDependent_7_Sex\tDependent_7_SSN\tDependent_7_Covered\tDependent_8_First_Name\tDependent_8_Last_Name\tDependent_8_DOB\tDependent_8_Sex\tDependent_8_SSN\tDependent_8_Covered\tTax_Credit_Amount\tPlan_Premium\tPayment_Amount\tPlan_Name\tPlan_ID\tInsurance_Company\tPlan_Selected\tCredit_Card\tExp_Date\tCVC\tDate_Processed\tAssigned_Id\tDateTime_Assigned\tStatus\tApp_Submitted_Date\tPolicy_Effective_Date\tAgent_Login_Used\tLastStatusChange\tSubmittedToFloridaBlue\tCarrier\tFederallyFacilitatedMarketplaceId\tSubscriberId\tExpirationDate\tConsentConfirmedAt\tConsentConfirmedBy",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IMS_DATA_EXP_FILE1_P_3_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "IMS_DATA_EXP_FILE1_3_PRD.txt",
+						"folderPath": "/MSL_Cloud_App_Prd/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "ID\tSUBMITTER_ID\tSUBMITTER_FIRST_NAME\tSUBMITTER_LAST_NAME\tFLORIDA_BLUE_RESPONSE\tDATETIME_SUBMITTED\tAGENT_ID\tAGENTFIRSTNAME\tAGENTLASTNAME\tRUNNER_NAME\tUPLINE_FIRST_NAME\tUPLINE_LAST_NAME\tDEPARTMENT_NAME\tDEPARTMENT_DESIGNATION\tCLIENT_FIRST_NAME\tCLIENT_LAST_NAME\tCLIENT_DOB\tCLIENT_PHONE\tCLIENT_SSN\tCLIENT_EMAIL\tCLIENT_ADDRESS_1\tCLIENT_ADDRESS_2\tCLIENT_CITY\tCLIENT_STATE\tCLIENT_ZIP\tMEMBER_COUNT_ENROLLED\tCLIENT_SEX\tPRODUCT_CHANGE\tMARRIED\tDEPENDENTS\tPREGNANT\tSMOKER\tAMERICAN_NATIVE\tEMPLOYER_NAME\tEMPLOYER_NUMBER\tCLIENT_INCOME\tCLIENT_INCOME_FREQ\tSPOUSAL_FIRST_NAME\tSPOUSAL_LAST_NAME\tSPOUSAL_SSN\tSPOUSAL_DOB\tSPOUSAL_EMPLOYER_NAME\tSPOUSAL_EMPLOYER_NUMBER\tSPOUSAL_INCOME\tSPOUSE\tDOMESTIC_PARTNER\tDEPENDENT_0_FIRST_NAME\tDEPENDENT_0_LAST_NAME\tDEPENDENT_0_DOB\tDEPENDENT_0_SEX\tDEPENDENT_0_SSN\tDEPENDENT_0_COVERED\tDEPENDENT_1_FIRST_NAME\tDEPENDENT_1_LAST_NAME\tDEPENDENT_1_DOB\tDEPENDENT_1_SEX\tDEPENDENT_1_SSN\tDEPENDENT_1_COVERED\tDEPENDENT_2_FIRST_NAME\tDEPENDENT_2_LAST_NAME\tDEPENDENT_2_DOB\tDEPENDENT_2_SEX\tDEPENDENT_2_SSN\tDEPENDENT_2_COVERED\tDEPENDENT_3_FIRST_NAME\tDEPENDENT_3_LAST_NAME\tDEPENDENT_3_DOB\tDEPENDENT_3_SEX\tDEPENDENT_3_SSN\tDEPENDENT_3_COVERED\tDEPENDENT_4_FIRST_NAME\tDEPENDENT_4_LAST_NAME\tDEPENDENT_4_DOB\tDEPENDENT_4_SEX\tDEPENDENT_4_SSN\tDEPENDENT_4_COVERED\tDEPENDENT_5_FIRST_NAME\tDEPENDENT_5_LAST_NAME\tDEPENDENT_5_DOB\tDEPENDENT_5_SEX\tDEPENDENT_5_SSN\tDEPENDENT_5_COVERED\tDEPENDENT_6_FIRST_NAME\tDEPENDENT_6_LAST_NAME\tDEPENDENT_6_DOB\tDEPENDENT_6_SEX\tDEPENDENT_6_SSN\tDEPENDENT_6_COVERED\tDEPENDENT_7_FIRST_NAME\tDEPENDENT_7_LAST_NAME\tDEPENDENT_7_DOB\tDEPENDENT_7_SEX\tDEPENDENT_7_SSN\tDEPENDENT_7_COVERED\tDEPENDENT_8_FIRST_NAME\tDEPENDENT_8_LAST_NAME\tDEPENDENT_8_DOB\tDEPENDENT_8_SEX\tDEPENDENT_8_SSN\tDEPENDENT_8_COVERED\tTAX_CREDIT_AMOUNT\tPLAN_PREMIUM\tPAYMENT_AMOUNT\tPLAN_NAME\tPLAN_ID\tINSURANCE_COMPANY\tPLAN_SELECTED\tCREDIT_CARD\tEXP_DATE\tCVC\tDATE_PROCESSED\tASSIGNED_ID\tDATETIME_ASSIGNED\tSTATUS\tAPP_SUBMITTED_DATE\tPOLICY_EFFECTIVE_DATE\tAGENT_LOGIN_USED\tLAST_STATUS_CHANGE\tSUBMITTED_TO_FLORIDABLUE\tCARRIER\tFEDERALLY_FACILITATED_MARKET_PLACE_ID\tSUBSCRIBER_ID\tEXPIRATION_DATE\tCONSENT_CONFIRME_DATE\tCONSENT_CONFIRMED_BY",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		}
+	]
+}
