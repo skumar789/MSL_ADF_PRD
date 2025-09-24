@@ -1,0 +1,2530 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "e2eis-adf1"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/MIA_BCBSSC_INDIVIDUAL_COMMISSION_DETAILS_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msluat",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "SUBSCRIBER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "ALTERNATE_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "CONTRACT_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "EFF_DATE",
+						"type": "date"
+					},
+					{
+						"name": "TC",
+						"type": "varchar"
+					},
+					{
+						"name": "DUE_DATE",
+						"type": "date"
+					},
+					{
+						"name": "INITIAL_PREMIUM",
+						"type": "varchar"
+					},
+					{
+						"name": "PERCAP_PERCENT",
+						"type": "varchar"
+					},
+					{
+						"name": "COMMISSION_AMOUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "ADJ_REA",
+						"type": "varchar"
+					},
+					{
+						"name": "SELLING_AGENT",
+						"type": "varchar"
+					},
+					{
+						"name": "COMPENSATION_DATE",
+						"type": "date"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					},
+					{
+						"name": "FILE_RECORD_BIRTH_DATE",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "MIA_104",
+					"table": "MIA_BCBS_SC_INDIVIDUAL_COMMISSION_DETAILS_STG"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MIA_BCBSSC_INDIVIDUAL_COMMISSION_FEED_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "MIA_BCBSSC_INDIVIDUAL COMMISSION_MONTHLY_FEED_UAT.txt",
+						"folderPath": "/MSL_Cloud_Uat/FromAgency/MIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "SUBSCRIBER_NAME\tALTERNATE_ID\tCONTRACT_TYPE\tEFF_DATE\tTC\tDUE_DATE\tINITIAL_PREMIUM\tPERCAP_PERCENT\tCOMMISSION_AMOUNT\tADJ_REA\tSELLING_AGENT\tCOMPENSATION_DATE",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MIA_BCBSSC_INDIVIDUAL_FEED_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "MIA_BCBSSC_INDIVIDUAL COMMISSION_FEED_UAT.txt",
+						"folderPath": "/MSL_Cloud_Uat/FromAgency/MIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "SUBSCRIBER NAME\tALTERNATE ID\tCONTRACT TYPE\tEFF DATE\tTC\tDUE DATE\tINITIAL PREMIUM\tPERCAP/PERCENT\tCOMMISSION AMOUNT\tADJ REA\tSELLING AGENT\tCOMPENSATION_DATE",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MIA_BCBS_FB_COMISSIONS_FINALIZED_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_APP_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "AGENCY_CODE",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_LAST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_FIRST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_CODE",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCT_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "COMP_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "SUBSCRIBER_LAST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "SUBSCRIBER_FIRST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "SUBSCRIBER_MIDDLE_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_UID",
+						"type": "varchar"
+					},
+					{
+						"name": "MEMBER_CONTRACT_NO",
+						"type": "varchar"
+					},
+					{
+						"name": "APP_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "ORIGINAL_EFFECTIVE_DATE",
+						"type": "date"
+					},
+					{
+						"name": "BENEFIT_EFFECTIVE_DATE",
+						"type": "date"
+					},
+					{
+						"name": "ACCOUNTING_DATE",
+						"type": "date"
+					},
+					{
+						"name": "COMPENSATION_DATE",
+						"type": "date"
+					},
+					{
+						"name": "CANCEL_DATE",
+						"type": "date"
+					},
+					{
+						"name": "INITIAL_PAYMENT_DATE",
+						"type": "date"
+					},
+					{
+						"name": "COMP_YEAR",
+						"type": "varchar"
+					},
+					{
+						"name": "PRIOR_CARRIER_IND",
+						"type": "varchar"
+					},
+					{
+						"name": "PRIOR_PLAN_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "EVENT_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "Flat_Rate",
+						"type": "decimal",
+						"precision": 14,
+						"scale": 2
+					},
+					{
+						"name": "COUNTY_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "CMS_DATE",
+						"type": "date"
+					},
+					{
+						"name": "CYCLE_YEAR",
+						"type": "varchar"
+					},
+					{
+						"name": "ADMIN_FEE",
+						"type": "decimal",
+						"precision": 14,
+						"scale": 2
+					},
+					{
+						"name": "AGE_IN_POLICY",
+						"type": "varchar"
+					},
+					{
+						"name": "EMPLOYEE_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Coverag_From_Date",
+						"type": "date"
+					},
+					{
+						"name": "Coverag_To_Date",
+						"type": "date"
+					},
+					{
+						"name": "Payroll_Id",
+						"type": "varchar"
+					},
+					{
+						"name": "Payee_Employee_Id",
+						"type": "varchar"
+					},
+					{
+						"name": "Payee_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Main_Upline_Employee_Id",
+						"type": "varchar"
+					},
+					{
+						"name": "Main_Upline_Full_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Group_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Member_Count",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "BILLING_PERIOD_FROM",
+						"type": "date"
+					},
+					{
+						"name": "BILLING_PERIOD_TO",
+						"type": "date"
+					},
+					{
+						"name": "File_Type",
+						"type": "varchar"
+					},
+					{
+						"name": "TRANSACTION_ID",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "Agent_Role",
+						"type": "varchar"
+					},
+					{
+						"name": "COMM_AMOUNT",
+						"type": "decimal",
+						"precision": 14,
+						"scale": 2
+					},
+					{
+						"name": "Paticipant_Relation",
+						"type": "varchar"
+					},
+					{
+						"name": "PERCENT_OF_FB_PAYMENT",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 8
+					},
+					{
+						"name": "Agent_Commission",
+						"type": "decimal",
+						"precision": 33,
+						"scale": 10
+					},
+					{
+						"name": "E2E_PLAN_DESCRIPTION",
+						"type": "varchar"
+					},
+					{
+						"name": "Comments",
+						"type": "varchar"
+					},
+					{
+						"name": "Commission_Type",
+						"type": "varchar"
+					},
+					{
+						"name": "Section_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "COMM_RATE_OR_FLAT_RATE",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_COMP_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "FREQUENCY",
+						"type": "varchar"
+					},
+					{
+						"name": "PAYMENT_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_ASSIGNMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCT_TYPE_CALC",
+						"type": "varchar"
+					},
+					{
+						"name": "Accounting_Year",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "Role_As_Earned_Eligble_Count",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "Overide_Role_As_Earned_1_Eligble_Count",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "Overide_Role_2_As_Earned_Eligble_Count",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "Remaining_as_Earned_Months",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "Remaining_as_Earned_Commissions",
+						"type": "decimal",
+						"precision": 14,
+						"scale": 3
+					},
+					{
+						"name": "GROUP_WRITING_AGENT_COMP_TIER",
+						"type": "varchar"
+					},
+					{
+						"name": "Active_Months",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "No_of_Months",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "AS_EARNED_END_DATE",
+						"type": "date"
+					},
+					{
+						"name": "Participant_Relation_1",
+						"type": "varchar"
+					},
+					{
+						"name": "Participant_Relation_2",
+						"type": "varchar"
+					},
+					{
+						"name": "Segment",
+						"type": "varchar"
+					},
+					{
+						"name": "CARRIER_AGENTCODE",
+						"type": "varchar"
+					},
+					{
+						"name": "PERIOD_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "Release_Schedule",
+						"type": "varchar"
+					},
+					{
+						"name": "PAY_RECOVERY",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "MIA_104",
+					"table": "MIA_BCBS_FB_COMISSIONS_FINALIZED"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MIA_BCBS_FB_COMISSIONS_FINALIZED_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msluat",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "AGENCY_CODE",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_LAST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_FIRST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_CODE",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCT_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "COMP_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "SUBSCRIBER_LAST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "SUBSCRIBER_FIRST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "SUBSCRIBER_MIDDLE_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_UID",
+						"type": "varchar"
+					},
+					{
+						"name": "MEMBER_CONTRACT_NO",
+						"type": "varchar"
+					},
+					{
+						"name": "APP_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "ORIGINAL_EFFECTIVE_DATE",
+						"type": "date"
+					},
+					{
+						"name": "BENEFIT_EFFECTIVE_DATE",
+						"type": "date"
+					},
+					{
+						"name": "ACCOUNTING_DATE",
+						"type": "date"
+					},
+					{
+						"name": "COMPENSATION_DATE",
+						"type": "date"
+					},
+					{
+						"name": "CANCEL_DATE",
+						"type": "date"
+					},
+					{
+						"name": "INITIAL_PAYMENT_DATE",
+						"type": "date"
+					},
+					{
+						"name": "COMP_YEAR",
+						"type": "varchar"
+					},
+					{
+						"name": "PRIOR_CARRIER_IND",
+						"type": "varchar"
+					},
+					{
+						"name": "PRIOR_PLAN_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "EVENT_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "Flat_Rate",
+						"type": "decimal",
+						"precision": 14,
+						"scale": 2
+					},
+					{
+						"name": "COUNTY_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "CMS_DATE",
+						"type": "date"
+					},
+					{
+						"name": "CYCLE_YEAR",
+						"type": "varchar"
+					},
+					{
+						"name": "ADMIN_FEE",
+						"type": "decimal",
+						"precision": 14,
+						"scale": 2
+					},
+					{
+						"name": "AGE_IN_POLICY",
+						"type": "varchar"
+					},
+					{
+						"name": "EMPLOYEE_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Coverag_From_Date",
+						"type": "date"
+					},
+					{
+						"name": "Coverag_To_Date",
+						"type": "date"
+					},
+					{
+						"name": "Payroll_Id",
+						"type": "varchar"
+					},
+					{
+						"name": "Payee_Employee_Id",
+						"type": "varchar"
+					},
+					{
+						"name": "Payee_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Main_Upline_Employee_Id",
+						"type": "varchar"
+					},
+					{
+						"name": "Main_Upline_Full_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Group_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Member_Count",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "BILLING_PERIOD_FROM",
+						"type": "date"
+					},
+					{
+						"name": "BILLING_PERIOD_TO",
+						"type": "date"
+					},
+					{
+						"name": "File_Type",
+						"type": "varchar"
+					},
+					{
+						"name": "TRANSACTION_ID",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "Agent_Role",
+						"type": "varchar"
+					},
+					{
+						"name": "COMM_AMOUNT",
+						"type": "decimal",
+						"precision": 14,
+						"scale": 2
+					},
+					{
+						"name": "Paticipant_Relation",
+						"type": "varchar"
+					},
+					{
+						"name": "PERCENT_OF_FB_PAYMENT",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 8
+					},
+					{
+						"name": "Agent_Commission",
+						"type": "decimal",
+						"precision": 33,
+						"scale": 10
+					},
+					{
+						"name": "E2E_PLAN_DESCRIPTION",
+						"type": "varchar"
+					},
+					{
+						"name": "Comments",
+						"type": "varchar"
+					},
+					{
+						"name": "Commission_Type",
+						"type": "varchar"
+					},
+					{
+						"name": "Section_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "COMM_RATE_OR_FLAT_RATE",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_COMP_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "FREQUENCY",
+						"type": "varchar"
+					},
+					{
+						"name": "PAYMENT_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_ASSIGNMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCT_TYPE_CALC",
+						"type": "varchar"
+					},
+					{
+						"name": "Accounting_Year",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "Role_As_Earned_Eligble_Count",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "Overide_Role_As_Earned_1_Eligble_Count",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "Overide_Role_2_As_Earned_Eligble_Count",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "Remaining_as_Earned_Months",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "Remaining_as_Earned_Commissions",
+						"type": "decimal",
+						"precision": 14,
+						"scale": 3
+					},
+					{
+						"name": "GROUP_WRITING_AGENT_COMP_TIER",
+						"type": "varchar"
+					},
+					{
+						"name": "Active_Months",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "No_of_Months",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "AS_EARNED_END_DATE",
+						"type": "date"
+					},
+					{
+						"name": "Participant_Relation_1",
+						"type": "varchar"
+					},
+					{
+						"name": "Participant_Relation_2",
+						"type": "varchar"
+					},
+					{
+						"name": "Segment",
+						"type": "varchar"
+					},
+					{
+						"name": "CARRIER_AGENTCODE",
+						"type": "varchar"
+					},
+					{
+						"name": "PERIOD_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "Release_Schedule",
+						"type": "varchar"
+					},
+					{
+						"name": "PAY_RECOVERY",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "MIA_104",
+					"table": "MIA_BCBS_FB_COMISSIONS_FINALIZED"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MIA_BCBS_NCSC_COMISSIONS_FINALIZED_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_APP_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "CARRIER",
+						"type": "varchar"
+					},
+					{
+						"name": "INDIVIDUAL_GROUP",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCER_CODE",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_COMPTYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_COMPTYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "CUSTOMER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "CUSTOMER_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCT",
+						"type": "varchar"
+					},
+					{
+						"name": "COVERAGE_EFF_DATE",
+						"type": "date"
+					},
+					{
+						"name": "COVERAGE_TO",
+						"type": "date"
+					},
+					{
+						"name": "PREMIUM_PERIOD",
+						"type": "date"
+					},
+					{
+						"name": "ORIGINAL_EFF_DATE",
+						"type": "date"
+					},
+					{
+						"name": "BILLED_MEMBERS_AMOUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "PREMIUM_AMOUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "TERM",
+						"type": "varchar"
+					},
+					{
+						"name": "PERCENTAGE",
+						"type": "varchar"
+					},
+					{
+						"name": "COMPENSATION_DATE",
+						"type": "date"
+					},
+					{
+						"name": "CONTRACT_YEAR",
+						"type": "varchar"
+					},
+					{
+						"name": "EMPLOYEE_TYPE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EMPLOYEE_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FULL_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PAYROLL_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PAYEE_EMPLOYEE_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PAYEE_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MAIN_UPLINE_EMPLOYEE_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "MAIN_UPLINE_FULL_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "SECONDARY_UPLINE_EMPLOYEE_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "SECONDARY_UPLINE_FULL_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "PRIMARY_ROLE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AGENCY_COMP_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "COMMISSION_EARNED",
+						"type": "decimal",
+						"precision": 14,
+						"scale": 2
+					},
+					{
+						"name": "PERCENT_OF_FB_PAYMENT",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 8
+					},
+					{
+						"name": "AGENT_COMMISSION",
+						"type": "decimal",
+						"precision": 33,
+						"scale": 10
+					},
+					{
+						"name": "COMMISSIONTYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "TRANSACTION_ID",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "PATICIPANT_RELATION",
+						"type": "varchar"
+					},
+					{
+						"name": "SECTION_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "PERIOD_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "COMMENTS",
+						"type": "varchar"
+					},
+					{
+						"name": "ADJ_COMMENTS",
+						"type": "varchar"
+					},
+					{
+						"name": "ADJ_ACTION",
+						"type": "varchar"
+					},
+					{
+						"name": "E2E_PLAN_DESCRIPTION",
+						"type": "varchar"
+					},
+					{
+						"name": "TRANSACTION_COMMENTS",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "MIA_104",
+					"table": "MIA_BCBS_NCSC_COMISSIONS_FINALIZED"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MIA_BCBS_NCSC_COMISSIONS_FINALIZED_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msluat",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "CARRIER",
+						"type": "varchar"
+					},
+					{
+						"name": "INDIVIDUAL_GROUP",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCER_CODE",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_COMPTYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_COMPTYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "CUSTOMER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "CUSTOMER_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCT",
+						"type": "varchar"
+					},
+					{
+						"name": "COVERAGE_EFF_DATE",
+						"type": "date"
+					},
+					{
+						"name": "COVERAGE_TO",
+						"type": "date"
+					},
+					{
+						"name": "PREMIUM_PERIOD",
+						"type": "date"
+					},
+					{
+						"name": "ORIGINAL_EFF_DATE",
+						"type": "date"
+					},
+					{
+						"name": "BILLED_MEMBERS_AMOUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "PREMIUM_AMOUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "TERM",
+						"type": "varchar"
+					},
+					{
+						"name": "PERCENTAGE",
+						"type": "varchar"
+					},
+					{
+						"name": "COMPENSATION_DATE",
+						"type": "date"
+					},
+					{
+						"name": "CONTRACT_YEAR",
+						"type": "varchar"
+					},
+					{
+						"name": "EMPLOYEE_TYPE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EMPLOYEE_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FULL_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PAYROLL_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PAYEE_EMPLOYEE_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PAYEE_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MAIN_UPLINE_EMPLOYEE_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "MAIN_UPLINE_FULL_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "SECONDARY_UPLINE_EMPLOYEE_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "SECONDARY_UPLINE_FULL_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "PRIMARY_ROLE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AGENCY_COMP_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "COMMISSION_EARNED",
+						"type": "decimal",
+						"precision": 14,
+						"scale": 2
+					},
+					{
+						"name": "PERCENT_OF_FB_PAYMENT",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 8
+					},
+					{
+						"name": "AGENT_COMMISSION",
+						"type": "decimal",
+						"precision": 33,
+						"scale": 10
+					},
+					{
+						"name": "COMMISSIONTYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "TRANSACTION_ID",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "PATICIPANT_RELATION",
+						"type": "varchar"
+					},
+					{
+						"name": "SECTION_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "PERIOD_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "COMMENTS",
+						"type": "varchar"
+					},
+					{
+						"name": "ADJ_COMMENTS",
+						"type": "varchar"
+					},
+					{
+						"name": "ADJ_ACTION",
+						"type": "varchar"
+					},
+					{
+						"name": "E2E_PLAN_DESCRIPTION",
+						"type": "varchar"
+					},
+					{
+						"name": "TRANSACTION_COMMENTS",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "MIA_104",
+					"table": "MIA_BCBS_NCSC_COMISSIONS_FINALIZED"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MIA_BCBS_NC_GROUP_DETAILS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msldev",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "ORIGINAL_SUBCRIBER_COUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "RENEWAL_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "PREMIUM_PERIOD",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCT",
+						"type": "varchar"
+					},
+					{
+						"name": "COVERAGE_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "BILL_AMOUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "BILLED_SUBSCRIBER",
+						"type": "varchar"
+					},
+					{
+						"name": "PERCENTAGE_PCPM_RATE",
+						"type": "varchar"
+					},
+					{
+						"name": "COMMISSION",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					},
+					{
+						"name": "FILE_RECORD_BIRTH_DATE",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "MIA_104",
+					"table": "MIA_BCBS_NC_GROUP_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MIA_BCBS_NC_GROUP_DETAILS_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msldev",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "PRODUCER_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "CUSTOMER_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "ORIGINAL_SUBSCRIBER_COUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "CUSTOMER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "RENEWAL_DATE",
+						"type": "date"
+					},
+					{
+						"name": "PRODUCT_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "PREMIUM_PERIOD",
+						"type": "date"
+					},
+					{
+						"name": "PRODUCT",
+						"type": "varchar"
+					},
+					{
+						"name": "COVERAGE_EFFECTIVE_DATE",
+						"type": "date"
+					},
+					{
+						"name": "BILL_AMOUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "BILLED_SUBSCRIBER",
+						"type": "varchar"
+					},
+					{
+						"name": "PERCENTAGE_PCPM_RATE",
+						"type": "varchar"
+					},
+					{
+						"name": "COMMISSION",
+						"type": "varchar"
+					},
+					{
+						"name": "COMISSION_DATE",
+						"type": "date"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					},
+					{
+						"name": "FILE_RECORD_BIRTH_DATE",
+						"type": "date"
+					}
+				],
+				"typeProperties": {
+					"schema": "MIA_104",
+					"table": "MIA_BCBS_NC_GROUP_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MIA_BCBS_NC_GROUP_MONTHLY_DETAILS_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msldev",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "ORIGINAL_SUBCRIBER_COUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "RENEWAL_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "PREMIUM_PERIOD",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCT",
+						"type": "varchar"
+					},
+					{
+						"name": "COVERAGE_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "BILL_AMOUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "BILLED_SUBSCRIBER",
+						"type": "varchar"
+					},
+					{
+						"name": "PERCENTAGE_PCPM_RATE",
+						"type": "varchar"
+					},
+					{
+						"name": "COMMISSION",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					},
+					{
+						"name": "FILE_RECORD_BIRTH_DATE",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "MIA_104",
+					"table": "MIA_BCBS_NC_GROUP_MONTHLY_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MIA_BCBS_NC_GROUP_MONTHLY_DETAILS_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msluat",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "ORIGINAL_SUBCRIBER_COUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "RENEWAL_DATE",
+						"type": "date"
+					},
+					{
+						"name": "PREMIUM_PERIOD",
+						"type": "date"
+					},
+					{
+						"name": "PRODUCT",
+						"type": "varchar"
+					},
+					{
+						"name": "COVERAGE_EFFECTIVE_DATE",
+						"type": "date"
+					},
+					{
+						"name": "BILL_AMOUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "BILLED_SUBSCRIBER",
+						"type": "varchar"
+					},
+					{
+						"name": "PERCENTAGE_PCPM_RATE",
+						"type": "varchar"
+					},
+					{
+						"name": "COMMISSION",
+						"type": "varchar"
+					},
+					{
+						"name": "COMPENSATION_DATE",
+						"type": "date"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					},
+					{
+						"name": "FILE_RECORD_BIRTH_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "CUSTOMER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCT_NAME",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "MIA_104",
+					"table": "MIA_BCBS_NC_GROUP_DETAILS_STG"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MIA_BCBS_NC_GROUP_MONTHLY_FEED_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "MIA_BCBSNC_GROUP_MONTHLY_FEED_UAT.txt",
+						"folderPath": "/MSL_Cloud_Uat/FromAgency/MIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "PRODUCER_ID\tPRODUCER_NAME\tCUSTOMER_NUMBER\tORIGINAL_SUBSCRIBER_COUNT\tCUSTOMER_NAME\tRENEWAL_DATE\tPRODUCT_NAME\tPREMIUM_PERIOD\tPRODUCT\tCOVERAGE_EFFECTIVE_DATE\tBILL_AMOUNT\tBILLED_SUBSCRIBER\tPERCENTAGE_PCPM_RATE\tCOMMISSION\tCOMPENSATION_DATE",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MIA_BCBS_NC_INDIVIDUAL_COMMISSION_DETAILS_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msldev",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "PRODUCER_CODE",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "IND_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "CUSTOMER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "CUSTOMER_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCT",
+						"type": "varchar"
+					},
+					{
+						"name": "COVERAGE_EFF_DATE",
+						"type": "date"
+					},
+					{
+						"name": "COVERAGE_TO",
+						"type": "date"
+					},
+					{
+						"name": "PREMIUM_PERIOD",
+						"type": "date"
+					},
+					{
+						"name": "ORIGINAL_EFF_DATE",
+						"type": "date"
+					},
+					{
+						"name": "BILLED_MEMBERS_AMOUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "PREMIUM_AMOUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "TERM",
+						"type": "varchar"
+					},
+					{
+						"name": "PERCENTAGE",
+						"type": "varchar"
+					},
+					{
+						"name": "COMMISSION_EARNED",
+						"type": "varchar"
+					},
+					{
+						"name": "COMPENSATION_DATE",
+						"type": "date"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					},
+					{
+						"name": "FILE_RECORD_BIRTH_DATE",
+						"type": "date"
+					}
+				],
+				"typeProperties": {
+					"schema": "MIA_104",
+					"table": "MIA_BCBS_NC_INDIVIDUAL_COMMISSION_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MIA_BCBS_NC_INDIVIDUAL_COMMISSION_DETAILS_STG_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msldev",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "PRODUCER_CODE",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "IND_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "CUSTOMER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "CUSTOMER_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCT",
+						"type": "varchar"
+					},
+					{
+						"name": "COVERAGE_EFF_DATE",
+						"type": "date"
+					},
+					{
+						"name": "COVERAGE_TO",
+						"type": "date"
+					},
+					{
+						"name": "PREMIUM_PERIOD",
+						"type": "date"
+					},
+					{
+						"name": "ORIGINAL_EFF_DATE",
+						"type": "date"
+					},
+					{
+						"name": "BILLED_MEMBERS",
+						"type": "varchar"
+					},
+					{
+						"name": "PREMIUM_AMOUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "TERM",
+						"type": "varchar"
+					},
+					{
+						"name": "PERCENTAGE",
+						"type": "varchar"
+					},
+					{
+						"name": "COMMISSION_EARNED",
+						"type": "decimal",
+						"precision": 14,
+						"scale": 2
+					},
+					{
+						"name": "COMPENSATION_DATE",
+						"type": "date"
+					},
+					{
+						"name": "Transaction_Id",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "Contract_rank",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "CARRIER_PRODUCER_CODE",
+						"type": "varchar"
+					},
+					{
+						"name": "CARRIER_PRODUCER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "Transaction_Comments",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "MIA_104",
+					"table": "MIA_BCBS_NC_INDIVIDUAL_COMMISSION_DETAILS_STG"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MIA_BCBS_NC_INDIVITUAL_COMMISSION_MONTHLY_DETAILS_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msluat",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "PRODUCER_CODE",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "IND_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "CUSTOMER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "CUSTOMER_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCT",
+						"type": "varchar"
+					},
+					{
+						"name": "COVERAGE_EFF_DATE",
+						"type": "date"
+					},
+					{
+						"name": "COVERAGE_TO",
+						"type": "date"
+					},
+					{
+						"name": "PREMIUM_PERIOD",
+						"type": "date"
+					},
+					{
+						"name": "ORIGINAL_EFF_DATE",
+						"type": "date"
+					},
+					{
+						"name": "BILLED_MEMBERS",
+						"type": "varchar"
+					},
+					{
+						"name": "PREMIUM_AMOUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "TERM",
+						"type": "varchar"
+					},
+					{
+						"name": "PERCENTAGE",
+						"type": "varchar"
+					},
+					{
+						"name": "COMMISSION_EARNED",
+						"type": "decimal",
+						"precision": 14,
+						"scale": 2
+					},
+					{
+						"name": "COMPENSATION_DATE",
+						"type": "date"
+					},
+					{
+						"name": "Transaction_Id",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "Contract_rank",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "CARRIER_PRODUCER_CODE",
+						"type": "varchar"
+					},
+					{
+						"name": "CARRIER_PRODUCER_NAME",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "MIA_104",
+					"table": "MIA_BCBS_NC_INDIVIDUAL_COMMISSION_DETAILS_STG"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MIA_BCBS_NC_INDIVITUAL_COMMISSION_REPORT_DETAILS_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msldev",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "IND",
+						"type": "varchar"
+					},
+					{
+						"name": "CUSTOMER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "CUSTOMER",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCT",
+						"type": "varchar"
+					},
+					{
+						"name": "COVERAGE_FROM",
+						"type": "varchar"
+					},
+					{
+						"name": "COVERAG_TO",
+						"type": "varchar"
+					},
+					{
+						"name": "PREMIUM_PERIOD",
+						"type": "varchar"
+					},
+					{
+						"name": "ORIGINAL_EFFECTIVE_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "BILLED",
+						"type": "varchar"
+					},
+					{
+						"name": "PREMIUM",
+						"type": "varchar"
+					},
+					{
+						"name": "TERM",
+						"type": "varchar"
+					},
+					{
+						"name": "COMMISSION_EARNED_POD",
+						"type": "varchar"
+					},
+					{
+						"name": "COMMISSION_EARNED",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					},
+					{
+						"name": "FILE_RECORD_BIRTH_DATE",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "MIA_104",
+					"table": "MIA_BCBS_NC_INDIVITUAL_COMMISSION_REPORT_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MIA_BCBS_NC_INDIVITUAL_MONTHLY_DETAILS_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msldev",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "IND",
+						"type": "varchar"
+					},
+					{
+						"name": "CUSTOMER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "CUSTOMER",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCT",
+						"type": "varchar"
+					},
+					{
+						"name": "COVERAGE_FROM",
+						"type": "varchar"
+					},
+					{
+						"name": "COVERAG_TO",
+						"type": "varchar"
+					},
+					{
+						"name": "PREMIUM_PERIOD",
+						"type": "varchar"
+					},
+					{
+						"name": "ORIGINAL_EFFECTIVE_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "BILLED",
+						"type": "varchar"
+					},
+					{
+						"name": "PREMIUM",
+						"type": "varchar"
+					},
+					{
+						"name": "TERM",
+						"type": "varchar"
+					},
+					{
+						"name": "COMMISSION_EARNED_POD",
+						"type": "varchar"
+					},
+					{
+						"name": "COMMISSION_EARNED",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					},
+					{
+						"name": "FILE_RECORD_BIRTH_DATE",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "MIA_104",
+					"table": "MIA_BCBS_NC_INDIVITUAL_MONTHLY_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MIA_BCBS_SC_INDIVIDUAL_COMMISSION_DETAILS_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msldev",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "SUBSCRIBER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "ALTERNATE_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "CONTRACT_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "EFF_DATE",
+						"type": "date"
+					},
+					{
+						"name": "TC",
+						"type": "varchar"
+					},
+					{
+						"name": "DUE_DATE",
+						"type": "date"
+					},
+					{
+						"name": "INITIAL_PREMIUM",
+						"type": "varchar"
+					},
+					{
+						"name": "PERCAP_PERCENT",
+						"type": "varchar"
+					},
+					{
+						"name": "COMMISSION_AMOUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "ADJ_REA",
+						"type": "varchar"
+					},
+					{
+						"name": "SELLING_AGENT",
+						"type": "varchar"
+					},
+					{
+						"name": "COMPENSATION_DATE",
+						"type": "date"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					},
+					{
+						"name": "FILE_RECORD_BIRTH_DATE",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "MIA_104",
+					"table": "MIA_BCBS_SC_INDIVIDUAL_COMMISSION_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MIA_BCBS_SC_INDIVIDUAL_COMMISSION_DETAILS_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_mslprd",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "SUBSCRIBER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "ALTERNATE_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "CONTRACT_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "EFF_DATE",
+						"type": "date"
+					},
+					{
+						"name": "TC",
+						"type": "varchar"
+					},
+					{
+						"name": "DUE_DATE",
+						"type": "date"
+					},
+					{
+						"name": "INITIAL_PREMIUM",
+						"type": "varchar"
+					},
+					{
+						"name": "PERCAP_PERCENT",
+						"type": "varchar"
+					},
+					{
+						"name": "COMMISSION_AMOUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "ADJ_REA",
+						"type": "varchar"
+					},
+					{
+						"name": "SELLING_AGENT",
+						"type": "varchar"
+					},
+					{
+						"name": "COMPENSATION_DATE",
+						"type": "date"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					},
+					{
+						"name": "FILE_RECORD_BIRTH_DATE",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "MIA_104",
+					"table": "MIA_BCBS_SC_INDIVIDUAL_COMMISSION_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MIA_BCBS_SC_INDIVIDUAL_COMMISSION_DETAILS_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msluat",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "SUBSCRIBER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "ALTERNATE_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "CONTRACT_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "EFF_DATE",
+						"type": "date"
+					},
+					{
+						"name": "TC",
+						"type": "varchar"
+					},
+					{
+						"name": "DUE_DATE",
+						"type": "date"
+					},
+					{
+						"name": "INITIAL_PREMIUM",
+						"type": "varchar"
+					},
+					{
+						"name": "PERCAP_PERCENT",
+						"type": "varchar"
+					},
+					{
+						"name": "COMMISSION_AMOUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "ADJ_REA",
+						"type": "varchar"
+					},
+					{
+						"name": "SELLING_AGENT",
+						"type": "varchar"
+					},
+					{
+						"name": "COMPENSATION_DATE",
+						"type": "date"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					},
+					{
+						"name": "FILE_RECORD_BIRTH_DATE",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "MIA_104",
+					"table": "MIA_BCBS_SC_INDIVIDUAL_COMMISSION_DETAILS"
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}

@@ -1,0 +1,1796 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "e2eis-adf1"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_Agency_Payee_Weekly_Feed_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_AGENCY_PAYEE_WEEKLY_FEED_UAT.txt",
+						"folderPath": "/MSL_Cloud_Uat/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "CONTRACT_YEAR\tEMPLOYEE_TYPE\tEMPLOYEE_ID\tFULL_NAME\tPRIMARY_ROLE\tMONTHLY_RENEWAL_WRITING_AGENT_COMP_TIER\tPRE_ACA_WRITING_AGENT_COMP_TIER\tLTL_WRITING_AGENT_COMP_TIER\tMED_SUP_WRITING_AGENT_COMP_TIER\tDENTAL_NEWSALE_WRITING_AGENT_COMP_TIER\tACA_NEWSALE_WRITING_AGENT_COMP_TIER\tGROUP_WRITING_AGENT_COMP_TIER\tANCILLARY_RENEWAL_WRITING_AGENT_COMP_TIER\tPAYROLL_ID\tPAYEE_EMPLOYEE_ID\tPAYEE_NAME\tMAIN_UPLINE_EMPLOYEE_ID\tMAIN_UPLINE_FULL_NAME\tROLE_END_DATE\tROLE_END_REASON\tALL_SALES_PAYEE\tSUBMITTING_AGENT\tSECONDARY_ROLE\tDEPARTMENT_ENTITY_ID\tDEPARTMENT_NAME\tHEALTH_ACA_EMPLOYEE TIER\tADVANCE_OVERRIDE_PAYEE_ID",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_Agency_Rate_Annual_Feed')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_Agency_Rate_Annual_Feed_DEV.csv",
+						"folderPath": "/MSL_Cloud_Dev/FromAgency/AIA"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Policy_Seq_Number",
+						"type": "String"
+					},
+					{
+						"name": "Year",
+						"type": "String"
+					},
+					{
+						"name": "Segment",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Role",
+						"type": "String"
+					},
+					{
+						"name": "Comp_Statement",
+						"type": "String"
+					},
+					{
+						"name": "Product_Type",
+						"type": "String"
+					},
+					{
+						"name": "Commission_Type",
+						"type": "String"
+					},
+					{
+						"name": "Agency_Comp_Type",
+						"type": "String"
+					},
+					{
+						"name": "Contract_Starts_With",
+						"type": "String"
+					},
+					{
+						"name": "E2E_Plan_Description",
+						"type": "String"
+					},
+					{
+						"name": "Frequency",
+						"type": "String"
+					},
+					{
+						"name": "Carrier_Rate",
+						"type": "String"
+					},
+					{
+						"name": "Employee_Rate",
+						"type": "String"
+					},
+					{
+						"name": "Payment_Rate",
+						"type": "String"
+					},
+					{
+						"name": "Override_Rate",
+						"type": "String"
+					},
+					{
+						"name": "Rate_Type",
+						"type": "String"
+					},
+					{
+						"name": "Enrollment_Year_Start",
+						"type": "String"
+					},
+					{
+						"name": "Enrollment_Year_End",
+						"type": "String"
+					},
+					{
+						"name": "Group_Size_Range_Start",
+						"type": "String"
+					},
+					{
+						"name": "Group_Size_Range_End",
+						"type": "String"
+					},
+					{
+						"name": "Group_County",
+						"type": "String"
+					},
+					{
+						"name": "Tier1_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Tier2_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Tier3_Amount",
+						"type": "String"
+					},
+					{
+						"name": "State",
+						"type": "String"
+					},
+					{
+						"name": "Department",
+						"type": "String"
+					},
+					{
+						"name": "Carrier",
+						"type": "String"
+					},
+					{
+						"name": "Agency_Name",
+						"type": "String"
+					},
+					{
+						"name": "GA1",
+						"type": "String"
+					},
+					{
+						"name": "GA2",
+						"type": "String"
+					},
+					{
+						"name": "GA3",
+						"type": "String"
+					},
+					{
+						"name": "GA4",
+						"type": "String"
+					},
+					{
+						"name": "GD1",
+						"type": "String"
+					},
+					{
+						"name": "GD2",
+						"type": "String"
+					},
+					{
+						"name": "GD3",
+						"type": "String"
+					},
+					{
+						"name": "GD4",
+						"type": "String"
+					},
+					{
+						"name": "GB1",
+						"type": "String"
+					},
+					{
+						"name": "GB2",
+						"type": "String"
+					},
+					{
+						"name": "GB3",
+						"type": "String"
+					},
+					{
+						"name": "GB4",
+						"type": "String"
+					},
+					{
+						"name": "Record_Load_Date",
+						"type": "String"
+					},
+					{
+						"name": "Record_Loaded_By",
+						"type": "String"
+					},
+					{
+						"name": "Record_Data_Source",
+						"type": "String"
+					},
+					{
+						"name": "Record_Flag_Status",
+						"type": "String"
+					},
+					{
+						"name": "Agency_ID",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_Agency_Rate_Annual_Feed_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_Agency_Rate_Annual_Feed_DEV.txt",
+						"folderPath": "/MSL_Cloud_Dev/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Year",
+						"type": "String"
+					},
+					{
+						"name": "Segment",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Role",
+						"type": "String"
+					},
+					{
+						"name": "Comp_Statement",
+						"type": "String"
+					},
+					{
+						"name": "Product_Type",
+						"type": "String"
+					},
+					{
+						"name": "Commission_Type",
+						"type": "String"
+					},
+					{
+						"name": "Agency_Comp_Type",
+						"type": "String"
+					},
+					{
+						"name": "Contract_Starts_With",
+						"type": "String"
+					},
+					{
+						"name": "E2E_Plan_Description",
+						"type": "String"
+					},
+					{
+						"name": "Frequency",
+						"type": "String"
+					},
+					{
+						"name": "Carrier_Rate",
+						"type": "String"
+					},
+					{
+						"name": "Employee_Rate",
+						"type": "String"
+					},
+					{
+						"name": "Payment_Rate",
+						"type": "String"
+					},
+					{
+						"name": "Override_Rate",
+						"type": "String"
+					},
+					{
+						"name": "Rate_Type",
+						"type": "String"
+					},
+					{
+						"name": "Enrollment_Year_Start",
+						"type": "String"
+					},
+					{
+						"name": "Enrollment_Year_End",
+						"type": "String"
+					},
+					{
+						"name": "Group_Size_Range_Start",
+						"type": "String"
+					},
+					{
+						"name": "Group_Size_Range_End",
+						"type": "String"
+					},
+					{
+						"name": "Group_County",
+						"type": "String"
+					},
+					{
+						"name": "Tier1_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Tier2_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Tier3_Amount",
+						"type": "String"
+					},
+					{
+						"name": "State",
+						"type": "String"
+					},
+					{
+						"name": "Department",
+						"type": "String"
+					},
+					{
+						"name": "Carrier",
+						"type": "String"
+					},
+					{
+						"name": "Agency_ID",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_Agency_Rate_Annual_Feed_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_Agency_Rate_Annual_Feed_PRD.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Year",
+						"type": "String"
+					},
+					{
+						"name": "Segment",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Role",
+						"type": "String"
+					},
+					{
+						"name": "Comp_Statement",
+						"type": "String"
+					},
+					{
+						"name": "Product_Type",
+						"type": "String"
+					},
+					{
+						"name": "Commission_Type",
+						"type": "String"
+					},
+					{
+						"name": "Agency_Comp_Type",
+						"type": "String"
+					},
+					{
+						"name": "Contract_Starts_With",
+						"type": "String"
+					},
+					{
+						"name": "E2E_Plan_Description",
+						"type": "String"
+					},
+					{
+						"name": "Frequency",
+						"type": "String"
+					},
+					{
+						"name": "Carrier_Rate",
+						"type": "String"
+					},
+					{
+						"name": "Employee_Rate",
+						"type": "String"
+					},
+					{
+						"name": "Payment_Rate",
+						"type": "String"
+					},
+					{
+						"name": "Override_Rate",
+						"type": "String"
+					},
+					{
+						"name": "Rate_Type",
+						"type": "String"
+					},
+					{
+						"name": "Enrollment_Year_Start",
+						"type": "String"
+					},
+					{
+						"name": "Enrollment_Year_End",
+						"type": "String"
+					},
+					{
+						"name": "Group_Size_Range_Start",
+						"type": "String"
+					},
+					{
+						"name": "Group_Size_Range_End",
+						"type": "String"
+					},
+					{
+						"name": "Group_County",
+						"type": "String"
+					},
+					{
+						"name": "Tier1_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Tier2_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Tier3_Amount",
+						"type": "String"
+					},
+					{
+						"name": "State",
+						"type": "String"
+					},
+					{
+						"name": "Department",
+						"type": "String"
+					},
+					{
+						"name": "Carrier",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_Agency_Rate_Annual_Feed_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_Agency_Rate_Annual_Feed_UAT.csv",
+						"folderPath": "/MSL_Cloud_Uat/FromAgency/AIA"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Year",
+						"type": "String"
+					},
+					{
+						"name": "Segment",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Role",
+						"type": "String"
+					},
+					{
+						"name": "Comp_Statement",
+						"type": "String"
+					},
+					{
+						"name": "Product_Type",
+						"type": "String"
+					},
+					{
+						"name": "Commission_Type",
+						"type": "String"
+					},
+					{
+						"name": "Agency_Comp_Type",
+						"type": "String"
+					},
+					{
+						"name": "Contract_Starts_With",
+						"type": "String"
+					},
+					{
+						"name": "E2E_Plan_Description",
+						"type": "String"
+					},
+					{
+						"name": "Frequency",
+						"type": "String"
+					},
+					{
+						"name": "Carrier_Rate",
+						"type": "String"
+					},
+					{
+						"name": "Employee_Rate",
+						"type": "String"
+					},
+					{
+						"name": "Payment_Rate",
+						"type": "String"
+					},
+					{
+						"name": "Override_Rate",
+						"type": "String"
+					},
+					{
+						"name": "Rate_Type",
+						"type": "String"
+					},
+					{
+						"name": "Enrollment_Year_Start",
+						"type": "String"
+					},
+					{
+						"name": "Enrollment_Year_End",
+						"type": "String"
+					},
+					{
+						"name": "Group_Size_Range_Start",
+						"type": "String"
+					},
+					{
+						"name": "Group_Size_Range_End",
+						"type": "String"
+					},
+					{
+						"name": "Group_County",
+						"type": "String"
+					},
+					{
+						"name": "Tier1_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Tier2_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Tier3_Amount",
+						"type": "String"
+					},
+					{
+						"name": "State",
+						"type": "String"
+					},
+					{
+						"name": "Department",
+						"type": "String"
+					},
+					{
+						"name": "Carrier",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_All_Carriers_IMS_Transactio_ID_Ultimate_Truth_FB_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_All_Carriers_IMS_Transaction_ID_Ultimate_Truth_FB_PRD.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "CONTRACT_ID\tFB_UID\tCLIENT_FULL_NAME\tFFM\tIMS_ID\tALIGNED_AGENT_CODE\tASSIGNED_AGENT_NAME\tMAIN_UPLINE\tGROUP_SALES_DEPARTMENT\tPAYEE_NAME\tSEGMENT",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_All_Carriers_IMS_Transaction_ID_Ultimate_Truth_FB_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_ALL_CARRIERS_IMS_TRANSACTION_ID_ULTIMATE_TRUTH_FB_DEV.txt",
+						"folderPath": "/MSL_Cloud_Dev/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "CONTRACT_ID\tFB_UID\tCLIENT_FULL_NAME\tFFM\tIMS_ID\tALIGNED_AGENT_CODE\tASSIGNED_AGENT_NAME\tMAIN_UPLINE\tGROUP_SALES_DEPARTMENT\tPAYEE_NAME\tDEPT_ID\tSEGMENT",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_All_Carriers_IMS_Transaction_ID_Ultimate_Truth_FB_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_All_Carriers_IMS_Transaction_ID_Ultimate_Truth_FB_PRD.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "CONTRACT_ID\tFB_UID\tIMS_ID\tALIGNED_AGENT_CODE\tCLIENT_FULL_NAME\tFFM",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_All_Carriers_IMS_Transaction_ID_Ultimate_Truth_FloridaBlue_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_All_Carriers_IMS_Transaction_ID_Ultimate_Truth_FloridaBlue_PRD.csv",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/AIA"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Policy ID",
+						"type": "String"
+					},
+					{
+						"name": "Secondary_ID",
+						"type": "String"
+					},
+					{
+						"name": "IMS_Transaction_ID",
+						"type": "String"
+					},
+					{
+						"name": "Employee_ID",
+						"type": "String"
+					},
+					{
+						"name": "Full_Name",
+						"type": "String"
+					},
+					{
+						"name": "Department_Name",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_All_Carriers_IMS_Transaction_ID_Ultimate_Truth_FloridaBlue_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_All_Carriers_IMS_Transaction_ID_Ultimate_Truth_FloridaBlue_UAT.csv",
+						"folderPath": "/MSL_Cloud_Uat/FromAgency/AIA"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Policy ID",
+						"type": "String"
+					},
+					{
+						"name": "Secondary_ID",
+						"type": "String"
+					},
+					{
+						"name": "IMS_Transaction_ID",
+						"type": "String"
+					},
+					{
+						"name": "Employee_ID",
+						"type": "String"
+					},
+					{
+						"name": "Full_Name",
+						"type": "String"
+					},
+					{
+						"name": "Department_Name",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_All_Carriers_IMS_Transaction_ID_Ultimate_Truth_OOS_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_All_Carriers_IMS_Transaction_ID_Ultimate_Truth_OOS_DEV.txt",
+						"folderPath": "/MSL_Cloud_Dev/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "POLICY_ID_NEW",
+						"type": "String"
+					},
+					{
+						"name": "POLICY ID",
+						"type": "String"
+					},
+					{
+						"name": "IMS_TRANSACTION_ID",
+						"type": "String"
+					},
+					{
+						"name": "EMPLOYEE_ID",
+						"type": "String"
+					},
+					{
+						"name": "FULL_NAME",
+						"type": "String"
+					},
+					{
+						"name": "DEPARTMENT_NAME",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_All_Carriers_IMS_Transaction_ID_Ultimate_Truth_OOS_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_All_Carriers_IMS_Transaction_ID_Ultimate_Truth_OOS_PRD.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Policy_ID_New",
+						"type": "String"
+					},
+					{
+						"name": "Policy ID",
+						"type": "String"
+					},
+					{
+						"name": "IMS_Transaction_ID",
+						"type": "String"
+					},
+					{
+						"name": "Employee_ID",
+						"type": "String"
+					},
+					{
+						"name": "Full_Name",
+						"type": "String"
+					},
+					{
+						"name": "Department_Name",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_All_Carriers_IMS_Transaction_ID_Ultimate_Truth_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_All_Carriers_IMS_Transaction_ID_Ultimate_Truth_OOS_UAT.txt",
+						"folderPath": "/MSL_Cloud_Uat/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "POLICY_ID_NEW",
+						"type": "String"
+					},
+					{
+						"name": "POLICY ID",
+						"type": "String"
+					},
+					{
+						"name": "IMS_TRANSACTION_ID",
+						"type": "String"
+					},
+					{
+						"name": "EMPLOYEE_ID",
+						"type": "String"
+					},
+					{
+						"name": "FULL_NAME",
+						"type": "String"
+					},
+					{
+						"name": "DEPARTMENT_NAME",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_All_Carriers_Statement_Monthly_Feed')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_All_Carriers_Statement_Weekly_Feed_DEV.csv",
+						"folderPath": "/MSL_Cloud_Dev/FromAgency/AIA"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Agent_Statement_Date",
+						"type": "String"
+					},
+					{
+						"name": "Agency_Name",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Name",
+						"type": "String"
+					},
+					{
+						"name": "Agent_ID",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Number",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Commission_Note",
+						"type": "String"
+					},
+					{
+						"name": "Carrier_Name",
+						"type": "String"
+					},
+					{
+						"name": "Effective_Date",
+						"type": "String"
+					},
+					{
+						"name": "Client_Name",
+						"type": "String"
+					},
+					{
+						"name": "Policy_ID",
+						"type": "String"
+					},
+					{
+						"name": "Policy_Number",
+						"type": "String"
+					},
+					{
+						"name": "Coverage_Type",
+						"type": "String"
+					},
+					{
+						"name": "Bill_From_Date",
+						"type": "String"
+					},
+					{
+						"name": "Month_of_Bill_From_Date",
+						"type": "String"
+					},
+					{
+						"name": "Lives",
+						"type": "String"
+					},
+					{
+						"name": "Premium_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Commission_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Commission_Entry_Note",
+						"type": "String"
+					},
+					{
+						"name": "Revenue_Type",
+						"type": "String"
+					},
+					{
+						"name": "Balance_Forwarded",
+						"type": "String"
+					},
+					{
+						"name": "Compensation_Month",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_All_Carriers_Statement_Monthly_Feed_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_All_Carriers_Statement_Monthly_Feed_PRD.csv",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/AIA"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Agent_Statement_Date",
+						"type": "String"
+					},
+					{
+						"name": "Agency_Name",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Name",
+						"type": "String"
+					},
+					{
+						"name": "Agent_ID",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Number",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Commission_Note",
+						"type": "String"
+					},
+					{
+						"name": "Carrier_Name",
+						"type": "String"
+					},
+					{
+						"name": "Effective_Date",
+						"type": "String"
+					},
+					{
+						"name": "Client_Name",
+						"type": "String"
+					},
+					{
+						"name": "Policy_ID",
+						"type": "String"
+					},
+					{
+						"name": "Policy_Number",
+						"type": "String"
+					},
+					{
+						"name": "Coverage_Type",
+						"type": "String"
+					},
+					{
+						"name": "Bill_From_Date",
+						"type": "String"
+					},
+					{
+						"name": "Month_of_Bill_From_Date",
+						"type": "String"
+					},
+					{
+						"name": "Lives",
+						"type": "String"
+					},
+					{
+						"name": "Premium_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Commission_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Commission_Entry_Note",
+						"type": "String"
+					},
+					{
+						"name": "Revenue_Type",
+						"type": "String"
+					},
+					{
+						"name": "Balance_Forwarded",
+						"type": "String"
+					},
+					{
+						"name": "Compensation_Month",
+						"type": "String"
+					},
+					{
+						"name": "State",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_All_Carriers_Statement_Monthly_Feed_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_All_Carriers_Statement_Monthly_Feed_20240215.csv",
+						"folderPath": "/MSL_Cloud_Uat/FromAgency/AIA"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Agent_Statement_Date",
+						"type": "String"
+					},
+					{
+						"name": "Agency_Name",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Name",
+						"type": "String"
+					},
+					{
+						"name": "Agent_ID",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Number",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Commission_Note",
+						"type": "String"
+					},
+					{
+						"name": "Carrier_Name",
+						"type": "String"
+					},
+					{
+						"name": "Effective_Date",
+						"type": "String"
+					},
+					{
+						"name": "Client_Name",
+						"type": "String"
+					},
+					{
+						"name": "Policy_ID",
+						"type": "String"
+					},
+					{
+						"name": "Policy_Number",
+						"type": "String"
+					},
+					{
+						"name": "Coverage_Type",
+						"type": "String"
+					},
+					{
+						"name": "Bill_From_Date",
+						"type": "String"
+					},
+					{
+						"name": "Month_of_Bill_From_Date",
+						"type": "String"
+					},
+					{
+						"name": "Lives",
+						"type": "String"
+					},
+					{
+						"name": "Premium_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Commission_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Commission_Entry_Note",
+						"type": "String"
+					},
+					{
+						"name": "Revenue_Type",
+						"type": "String"
+					},
+					{
+						"name": "Balance_Forwarded",
+						"type": "String"
+					},
+					{
+						"name": "Compensation_Month",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_All_Carriers_Statement_Weekly_Feed_ADFU_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_All_Carriers_Statement_Weekly_Feed_PRD.csv",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/AIA"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Agent_Statement_Date",
+						"type": "String"
+					},
+					{
+						"name": "Agency_Name",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Name",
+						"type": "String"
+					},
+					{
+						"name": "Agent_ID",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Number",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Commission_Note",
+						"type": "String"
+					},
+					{
+						"name": "Carrier_Name",
+						"type": "String"
+					},
+					{
+						"name": "Effective_Date",
+						"type": "String"
+					},
+					{
+						"name": "Client_Name",
+						"type": "String"
+					},
+					{
+						"name": "Policy_ID",
+						"type": "String"
+					},
+					{
+						"name": "Policy_Number",
+						"type": "String"
+					},
+					{
+						"name": "Coverage_Type",
+						"type": "String"
+					},
+					{
+						"name": "Bill_From_Date",
+						"type": "String"
+					},
+					{
+						"name": "Month_of_Bill_From_Date",
+						"type": "String"
+					},
+					{
+						"name": "Lives",
+						"type": "String"
+					},
+					{
+						"name": "Premium_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Commission_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Commission_Entry_Note",
+						"type": "String"
+					},
+					{
+						"name": "Revenue_Type",
+						"type": "String"
+					},
+					{
+						"name": "Balance_Forwarded",
+						"type": "String"
+					},
+					{
+						"name": "Compensation_Month",
+						"type": "String"
+					},
+					{
+						"name": "State",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_All_Carriers_Statement_Weekly_Feed_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_All_Carriers_Statement_Weekly_Feed_DEV.txt",
+						"folderPath": "/MSL_Cloud_Dev/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Agent_Statement_Date",
+						"type": "String"
+					},
+					{
+						"name": "Agency_Name",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Name",
+						"type": "String"
+					},
+					{
+						"name": "Agent_ID",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Number",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Commission_Note",
+						"type": "String"
+					},
+					{
+						"name": "Carrier_Name",
+						"type": "String"
+					},
+					{
+						"name": "Effective_Date",
+						"type": "String"
+					},
+					{
+						"name": "Client_Name",
+						"type": "String"
+					},
+					{
+						"name": "Policy_ID",
+						"type": "String"
+					},
+					{
+						"name": "Policy_Number",
+						"type": "String"
+					},
+					{
+						"name": "Coverage_Type",
+						"type": "String"
+					},
+					{
+						"name": "Bill_From_Date",
+						"type": "String"
+					},
+					{
+						"name": "Month_of_Bill_From_Date",
+						"type": "String"
+					},
+					{
+						"name": "Lives",
+						"type": "String"
+					},
+					{
+						"name": "Premium_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Commission_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Commission_Entry_Note",
+						"type": "String"
+					},
+					{
+						"name": "Revenue_Type",
+						"type": "String"
+					},
+					{
+						"name": "Balance_Forwarded",
+						"type": "String"
+					},
+					{
+						"name": "Compensation_Month",
+						"type": "String"
+					},
+					{
+						"name": "State",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_All_Carriers_Statement_Weekly_Feed_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_All_Carriers_Statement_Weekly_Feed_PRD.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Agent_Statement_Date",
+						"type": "String"
+					},
+					{
+						"name": "Agency_Name",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Name",
+						"type": "String"
+					},
+					{
+						"name": "Agent_ID",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Number",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Commission_Note",
+						"type": "String"
+					},
+					{
+						"name": "Carrier_Name",
+						"type": "String"
+					},
+					{
+						"name": "Effective_Date",
+						"type": "String"
+					},
+					{
+						"name": "Client_Name",
+						"type": "String"
+					},
+					{
+						"name": "Policy_ID",
+						"type": "String"
+					},
+					{
+						"name": "Policy_Number",
+						"type": "String"
+					},
+					{
+						"name": "Coverage_Type",
+						"type": "String"
+					},
+					{
+						"name": "Bill_From_Date",
+						"type": "String"
+					},
+					{
+						"name": "Month_of_Bill_From_Date",
+						"type": "String"
+					},
+					{
+						"name": "Lives",
+						"type": "String"
+					},
+					{
+						"name": "Premium_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Commission_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Commission_Entry_Note",
+						"type": "String"
+					},
+					{
+						"name": "Revenue_Type",
+						"type": "String"
+					},
+					{
+						"name": "Balance_Forwarded",
+						"type": "String"
+					},
+					{
+						"name": "Compensation_Month",
+						"type": "String"
+					},
+					{
+						"name": "State",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_All_Carriers_Statement_Weekly_Feed_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_All_Carriers_Statement_Weekly_Feed_UAT.txt",
+						"folderPath": "/MSL_Cloud_Uat/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Agent_Statement_Date",
+						"type": "String"
+					},
+					{
+						"name": "Agency_Name",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Name",
+						"type": "String"
+					},
+					{
+						"name": "Agent_ID",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Number",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Commission_Note",
+						"type": "String"
+					},
+					{
+						"name": "Carrier_Name",
+						"type": "String"
+					},
+					{
+						"name": "Effective_Date",
+						"type": "String"
+					},
+					{
+						"name": "Client_Name",
+						"type": "String"
+					},
+					{
+						"name": "Policy_ID",
+						"type": "String"
+					},
+					{
+						"name": "Policy_Number",
+						"type": "String"
+					},
+					{
+						"name": "Coverage_Type",
+						"type": "String"
+					},
+					{
+						"name": "Bill_From_Date",
+						"type": "String"
+					},
+					{
+						"name": "Month_of_Bill_From_Date",
+						"type": "String"
+					},
+					{
+						"name": "Lives",
+						"type": "String"
+					},
+					{
+						"name": "Premium_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Commission_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Commission_Entry_Note",
+						"type": "String"
+					},
+					{
+						"name": "Revenue_Type",
+						"type": "String"
+					},
+					{
+						"name": "Balance_Forwarded",
+						"type": "String"
+					},
+					{
+						"name": "Compensation_Month",
+						"type": "String"
+					},
+					{
+						"name": "State",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		}
+	]
+}
