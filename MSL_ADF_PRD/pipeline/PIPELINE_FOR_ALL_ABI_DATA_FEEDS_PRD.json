@@ -6,8 +6,6 @@
 			{
 				"name": "ABI_EG01_COMMISSION_DETAILS_PRD",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "ABI_MANUAL_ADJUSTMENT_FEED_PRD",
@@ -262,11 +260,9 @@
 			{
 				"name": "ABI_EI13U_COMMISION_DETAILS_PRD",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "ABI_FHCP_TO_EI13U_DATA_LOAD",
+						"activity": "ABI_EG01_FHCP_Monthly_Feed_PRD",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -710,11 +706,9 @@
 			{
 				"name": "ABI_EI14U_COMMISION_DETAILS_PRD",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "ABI_EI13U_COMMISION_DETAILS_PRD",
+						"activity": "ABI_EI13U_FHCP_COMMISION_DETAILS",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -1122,8 +1116,6 @@
 			{
 				"name": "ABI_EI16U_COMMISION_DETAILS_PRD",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "ABI_EI14U_COMMISION_DETAILS_PRD",
@@ -1450,8 +1442,6 @@
 			{
 				"name": "Copy data into ABI_LIFE_SPECIALTY_VENTURE",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "ABI_EI16U_COMMISION_DETAILS_PRD",
@@ -2382,8 +2372,6 @@
 			{
 				"name": "ABI_AGENCY_PAYEE_DETAILS_PRD",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "ABI_PAYMENT_EXCEPTION_DETAILS_PRD",
@@ -2744,6 +2732,18 @@
 									"name": "PAYEE_EMAIL_ADDRESS",
 									"type": "String",
 									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "ROLE_START_DATE",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "ROLE_START_DATE",
+									"type": "String",
+									"physicalType": "varchar"
 								}
 							}
 						],
@@ -3457,8 +3457,6 @@
 			{
 				"name": "ABI_MANUAL_ADJUSTMENT_FEED_PRD",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "ABI_AGENCY_ANNUAL_RATE_DETAILS TO DETAILS HISTORY",
@@ -5126,8 +5124,6 @@
 			{
 				"name": "ABI_AGENCY_PAYEE_DETAILS_TO_HISTORY",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "ABI_AGENCY_PAYEE_DETAILS_PRD",
@@ -5511,12 +5507,12 @@
 							{
 								"source": {
 									"name": "RECORD_LOAD_DATE",
-									"type": "DateTime",
+									"type": "Date",
 									"physicalType": "date"
 								},
 								"sink": {
 									"name": "RECORD_LOAD_DATE",
-									"type": "DateTime",
+									"type": "Date",
 									"physicalType": "date"
 								}
 							},
@@ -5528,18 +5524,6 @@
 								},
 								"sink": {
 									"name": "RECORD_LOADED_BY",
-									"type": "String",
-									"physicalType": "char"
-								}
-							},
-							{
-								"source": {
-									"name": "RECORD_DATA_SOURCE",
-									"type": "String",
-									"physicalType": "char"
-								},
-								"sink": {
-									"name": "RECORD_DATA_SOURCE",
 									"type": "String",
 									"physicalType": "char"
 								}
@@ -12533,10 +12517,8 @@
 				]
 			},
 			{
-				"name": "ABI_FHCP_COMMISSION_FEED_PRD",
+				"name": "ABI_EG01_FHCP_Monthly_Feed_PRD",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "ABI_EG01_COMMISSION_DETAILS_PRD",
@@ -12576,11 +12558,6 @@
 						"type": "TabularTranslator",
 						"mappings": [
 							{
-								"source": {
-									"name": "E2EIS_SEQ_NUMBER",
-									"type": "String",
-									"physicalType": "String"
-								},
 								"sink": {
 									"name": "E2EIS_SEQ_NUMBER",
 									"type": "Int64",
@@ -12601,382 +12578,185 @@
 							},
 							{
 								"source": {
-									"name": "AGENT_CODE",
+									"name": "AGENCY_NAME",
 									"type": "String",
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "AGENT_CODE",
+									"name": "AGENCY_NAME",
 									"type": "String",
 									"physicalType": "nvarchar"
 								}
 							},
 							{
 								"source": {
-									"name": "AGENT_LAST",
+									"name": "WRITING_AGENT",
 									"type": "String",
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "AGENT_LAST",
+									"name": "WRITING_AGENT",
 									"type": "String",
 									"physicalType": "nvarchar"
 								}
 							},
 							{
 								"source": {
-									"name": "AGENT_FIRST",
+									"name": "INTERNAL_REP",
 									"type": "String",
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "AGENT_FIRST",
+									"name": "INTERNAL_REP",
 									"type": "String",
 									"physicalType": "nvarchar"
 								}
 							},
 							{
 								"source": {
-									"name": "FB_UID",
+									"name": "AGENCY_NUMBER",
 									"type": "String",
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "FB_UID",
+									"name": "AGENCY_NUMBER",
 									"type": "String",
 									"physicalType": "nvarchar"
 								}
 							},
 							{
 								"source": {
-									"name": "MEMBER_CONTRACT_ID",
+									"name": "OVERRIDE_AGENT_CODE",
 									"type": "String",
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "MEMBER_CONTRACT_ID",
+									"name": "OVERRIDE_AGENT_CODE",
 									"type": "String",
 									"physicalType": "nvarchar"
 								}
 							},
 							{
 								"source": {
-									"name": "COMP_AMOUNT",
+									"name": "GROUP_NUMBER",
 									"type": "String",
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "COMP_AMOUNT",
+									"name": "GROUP_NUMBER",
 									"type": "String",
 									"physicalType": "nvarchar"
 								}
 							},
 							{
 								"source": {
-									"name": "FLAT_RATE",
+									"name": "GROUP_NAME",
 									"type": "String",
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "FLAT_RATE",
+									"name": "GROUP_NAME",
 									"type": "String",
 									"physicalType": "nvarchar"
 								}
 							},
 							{
 								"source": {
-									"name": "MEMBER_COUNT",
+									"name": "CONTRACT_COUNT",
 									"type": "String",
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "MEMBER_COUNT",
+									"name": "CONTRACT_COUNT",
 									"type": "String",
 									"physicalType": "nvarchar"
 								}
 							},
 							{
 								"source": {
-									"name": "PERCENT_OF_PREM",
+									"name": "COVERAGE",
 									"type": "String",
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "PERCENT_OF_PREM",
+									"name": "COVERAGE",
 									"type": "String",
 									"physicalType": "nvarchar"
 								}
 							},
 							{
 								"source": {
-									"name": "PREM_PAID_AMT",
+									"name": "BILLING_PERIOD_FROM",
 									"type": "String",
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "PREM_PAID_AMT",
+									"name": "BILLING_PERIOD_FROM",
 									"type": "String",
 									"physicalType": "nvarchar"
 								}
 							},
 							{
 								"source": {
-									"name": "COMP_TYPE",
+									"name": "BILLING_PERIOD_TO",
 									"type": "String",
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "COMP_TYPE",
+									"name": "BILLING_PERIOD_TO",
 									"type": "String",
 									"physicalType": "nvarchar"
 								}
 							},
 							{
 								"source": {
-									"name": "EVENT_TYPE",
+									"name": "RECONCILED_PREMIUM",
 									"type": "String",
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "EVENT_TYPE",
+									"name": "RECONCILED_PREMIUM",
 									"type": "String",
 									"physicalType": "nvarchar"
 								}
 							},
 							{
 								"source": {
-									"name": "INITIAL_PAYMENT_DATE",
+									"name": "COMM_RATE_OR_FLAT_RATE",
 									"type": "String",
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "INITIAL_PAYMENT_DATE",
+									"name": "COMM_RATE_OR_FLAT_RATE",
 									"type": "String",
 									"physicalType": "nvarchar"
 								}
 							},
 							{
 								"source": {
-									"name": "OWNING_AGENCY_AOR_EFFECTIVE_DATE",
+									"name": "COPENSATION_AMOUNT",
 									"type": "String",
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "OWNING_AGENCY_AOR_EFFECTIVE_DATE",
+									"name": "COPENSATION_AMOUNT",
 									"type": "String",
 									"physicalType": "nvarchar"
 								}
 							},
 							{
 								"source": {
-									"name": "ACCOUNTING_DATE",
+									"name": "ADJUSTMENT",
 									"type": "String",
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "ACCOUNTING_DATE",
+									"name": "ADJUSTMENT",
 									"type": "String",
 									"physicalType": "nvarchar"
 								}
 							},
 							{
-								"source": {
-									"name": "COMPENSATION_DATE",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "COMPENSATION_DATE",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "ORIGINAL_EFFECTIVE_DATE",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "ORIGINAL_EFFECTIVE_DATE",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "BENEFIT_EFFECTIVE_DATE",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "BENEFIT_EFFECTIVE_DATE",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "CANCEL_DATE",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "CANCEL_DATE",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "PRODUCT_ID",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "PRODUCT_ID",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "PRODUCT_TYPE",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "PRODUCT_TYPE",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "PRODUCT_TIER_METAL_LEVEL",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "PRODUCT_TIER_METAL_LEVEL",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "COUNTY_NAME",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "COUNTY_NAME",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "BONUS_COUNTY_INDICATOR",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "BONUS_COUNTY_INDICATOR",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "APP_ID",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "APP_ID",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "EXCHANGE_IND",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "EXCHANGE_IND",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "SUBSCRIBER_LAST",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "SUBSCRIBER_LAST",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "SUBSCRIBER_FIRST",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "SUBSCRIBER_FIRST",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "SUBSCRIBER_MIDDLE",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "SUBSCRIBER_MIDDLE",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "COVERAGE_FROM_DATE",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "COVERAGE_FROM_DATE",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "COVERAGE_TO_DATE",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "COVERAGE_TO_DATE",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "AGENCY_ID",
-									"type": "String",
-									"physicalType": "String"
-								},
 								"sink": {
 									"name": "AGENCY_ID",
 									"type": "Int16",
@@ -12984,11 +12764,6 @@
 								}
 							},
 							{
-								"source": {
-									"name": "RECORD_LOAD_DATE",
-									"type": "String",
-									"physicalType": "String"
-								},
 								"sink": {
 									"name": "RECORD_LOAD_DATE",
 									"type": "Date",
@@ -12996,11 +12771,6 @@
 								}
 							},
 							{
-								"source": {
-									"name": "RECORD_LOADED_BY",
-									"type": "String",
-									"physicalType": "String"
-								},
 								"sink": {
 									"name": "RECORD_LOADED_BY",
 									"type": "String",
@@ -13008,11 +12778,6 @@
 								}
 							},
 							{
-								"source": {
-									"name": "RECORD_DATA_SOURCE",
-									"type": "String",
-									"physicalType": "String"
-								},
 								"sink": {
 									"name": "RECORD_DATA_SOURCE",
 									"type": "String",
@@ -13020,11 +12785,6 @@
 								}
 							},
 							{
-								"source": {
-									"name": "RECORD_FLAG_STATUS",
-									"type": "String",
-									"physicalType": "String"
-								},
 								"sink": {
 									"name": "RECORD_FLAG_STATUS",
 									"type": "String",
@@ -13041,25 +12801,23 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "ABI_FHCP_COMMISSION_FEED_PRD",
+						"referenceName": "ABI_EG01_FHCP_Monthly_Feed_PRD",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "ABI_FHCP_COMMISION_DETAILS_PRD",
+						"referenceName": "ABI_EG01_FHCP_COMMISION_DETAILS_PROD",
 						"type": "DatasetReference"
 					}
 				]
 			},
 			{
-				"name": "ABI_FHCP_TO_EI13U_DATA_LOAD",
+				"name": "ABI_EI13U_FHCP_COMMISION_DETAILS",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "ABI_FHCP_COMMISSION_FEED_PRD",
+						"activity": "ABI_EI13U_COMMISION_DETAILS_PRD",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -13075,10 +12833,16 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "SqlServerSource",
-						"sqlReaderQuery": "select  *  from ABI_101.ABI_FHCP_COMMISION_DETAILS where Record_Load_Date IN (\n    select max(Record_Load_Date) from ABI_101.ABI_FHCP_COMMISION_DETAILS );",
-						"queryTimeout": "02:00:00",
-						"partitionOption": "None"
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "SftpReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false,
+							"disableChunking": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
 					},
 					"sink": {
 						"type": "SqlServerSink",
@@ -13090,11 +12854,6 @@
 						"type": "TabularTranslator",
 						"mappings": [
 							{
-								"source": {
-									"name": "E2EIS_SEQ_NUMBER",
-									"type": "Int64",
-									"physicalType": "bigint"
-								},
 								"sink": {
 									"name": "E2EIS_SEQ_NUMBER",
 									"type": "Int64",
@@ -13105,7 +12864,7 @@
 								"source": {
 									"name": "AGENCY_CODE",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "AGENCY_CODE",
@@ -13117,7 +12876,7 @@
 								"source": {
 									"name": "AGENT_CODE",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "AGENT_CODE",
@@ -13129,7 +12888,7 @@
 								"source": {
 									"name": "AGENT_LAST",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "AGENT_LAST",
@@ -13141,7 +12900,7 @@
 								"source": {
 									"name": "AGENT_FIRST",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "AGENT_FIRST",
@@ -13153,7 +12912,7 @@
 								"source": {
 									"name": "FB_UID",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "FB_UID",
@@ -13165,7 +12924,7 @@
 								"source": {
 									"name": "MEMBER_CONTRACT_ID",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "MEMBER_CONTRACT_ID",
@@ -13177,7 +12936,7 @@
 								"source": {
 									"name": "COMP_AMOUNT",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "COMP_AMOUNT",
@@ -13189,7 +12948,7 @@
 								"source": {
 									"name": "FLAT_RATE",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "FLAT_RATE",
@@ -13201,7 +12960,7 @@
 								"source": {
 									"name": "MEMBER_COUNT",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "MEMBER_COUNT",
@@ -13213,7 +12972,7 @@
 								"source": {
 									"name": "PERCENT_OF_PREM",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "PERCENT_OF_PREM",
@@ -13225,7 +12984,7 @@
 								"source": {
 									"name": "PREM_PAID_AMT",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "PREM_PAID_AMT",
@@ -13237,7 +12996,7 @@
 								"source": {
 									"name": "COMP_TYPE",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "COMP_TYPE",
@@ -13249,7 +13008,7 @@
 								"source": {
 									"name": "EVENT_TYPE",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "EVENT_TYPE",
@@ -13261,7 +13020,7 @@
 								"source": {
 									"name": "INITIAL_PAYMENT_DATE",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "INITIAL_PAYMENT_DATE",
@@ -13273,7 +13032,7 @@
 								"source": {
 									"name": "OWNING_AGENCY_AOR_EFFECTIVE_DATE",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "OWNING_AGENCY_AOR_EFFECTIVE_DATE",
@@ -13285,7 +13044,7 @@
 								"source": {
 									"name": "ACCOUNTING_DATE",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "ACCOUNTING_DATE",
@@ -13297,7 +13056,7 @@
 								"source": {
 									"name": "COMPENSATION_DATE",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "COMPENSATION_DATE",
@@ -13309,7 +13068,7 @@
 								"source": {
 									"name": "ORIGINAL_EFFECTIVE_DATE",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "ORIGINAL_EFFECTIVE_DATE",
@@ -13321,7 +13080,7 @@
 								"source": {
 									"name": "BENEFIT_EFFECTIVE_DATE",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "BENEFIT_EFFECTIVE_DATE",
@@ -13333,7 +13092,7 @@
 								"source": {
 									"name": "CANCEL_DATE",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "CANCEL_DATE",
@@ -13345,7 +13104,7 @@
 								"source": {
 									"name": "PRODUCT_ID",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "PRODUCT_ID",
@@ -13357,7 +13116,7 @@
 								"source": {
 									"name": "PRODUCT_TYPE",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "PRODUCT_TYPE",
@@ -13369,7 +13128,7 @@
 								"source": {
 									"name": "PRODUCT_TIER_METAL_LEVEL",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "PRODUCT_TIER_METAL_LEVEL",
@@ -13381,7 +13140,7 @@
 								"source": {
 									"name": "COUNTY_NAME",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "COUNTY_NAME",
@@ -13393,7 +13152,7 @@
 								"source": {
 									"name": "BONUS_COUNTY_INDICATOR",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "BONUS_COUNTY_INDICATOR",
@@ -13405,7 +13164,7 @@
 								"source": {
 									"name": "APP_ID",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "APP_ID",
@@ -13417,7 +13176,7 @@
 								"source": {
 									"name": "EXCHANGE_IND",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "EXCHANGE_IND",
@@ -13429,7 +13188,7 @@
 								"source": {
 									"name": "SUBSCRIBER_LAST",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "SUBSCRIBER_LAST",
@@ -13441,7 +13200,7 @@
 								"source": {
 									"name": "SUBSCRIBER_FIRST",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "SUBSCRIBER_FIRST",
@@ -13453,7 +13212,7 @@
 								"source": {
 									"name": "SUBSCRIBER_MIDDLE",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "SUBSCRIBER_MIDDLE",
@@ -13465,7 +13224,7 @@
 								"source": {
 									"name": "COVERAGE_FROM_DATE",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "COVERAGE_FROM_DATE",
@@ -13477,7 +13236,7 @@
 								"source": {
 									"name": "COVERAGE_TO_DATE",
 									"type": "String",
-									"physicalType": "nvarchar"
+									"physicalType": "String"
 								},
 								"sink": {
 									"name": "COVERAGE_TO_DATE",
@@ -13486,11 +13245,6 @@
 								}
 							},
 							{
-								"source": {
-									"name": "AGENCY_ID",
-									"type": "Int16",
-									"physicalType": "smallint"
-								},
 								"sink": {
 									"name": "AGENCY_ID",
 									"type": "Int16",
@@ -13498,11 +13252,6 @@
 								}
 							},
 							{
-								"source": {
-									"name": "RECORD_LOAD_DATE",
-									"type": "Date",
-									"physicalType": "date"
-								},
 								"sink": {
 									"name": "RECORD_LOAD_DATE",
 									"type": "Date",
@@ -13510,11 +13259,6 @@
 								}
 							},
 							{
-								"source": {
-									"name": "RECORD_LOADED_BY",
-									"type": "String",
-									"physicalType": "char"
-								},
 								"sink": {
 									"name": "RECORD_LOADED_BY",
 									"type": "String",
@@ -13522,11 +13266,6 @@
 								}
 							},
 							{
-								"source": {
-									"name": "RECORD_DATA_SOURCE",
-									"type": "String",
-									"physicalType": "char"
-								},
 								"sink": {
 									"name": "RECORD_DATA_SOURCE",
 									"type": "String",
@@ -13534,11 +13273,6 @@
 								}
 							},
 							{
-								"source": {
-									"name": "RECORD_FLAG_STATUS",
-									"type": "String",
-									"physicalType": "char"
-								},
 								"sink": {
 									"name": "RECORD_FLAG_STATUS",
 									"type": "String",
@@ -13555,13 +13289,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "ABI_FHCP_COMMISION_DETAILS_PRD",
+						"referenceName": "ABI_EI13U_FHCP_Monthly_Feed_PRD",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "ABI_EI13U_COMMISION_DETAILS_PRD",
+						"referenceName": "ABI_EI13U_FHCP_COMMISION_DETAILS_PROD",
 						"type": "DatasetReference"
 					}
 				]
