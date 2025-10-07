@@ -13,6 +13,178 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/dataflow3')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "AIA_IMS_POLICY_HISTORY_PRD",
+								"type": "DatasetReference"
+							},
+							"name": "source1",
+							"description": "Import data from AIA_IMS_POLICY_HISTORY"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DelimitedText5",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          E2eis_Seq_Number as long,",
+						"          Agent_Statement_Date as string,",
+						"          Agency_Name as string,",
+						"          Agent_Name as string,",
+						"          Agent_ID as string,",
+						"          Agent_Number as string,",
+						"          Agent_Commission_Note as string,",
+						"          Carrier_Name as string,",
+						"          Effective_Date as string,",
+						"          Client_Name as string,",
+						"          Policy_ID as string,",
+						"          Policy_Number as string,",
+						"          Coverage_Type as string,",
+						"          Bill_From_Date as string,",
+						"          Month_of_Bill_From_Date as string,",
+						"          Lives as string,",
+						"          Premium_Amount as string,",
+						"          Commission_Amount as string,",
+						"          Commission_Entry_Note as string,",
+						"          Revenue_Type as string,",
+						"          Balance_Forwarded as string,",
+						"          Compensation_Month as string,",
+						"          CompensationType as string,",
+						"          Bill_From_Year as string,",
+						"          STATE as string,",
+						"          Carrier_MatchRatesheet as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT  [E2EIS_SEQ_NUMBER]\\n      ,[IMS_TRANSACTION_ID]\\n      ,[SUBMITTER_ID]\\n      ,[SUBMITTER_FIRST_NAME]\\n      ,[SUBMITTER_LAST_NAME]\\n      ,[FLORIDA_BLUE_RESPONSE]\\n      ,SUBSTRING([DATE_TIME_SUBMITTED],1,10)[DATE_TIME_SUBMITTED]\\n      ,[AGENT_ID]\\n      ,[AGENT_FIRST_NAME]\\n      ,[AGENT_LAST_NAME]\\n      ,[RUNNER_NAME]\\n      ,[UPLINE_FIRST_NAME]\\n      ,[UPLINE_LAST_NAME]\\n      ,[DEPARTMENT_NAME]\\n      ,[DEPARTMENT_DESIGNATION]\\n      ,[CLIENT_FIRST_NAME]\\n      ,[CLIENT_LAST_NAME]\\n      ,[CLIENT_DOB]\\n      ,[CLIENT_PHONE]\\n      ,[CLIENT_EMAIL]\\n      ,[CLIENT_ADDRESS_1]\\n      ,[CLIENT_ADDRESS_2]\\n      ,[CLIENT_CITY]\\n      ,[CLIENT_STATE]\\n      ,[CLIENT_ZIP]\\n      ,[MEMBER_COUNT_ENROLLED]\\n      ,[ASSIGNED_ID]\\n      ,[STATUS]\\n      ,[APP_SUBMITTED_DATE]\\n      ,[POLICY_EFFECTIVE_DATE]\\n      ,[AGENT_LOGIN_USED]\\n      ,[CARRIER]\\n      ,[FFM_ID]\\n      ,[SUBSCRIBER_ID]\\n      ,[CLIENT_SEX]\\n      ,[MARRIED]\\n      ,[PREGNANT]\\n      ,[SMOKER]\\n      ,[AMERICAN_NATIVE]\\n      ,[CLIENT_INCOME]\\n      ,[CLIENT_INCOME_FREQ]\\n      ,[TAX_CREDIT_AMOUNT]\\n      ,[PLAN_PREMIUM]\\n      ,[PAYMENT_AMOUNT]\\n      ,[PLAN_NAME]\\n      ,[PLAN_ID]\\n      ,[INSURANCE_COMPANY]\\n      ,[PLAN_SELECTED]\\n      ,[DATETIME_ASSIGNED]\\n      ,[LAST_STATUS_CHANGE]',",
+						"     format: 'query') ~> source1",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     partitionFileNames:['ALL_CARRIERS'],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflow4')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "AIA_IMS_POLICY_HISTORY_PRD",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DelimitedText6",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          E2EIS_SEQ_NUMBER as long,",
+						"          IMS_TRANSACTION_ID as string,",
+						"          SUBMITTER_ID as string,",
+						"          SUBMITTER_FIRST_NAME as string,",
+						"          SUBMITTER_LAST_NAME as string,",
+						"          FLORIDA_BLUE_RESPONSE as string,",
+						"          DATE_TIME_SUBMITTED as string,",
+						"          AGENT_ID as string,",
+						"          AGENT_FIRST_NAME as string,",
+						"          AGENT_LAST_NAME as string,",
+						"          RUNNER_NAME as string,",
+						"          UPLINE_FIRST_NAME as string,",
+						"          UPLINE_LAST_NAME as string,",
+						"          DEPARTMENT_NAME as string,",
+						"          DEPARTMENT_DESIGNATION as string,",
+						"          CLIENT_FIRST_NAME as string,",
+						"          CLIENT_LAST_NAME as string,",
+						"          CLIENT_DOB as string,",
+						"          CLIENT_PHONE as string,",
+						"          CLIENT_EMAIL as string,",
+						"          CLIENT_ADDRESS_1 as string,",
+						"          CLIENT_ADDRESS_2 as string,",
+						"          CLIENT_CITY as string,",
+						"          CLIENT_STATE as string,",
+						"          CLIENT_ZIP as string,",
+						"          MEMBER_COUNT_ENROLLED as string,",
+						"          ASSIGNED_ID as string,",
+						"          STATUS as string,",
+						"          APP_SUBMITTED_DATE as string,",
+						"          POLICY_EFFECTIVE_DATE as string,",
+						"          AGENT_LOGIN_USED as string,",
+						"          CARRIER as string,",
+						"          FFM_ID as string,",
+						"          SUBSCRIBER_ID as string,",
+						"          CLIENT_SEX as string,",
+						"          MARRIED as string,",
+						"          PREGNANT as string,",
+						"          SMOKER as string,",
+						"          AMERICAN_NATIVE as string,",
+						"          CLIENT_INCOME as string,",
+						"          CLIENT_INCOME_FREQ as string,",
+						"          TAX_CREDIT_AMOUNT as string,",
+						"          PLAN_PREMIUM as string,",
+						"          PAYMENT_AMOUNT as string,",
+						"          PLAN_NAME as string,",
+						"          PLAN_ID as string,",
+						"          INSURANCE_COMPANY as string,",
+						"          PLAN_SELECTED as string,",
+						"          DATETIME_ASSIGNED as string,",
+						"          LAST_STATUS_CHANGE as string,",
+						"          AGENCY_ID as string,",
+						"          RECORD_LOAD_DATE as date,",
+						"          RECORD_LOADED_BY as string,",
+						"          RECORD_DATA_SOURCE as string,",
+						"          RECORD_FLAG_STATUS as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: '\\n\\nSELECT  [E2EIS_SEQ_NUMBER]\\n      ,[IMS_TRANSACTION_ID]\\n      ,[SUBMITTER_ID]\\n      ,[SUBMITTER_FIRST_NAME]\\n      ,[SUBMITTER_LAST_NAME]\\n      ,[FLORIDA_BLUE_RESPONSE]\\n      ,SUBSTRING([DATE_TIME_SUBMITTED],1,10)[DATE_TIME_SUBMITTED]\\n      ,[AGENT_ID]\\n      ,[AGENT_FIRST_NAME]\\n      ,[AGENT_LAST_NAME]\\n      ,[RUNNER_NAME]\\n      ,[UPLINE_FIRST_NAME]\\n      ,[UPLINE_LAST_NAME]\\n      ,[DEPARTMENT_NAME]\\n      ,[DEPARTMENT_DESIGNATION]\\n      ,[CLIENT_FIRST_NAME]\\n      ,[CLIENT_LAST_NAME]\\n      ,[CLIENT_DOB]\\n      ,[CLIENT_PHONE]\\n      ,[CLIENT_EMAIL]\\n      ,[CLIENT_ADDRESS_1]\\n      ,[CLIENT_ADDRESS_2]\\n      ,[CLIENT_CITY]\\n      ,[CLIENT_STATE]\\n      ,[CLIENT_ZIP]\\n      ,[MEMBER_COUNT_ENROLLED]\\n      ,[ASSIGNED_ID]\\n      ,[STATUS]\\n      ,[APP_SUBMITTED_DATE]\\n      ,[POLICY_EFFECTIVE_DATE]\\n      ,[AGENT_LOGIN_USED]\\n      ,[CARRIER]\\n      ,[FFM_ID]\\n      ,[SUBSCRIBER_ID]\\n      ,[CLIENT_SEX]\\n      ,[MARRIED]\\n      ,[PREGNANT]\\n      ,[SMOKER]\\n      ,[AMERICAN_NATIVE]\\n      ,[CLIENT_INCOME]\\n      ,[CLIENT_INCOME_FREQ]\\n      ,[TAX_CREDIT_AMOUNT]\\n      ,[PLAN_PREMIUM]\\n      ,[PAYMENT_AMOUNT]\\n      ,[PLAN_NAME]\\n      ,[PLAN_ID]\\n      ,[INSURANCE_COMPANY]\\n      ,[PLAN_SELECTED]\\n      ,[DATETIME_ASSIGNED]\\n      ,[LAST_STATUS_CHANGE]\\n  FROM [AIA_102].[AIA_IMS_POLICY_HISTORY]\\n',",
+						"     format: 'query') ~> source1",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     partitionFileNames:['IMS_HISTORY'],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/dataflow5')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -720,7 +892,7 @@
 					"sources": [
 						{
 							"dataset": {
-								"referenceName": "SIM_VW_BOB_OOS_PUBLISH_PRD",
+								"referenceName": "SIM_VW_BOB_OOS_PUBLISH_APP_PROD",
 								"type": "DatasetReference"
 							},
 							"name": "DFSIMOOSBOBFALLOUT"
@@ -1222,7 +1394,7 @@
 					"sources": [
 						{
 							"dataset": {
-								"referenceName": "SIM_VW_BOB_OOS_PUBLISH_PRD",
+								"referenceName": "SIM_VW_BOB_OOS_PUBLISH_APP_PROD",
 								"type": "DatasetReference"
 							},
 							"name": "DFSIMOOSBOBACTIVE"
@@ -1332,7 +1504,7 @@
 					"sources": [
 						{
 							"dataset": {
-								"referenceName": "SIM_VW_BOB_OOS_PUBLISH_PRD",
+								"referenceName": "SIM_VW_BOB_OOS_PUBLISH_APP_PROD",
 								"type": "DatasetReference"
 							},
 							"name": "SIMOOSBOBINACTIVESHEET"
