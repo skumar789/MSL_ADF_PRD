@@ -13,6 +13,78 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/MIA_VW_FB_COMMISSIONS_SUMMARY_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "e2eis_APP_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "Payee_AOR",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Payee_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "WritingAgentName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Writing_AgentPayrollId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Agency_Payment",
+						"type": "decimal",
+						"precision": 38,
+						"scale": 10
+					},
+					{
+						"name": "Agency_Stmt_Payment",
+						"type": "decimal",
+						"precision": 38,
+						"scale": 10
+					},
+					{
+						"name": "FB_Payment",
+						"type": "decimal",
+						"precision": 38,
+						"scale": 2
+					},
+					{
+						"name": "Agent_Commission",
+						"type": "decimal",
+						"precision": 38,
+						"scale": 10
+					},
+					{
+						"name": "Override_Commission",
+						"type": "decimal",
+						"precision": 38,
+						"scale": 10
+					},
+					{
+						"name": "Adjustments",
+						"type": "decimal",
+						"precision": 38,
+						"scale": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "MIA_104",
+					"table": "MIA_VW_FB_COMMISSIONS_SUMMARY"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/MIA_VW_FB_COMMISSIONS_SUMMARY_UAT')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -2439,37 +2511,6 @@
 					"schema": "SIM_103",
 					"table": "SIM_AMBETTER_CED_PATCH_MONTHLY_DETAILS"
 				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_AMBETTER_CED_PATCH_MONTHLY_FEED_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp1_connections_ALL_FEED",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "SIM_AMBETTER_CED_PATCH_MONTHLY_FEED_PRD.txt",
-						"folderPath": "/MSL_Cloud_Prd/FromAgency/SIM"
-					},
-					"columnDelimiter": "\t",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "member_softheon_nbr\tpolicy_nbr\tMBR_EXCHANGE_MEMBER_ID\tMEMBER_AMISYS_NBR\tApp_ID_and_Origin\tEFFECTIVE_DATE\tSTATE\tstateexchange\tEXCHANGE_PLAN_ID\tcase_plan_marketing_name\tMETAL_LEVEL\tProduct_Line\tBroker_NPN\tBroker_Name\tBroker_Agency_ID\tBroker_Agency_Name",
-						"type": "String"
-					}
-				]
 			},
 			"dependsOn": []
 		}
