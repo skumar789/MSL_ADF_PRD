@@ -1,0 +1,389 @@
+{
+	"name": "PIPELINE_FOR_ALL_AGENCY_KPI_DASHBOARD_PROD",
+	"properties": {
+		"activities": [
+			{
+				"name": "AIA_SP_WEEKLY_DOMO_KPI_BOB_REFRESH_PRD",
+				"description": "Weekly Run store procedure for AIA kpi dasboard data refresh",
+				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "ABI_SP_KPI_DATA_POPULATE_WEEKLY_NEWDS_PRD",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[AIA_102].[AIA_SP_WEEKLY_DOMO_KPI_BOB_REFRESH]"
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServere2eis_PROD",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "AIA_SP_WEEKLY_DOMO_KPI_BOB_REFRESH_1_PRD",
+				"description": "Weekly Run store procedure for AIA kpi dasboard data refresh",
+				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "AIA_SP_WEEKLY_DOMO_KPI_BOB_REFRESH_PRD",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[AIA_102].[AIA_SP_WEEKLY_DOMO_KPI_BOB_REFRESH_1]"
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServere2eis_PROD",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "AIA_SP_WEEKLY_DOMO_KPI_BOB_REFRESH_2_PRD",
+				"description": "Weekly Run store procedure for AIA kpi dasboard data refresh",
+				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "AIA_SP_WEEKLY_DOMO_KPI_BOB_REFRESH_1_PRD",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[AIA_102].[AIA_SP_WEEKLY_DOMO_KPI_BOB_REFRESH_2]"
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServere2eis_PROD",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "SIM_SP_KPI_DATA_POPULATE_PRD",
+				"description": "STEP 4 DASBOARD REFRESH Weekly Run store procedure for SIM kpi dasboard data refresh",
+				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "AIA_SP_WEEKLY_DOMO_KPI_BOB_REFRESH_2_PRD",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "SIM_103.SIM_SP_KPI_DATA_POPULATE"
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServere2eis_PROD",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "SIM_SP_KPI_DATA_POPULATE_WEEKLY_PRD",
+				"description": "STEP 5 DASBOARD REFRESH Weekly Run store procedure for SIM kpi dasboard data refresh",
+				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "SIM_SP_KPI_DATA_POPULATE_PRD",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "SIM_103.SIM_SP_KPI_DATA_POPULATE_WEEKLY"
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServere2eis_PROD",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "SIM_SP_KPI_DATA_POPULATE_MONTHLY_NEWDS",
+				"description": "STEP 6 DASBOARD DATA REFRESH",
+				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "SIM_SP_KPI_DATA_POPULATE_WEEKLY_PRD",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "SIM_103.SIM_SP_KPI_DATA_POPULATE_MONTHLY_NEWDS"
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServere2eis_PROD",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "SIM_SP_KPI_DATA_POPULATE_WEEKLY_NEWDS",
+				"description": "STEP 7 DASBOARD DATA REFRESH",
+				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "SIM_SP_KPI_DATA_POPULATE_MONTHLY_NEWDS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "SIM_103.SIM_SP_KPI_DATA_POPULATE_WEEKLY_NEWDS"
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServere2eis_PROD",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "SIM_SP_KPI_DATA_POPULATE_MONTHLYATTRITION_PRD",
+				"description": "Run after dashboard refresh SP completed",
+				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "SIM_SP_KPI_DATA_POPULATE_WEEKLY_NEWDS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[SIM_103].[SIM_SP_KPI_DATA_POPULATE_MONTHLYATTRITION]"
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServere2eis_PROD",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "ABI_SP_KPI_DATA_POPULATE",
+				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "ABI_101.ABI_SP_KPI_DATA_POPULATE"
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServere2eis_PROD",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "ABI_SP_KPI_DATA_POPULATE_WEEKLY_PRD",
+				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "ABI_SP_KPI_DATA_POPULATE",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "ABI_101.ABI_SP_KPI_DATA_POPULATE_WEEKLY"
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServere2eis_PROD",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "ABI_SP_KPI_DATA_POPULATE_MONTHLY_NEWDS_PRD",
+				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "ABI_SP_KPI_DATA_POPULATE_WEEKLY_PRD",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "ABI_101.ABI_SP_KPI_DATA_POPULATE_MONTHLY_NEWDS"
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServere2eis_PROD",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "ABI_SP_KPI_DATA_POPULATE_WEEKLY_NEWDS_PRD",
+				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "ABI_SP_KPI_DATA_POPULATE_MONTHLY_NEWDS_PRD",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "ABI_101.ABI_SP_KPI_DATA_POPULATE_WEEKLY_NEWDS"
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServere2eis_PROD",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "SIM_SP_KPI_DATA_POPULATE_MONTHLYATTRITION_HISTORY",
+				"description": "Run after dashboard refresh SP completed",
+				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "SIM_SP_KPI_DATA_POPULATE_MONTHLYATTRITION_PRD",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[SIM_103].[SIM_SP_KPI_DATA_POPULATE_MONTHLYATTRITION_HISTORY]"
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServere2eis_PROD",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2025-09-17T09:28:32Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

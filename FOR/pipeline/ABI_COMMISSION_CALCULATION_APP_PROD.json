@@ -1,0 +1,392 @@
+{
+	"name": "ABI_COMMISSION_CALCULATION_APP_PROD",
+	"properties": {
+		"activities": [
+			{
+				"name": "ABI_SP_PAYEE_RATE_DATA_TRANSFERS_STEP1",
+				"description": "STEP 1",
+				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[ABI_101].[ABI_SP_PAYEE_RATE_DATA_TRANSFERS_STEP1]"
+				},
+				"linkedServiceName": {
+					"referenceName": "e2eis_APP_PROD",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "ABI_SP_CONSOLIDATE_ALL_DATA_LOADS_STEP2",
+				"description": "STEP 2",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "ABI_SP_PAYEE_RATE_DATA_TRANSFERS_STEP1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[ABI_101].[ABI_SP_CONSOLIDATE_ALL_DATA_LOADS_STEP2]",
+					"storedProcedureParameters": {
+						"Month": {
+							"value": {
+								"value": "'07'",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Year": {
+							"value": {
+								"value": "'2025'",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Week_Name": {
+							"value": {
+								"value": "@'Week1'",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "e2eis_APP_PROD",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "ABI_SP_AGENT_COMMISSION_CALCULATION_STEP3",
+				"description": "STEP 3",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "ABI_SP_CONSOLIDATE_ALL_DATA_LOADS_STEP2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[ABI_101].[ABI_SP_AGENT_COMMISSION_CALCULATION_STEP3]",
+					"storedProcedureParameters": {
+						"Month": {
+							"value": {
+								"value": "'07'",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Year": {
+							"value": {
+								"value": "'2025'",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "e2eis_APP_PROD",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "ABI_SP_AGENT_GROUP_COMMISSION_CALCULATION_STEP4",
+				"description": "STEP 4",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "ABI_SP_AGENT_COMMISSION_CALCULATION_STEP3",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[ABI_101].[ABI_SP_AGENT_GROUP_COMMISSION_CALCULATION_STEP4]",
+					"storedProcedureParameters": {
+						"Month": {
+							"value": {
+								"value": "'07'",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Year": {
+							"value": {
+								"value": "'2025'",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "e2eis_APP_PROD",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "ABI_SP_AGENT_OVERRIDE_COMMISSION_CALCULATION_STEP5",
+				"description": "STEP 5",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "ABI_SP_AGENT_GROUP_COMMISSION_CALCULATION_STEP4",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[ABI_101].[ABI_SP_AGENT_OVERRIDE_COMMISSION_CALCULATION_STEP5]",
+					"storedProcedureParameters": {
+						"Month": {
+							"value": {
+								"value": "'07'",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Year": {
+							"value": {
+								"value": "'2025'",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "e2eis_APP_PROD",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "ABI_SP_AGENT_MANUAL_ADJUSTMENT_CALCULATION_STEP6",
+				"description": "STEP 6",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "ABI_SP_AGENT_OVERRIDE_COMMISSION_CALCULATION_STEP5",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[ABI_101].[ABI_SP_AGENT_MANUAL_ADJUSTMENT_CALCULATION_STEP6]",
+					"storedProcedureParameters": {
+						"Month": {
+							"value": {
+								"value": "'07'",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Year": {
+							"value": {
+								"value": "'2025'",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "e2eis_APP_PROD",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "ABI_SP_COMMISSION_ALL_SALES_REPORT_STEP7",
+				"description": "STEP 7",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "ABI_SP_AGENT_MANUAL_ADJUSTMENT_CALCULATION_STEP6",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[ABI_101].[ABI_SP_COMMISSION_ALL_SALES_REPORT_STEP7]",
+					"storedProcedureParameters": {
+						"Month": {
+							"value": {
+								"value": "'07'",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Year": {
+							"value": {
+								"value": "'2025'",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "e2eis_APP_PROD",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "ABI_SP_ALL_COMMISSIONS_SALES_DETAIL_SUMMARY_STEP8",
+				"description": "STEP 8",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "ABI_SP_COMMISSION_ALL_SALES_REPORT_STEP7",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[ABI_101].[ABI_SP_ALL_COMMISSIONS_SALES_DETAIL_SUMMARY_STEP8]",
+					"storedProcedureParameters": {
+						"Month": {
+							"value": {
+								"value": "'06'",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Year": {
+							"value": {
+								"value": "'2025'",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "e2eis_APP_PROD",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "ABI_SP_AGENT_COMMISSION_STATEMENT_DATA_PREP_STEP9",
+				"description": "STEP 9",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "ABI_SP_ALL_COMMISSIONS_SALES_DETAIL_SUMMARY_STEP8",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[ABI_101].[ABI_SP_AGENT_COMMISSION_STATEMENT_DATA_PREP_STEP9]",
+					"storedProcedureParameters": {
+						"Month": {
+							"value": {
+								"value": "'07'",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Year": {
+							"value": {
+								"value": "'2025'",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "e2eis_APP_PROD",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2025-09-19T14:15:36Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,88 @@
+{
+	"name": "dataflowhierrchy",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "AIA_AGENCY_EMP_HIER_DETAILS_HISTORY_APP_PROD",
+						"type": "DatasetReference"
+					},
+					"name": "sourcehierarchyexport"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "AIA_IMS_EMP_HIERARCHY_EXTRACTS_APP_PROD",
+						"type": "DatasetReference"
+					},
+					"name": "sinkhierarchyfilegenerate"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          E2EIS_SEQ_NUMBER as long,",
+				"          USER_ID as string,",
+				"          FIRST_NAME as string,",
+				"          LAST_NAME as string,",
+				"          EMAIL_ADDRESS as string,",
+				"          TERMINATION_FLAG as string,",
+				"          DEPARTMENT_NAME as string,",
+				"          NPN_GROUPING as string,",
+				"          UPLINE_ID as string,",
+				"          UPLINE_FIRST_NAME as string,",
+				"          UPLINE_LAST_NAME as string,",
+				"          LEVEL_SEQ as string,",
+				"          AGENCY_ID as string,",
+				"          RECORD_LOAD_DATE as date,",
+				"          RECORD_LOADED_BY as string,",
+				"          RECORD_DATA_SOURCE as string,",
+				"          RECORD_FLAG_STATUS as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT User_Id, \\n       First_Name, \\n       Last_Name, \\n       Email_Address, \\n       Termination_Flag, \\n       Department_Name, \\n       NPN_Grouping, \\n       Upline_Id,\\n       Upline_First_Name, \\n       Upline_Last_Name, \\n       Level_Seq, \\n       MAX(Record_Load_date) AS Max_Record_Load_date\\nFROM [AIA_102].[AIA_AGENCY_EMP_HIER_DETAILS_HISTORY] AS emp\\nWHERE NOT EXISTS (\\n    SELECT 1\\n    FROM [AIA_102].[AIA_AGENCY_PAYEE_DETAILS] AS payee\\n    WHERE payee.Employee_ID = emp.USER_ID\\n)\\nGROUP BY User_Id, \\n         First_Name, \\n         Last_Name, \\n         Email_Address, \\n         Termination_Flag, \\n         Department_Name, \\n         NPN_Grouping, \\n         Upline_Id,\\n         Upline_First_Name, \\n         Upline_Last_Name, \\n         Level_Seq',",
+				"     format: 'query') ~> sourcehierarchyexport",
+				"sourcehierarchyexport sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          CONTRACT_YEAR as string,",
+				"          EMPLOYEE_TYPE as string,",
+				"          EMPLOYEE_ID as string,",
+				"          FULL_NAME as string,",
+				"          PRIMARY_ROLE as string,",
+				"          MONTHLY_RENEWAL_WRITING_AGENT_COMP_TIER as string,",
+				"          PRE_ACA_WRITING_AGENT_COMP_TIER as string,",
+				"          LTL_WRITING_AGENT_COMP_TIER as string,",
+				"          MED_SUP_WRITING_AGENT_COMP_TIER as string,",
+				"          DENTAL_NEWSALE_WRITING_AGENT_COMP_TIER as string,",
+				"          ACA_NEWSALE_WRITING_AGENT_COMP_TIER as string,",
+				"          GROUP_WRITING_AGENT_COMP_TIER as string,",
+				"          ANCILLARY_RENEWAL_WRITING_AGENT_COMP_TIER as string,",
+				"          PAYROLL_ID as string,",
+				"          PAYEE_EMPLOYEE_ID as string,",
+				"          PAYEE_NAME as string,",
+				"          MAIN_UPLINE_EMPLOYEE_ID as string,",
+				"          MAIN_UPLINE_FULL_NAME as string,",
+				"          ROLE_END_DATE as string,",
+				"          ROLE_END_REASON as string,",
+				"          ALL_SALES_PAYEE as string,",
+				"          SUBMITTING_AGENT as string,",
+				"          SECONDARY_ROLE as string,",
+				"          DEPARTMENT_ENTITY_ID as string,",
+				"          DEPARTMENT_NAME as string,",
+				"          {HEALTH_ACA_EMPLOYEE TIER} as string,",
+				"          ADVANCE_OVERRIDE_PAYEE_ID as string",
+				"     ),",
+				"     partitionFileNames:['AIA_IMS_EMP_HIERARCHY_EXTRACT_MMDDYYYY.csv'],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sinkhierarchyfilegenerate"
+			]
+		}
+	}
+}
