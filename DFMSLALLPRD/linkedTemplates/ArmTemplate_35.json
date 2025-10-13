@@ -13,6 +13,101 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/DFSIMFBBOB')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "SIM_VW_BOB_PUBLISH_FB_APP_PROD",
+								"type": "DatasetReference"
+							},
+							"name": "DFSIMFBBOB",
+							"description": "Import data from SIM_103.SIM_VW_BOB_PUBLISH_FB_PRD"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "SIM_FLORIDA_BOB_WEEKLY_EXTRACT_PRD",
+								"type": "DatasetReference"
+							},
+							"name": "SINKSIMFBBOBFILE"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          E2EIS_SEQ_NUMBER as long,",
+						"          CARRIER as string,",
+						"          AGENCY_NAME as string,",
+						"          AGENCY_IDENTIFIER as string,",
+						"          ASSIGNED_AGENT_NUMBER as string,",
+						"          AGENT_NPN as string,",
+						"          ASSIGNED_AGENT_NAME as string,",
+						"          PLAN_NAME as string,",
+						"          PRODUCT as string,",
+						"          Policy_id as string,",
+						"          MEMBER_COUNT as string,",
+						"          MEMBER_RELATIOSHIP as string,",
+						"          SUBSCRIBER_FIRST_NAME as string,",
+						"          SUBSCRIBER_LAST_NAME as string,",
+						"          SUBSCRIBER_DOB as string,",
+						"          COUNTY as string,",
+						"          EXCHANGE_INDICATOR as string,",
+						"          PRIMARY_MEMBER_ID as string,",
+						"          PRODUCT_TYPE as string,",
+						"          ZIP_CODE as string,",
+						"          COVERAGE_START_DATE as string,",
+						"          COVERAGE_END_DATE as string,",
+						"          BROKER_START_DATE as string,",
+						"          BROKER_END_DATE as string,",
+						"          SUBSCRIBER_ORIGINAL_EFFECTIVE_DATE as string,",
+						"          POLICY_STATUS as string,",
+						"          MEMBER_PHONE_NUMBER_1 as string,",
+						"          SUBSCRIBER_EMAIL as string,",
+						"          ACTIVITY_FLAG as string,",
+						"          POLICY_RANK as string,",
+						"          POLICY_ADDED_DATE as date,",
+						"          POLICY_RETENTION_DATE as date,",
+						"          POLICY_REMOVED_DATE as date,",
+						"          POLICY_CANCELLED_DATE as date,",
+						"          POLICY_LAST_RECEIVED_DATE as date,",
+						"          PERIOD_NAME as string,",
+						"          PERIOD_DESCRIPTION as string,",
+						"          PERIOD_START_DATE as date,",
+						"          PERIOD_END_DATE as date,",
+						"          BILL_STATUS as string,",
+						"          Original_Policy_Status as string,",
+						"          Policy_Reactivation_date as date,",
+						"          Adds_member_Count as decimal(14,3),",
+						"          Cancels_Member_Count as decimal(14,3),",
+						"          MEMBER_RESPONSIBILITY as string,",
+						"          ACCOUNTINGDATE as date,",
+						"          Annual_Compensation_type as string,",
+						"          AGENCY_SUBSCRIBER_ORIG_EFFDATE as date,",
+						"          Ending_Active_Member_Flag as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'Select * from [SIM_103].[SIM_VW_BOB_PUBLISH_FB]',",
+						"     format: 'query') ~> DFSIMFBBOB",
+						"DFSIMFBBOB sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     partitionFileNames:['SIM_FLORIDA_BOB_WEEKLY_EXTRACT_MMDDYYYY.csv'],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> SINKSIMFBBOBFILE"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/dataflow1SIMBOBFB')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
