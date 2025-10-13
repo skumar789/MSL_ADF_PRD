@@ -39,6 +39,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'AzureSqlLinkedService'"
 		},
+		"AzureSqlServer_APP_PROD_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'AzureSqlServer_APP_PROD'"
+		},
 		"CDC_DEV_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'CDC_DEV'"
@@ -59,10 +63,6 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'Sftp_Automation'"
 		},
-		"Sftp_Dev_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'Sftp_Dev'"
-		},
 		"Sftp_connection_ALL_FEED_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'Sftp_connection_ALL_FEED'"
@@ -70,10 +70,6 @@
 		"SqlServer_APP_PROD_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'SqlServer_APP_PROD'"
-		},
-		"SqlServer_Dev_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'SqlServer_Dev'"
 		},
 		"SqlServer_mslbcpprd_password": {
 			"type": "secureString",
@@ -131,6 +127,18 @@
 			"type": "string",
 			"defaultValue": "msluat"
 		},
+		"AzureSqlServer_APP_PROD_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "dbserver-e2eis-prod.database.windows.net"
+		},
+		"AzureSqlServer_APP_PROD_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "E2EIS_APP_PROD"
+		},
+		"AzureSqlServer_APP_PROD_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "MSLADMIN_APP_PRD"
+		},
 		"LS_SFTP_properties_typeProperties_host": {
 			"type": "string",
 			"defaultValue": "sftpprd.msusportal.com"
@@ -166,14 +174,6 @@
 		"Sftp_Automation_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "sftpprdadmin"
-		},
-		"Sftp_Dev_properties_typeProperties_host": {
-			"type": "string",
-			"defaultValue": "sftpe2eisprod.blob.core.windows.net"
-		},
-		"Sftp_Dev_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "sftpe2eisprod.sftpuser"
 		},
 		"Sftp_connection_ALL_FEED_properties_typeProperties_host": {
 			"type": "string",
@@ -266,6 +266,9 @@
 					"AzureSqlLinkedService_password": {
 						"value": "[parameters('AzureSqlLinkedService_password')]"
 					},
+					"AzureSqlServer_APP_PROD_password": {
+						"value": "[parameters('AzureSqlServer_APP_PROD_password')]"
+					},
 					"CDC_DEV_connectionString": {
 						"value": "[parameters('CDC_DEV_connectionString')]"
 					},
@@ -281,17 +284,11 @@
 					"Sftp_Automation_password": {
 						"value": "[parameters('Sftp_Automation_password')]"
 					},
-					"Sftp_Dev_password": {
-						"value": "[parameters('Sftp_Dev_password')]"
-					},
 					"Sftp_connection_ALL_FEED_password": {
 						"value": "[parameters('Sftp_connection_ALL_FEED_password')]"
 					},
 					"SqlServer_APP_PROD_password": {
 						"value": "[parameters('SqlServer_APP_PROD_password')]"
-					},
-					"SqlServer_Dev_connectionString": {
-						"value": "[parameters('SqlServer_Dev_connectionString')]"
 					},
 					"SqlServer_mslbcpprd_password": {
 						"value": "[parameters('SqlServer_mslbcpprd_password')]"
@@ -301,6 +298,9 @@
 					},
 					"SqlServer_mslprd_connectionString": {
 						"value": "[parameters('SqlServer_mslprd_connectionString')]"
+					},
+					"SqlServer_msluat_connectionString": {
+						"value": "[parameters('SqlServer_msluat_connectionString')]"
 					},
 					"All_ABI_FILES_TRANSFERS_TO_AZURE_CLOUD_properties_typeProperties_url": {
 						"value": "[parameters('All_ABI_FILES_TRANSFERS_TO_AZURE_CLOUD_properties_typeProperties_url')]"
@@ -325,6 +325,15 @@
 					},
 					"AzureSqlLinkedService_properties_typeProperties_userName": {
 						"value": "[parameters('AzureSqlLinkedService_properties_typeProperties_userName')]"
+					},
+					"AzureSqlServer_APP_PROD_properties_typeProperties_server": {
+						"value": "[parameters('AzureSqlServer_APP_PROD_properties_typeProperties_server')]"
+					},
+					"AzureSqlServer_APP_PROD_properties_typeProperties_database": {
+						"value": "[parameters('AzureSqlServer_APP_PROD_properties_typeProperties_database')]"
+					},
+					"AzureSqlServer_APP_PROD_properties_typeProperties_userName": {
+						"value": "[parameters('AzureSqlServer_APP_PROD_properties_typeProperties_userName')]"
 					},
 					"LS_SFTP_properties_typeProperties_host": {
 						"value": "[parameters('LS_SFTP_properties_typeProperties_host')]"
@@ -352,12 +361,6 @@
 					},
 					"Sftp_Automation_properties_typeProperties_userName": {
 						"value": "[parameters('Sftp_Automation_properties_typeProperties_userName')]"
-					},
-					"Sftp_Dev_properties_typeProperties_host": {
-						"value": "[parameters('Sftp_Dev_properties_typeProperties_host')]"
-					},
-					"Sftp_Dev_properties_typeProperties_userName": {
-						"value": "[parameters('Sftp_Dev_properties_typeProperties_userName')]"
 					},
 					"Sftp_connection_ALL_FEED_properties_typeProperties_host": {
 						"value": "[parameters('Sftp_connection_ALL_FEED_properties_typeProperties_host')]"
@@ -400,9 +403,6 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
-					},
-					"SqlServer_msluat_connectionString": {
-						"value": "[parameters('SqlServer_msluat_connectionString')]"
 					},
 					"ls_logging store_connectionString": {
 						"value": "[parameters('ls_logging store_connectionString')]"
@@ -2020,6 +2020,46 @@
 			},
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', 'e2eis-adf1_ArmTemplate_80')]"
+			]
+		},
+		{
+			"name": "e2eis-adf1_ArmTemplate_82",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_82.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'e2eis-adf1_ArmTemplate_81')]"
+			]
+		},
+		{
+			"name": "e2eis-adf1_ArmTemplate_83",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_83.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'e2eis-adf1_ArmTemplate_82')]"
 			]
 		}
 	]
