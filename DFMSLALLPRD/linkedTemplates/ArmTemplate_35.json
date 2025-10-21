@@ -13,6 +13,760 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/PIPELINE_FOR_ALL_AGENCY_DATA_LOCK_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "ABI_COMMISSION_ALL_SALES_REPORT_DETAIL",
+						"description": "DATA MOVE IN HISTORY TABLE AFTER CLOSE CURRENT PERIOD",
+						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"sqlReaderQuery": "select * from ABI_101.ABI_COMMISSION_ALL_SALES_REPORT_DETAIL \nwhere Period_Name='June 2025';",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "SqlServerSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "Payee_AOR",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "PAYEE_AOR",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Payee_AORName",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "PAYEE_AORNAME",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "WritingAgentName",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "WRITINGAGENTNAME",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Carrier",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CARRIER",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Period_Name",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "PERIOD_NAME",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "AccountingDate",
+											"type": "DateTime",
+											"physicalType": "date"
+										},
+										"sink": {
+											"name": "ACCOUNTINGDATE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "FB_CompType",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "FB_COMPTYPE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "AgencyCompType",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "AGENCYCOMPTYPE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Prior_CompType",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "PRIOR_COMPTYPE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "SubscriberName",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "SUBSCRIBERNAME",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "ProductType",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "PRODUCTTYPE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "MemberCount",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "MEMBERCOUNT",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "ContractCount",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "CONTRACTCOUNT",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "FBContractId",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "FBCONTRACTID",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "OriginalEffectiveDate",
+											"type": "DateTime",
+											"physicalType": "date"
+										},
+										"sink": {
+											"name": "ORIGINALEFFECTIVEDATE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CoverageFromDate",
+											"type": "DateTime",
+											"physicalType": "date"
+										},
+										"sink": {
+											"name": "COVERAGEFROMDATE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CoverageToDate",
+											"type": "DateTime",
+											"physicalType": "date"
+										},
+										"sink": {
+											"name": "COVERAGETODATE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CancelDate",
+											"type": "DateTime",
+											"physicalType": "date"
+										},
+										"sink": {
+											"name": "CANCELDATE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "County",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "COUNTY",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Agent_Number",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "AGENT_NUMBER",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Agent_Name",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "AGENT_NAME",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "FBPaymentAmount",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 4,
+											"precision": 19
+										},
+										"sink": {
+											"name": "FBPAYMENTAMOUNT",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Frequency",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "FREQUENCY",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "FileType",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "FILETYPE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CommissionRate",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 4,
+											"precision": 19
+										},
+										"sink": {
+											"name": "COMMISSIONRATE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "RateType",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "RATETYPE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Agent_Commission",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 4,
+											"precision": 19
+										},
+										"sink": {
+											"name": "AGENT_COMMISSION",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CommissionType",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "COMMISSIONTYPE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "WritingAgentRole",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "WRITINGAGENTROLE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "WritingAgentPayrollId",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "WRITINGAGENTPAYROLLID",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "ManualAdjComments",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "MANUALADJCOMMENTS",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "FB_Commission_Flat_Rate",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "FB_COMMISSION_FLAT_RATE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ABI_COMMISSION_ALL_SALES_REPORT_DETAIL_APP_PROD",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ABI_COMMISSION_ALL_SALES_REPORT_HISTORY_APP_PROD",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "ABI_COMMISSION_ALL_SALES_SUMMARY",
+						"description": "DATA MOVE IN HISTORY TABLE AFTER CLOSE CURRENT PERIOD",
+						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [
+							{
+								"activity": "ABI_COMMISSION_ALL_SALES_REPORT_DETAIL",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"sqlReaderQuery": "select * from ABI_101.ABI_COMMISSION_ALL_SALES_SUMMARY \nwhere Period_Name='June 2025';",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "SqlServerSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "Payee_AOR",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "PAYEE_AOR",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "WritingAgentName",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "WRITINGAGENTNAME",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Payee_Name",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "PAYEE_NAME",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "WritingAgentPayrollId",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "WRITINGAGENTPAYROLLID",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Agency_Payment",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 4,
+											"precision": 38
+										},
+										"sink": {
+											"name": "AGENCY_PAYMENT",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 4,
+											"precision": 38
+										}
+									},
+									{
+										"source": {
+											"name": "Agent_Stmt_Commission",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 4,
+											"precision": 38
+										},
+										"sink": {
+											"name": "AGENT_STMT_COMMISSION",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 4,
+											"precision": 38
+										}
+									},
+									{
+										"source": {
+											"name": "FBPaymentAmount",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 4,
+											"precision": 38
+										},
+										"sink": {
+											"name": "FBPAYMENTAMOUNT",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 4,
+											"precision": 38
+										}
+									},
+									{
+										"source": {
+											"name": "Agent_Commission",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 4,
+											"precision": 38
+										},
+										"sink": {
+											"name": "AGENT_COMMISSION",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 4,
+											"precision": 38
+										}
+									},
+									{
+										"source": {
+											"name": "Override_Commission",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 4,
+											"precision": 38
+										},
+										"sink": {
+											"name": "OVERRIDE_COMMISSION",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 4,
+											"precision": 38
+										}
+									},
+									{
+										"source": {
+											"name": "Manual_Adjustments",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 4,
+											"precision": 38
+										},
+										"sink": {
+											"name": "MANUAL_ADJUSTMENTS",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 4,
+											"precision": 38
+										}
+									},
+									{
+										"source": {
+											"name": "Payee_Count",
+											"type": "Int64",
+											"physicalType": "bigint"
+										},
+										"sink": {
+											"name": "PAYEE_COUNT",
+											"type": "Int64",
+											"physicalType": "bigint"
+										}
+									},
+									{
+										"source": {
+											"name": "Primary_Indicator",
+											"type": "Int64",
+											"physicalType": "bigint"
+										},
+										"sink": {
+											"name": "PRIMARY_INDICATOR",
+											"type": "Int64",
+											"physicalType": "bigint"
+										}
+									},
+									{
+										"source": {
+											"name": "Category",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CATEGORY",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Payroll_Sequence",
+											"type": "Int64",
+											"physicalType": "bigint"
+										},
+										"sink": {
+											"name": "PAYROLL_SEQUENCE",
+											"type": "Int64",
+											"physicalType": "bigint"
+										}
+									},
+									{
+										"source": {
+											"name": "Period_Name",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "COMPENSATION_MONTH",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ABI_COMMISSION_ALL_SALES_SUMMARY_APP_PROD",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY_APP_PROD",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "ABI_MONTHLY_COMMISSION_CYCLE_CLOSURE",
+						"description": "previous month data lock",
+						"type": "SqlServerStoredProcedure",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [
+							{
+								"activity": "ABI_COMMISSION_ALL_SALES_SUMMARY",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "ABI_MONTHLY_COMMISSION_CYCLE_CLOSURE"
+						},
+						"linkedServiceName": {
+							"referenceName": "e2eis_APP_PROD",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": [],
+				"lastPublishTime": "2025-09-19T14:15:36Z"
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/PIPELINE_FOR_ALL_AIA_DATA_FEEDS_APP_PROD')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -19203,6 +19957,8 @@
 					{
 						"name": "SIM_OK_HISTORY_PRD",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "SIM_BOB_FB_HISTORY_BACKUP",
@@ -20079,6 +20835,8 @@
 					{
 						"name": "SIM_IL_HISTORY_PRD",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "SIM_MI_HISTORY",
@@ -21265,6 +22023,8 @@
 					{
 						"name": "SIM_AMBETTER_HISTORY",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "SIM_AETNA_HISTORY_PRD",
@@ -21695,6 +22455,8 @@
 					{
 						"name": "SIM_AMETTER_WEEKLY_UNPAID",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "SIM_AMBETTER_HISTORY",
@@ -22113,6 +22875,8 @@
 					{
 						"name": "SIM_AMBETTER_DELINQUENT_HISTORY",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "SIM_AMETTER_WEEKLY_UNPAID",
@@ -22927,6 +23691,8 @@
 					{
 						"name": "SIM_ANTHEM_HISTORY_PRD",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "SIM_AMBETTER_PETCH_HISTORY",
@@ -23393,6 +24159,8 @@
 					{
 						"name": "SIM_MOLINA_HISTORY_PRD",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "SIM_ANTHEM_HISTORY_PRD",
@@ -23895,6 +24663,8 @@
 					{
 						"name": "SIM_OSCAR_HISTORY_PRD",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "SIM_MOLINA_HISTORY_PRD",
@@ -25381,6 +26151,8 @@
 					{
 						"name": "SIM_UHC_PRE_ENROLLMENT_HISTORY_PRD",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "SIM_UHC_HISTORY_PRD",
@@ -25703,6 +26475,8 @@
 					{
 						"name": "SIM_CIGNA_HISTORY_PRD",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "SIM_UHC_DELINQUENT_WEEKLY_DETAILS_HISTORY_PRD",
@@ -26601,6 +27375,8 @@
 					{
 						"name": "SIM_BCBS_TX_AHM_MHA_HISTORY_PRD",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "SIM_BCBS_TX_HISTORY_PRD",
@@ -27943,6 +28719,8 @@
 					{
 						"name": "SIM_FLORIDABLUE_HISTORY_PRD",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "SIM_FHCP_DELIQUENCY_HISTORY_PRD",
@@ -28865,6 +29643,8 @@
 					{
 						"name": "SIM_FLORIDABLUE_DELINQUENCY_PRD",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "SIM_FLORIDABLUE_HISTORY_PRD",
@@ -29451,6 +30231,8 @@
 					{
 						"name": "SIM_FLORIDABLUE_PAYMENT_HISTORY",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "SIM_FLORIDABLUE_DELINQUENCY_PRD",
@@ -29869,6 +30651,8 @@
 					{
 						"name": "SIM_UHC_DELINQUENT_WEEKLY_DETAILS_HISTORY_PRD",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "SIM_UHC_PRE_ENROLLMENT_HISTORY_PRD",
@@ -33826,116 +34610,6 @@
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
 						"     partitionBy('hash', 1)) ~> sinksimoosbob"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dfsimoosbobinactivesheet')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "SIM_VW_BOB_OOS_PUBLISH_APP_PROD",
-								"type": "DatasetReference"
-							},
-							"name": "SIMOOSBOBINACTIVESHEET"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "SIM_NATIONAL_BOB_WEEKLY_EXTRACT_INACTIVE_PRD",
-								"type": "DatasetReference"
-							},
-							"name": "SINKSIMOOSBOBINACTIVEFILE"
-						}
-					],
-					"transformations": [],
-					"scriptLines": [
-						"source(output(",
-						"          E2EIS_SEQ_NUMBER as long,",
-						"          CARRIER as string,",
-						"          OWNING_AGENT_OF_RECORD as string,",
-						"          ASSIGNED_AGENT_NUMBER as string,",
-						"          BROKER_START_DATE as string,",
-						"          BROKER_END_DATE as string,",
-						"          PRODUCT_TYPE as string,",
-						"          PRODUCT_DESCRIPTION as string,",
-						"          POLICY_STATUS as string,",
-						"          POLICY_ID as string,",
-						"          GROUP_NAME as string,",
-						"          MEMBER_COUNT as string,",
-						"          {On/Off_Exchange} as string,",
-						"          EXCHANGE_INDICATOR as string,",
-						"          EXCHANGE_SUBSCRIBER_ID as string,",
-						"          COVERAGE_TYPE as string,",
-						"          SUBSCRIBER_ORIGINAL_EFFECTIVE_DATE as string,",
-						"          COVERAGE_START_DATE as string,",
-						"          COVERAGE_END_DATE as string,",
-						"          PAID_THROUGH_DATE as string,",
-						"          SUBSCRIBER_FIRST_NAME as string,",
-						"          SUBSCRIBER_MIDDLE_NAME as string,",
-						"          SUBSCRIBER_LAST_NAME as string,",
-						"          SUBSCRIBER_FULL_NAME as string,",
-						"          SUBSCRIBER_DOB as string,",
-						"          SUBSCRIBER_EMAIL as string,",
-						"          ADDRESS as string,",
-						"          ADDRESS_2 as string,",
-						"          ZIP_CODE as string,",
-						"          CITY as string,",
-						"          STATE as string,",
-						"          COUNTY as string,",
-						"          APP_SUBMIT_DATE as string,",
-						"          MEMBER_PHONE_NUMBER_1 as string,",
-						"          MEMBER_PHONE_NUMBER_2 as string,",
-						"          COMPENSATION_TYPE as string,",
-						"          COMPENSATION_PERIOD as string,",
-						"          COMPENSATION_AMOUNT as string,",
-						"          PAYEE_NAME as string,",
-						"          MAIN_UPLINE_AGENT as string,",
-						"          GROUP_TEAM_SALES as string,",
-						"          TRANSITION_DATE as string,",
-						"          ASSIGNED_AGENT_NAME as string,",
-						"          FFM_APP_ID as string,",
-						"          ACTIVITY_FLAG as string,",
-						"          POLICY_ADDED_DATE as date,",
-						"          POLICY_REMOVED_DATE as date,",
-						"          POLICY_CANCELLED_DATE as date,",
-						"          POLICY_REACTIVATION_DATE as date,",
-						"          POLICY_LAST_RECEIVED_DATE as date,",
-						"          PERIOD_NAME as string,",
-						"          PERIOD_DESCRIPTION as string,",
-						"          PERIOD_START_DATE as date,",
-						"          PERIOD_END_DATE as date,",
-						"          BILL_STATUS as string,",
-						"          ELIGIBLE_FOR_COMMISSION as string,",
-						"          Adds_Member_Count as long,",
-						"          Cancels_Member_Count as long,",
-						"          Original_Policy_Status as string,",
-						"          MEMBER_RESPONSIBILITY as string,",
-						"          Accountingdate as date,",
-						"          Annual_Compensation_type as string,",
-						"          AGENCY_SUBSCRIBER_ORIG_EFFDATE as date,",
-						"          Ending_Active_Member_Flag as string,",
-						"          REMOVALS_CONSIDER_FORCAL as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     query: 'Select * from [SIM_103].SIM_VW_BOB_OOS_PUBLISH where Policy_Status = \\'Inactive\\'',",
-						"     format: 'query') ~> SIMOOSBOBINACTIVESHEET",
-						"SIMOOSBOBINACTIVESHEET sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     partitionFileNames:['SIM_NATIONAL_BOB_WEEKLY_EXTRACT_INACTIVE_MMDDYYYY.csv'],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     partitionBy('hash', 1)) ~> SINKSIMOOSBOBINACTIVEFILE"
 					]
 				}
 			},

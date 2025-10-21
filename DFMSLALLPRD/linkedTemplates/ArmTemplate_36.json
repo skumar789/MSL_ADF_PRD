@@ -13,6 +13,116 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/dfsimoosbobinactivesheet')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "SIM_VW_BOB_OOS_PUBLISH_APP_PROD",
+								"type": "DatasetReference"
+							},
+							"name": "SIMOOSBOBINACTIVESHEET"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "SIM_NATIONAL_BOB_WEEKLY_EXTRACT_INACTIVE_PRD",
+								"type": "DatasetReference"
+							},
+							"name": "SINKSIMOOSBOBINACTIVEFILE"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          E2EIS_SEQ_NUMBER as long,",
+						"          CARRIER as string,",
+						"          OWNING_AGENT_OF_RECORD as string,",
+						"          ASSIGNED_AGENT_NUMBER as string,",
+						"          BROKER_START_DATE as string,",
+						"          BROKER_END_DATE as string,",
+						"          PRODUCT_TYPE as string,",
+						"          PRODUCT_DESCRIPTION as string,",
+						"          POLICY_STATUS as string,",
+						"          POLICY_ID as string,",
+						"          GROUP_NAME as string,",
+						"          MEMBER_COUNT as string,",
+						"          {On/Off_Exchange} as string,",
+						"          EXCHANGE_INDICATOR as string,",
+						"          EXCHANGE_SUBSCRIBER_ID as string,",
+						"          COVERAGE_TYPE as string,",
+						"          SUBSCRIBER_ORIGINAL_EFFECTIVE_DATE as string,",
+						"          COVERAGE_START_DATE as string,",
+						"          COVERAGE_END_DATE as string,",
+						"          PAID_THROUGH_DATE as string,",
+						"          SUBSCRIBER_FIRST_NAME as string,",
+						"          SUBSCRIBER_MIDDLE_NAME as string,",
+						"          SUBSCRIBER_LAST_NAME as string,",
+						"          SUBSCRIBER_FULL_NAME as string,",
+						"          SUBSCRIBER_DOB as string,",
+						"          SUBSCRIBER_EMAIL as string,",
+						"          ADDRESS as string,",
+						"          ADDRESS_2 as string,",
+						"          ZIP_CODE as string,",
+						"          CITY as string,",
+						"          STATE as string,",
+						"          COUNTY as string,",
+						"          APP_SUBMIT_DATE as string,",
+						"          MEMBER_PHONE_NUMBER_1 as string,",
+						"          MEMBER_PHONE_NUMBER_2 as string,",
+						"          COMPENSATION_TYPE as string,",
+						"          COMPENSATION_PERIOD as string,",
+						"          COMPENSATION_AMOUNT as string,",
+						"          PAYEE_NAME as string,",
+						"          MAIN_UPLINE_AGENT as string,",
+						"          GROUP_TEAM_SALES as string,",
+						"          TRANSITION_DATE as string,",
+						"          ASSIGNED_AGENT_NAME as string,",
+						"          FFM_APP_ID as string,",
+						"          ACTIVITY_FLAG as string,",
+						"          POLICY_ADDED_DATE as date,",
+						"          POLICY_REMOVED_DATE as date,",
+						"          POLICY_CANCELLED_DATE as date,",
+						"          POLICY_REACTIVATION_DATE as date,",
+						"          POLICY_LAST_RECEIVED_DATE as date,",
+						"          PERIOD_NAME as string,",
+						"          PERIOD_DESCRIPTION as string,",
+						"          PERIOD_START_DATE as date,",
+						"          PERIOD_END_DATE as date,",
+						"          BILL_STATUS as string,",
+						"          ELIGIBLE_FOR_COMMISSION as string,",
+						"          Adds_Member_Count as long,",
+						"          Cancels_Member_Count as long,",
+						"          Original_Policy_Status as string,",
+						"          MEMBER_RESPONSIBILITY as string,",
+						"          Accountingdate as date,",
+						"          Annual_Compensation_type as string,",
+						"          AGENCY_SUBSCRIBER_ORIG_EFFDATE as date,",
+						"          Ending_Active_Member_Flag as string,",
+						"          REMOVALS_CONSIDER_FORCAL as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'Select * from [SIM_103].SIM_VW_BOB_OOS_PUBLISH where Policy_Status = \\'Inactive\\'',",
+						"     format: 'query') ~> SIMOOSBOBINACTIVESHEET",
+						"SIMOOSBOBINACTIVESHEET sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     partitionFileNames:['SIM_NATIONAL_BOB_WEEKLY_EXTRACT_INACTIVE_MMDDYYYY.csv'],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> SINKSIMOOSBOBINACTIVEFILE"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/PIPELINE_FOR_AIA_IMS_WEEKLY_LOADS_APP_PROD')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",

@@ -13,6 +13,31 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/SIM_NATIONAL_BOB_WEEKLY_EXTRACT_INACTIVE_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_outgoing_file",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"folderPath": "/Msl_Cloud_Prd/ToAgency/SIM"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SIM_OOS_BOB_GENERATE')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -2189,37 +2214,6 @@
 					"schema": "SIM_103",
 					"table": "SIM_UHC_DELINQUENT_WEEKLY_DETAILS"
 				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_UHC_DELINQUENT_WEEKLY_FEED_PROD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp1_connections_ALL_FEED",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "SIM_UHC_DELINQUENT_WEEKLY_FEED_PRD.txt",
-						"folderPath": "/MSL_Cloud_Prd/FromAgency/SIM"
-					},
-					"columnDelimiter": "\t",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "NAME\tSUBSCRIBER_ID\tPHONE\tGRACE_PERIOD_DAYS_LEFT\tPAID_THROUGH\tMONTHLY_PREMIUM\tBALANCE_DUE\tGRACE_PERIOD_END_DATE\tMEMBERS_PLAN_NAME\tAOR_WRITING_ID\tFILE_RECORD_BIRTH_DATE",
-						"type": "String"
-					}
-				]
 			},
 			"dependsOn": []
 		}
