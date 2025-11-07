@@ -14513,6 +14513,8 @@
 				"name": "AIA_ALL_CARRIERS_IMS_TRANSACTION_ID_ULTIMATE_TRUTH_FB",
 				"description": "AIA ULTIMATE TRUTH FB",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_ALL_CARRIERS_IMS_TRANSACTION_ID_ULTIMATE_TRUTH",
@@ -18099,7 +18101,14 @@
 				"type": "Copy",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "AIA_OOS_COMMISSION_ADVANCE_DETAILS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -20663,6 +20672,413 @@
 				"outputs": [
 					{
 						"referenceName": "AIA_COMMISSION_HISTORY_FB_APP_PROD",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "AIA_OOS_COMMISSION_ADVANCE_DETAILS",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "AIA_OOS_COMMISSION_ADVANCES_PRD",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "SftpReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false,
+							"disableChunking": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "SqlServerSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "Payee_Name",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "PAYEE_NAME",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Dat_ Paid",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "DATE_PAID",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Amount",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "AMOUNT",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "For_Period",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "FOR_PERIOD",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Department_ID",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "EMPLOYEE_ID",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "AIA_OOS_Commission_Advance_Details_APP_PROD",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "AIA_COMMISSION_ADVANCE_DETAILS_APP_PROD",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "AIA_OOS_COMMISSION_ADVANCES_PRD",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "AIA_OOS_ADJUSTMENT_PRD",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "SftpReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false,
+							"disableChunking": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "SqlServerSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "Payee_Name",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "PAYEE_NAME",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Date_Paid",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "DATE_PAID",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "For_Period",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "FOR_PERIOD",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Advance_Used",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "ADVANCE_USED",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Advance_Amount",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "ADVANCE_AMOUNT",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Current_Period",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "CURRENT_PERIOD",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Advance_Remaining",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "ADVANCE_REMAINING",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Department_ID",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "EMPLOYEE_ID",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "AIA_OOS_Commission_Advances_APP_PRD",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "AIA_OOS_COMMISSION_ADVANCE_APP_PROD",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "AIA_OOS_ADJUSTMENT_PRD",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "SftpReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false,
+							"disableChunking": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "SqlServerSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "Payee_Name",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "PAYEE_NAME",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Comp Type",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "COMP_TYPE",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Description",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "DESCRIPTION",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Agent_Commission",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "AGENT_COMMISSION",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Period",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "PERIOD_NAME",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Department_ID",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "EMPLOYEE_ID",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "AIA_OOS_Adjustment_APP_PROD",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "AIA_OOS_ADJUSTMENTS_APP_PROD",
 						"type": "DatasetReference"
 					}
 				]
