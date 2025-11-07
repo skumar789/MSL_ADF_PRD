@@ -13,6 +13,172 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/SIM_Oscar_Weekly_Feed_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "SIM_Oscar_Weekly_Feed_PRD.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/SIM"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "NPN\tWRITING_NUMBER\tWRITING_AGENT\tMEMBER_ID\tMEMBER_NAME\tDOB\tACCOUNT_CREATION_STATUS\tEMAIL\tPHONE_NUMBER\tMAILING_ADDRESS\tSTATE\tON_EXCHANGE\tFFM_APPLICATION_ID\tPLAN\tPREMIUM_AMOUNT\tAPT_SUBSIDY\tLIVES\tCOVERAGE_START_DATE\tCOVERAGE_END_DATE\tPOLICY_STATUS\tRENEWAL_PLAN\tRENEWAL_PREMIUM_AMOUNT\tRENEWAL_APTC_SUBSIDY\tRENEWAL_DATE",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_PERIOD_DETAILS_ANNUAL_FEED_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "SIM_PERIOD_DETAILS_ANNUAL_FEED_PRD.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/SIM"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "CALENDAR_SEQ_NO\tPERIOD_NAME\tDESCRIPTION\tPERIOD_START_DATE\tPERIOD_END_DATE\tACTIVE",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_PERIOD_DETAILS_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "e2eis_APP_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "PERIOD_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "DESCRIPTION",
+						"type": "varchar"
+					},
+					{
+						"name": "PERIOD_START_DATE",
+						"type": "date"
+					},
+					{
+						"name": "PERIOD_END_DATE",
+						"type": "date"
+					},
+					{
+						"name": "Month_End_date",
+						"type": "date"
+					},
+					{
+						"name": "status",
+						"type": "varchar"
+					},
+					{
+						"name": "FLORIDA_STATE",
+						"type": "varchar"
+					},
+					{
+						"name": "OOS",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_PERIOD_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_PERIOD_DETAILS_BACKUP_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "e2eis_APP_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "PERIOD_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "DESCRIPTION",
+						"type": "varchar"
+					},
+					{
+						"name": "PERIOD_START_DATE",
+						"type": "date"
+					},
+					{
+						"name": "PERIOD_END_DATE",
+						"type": "date"
+					},
+					{
+						"name": "Month_End_date",
+						"type": "date"
+					},
+					{
+						"name": "status",
+						"type": "varchar"
+					},
+					{
+						"name": "FLORIDA_STATE",
+						"type": "varchar"
+					},
+					{
+						"name": "OOS",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_PERIOD_DETAILS_BACKUP"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SIM_PERIOD_DETAILS_PRD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1873,442 +2039,6 @@
 						"type": "String"
 					}
 				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_UHC_PRE_ENROLLMENT_WEEKLY_DETAILS_APP_PROD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "e2eis_APP_PROD",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "AGENCY_IDENTIFIER",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_ID_STATUS",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "PLAN_LEVEL",
-						"type": "varchar"
-					},
-					{
-						"name": "PLAN_NBR",
-						"type": "varchar"
-					},
-					{
-						"name": "PLAN_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "APP_STATE",
-						"type": "varchar"
-					},
-					{
-						"name": "RECEIVED_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "EFFECTIVE_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "MEM_FIRST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "MEM_LAST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_DOB",
-						"type": "varchar"
-					},
-					{
-						"name": "APP_STATUS",
-						"type": "varchar"
-					},
-					{
-						"name": "FILE_RECORD_BIRTH_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "SIM_103",
-					"table": "SIM_UHC_PRE_ENROLLMENT_WEEKLY_DETAILS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_UHC_PRE_ENROLLMENT_WEEKLY_DETAILS_HISTORY_APP_PROD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "e2eis_APP_PROD",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "AGENCY_IDENTIFIER",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_ID_STATUS",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "PLAN_LEVEL",
-						"type": "varchar"
-					},
-					{
-						"name": "PLAN_NBR",
-						"type": "varchar"
-					},
-					{
-						"name": "PLAN_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "APP_STATE",
-						"type": "varchar"
-					},
-					{
-						"name": "RECEIVED_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "EFFECTIVE_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "MEM_FIRST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "MEM_LAST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_DOB",
-						"type": "varchar"
-					},
-					{
-						"name": "APP_STATUS",
-						"type": "varchar"
-					},
-					{
-						"name": "FILE_RECORD_BIRTH_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "SIM_103",
-					"table": "SIM_UHC_PRE_ENROLLMENT_WEEKLY_DETAILS_HISTORY"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_UHC_PRE_ENROLLMENT_WEEKLY_DETAILS_HISTORY_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServere2eis_PROD",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "AGENCY_IDENTIFIER",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_ID_STATUS",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "PLAN_LEVEL",
-						"type": "varchar"
-					},
-					{
-						"name": "PLAN_NBR",
-						"type": "varchar"
-					},
-					{
-						"name": "PLAN_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "APP_STATE",
-						"type": "varchar"
-					},
-					{
-						"name": "RECEIVED_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "EFFECTIVE_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "MEM_FIRST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "MEM_LAST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_DOB",
-						"type": "varchar"
-					},
-					{
-						"name": "APP_STATUS",
-						"type": "varchar"
-					},
-					{
-						"name": "FILE_RECORD_BIRTH_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "SIM_103",
-					"table": "SIM_UHC_PRE_ENROLLMENT_WEEKLY_DETAILS_HISTORY"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_UHC_PRE_ENROLLMENT_WEEKLY_DETAILS_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServere2eis_PROD",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "AGENCY_IDENTIFIER",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_ID_STATUS",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "PLAN_LEVEL",
-						"type": "varchar"
-					},
-					{
-						"name": "PLAN_NBR",
-						"type": "varchar"
-					},
-					{
-						"name": "PLAN_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "APP_STATE",
-						"type": "varchar"
-					},
-					{
-						"name": "RECEIVED_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "EFFECTIVE_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "MEM_FIRST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "MEM_LAST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_DOB",
-						"type": "varchar"
-					},
-					{
-						"name": "APP_STATUS",
-						"type": "varchar"
-					},
-					{
-						"name": "FILE_RECORD_BIRTH_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "SIM_103",
-					"table": "SIM_UHC_PRE_ENROLLMENT_WEEKLY_DETAILS"
-				}
 			},
 			"dependsOn": []
 		}
