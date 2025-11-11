@@ -25443,14 +25443,43 @@
 				}
 			},
 			{
-				"name": "SP_AIA_ALL_AGENCIES_WEEKLY_NEW_POLICIES_CONSOLIDATION",
-				"description": "weekly data all data consolidation ",
+				"name": "AIA_SP_WEEKLY_DOMO_KPI_BOB_REFRESH",
+				"description": "Please check the previous week data using below query\nSelect * from [AIA_102].AIA_BOOK_OF_BUSSINESS_ALL_CARRIERS_HISTORY\nWhere period_end_date = (Select max(period_end_date) from [AIA_102].AIA_BOOK_OF_BUSSINESS_ALL_CARRIERS_HISTORY);",
 				"type": "SqlServerStoredProcedure",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "SP_AIA_IMS_WEEKLY_POLICY_DATA_CONSOLIDATION_PRD",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": " [AIA_102].[AIA_SP_WEEKLY_DOMO_KPI_BOB_REFRESH]"
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServere2eis_PROD",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "AIA_SP_AGENCIES_WEEKLY_NEW_POLICIES_CONSOLIDATI_REGULAR",
+				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "AIA_SP_WEEKLY_DOMO_KPI_BOB_REFRESH",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -25473,43 +25502,14 @@
 				}
 			},
 			{
-				"name": "AIA_SP_WEEKLY_FILES_NULL_CLEANUP_PRD",
-				"type": "SqlServerStoredProcedure",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "SP_AIA_ALL_AGENCIES_WEEKLY_NEW_POLICIES_CONSOLIDATION",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"storedProcedureName": "[AIA_102].[AIA_SP_WEEKLY_FILES_NULL_CLEANUP]"
-				},
-				"linkedServiceName": {
-					"referenceName": "SqlServere2eis_PROD",
-					"type": "LinkedServiceReference"
-				}
-			},
-			{
-				"name": "AIA_SP_BOB_WEEKLY_CLEANUP_PRD",
+				"name": "AIA_SP_BOB_WEEKLY_CLEANUP",
 				"description": "Weekly New Policy Insert into BOB",
 				"type": "SqlServerStoredProcedure",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "AIA_SP_WEEKLY_FILES_NULL_CLEANUP_PRD",
+						"activity": "AIA_SP_AGENCIES_WEEKLY_NEW_POLICIES_CONSOLIDATI_REGULAR",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -25524,7 +25524,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"storedProcedureName": "[AIA_102].[AIA_SP_BOB_WEEKLY_CLEANUP]",
+					"storedProcedureName": " [AIA_102].[AIA_SP_BOB_WEEKLY_CLEANUP]",
 					"storedProcedureParameters": {
 						"PERIOD_NAME": {
 							"value": {
@@ -25548,7 +25548,7 @@
 				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "AIA_SP_BOB_WEEKLY_CLEANUP_PRD",
+						"activity": "AIA_SP_WEEKLY_BOB_NULL_REMOVAL_PRD_copy1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -30872,7 +30872,7 @@
 				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "AIA_SP_BOOK_OF_BUSSINESS_WEEKLY_PUBLISH_PRD",
+						"activity": "AIA_SP_BOB_WEEKLY_CLEANUP",
 						"dependencyConditions": [
 							"Succeeded"
 						]
