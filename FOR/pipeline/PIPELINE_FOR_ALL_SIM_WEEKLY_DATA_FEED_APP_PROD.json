@@ -12592,7 +12592,14 @@
 				"type": "Copy",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "SIM_BOOK_OF_BUSSINESS_ALL_CARRIERS_FB_HISTORY",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -25869,6 +25876,53 @@
 				"outputs": [
 					{
 						"referenceName": "SIM_U65_RENEWAL_LIST_STG_APP_PROD",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "SIM_BOOK_OF_BUSSINESS_ALL_CARRIERS_FB_HISTORY",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": "SELECT * FROM SIM_103.SIM_BOOK_OF_BUSSINESS_ALL_CARRIERS_FB_HISTORY\nWHERE PERIOD_NAME='Nov_Wk4_2025'",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SqlServerSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SIM_BOOK_OF_BUSSINESS_ALL_CARRIERS_FB_HISTORY_APP_PROD",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "SIM_BOOK_OF_BUSSINESS_ALL_CARRIERS_FB_APP_PROD",
 						"type": "DatasetReference"
 					}
 				]
