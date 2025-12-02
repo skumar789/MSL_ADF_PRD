@@ -25437,7 +25437,7 @@
 			},
 			{
 				"name": "AIA_SP_WEEKLY_DOMO_KPI_BOB_REFRESH",
-				"description": "Please check the previous week data using below query\nSelect * from [AIA_102].AIA_BOOK_OF_BUSSINESS_ALL_CARRIERS_HISTORY\nWhere period_end_date = (Select max(period_end_date) from [AIA_102].AIA_BOOK_OF_BUSSINESS_ALL_CARRIERS_HISTORY);",
+				"description": "STEP2 STEP 1 IS\nPlease check the previous week data using below query\nSelect * from [AIA_102].AIA_BOOK_OF_BUSSINESS_ALL_CARRIERS_HISTORY\nWhere period_end_date = (Select max(period_end_date) from [AIA_102].AIA_BOOK_OF_BUSSINESS_ALL_CARRIERS_HISTORY);",
 				"type": "SqlServerStoredProcedure",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Succeeded",
@@ -25467,6 +25467,7 @@
 			},
 			{
 				"name": "AIA_SP_AGENCIES_WEEKLY_NEW_POLICIES_CONSOLIDATI_REGULAR",
+				"description": "STEP 3",
 				"type": "SqlServerStoredProcedure",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Succeeded",
@@ -25496,7 +25497,7 @@
 			},
 			{
 				"name": "AIA_SP_BOB_WEEKLY_CLEANUP",
-				"description": "Weekly New Policy Insert into BOB",
+				"description": "STEP 4 Weekly New Policy Insert into BOB",
 				"type": "SqlServerStoredProcedure",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Succeeded",
@@ -25535,7 +25536,7 @@
 			},
 			{
 				"name": "AIA_BOB_WEEKLY_HISTORY_BACKUP_DATA_LOCKED",
-				"description": "Run for backup data locks every week before BOB publish",
+				"description": "STEP 5 Run for backup data locks every week before BOB publish",
 				"type": "Copy",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Succeeded",
@@ -26295,7 +26296,7 @@
 			},
 			{
 				"name": "AIA_SP_BOOK_OF_BUSSINESS_WEEKLY_PUBLISH_PRD",
-				"description": "BOB final weekly celebration",
+				"description": "STEP 6 DATA MOVE OLD TABLE TO NEW TABLE BOB final weekly celebration",
 				"type": "SqlServerStoredProcedure",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Succeeded",
@@ -35936,7 +35937,7 @@
 			},
 			{
 				"name": "AIA_SP_WEEKLY_BOB_NULL_REMOVAL_PRD_copy1_copy1",
-				"description": "FOR REMOVAL  NULL IN BOB",
+				"description": "STEP 7 FOR REMOVAL  NULL IN BOB",
 				"type": "SqlServerStoredProcedure",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Succeeded",
@@ -35958,6 +35959,36 @@
 				"userProperties": [],
 				"typeProperties": {
 					"storedProcedureName": "[AIA_102].[AIA_SP_WEEKLY_BOB_NULL_REMOVAL]"
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServere2eis_PROD",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "AIA_SP_BOB_OOS_REGRESSION_PROCESS",
+				"description": "STEP 8 REGRESSION AUTOMATION PROCESS",
+				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "AIA_SP_WEEKLY_BOB_NULL_REMOVAL_PRD_copy1_copy1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[AIA_102].[AIA_SP_BOB_OOS_REGRESSION_PROCESS]"
 				},
 				"linkedServiceName": {
 					"referenceName": "SqlServere2eis_PROD",
