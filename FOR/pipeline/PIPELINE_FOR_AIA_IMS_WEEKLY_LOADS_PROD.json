@@ -25468,6 +25468,8 @@
 			{
 				"name": "AIA_SP_AGENCIES_WEEKLY_NEW_POLICIES_CONSOLIDATI_REGULAR",
 				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_SP_WEEKLY_DOMO_KPI_BOB_REFRESH",
@@ -25496,6 +25498,8 @@
 				"name": "AIA_SP_BOB_WEEKLY_CLEANUP",
 				"description": "Weekly New Policy Insert into BOB",
 				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_SP_AGENCIES_WEEKLY_NEW_POLICIES_CONSOLIDATI_REGULAR",
@@ -25537,7 +25541,7 @@
 				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "AIA_SP_WEEKLY_BOB_NULL_REMOVAL_PRD_copy1",
+						"activity": "AIA_SP_BOB_WEEKLY_CLEANUP",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -26293,6 +26297,8 @@
 				"name": "AIA_SP_BOOK_OF_BUSSINESS_WEEKLY_PUBLISH_PRD",
 				"description": "BOB final weekly celebration",
 				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_BOB_WEEKLY_HISTORY_BACKUP_DATA_LOCKED",
@@ -30802,36 +30808,6 @@
 						"type": "DatasetReference"
 					}
 				]
-			},
-			{
-				"name": "AIA_SP_WEEKLY_BOB_NULL_REMOVAL_PRD_copy1",
-				"description": "FOR REMOVAL  NULL IN BOB",
-				"type": "SqlServerStoredProcedure",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "AIA_SP_BOB_WEEKLY_CLEANUP",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"storedProcedureName": "[AIA_102].[AIA_SP_WEEKLY_BOB_NULL_REMOVAL]"
-				},
-				"linkedServiceName": {
-					"referenceName": "SqlServere2eis_PROD",
-					"type": "LinkedServiceReference"
-				}
 			},
 			{
 				"name": "IMS_DATA_EXP_FILE6_P_1_PRD",
@@ -35957,6 +35933,36 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "AIA_SP_WEEKLY_BOB_NULL_REMOVAL_PRD_copy1_copy1",
+				"description": "FOR REMOVAL  NULL IN BOB",
+				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "AIA_SP_BOOK_OF_BUSSINESS_WEEKLY_PUBLISH_PRD",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[AIA_102].[AIA_SP_WEEKLY_BOB_NULL_REMOVAL]"
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServere2eis_PROD",
+					"type": "LinkedServiceReference"
+				}
 			}
 		],
 		"annotations": [],
