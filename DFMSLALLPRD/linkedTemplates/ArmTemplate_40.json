@@ -36129,7 +36129,7 @@
 						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
-								"activity": "ABI_ALL_SALES_DETAILS_FB_APP_PROD",
+								"activity": "DF_FOR_ABI_ALL_SALES_DETAILS_FB",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -49599,6 +49599,43 @@
 								"parameters": {}
 							}
 						]
+					},
+					{
+						"name": "DF_FOR_ABI_ALL_SALES_DETAILS_FB",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "ABI_ALL_SALES_DETAILS_FB_APP_PROD",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dataflowALLSALESDETAILSFB",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"sourceabiallsalesdetailsfb": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
 					}
 				],
 				"policy": {

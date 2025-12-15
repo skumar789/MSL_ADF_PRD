@@ -13,6 +13,37 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/SIM_Aetna_Main_Weekly_Feed_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "SIM_Aetna_Weekly_Feed_PRD.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/SIM"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "MEMBER_STATUS\tCURRENT_ISSUER_SUBSCRIBER_ID\tFIRST_NAME\tLAST_NAME\tMEMBER_COUNT\tDATE_OF_BIRTH\tAGE\tSTATE\tCOUNTY\tAPPLICATION_DATE\tCOVERAGE_BEGIN_DATE\tCOVERAGE_END_DATE\tTRANSACTION_REASON\tBROKER_NPN\tBROKER_NAME\tFINANCE_PAID_THROUGH_DATE\tGA_FIRM\tUPLINE\tPAYEE",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SIM_Aetna_Weekly_Feed_PRD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -2011,25 +2042,6 @@
 				"typeProperties": {
 					"schema": "SIM_103",
 					"table": "SIM_BCBS_OK_WEEKLY_DETAILS_HISTORY"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_BCBS_OK_WEEKLY_DETAILS_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServere2eis_PROD",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "SIM_103",
-					"table": "SIM_BCBS_OK_WEEKLY_DETAILS"
 				}
 			},
 			"dependsOn": []
