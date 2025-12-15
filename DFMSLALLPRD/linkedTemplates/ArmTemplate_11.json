@@ -13,6 +13,37 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/AIA_CARESOURCE_WEEKLY_FEED_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_CARESOURCE_WEEKLY_FEED_PRD.txt",
+						"folderPath": "/MSL_Cloud_App_Prd/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "PRODUCER_ID\tPRODUCER_NAME\tMEMBER_ID\tMEMBER_NAME\tSUBSCRIBER_DOB\tPOLICY_STATE\tZIP\tPHONE\tPRODUCT\tPOLICY_ID\tNUMBER_OF_DEPENDENTS\tEFFECTIVE_DATE\tTERMINATION_DATE\tPOLICY_STATUS\tAGING_STATUS\tPREMIUM_AMOUNT\tTAX_CREDIT_AMT\tCURRENT_BALANCE\tPAID_THROUGH_DATE\tLAST_PAID_DATE\tHOLDER_EMAIL\tAUTO_PAY\tCURRENT_BALANCE_DUE_DATE",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AIA_CIGNA_ACTIVE_POLICY_DETAILS_APP_PROD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -3180,34 +3211,6 @@
 				"typeProperties": {
 					"schema": "AIA_102",
 					"table": "AIA_Comp_U14_File_Data_Temp_FB"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AIA_DEPARTMENT_ROLE_EXCLUDE_APP_PROD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "e2eis_APP_PROD",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "DEPARTMENTROLE",
-						"type": "varchar"
-					},
-					{
-						"name": "CARRIER",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "AIA_102",
-					"table": "AIA_DEPARTMENT_ROLE_EXCLUDE"
 				}
 			},
 			"dependsOn": []
