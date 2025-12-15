@@ -4301,6 +4301,8 @@
 			{
 				"name": "AIA_ALL_CARRIERS_STATEMENT_DETAILS",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_UNITED_HEALTH_CARE_POLICY_DETAILS",
@@ -14040,6 +14042,8 @@
 				"name": "AIA_ALL_CARRIER_BENAVEST_WEEKLY_COMMISSION",
 				"description": "BANAVEST BOB",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_BENAVEST_BOB_WEEKLY_DETAILS",
@@ -19765,7 +19769,14 @@
 				"type": "Copy",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -20646,6 +20657,8 @@
 			{
 				"name": "AIA_OOS_COMMISSION_ADVANCES_PRD",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_OOS_ADJUSTMENT_PRD",
@@ -20686,7 +20699,7 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "Payee_Name",
+									"name": "PAYEE_NAME",
 									"type": "String",
 									"physicalType": "String"
 								},
@@ -20698,7 +20711,7 @@
 							},
 							{
 								"source": {
-									"name": "Date_Paid",
+									"name": "DATE_PAID",
 									"type": "String",
 									"physicalType": "String"
 								},
@@ -20710,7 +20723,7 @@
 							},
 							{
 								"source": {
-									"name": "For_Period",
+									"name": "FOR_PERIOD",
 									"type": "String",
 									"physicalType": "String"
 								},
@@ -20722,7 +20735,7 @@
 							},
 							{
 								"source": {
-									"name": "Advance_Used",
+									"name": "ADVANCE_USED",
 									"type": "String",
 									"physicalType": "String"
 								},
@@ -20734,7 +20747,7 @@
 							},
 							{
 								"source": {
-									"name": "Advance_Amount",
+									"name": "ADVANCE_AMOUNT",
 									"type": "String",
 									"physicalType": "String"
 								},
@@ -20746,7 +20759,7 @@
 							},
 							{
 								"source": {
-									"name": "Current_Period",
+									"name": "CURRENT_PERIOD",
 									"type": "String",
 									"physicalType": "String"
 								},
@@ -20758,7 +20771,7 @@
 							},
 							{
 								"source": {
-									"name": "Advance_Remaining",
+									"name": "ADVANCE_REMAINING",
 									"type": "String",
 									"physicalType": "String"
 								},
@@ -20770,7 +20783,7 @@
 							},
 							{
 								"source": {
-									"name": "Department_ID",
+									"name": "EMPLOYEE_ID",
 									"type": "String",
 									"physicalType": "String"
 								},
@@ -20804,6 +20817,8 @@
 			{
 				"name": "AIA_OOS_ADJUSTMENT_PRD",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -20849,7 +20864,7 @@
 							},
 							{
 								"source": {
-									"name": "Comp Type",
+									"name": "Comp_Type",
 									"type": "String",
 									"physicalType": "String"
 								},
@@ -20924,6 +20939,126 @@
 				"outputs": [
 					{
 						"referenceName": "AIA_OOS_ADJUSTMENTS_APP_PROD",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SqlServerSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "Policy_Id",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "Policy_Id",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Policy_Number",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "Policy_Number",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Bill_From_date",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "Bill_From_date",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Effective_date",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "Effective_date",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Commission_Amount",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "Commission_Amount",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "lives",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "lives",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "AIA_OOS_Commission_PAID_2025_PRD",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "AIA_OOS_Commission_PAID_2025_APP_PROD",
 						"type": "DatasetReference"
 					}
 				]
