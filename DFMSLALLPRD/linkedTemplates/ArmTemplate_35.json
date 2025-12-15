@@ -13,6 +13,235 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/SIM_PERIOD_DETAILS_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServere2eis_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "CALENDAR_SEQ_NO",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "PERIOD_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "DESCRIPTION",
+						"type": "varchar"
+					},
+					{
+						"name": "PERIOD_START_DATE",
+						"type": "date"
+					},
+					{
+						"name": "PERIOD_END_DATE",
+						"type": "date"
+					},
+					{
+						"name": "ACTIVE",
+						"type": "bit"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_PERIOD_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_PERIOD_DETAILS_TEMP_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "e2eis_APP_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "PERIOD_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "DESCRIPTION",
+						"type": "varchar"
+					},
+					{
+						"name": "PERIOD_START_DATE",
+						"type": "date"
+					},
+					{
+						"name": "PERIOD_END_DATE",
+						"type": "date"
+					},
+					{
+						"name": "Month_End_date",
+						"type": "date"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_PERIOD_DETAILS_TEMP"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_PERIOD_DETAILS_TEMP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServere2eis_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "PERIOD_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "DESCRIPTION",
+						"type": "varchar"
+					},
+					{
+						"name": "PERIOD_START_DATE",
+						"type": "date"
+					},
+					{
+						"name": "PERIOD_END_DATE",
+						"type": "date"
+					},
+					{
+						"name": "Month_End_date",
+						"type": "date"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_PERIOD_DETAILS_TEMP"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_PERIOD_DETAILS_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "e2eiS_UAT",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "PERIOD_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "DESCRIPTION",
+						"type": "varchar"
+					},
+					{
+						"name": "PERIOD_START_DATE",
+						"type": "date"
+					},
+					{
+						"name": "PERIOD_END_DATE",
+						"type": "date"
+					},
+					{
+						"name": "Month_End_date",
+						"type": "date"
+					},
+					{
+						"name": "FLORIDA_STATE",
+						"type": "varchar"
+					},
+					{
+						"name": "OOS",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_PERIOD_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_U65_RENEWAL_LIST_FEED_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "SIM_U65_RENEWAL_LIST_FEED_PRD.txt",
+						"folderPath": "/MSL_Cloud_App_Prd/FromAgency/SIM"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "MASTER_AGENCY_NAME\tMASTER_AGENCY_ID\tAGENT_ID\tAGENT_NPN\tAGENT_FULL_NAME\tCONTRACT_ID\tCONTRACT_MEMBER_COUNT\tSUBSCRIBER_FIRST_NAME\tSUBSCRIBER_LAST_NAME\tSUBSCRIBER_DOB\tSUBSCRIBER_COUNTY_NAME\tSUBSCRIBER_TELEPHONE_NUMBER\tSUBSCRIBER_EMAIL_ADDRESS\tAGENT_CONTRACT_EFFECTIVE_DATE\tAGENT_CONTRACT_TERM_DATE\tEXCHANGE_INDICATOR\tPLAN_NAME\tRECORD_INSERTED_DATE\tACTIVE_ON_RENEWAL_LIST\tCOMMENTS\tRECORD_LAST_UPDATED_DATE\tFB_UID\tAGENCY_IDENTIFIER",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SIM_U65_RENEWAL_LIST_STG_APP_PROD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1866,7 +2095,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SIM_UHC_PRE_ENROLLMENT_WEEKLY_DETAILS_HISTORY_PRD')]",
+			"name": "[concat(parameters('factoryName'), '/SIM_UHC_PRE_ENROLLMENT_WEEKLY_DETAILS_HISTORY_PROD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -2079,1059 +2308,6 @@
 				"typeProperties": {
 					"schema": "SIM_103",
 					"table": "SIM_UHC_PRE_ENROLLMENT_WEEKLY_DETAILS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_UHC_PRE_ENROLLMENT_WEEKLY_FEED_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp1_connections_ALL_FEED",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "SIM_UHC_PRE_ENROLLMENT_WEEKLY_FEED_PRD.txt",
-						"folderPath": "/MSL_Cloud_Prd/FromAgency/SIM"
-					},
-					"columnDelimiter": "\t",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "Agency ID\tAgency Name\tAgent ID\tAgent ID Status\tAgent Name\tPlan Level\tPlan Nbr\tPlan Name\tApp State\tReceived Date\tEffective Date\tMem First Name\tMem Last Name\tMember DOB\tApp Status\tFILE_RECORD_BIRTH_DATE",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_UHC_Weekly_Feed_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp1_connections_ALL_FEED",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "SIM_UHC_Weekly_Feed_PRD.txt",
-						"folderPath": "/MSL_Cloud_Prd/FromAgency/SIM"
-					},
-					"columnDelimiter": "\t",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "AGENT_ID\tAGENT_ID_STATUS\tAGENT_NAME\tAGENT_EMAIL\tAGENT_NPN\tMEMBER_FIRST_NAME\tMEMBER_LAST_NAME\tDATE_OF_BIRTH\tMEMBER_EMAIL\tMEMBER_PHONE\tMEMBER_ADDRESS_1\tMEMBER_ADDRESS_2\tMEMBER_CITY\tMEMBER_STATE\tMEMBER_ZIP\tMEMBER_STATUS\tMEMBER_COUNTY\tMEMBER_NUMBER\tPOLICY_EFFECTIVE_DATE\tAGENT_OF_RECORD\tCONTRACT\tPBP\tSEGMENT_ID\tAPPLICATION_NUMBER\tPOLICY_TERM_DATE\tPRODUCT\tTERM_REASON_CODE\tINDIVIDUAL_ID\tHOUSEHOLD_ID\tMEMBER_NUMBER_1\tMBI_NUMBER\tSECONDARY_PHONE_NUM\tPLAN_STATUS\tPLAN_NAME\tIFP_PLAN_TYPE\tIFP_GRGR_ID\tIFP_RENEWAL\tSECONDARY_ADDRESS_LINE1\tSECONDARY_ADDRESS_LINE_2\tSECONDARY_ADDRESS_MEMBER_CITY\tSECONDARY_ADDRESS_MEMBER_STATE\tSECONDARY_ADDRESS_MEMBER_ZIP\tSECONDARY_ADDRESS_MEMBER_COUNTY\tIFP_FFM_APP_ID\tNMA_NAME80\tNMA_WID_STATUS_80\tNMA_NPN_80\tNMA_NAME_70\tNMA_WID_STATUS70\tNMA_NPN_70\tNMA_NAME_60\tNMA_WID_STATUS_60\tNMA_NPN_60\tFMO_NAME_50\tFMO_WID_STATUS_50\tFMO_NPN_50\tMGA_NAME_40\tMGA_WID_STATUS_40\tMGA_NPN_40\tGA_NAME_30\tGA_WID_STATUS_30\tGA_NPN_30\tAGENT_NAME_20\tAGENT_WID_STATUS_20\tAGENT_WID_20\tAGENT_NPN_20\tSOLICITOR_NAME_10\tSOLICITOR_WID_STATUS_10\tSOLICITOR_WID_10\tSOLICITOR_NPN_10",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_UNITED_HEALTH_CARE_POLICY_DETAILS_APP_PROD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "e2eis_APP_PROD",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "AGENT_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_ID_STATUS",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_EMAIL",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_NPN",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_FIRST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_LAST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "DATE_OF_BIRTH",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_EMAIL",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_PHONE",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_ADDRESS_1",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_ADDRESS_2",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_CITY",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_STATE",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_ZIP",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_STATUS",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_COUNTY",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "POLICY_EFFECTIVE_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_OF_RECORD",
-						"type": "varchar"
-					},
-					{
-						"name": "CONTRACT",
-						"type": "varchar"
-					},
-					{
-						"name": "PBP",
-						"type": "varchar"
-					},
-					{
-						"name": "SEGMENT_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "APPLICATION_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "POLICY_TERM_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "PRODUCT",
-						"type": "varchar"
-					},
-					{
-						"name": "TERM_REASON_CODE",
-						"type": "varchar"
-					},
-					{
-						"name": "INDIVIDUAL_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "HOUSEHOLD_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_NUMBER_1",
-						"type": "varchar"
-					},
-					{
-						"name": "MBI_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "SECONDARY_PHONE_NUM",
-						"type": "varchar"
-					},
-					{
-						"name": "PLAN_STATUS",
-						"type": "varchar"
-					},
-					{
-						"name": "PLAN_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "IFP_PLAN_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "IFP_GRGR_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "IFP_RENEWAL",
-						"type": "varchar"
-					},
-					{
-						"name": "SECONDARY_ADDRESS_LINE1",
-						"type": "varchar"
-					},
-					{
-						"name": "SECONDARY_ADDRESS_LINE_2",
-						"type": "varchar"
-					},
-					{
-						"name": "SECONDARY_ADDRESS_MEMBER_CITY",
-						"type": "varchar"
-					},
-					{
-						"name": "SECONDARY_ADDRESS_MEMBER_STATE",
-						"type": "varchar"
-					},
-					{
-						"name": "SECONDARY_ADDRESS_MEMBER_ZIP",
-						"type": "varchar"
-					},
-					{
-						"name": "SECONDARY_ADDRESS_MEMBER_COUNTY",
-						"type": "varchar"
-					},
-					{
-						"name": "IFP_FFM_APP_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "NMA_NAME80",
-						"type": "varchar"
-					},
-					{
-						"name": "NMA_WID_STATUS_80",
-						"type": "varchar"
-					},
-					{
-						"name": "NMA_NPN_80",
-						"type": "varchar"
-					},
-					{
-						"name": "NMA_NAME_70",
-						"type": "varchar"
-					},
-					{
-						"name": "NMA_WID_STATUS70",
-						"type": "varchar"
-					},
-					{
-						"name": "NMA_NPN_70",
-						"type": "varchar"
-					},
-					{
-						"name": "NMA_NAME_60",
-						"type": "varchar"
-					},
-					{
-						"name": "NMA_WID_STATUS_60",
-						"type": "varchar"
-					},
-					{
-						"name": "NMA_NPN_60",
-						"type": "varchar"
-					},
-					{
-						"name": "FMO_NAME_50",
-						"type": "varchar"
-					},
-					{
-						"name": "FMO_WID_STATUS_50",
-						"type": "varchar"
-					},
-					{
-						"name": "FMO_NPN_50",
-						"type": "varchar"
-					},
-					{
-						"name": "MGA_NAME_40",
-						"type": "varchar"
-					},
-					{
-						"name": "MGA_WID_STATUS_40",
-						"type": "varchar"
-					},
-					{
-						"name": "MGA_NPN_40",
-						"type": "varchar"
-					},
-					{
-						"name": "GA_NAME_30",
-						"type": "varchar"
-					},
-					{
-						"name": "GA_WID_STATUS_30",
-						"type": "varchar"
-					},
-					{
-						"name": "GA_NPN_30",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_NAME_20",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_WID_STATUS_20",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_WID_20",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_NPN_20",
-						"type": "varchar"
-					},
-					{
-						"name": "SOLICITOR_NAME_10",
-						"type": "varchar"
-					},
-					{
-						"name": "SOLICITOR_WID_STATUS_10",
-						"type": "varchar"
-					},
-					{
-						"name": "SOLICITOR_WID_10",
-						"type": "varchar"
-					},
-					{
-						"name": "SOLICITOR_NPN_10",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					},
-					{
-						"name": "FILE_RECORD_BIRTH_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "IFP_SUBSCRIBER_ICHRA_QSEHRA_STATUS",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "SIM_103",
-					"table": "SIM_UNITED_HEALTH_CARE_POLICY_DETAILS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_UNITED_HEALTH_CARE_POLICY_DETAILS_HISTORY_APP_PROD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "e2eis_APP_PROD",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "AGENT_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_ID_STATUS",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_EMAIL",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_NPN",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_FIRST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_LAST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "DATE_OF_BIRTH",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_EMAIL",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_PHONE",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_ADDRESS_1",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_ADDRESS_2",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_CITY",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_STATE",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_ZIP",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_STATUS",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_COUNTY",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "POLICY_EFFECTIVE_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_OF_RECORD",
-						"type": "varchar"
-					},
-					{
-						"name": "CONTRACT",
-						"type": "varchar"
-					},
-					{
-						"name": "PBP",
-						"type": "varchar"
-					},
-					{
-						"name": "SEGMENT_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "APPLICATION_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "POLICY_TERM_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "PRODUCT",
-						"type": "varchar"
-					},
-					{
-						"name": "TERM_REASON_CODE",
-						"type": "varchar"
-					},
-					{
-						"name": "INDIVIDUAL_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "HOUSEHOLD_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_NUMBER_1",
-						"type": "varchar"
-					},
-					{
-						"name": "MBI_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "SECONDARY_PHONE_NUM",
-						"type": "varchar"
-					},
-					{
-						"name": "PLAN_STATUS",
-						"type": "varchar"
-					},
-					{
-						"name": "PLAN_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "IFP_PLAN_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "IFP_GRGR_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "IFP_RENEWAL",
-						"type": "varchar"
-					},
-					{
-						"name": "SECONDARY_ADDRESS_LINE1",
-						"type": "varchar"
-					},
-					{
-						"name": "SECONDARY_ADDRESS_LINE_2",
-						"type": "varchar"
-					},
-					{
-						"name": "SECONDARY_ADDRESS_MEMBER_CITY",
-						"type": "varchar"
-					},
-					{
-						"name": "SECONDARY_ADDRESS_MEMBER_STATE",
-						"type": "varchar"
-					},
-					{
-						"name": "SECONDARY_ADDRESS_MEMBER_ZIP",
-						"type": "varchar"
-					},
-					{
-						"name": "SECONDARY_ADDRESS_MEMBER_COUNTY",
-						"type": "varchar"
-					},
-					{
-						"name": "IFP_FFM_APP_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "NMA_NAME80",
-						"type": "varchar"
-					},
-					{
-						"name": "NMA_WID_STATUS_80",
-						"type": "varchar"
-					},
-					{
-						"name": "NMA_NPN_80",
-						"type": "varchar"
-					},
-					{
-						"name": "NMA_NAME_70",
-						"type": "varchar"
-					},
-					{
-						"name": "NMA_WID_STATUS70",
-						"type": "varchar"
-					},
-					{
-						"name": "NMA_NPN_70",
-						"type": "varchar"
-					},
-					{
-						"name": "NMA_NAME_60",
-						"type": "varchar"
-					},
-					{
-						"name": "NMA_WID_STATUS_60",
-						"type": "varchar"
-					},
-					{
-						"name": "NMA_NPN_60",
-						"type": "varchar"
-					},
-					{
-						"name": "FMO_NAME_50",
-						"type": "varchar"
-					},
-					{
-						"name": "FMO_WID_STATUS_50",
-						"type": "varchar"
-					},
-					{
-						"name": "FMO_NPN_50",
-						"type": "varchar"
-					},
-					{
-						"name": "MGA_NAME_40",
-						"type": "varchar"
-					},
-					{
-						"name": "MGA_WID_STATUS_40",
-						"type": "varchar"
-					},
-					{
-						"name": "MGA_NPN_40",
-						"type": "varchar"
-					},
-					{
-						"name": "GA_NAME_30",
-						"type": "varchar"
-					},
-					{
-						"name": "GA_WID_STATUS_30",
-						"type": "varchar"
-					},
-					{
-						"name": "GA_NPN_30",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_NAME_20",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_WID_STATUS_20",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_WID_20",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_NPN_20",
-						"type": "varchar"
-					},
-					{
-						"name": "SOLICITOR_NAME_10",
-						"type": "varchar"
-					},
-					{
-						"name": "SOLICITOR_WID_STATUS_10",
-						"type": "varchar"
-					},
-					{
-						"name": "SOLICITOR_WID_10",
-						"type": "varchar"
-					},
-					{
-						"name": "SOLICITOR_NPN_10",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					},
-					{
-						"name": "FILE_RECORD_BIRTH_DATE",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "SIM_103",
-					"table": "SIM_UNITED_HEALTH_CARE_POLICY_DETAILS_HISTORY"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_UNITED_HEALTH_CARE_POLICY_DETAILS_HISTORY_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServere2eis_PROD",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "AGENT_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_ID_STATUS",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_EMAIL",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_NPN",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_FIRST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_LAST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "DATE_OF_BIRTH",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_EMAIL",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_PHONE",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_ADDRESS_1",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_ADDRESS_2",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_CITY",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_STATE",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_ZIP",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_STATUS",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_COUNTY",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "POLICY_EFFECTIVE_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_OF_RECORD",
-						"type": "varchar"
-					},
-					{
-						"name": "CONTRACT",
-						"type": "varchar"
-					},
-					{
-						"name": "PBP",
-						"type": "varchar"
-					},
-					{
-						"name": "SEGMENT_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "APPLICATION_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "POLICY_TERM_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "PRODUCT",
-						"type": "varchar"
-					},
-					{
-						"name": "TERM_REASON_CODE",
-						"type": "varchar"
-					},
-					{
-						"name": "INDIVIDUAL_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "HOUSEHOLD_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_NUMBER_1",
-						"type": "varchar"
-					},
-					{
-						"name": "MBI_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "SECONDARY_PHONE_NUM",
-						"type": "varchar"
-					},
-					{
-						"name": "PLAN_STATUS",
-						"type": "varchar"
-					},
-					{
-						"name": "PLAN_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "IFP_PLAN_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "IFP_GRGR_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "IFP_RENEWAL",
-						"type": "varchar"
-					},
-					{
-						"name": "SECONDARY_ADDRESS_LINE1",
-						"type": "varchar"
-					},
-					{
-						"name": "SECONDARY_ADDRESS_LINE_2",
-						"type": "varchar"
-					},
-					{
-						"name": "SECONDARY_ADDRESS_MEMBER_CITY",
-						"type": "varchar"
-					},
-					{
-						"name": "SECONDARY_ADDRESS_MEMBER_STATE",
-						"type": "varchar"
-					},
-					{
-						"name": "SECONDARY_ADDRESS_MEMBER_ZIP",
-						"type": "varchar"
-					},
-					{
-						"name": "SECONDARY_ADDRESS_MEMBER_COUNTY",
-						"type": "varchar"
-					},
-					{
-						"name": "IFP_FFM_APP_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "NMA_NAME80",
-						"type": "varchar"
-					},
-					{
-						"name": "NMA_WID_STATUS_80",
-						"type": "varchar"
-					},
-					{
-						"name": "NMA_NPN_80",
-						"type": "varchar"
-					},
-					{
-						"name": "NMA_NAME_70",
-						"type": "varchar"
-					},
-					{
-						"name": "NMA_WID_STATUS70",
-						"type": "varchar"
-					},
-					{
-						"name": "NMA_NPN_70",
-						"type": "varchar"
-					},
-					{
-						"name": "NMA_NAME_60",
-						"type": "varchar"
-					},
-					{
-						"name": "NMA_WID_STATUS_60",
-						"type": "varchar"
-					},
-					{
-						"name": "NMA_NPN_60",
-						"type": "varchar"
-					},
-					{
-						"name": "FMO_NAME_50",
-						"type": "varchar"
-					},
-					{
-						"name": "FMO_WID_STATUS_50",
-						"type": "varchar"
-					},
-					{
-						"name": "FMO_NPN_50",
-						"type": "varchar"
-					},
-					{
-						"name": "MGA_NAME_40",
-						"type": "varchar"
-					},
-					{
-						"name": "MGA_WID_STATUS_40",
-						"type": "varchar"
-					},
-					{
-						"name": "MGA_NPN_40",
-						"type": "varchar"
-					},
-					{
-						"name": "GA_NAME_30",
-						"type": "varchar"
-					},
-					{
-						"name": "GA_WID_STATUS_30",
-						"type": "varchar"
-					},
-					{
-						"name": "GA_NPN_30",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_NAME_20",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_WID_STATUS_20",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_WID_20",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_NPN_20",
-						"type": "varchar"
-					},
-					{
-						"name": "SOLICITOR_NAME_10",
-						"type": "varchar"
-					},
-					{
-						"name": "SOLICITOR_WID_STATUS_10",
-						"type": "varchar"
-					},
-					{
-						"name": "SOLICITOR_WID_10",
-						"type": "varchar"
-					},
-					{
-						"name": "SOLICITOR_NPN_10",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					},
-					{
-						"name": "FILE_RECORD_BIRTH_DATE",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "SIM_103",
-					"table": "SIM_UNITED_HEALTH_CARE_POLICY_DETAILS_HISTORY"
 				}
 			},
 			"dependsOn": []
