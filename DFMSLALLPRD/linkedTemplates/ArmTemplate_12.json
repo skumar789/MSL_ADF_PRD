@@ -133,6 +133,147 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/AIA_EG01_COMMISION_DETAILS_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "e2eis_APP_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "AGENCY_CODE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AGENCY_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "WRITING_AGENT",
+						"type": "nvarchar"
+					},
+					{
+						"name": "INTERNAL_REP",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AGENCY_NUMBER",
+						"type": "nvarchar"
+					},
+					{
+						"name": "OVERRIDE_AGENT_CODE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "GROUP_NUMBER",
+						"type": "nvarchar"
+					},
+					{
+						"name": "GROUP_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CONTRACT_COUNT",
+						"type": "nvarchar"
+					},
+					{
+						"name": "COVERAGE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BILLING_PERIOD_FROM",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BILLING_PERIOD_TO",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECONCILED_PREMIUM",
+						"type": "nvarchar"
+					},
+					{
+						"name": "COMM_RATE_OR_FLAT_RATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "COPENSATION_AMOUNT",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ADJUSTMENT",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "AIA_102",
+					"table": "AIA_EG01_COMMISION_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_EG01_MONTHLY_FEED_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_EG01_COMMISSION_MONTHLY_FEED_PRD.txt",
+						"folderPath": "/MSL_Cloud_App_Prd/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "AGENCY_CODE\tAGENCY_NAME\tWRITING_AGENT\tINTERNAL_REP\tAGENCY_NUMBER\tOVERRIDE_AGENT_CODE\tGROUP_NUMBER\tGROUP_NAME\tCONTRACT_COUNT\tCOVERAGE\tBILLING_PERIOD_FROM\tBILLING_PERIOD_TO\tRECONCILED_PREMIUM\tCOMM_RATE_OR_FLAT_RATE\tCOPENSATION_AMOUNT\tADJUSTMENT",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AIA_EI13U_COMMISION_DETAILS_APP_PROD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1492,102 +1633,6 @@
 				"typeProperties": {
 					"schema": "AIA_102",
 					"table": "AIA_FB_COMMISSION_ADVANCES_STG"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AIA_FB_COMMISSION_ADVANCE_APP_PROD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp1_connections_ALL_FEED",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "AIA_FB_Commission_Advances_PRD.txt",
-						"folderPath": "/MSL_Cloud_App_Prd/FromAgency/AIA"
-					},
-					"columnDelimiter": "\t",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "Department ID\tPayee_Name\tDate_Paid\tFor_Period\tAdvance_Used\tAdvance_Amount\tCurrent_Period\tAdvance_Remaining",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AIA_FB_COMMISSION_ADVANCE_DETAILS_STG_APP_PROD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "e2eis_APP_PROD",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "DEPARTMENT_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "PAYEE_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "DATE_PAID",
-						"type": "varchar"
-					},
-					{
-						"name": "AMOUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "FOR_PERIOD",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "AIA_102",
-					"table": "AIA_FB_COMMISSION_ADVANCE_DETAILS_STG"
 				}
 			},
 			"dependsOn": []

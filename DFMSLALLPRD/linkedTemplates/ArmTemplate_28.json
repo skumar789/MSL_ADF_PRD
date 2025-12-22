@@ -13,6 +13,68 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/MIA_PAYEE_WEEKLY_FEED_BLUECHIP_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "MIA_PAYEE_WEEKLY_FEED_BLUECHIP_PRD.txt",
+						"folderPath": "/MSL_Cloud_App_Prd/FromAgency/MIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "CONTRACT_YEAR\tCOMPENSATION_DATE\tEMPLOYEE_TYPE\tEMPLOYEE_ID\tFULL_NAME\tPRIMARY_ROLE\tPRE_ACA_WRITING_AGENT_COMP_TIER\tLTL_WRITING_AGENT_COMP_TIER\tMED_SUP_WRITING_AGENT_COMP_TIER\tDENTAL_NEWSALE_WRITING_AGENT_COMP_TIER\tACA_NEWSALE_WRITING_AGENT_COMP_TIER\tGROUP_WRITING_AGENT_COMP_TIER\tANCILLARY_RENEWAL_WRITING_AGENT_COMP_TIER\tPAYROLL_ID\tPAYEE_EMPLOYEE_ID\tPAYEE_NAME\tMAIN_UPLINE_EMPLOYEE_ID\tMAIN_UPLINE_FULL_NAME\tSECONDARY_UPLINE_EMPLOYEE_ID\tSECONDARY_UPLINE_FULL_NAME\tROLE_START_DATE\tROLE_END_DATE\tROLE_END_REASON\tALL_SALES_PAYEE\tSUBMITTING_AGENT\tSECONDARY_ROLE\tDEPARTMENT_ENTITY_ID\tDEPARTMENT_NAME\tHEALTH_ACA_EMPLOYEE_TIER\tPAYEE_EMAIL_ADDRESS",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MIA_PAYEE_WEEKLY_FEED_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "MIA_PAYEE_WEEKLY_FEED_PRD.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/MIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Contract_Year\tEmployee_Type\tEmployee_ID\tFull_Name\tPrimary_Role\tMonthly_Renewal_Writing_Agent_Comp_Tier\tPre_ACA_Writing_Agent_Comp_Tier\tLTL_Writing_Agent_Comp_Tier\tMed_Sup_Writing_Agent_Comp_Tier\tDental_NewSale_Writing_Agent_Comp_Tier\tACA_NewSale_Writing_Agent_Comp_Tier\tGroup_Writing_Agent_Comp_Tier\tAncillary_Renewal_Writing_Agent_Comp_Tier\tPayroll_Id\tPayee_Employee_Id\tPayee_Name\tMain_Upline_Employee_ID\tMain_Upline_Full_Name\tSecondary_Upline_Employee_ID\tSecondary_Upline_Full_Name\tRole_End_Date\tRole_End_Reason\tAll_Sales_Payee\tSubmitting_Agent\tSecondary_Role\tDepartment_Entity_ID\tDepartment_Name\tHealth_ACA_Employee Tier\tPayee_Email_Address",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/MIA_RATE_BLUECHIP')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1887,150 +1949,6 @@
 					"schema": "SIM_103",
 					"table": "SIM_AETNA_PAYMENTS_WEEKLY_DETAILS_HISTORY"
 				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_AETNA_PAYMENTS_WEEKLY_DETAILS_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServere2eis_PROD",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "CURRENT_ISSUER_MEMBER_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "APPLICATION_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "HIOS_PLAN_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "VARIANTNAME",
-						"type": "varchar"
-					},
-					{
-						"name": "PLAN_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "METALLIC_TIER",
-						"type": "varchar"
-					},
-					{
-						"name": "ENROLLMENT_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "GA_UPLINE_GA",
-						"type": "varchar"
-					},
-					{
-						"name": "BROKER_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "PAYEE_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "NPN",
-						"type": "varchar"
-					},
-					{
-						"name": "GEO_MEMBER_STATE",
-						"type": "varchar"
-					},
-					{
-						"name": "COUNTY_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "MONTH_ORIG_EFFECTIVE",
-						"type": "varchar"
-					},
-					{
-						"name": "MONTH_COVERAGE_END",
-						"type": "varchar"
-					},
-					{
-						"name": "PAST_DUE",
-						"type": "varchar"
-					},
-					{
-						"name": "FILE_RECORD_BIRTH_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "SIM_103",
-					"table": "SIM_AETNA_PAYMENTS_WEEKLY_DETAILS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_AETNA_PAYMENTS_WEEKLY_FEED_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp1_connections_ALL_FEED",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "SIM_AETNA_PAYMENTS_WEEKLY_FEED_PRD.txt",
-						"folderPath": "/MSL_Cloud_Prd/FromAgency/SIM"
-					},
-					"columnDelimiter": "\t",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "Current Issuer Member Id\tapplication_id\tHios Plan Id\tVariantname\tPlanName\tMetallic Tier\tEnrollment Type\tGA-Upline GA\tBroker Name\tPayee Name\tNpn\tGeo Member State\tCounty Name\tMonth - Orig Effective\tMonth - Coverage End\tPast Due\tFile Record Birth Date",
-						"type": "String"
-					}
-				]
 			},
 			"dependsOn": []
 		}
