@@ -10,7 +10,7 @@
 				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "ABI_SP_KPI_DATA_POPULATE_WEEKLY_NEWDS_PRD",
+						"activity": "ABI_SP_KPI_ACTIVE_ENROLLMENT_BYCARRIER",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -96,6 +96,8 @@
 				"name": "SIM_SP_KPI_DATA_POPULATE_PRD",
 				"description": "STEP 4 DASBOARD REFRESH Weekly Run store procedure for SIM kpi dasboard data refresh",
 				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_SP_WEEKLY_DOMO_KPI_BOB_REFRESH_2_PRD",
@@ -124,6 +126,8 @@
 				"name": "SIM_SP_KPI_DATA_POPULATE_WEEKLY_PRD",
 				"description": "STEP 5 DASBOARD REFRESH Weekly Run store procedure for SIM kpi dasboard data refresh",
 				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "SIM_SP_KPI_DATA_POPULATE_PRD",
@@ -152,6 +156,8 @@
 				"name": "SIM_SP_KPI_DATA_POPULATE_MONTHLY_NEWDS",
 				"description": "STEP 6 DASBOARD DATA REFRESH",
 				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "SIM_SP_KPI_DATA_POPULATE_WEEKLY_PRD",
@@ -180,6 +186,8 @@
 				"name": "SIM_SP_KPI_DATA_POPULATE_WEEKLY_NEWDS",
 				"description": "STEP 7 DASBOARD DATA REFRESH",
 				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "SIM_SP_KPI_DATA_POPULATE_MONTHLY_NEWDS",
@@ -208,6 +216,8 @@
 				"name": "SIM_SP_KPI_DATA_POPULATE_MONTHLYATTRITION_PRD",
 				"description": "Run after dashboard refresh SP completed",
 				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "SIM_SP_KPI_DATA_POPULATE_WEEKLY_NEWDS",
@@ -234,9 +244,8 @@
 			},
 			{
 				"name": "ABI_SP_KPI_DATA_POPULATE",
+				"description": "ABI dashboard refresh step 1",
 				"type": "SqlServerStoredProcedure",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -256,9 +265,8 @@
 			},
 			{
 				"name": "ABI_SP_KPI_DATA_POPULATE_WEEKLY_PRD",
+				"description": "ABI dashboard refresh step 2",
 				"type": "SqlServerStoredProcedure",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "ABI_SP_KPI_DATA_POPULATE",
@@ -276,7 +284,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"storedProcedureName": "ABI_101.ABI_SP_KPI_DATA_POPULATE_WEEKLY"
+					"storedProcedureName": "ABI_101.ABI_SP_KPI_DATA_POPULATE_WEEKLY 'MURRAY INSURANCE AGENCY INC"
 				},
 				"linkedServiceName": {
 					"referenceName": "e2eis_APP_PROD",
@@ -285,12 +293,39 @@
 			},
 			{
 				"name": "ABI_SP_KPI_DATA_POPULATE_MONTHLY_NEWDS_PRD",
+				"description": "ABI dashboard refresh step 3",
 				"type": "SqlServerStoredProcedure",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "ABI_SP_KPI_DATA_POPULATE_WEEKLY_PRD",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "ABI_101.ABI_SP_KPI_DATA_POPULATE_WEEKLY 'A AND B FINANCIAL SERVICES"
+				},
+				"linkedServiceName": {
+					"referenceName": "e2eis_APP_PROD",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "ABI_SP_KPI_DATA_POPULATE_WEEKLY_NEWDS_PRD",
+				"description": "ABI dashboard refresh step 4",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "ABI_SP_KPI_DATA_POPULATE_MONTHLY_NEWDS_PRD",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -313,13 +348,42 @@
 				}
 			},
 			{
-				"name": "ABI_SP_KPI_DATA_POPULATE_WEEKLY_NEWDS_PRD",
+				"name": "SIM_SP_KPI_DATA_POPULATE_MONTHLYATTRITION_HISTORY",
+				"description": "Run after dashboard refresh SP completed",
 				"type": "SqlServerStoredProcedure",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "ABI_SP_KPI_DATA_POPULATE_MONTHLY_NEWDS_PRD",
+						"activity": "SIM_SP_KPI_DATA_POPULATE_MONTHLYATTRITION_PRD",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[SIM_103].[SIM_SP_KPI_ACTIVE_ENROLLMENT_BYCARRIER]"
+				},
+				"linkedServiceName": {
+					"referenceName": "e2eis_APP_PROD",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "ABI_SP_KPI_DATA_POPULATE_WEEKLY_NEWDS",
+				"description": "ABI dashboard refresh step 5",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "ABI_SP_KPI_DATA_POPULATE_WEEKLY_NEWDS_PRD",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -342,12 +406,12 @@
 				}
 			},
 			{
-				"name": "SIM_SP_KPI_DATA_POPULATE_MONTHLYATTRITION_HISTORY",
-				"description": "Run after dashboard refresh SP completed",
+				"name": "ABI_SP_KPI_DATA_POPULATE_MONTHLY_ATTRITION",
+				"description": "ABI dashboard refresh step 6",
 				"type": "SqlServerStoredProcedure",
 				"dependsOn": [
 					{
-						"activity": "SIM_SP_KPI_DATA_POPULATE_MONTHLYATTRITION_PRD",
+						"activity": "ABI_SP_KPI_DATA_POPULATE_WEEKLY_NEWDS",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -362,7 +426,35 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"storedProcedureName": "[SIM_103].[SIM_SP_KPI_ACTIVE_ENROLLMENT_BYCARRIER]"
+					"storedProcedureName": "ABI_101.ABI_SP_KPI_DATA_POPULATE_MONTHLY_ATTRITION"
+				},
+				"linkedServiceName": {
+					"referenceName": "e2eis_APP_PROD",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "ABI_SP_KPI_ACTIVE_ENROLLMENT_BYCARRIER",
+				"description": "ABI dashboard refresh step 7",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "ABI_SP_KPI_DATA_POPULATE_MONTHLY_ATTRITION",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "ABI_101.ABI_SP_KPI_ACTIVE_ENROLLMENT_BYCARRIER"
 				},
 				"linkedServiceName": {
 					"referenceName": "e2eis_APP_PROD",
