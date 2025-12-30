@@ -25469,8 +25469,6 @@
 				"name": "AIA_SP_AGENCIES_WEEKLY_NEW_POLICIES_CONSOLIDATI_REGULAR",
 				"description": "STEP 3",
 				"type": "SqlServerStoredProcedure",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_SP_WEEKLY_DOMO_KPI_BOB_REFRESH",
@@ -25499,8 +25497,6 @@
 				"name": "AIA_SP_BOB_WEEKLY_CLEANUP",
 				"description": "STEP 4 Weekly New Policy Insert into BOB",
 				"type": "SqlServerStoredProcedure",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_SP_AGENCIES_WEEKLY_NEW_POLICIES_CONSOLIDATI_REGULAR",
@@ -25538,8 +25534,6 @@
 				"name": "AIA_BOB_WEEKLY_HISTORY_BACKUP_DATA_LOCKED",
 				"description": "STEP 5 Run for backup data locks every week before BOB publish",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_SP_BOB_WEEKLY_CLEANUP",
@@ -26298,8 +26292,6 @@
 				"name": "AIA_SP_BOOK_OF_BUSSINESS_WEEKLY_PUBLISH_PRD",
 				"description": "STEP 6 DATA MOVE OLD TABLE TO NEW TABLE BOB final weekly celebration",
 				"type": "SqlServerStoredProcedure",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_BOB_WEEKLY_HISTORY_BACKUP_DATA_LOCKED",
@@ -35943,7 +35935,7 @@
 				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "AIA_SP_BOOK_OF_BUSSINESS_WEEKLY_PUBLISH_PRD",
+						"activity": "AIA_SP_BOOK_OF_BUSINESS_CONSOLIDATION_FB",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -35969,11 +35961,9 @@
 				"name": "AIA_SP_BOB_OOS_REGRESSION_PROCESS",
 				"description": "STEP 8 REGRESSION AUTOMATION PROCESS",
 				"type": "SqlServerStoredProcedure",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "AIA_SP_WEEKLY_BOB_NULL_REMOVAL_PRD_copy1_copy1",
+						"activity": "AIA_SP_BOOK_OF_BUSSINESS_WEEKLY_PUBLISH_PRD",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -35989,6 +35979,74 @@
 				"userProperties": [],
 				"typeProperties": {
 					"storedProcedureName": "[AIA_102].[AIA_SP_BOB_OOS_REGRESSION_PROCESS]"
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServere2eis_PROD",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "AIA_SP_BOOK_OF_BUSINESS_OOS_FB_STEP1",
+				"description": "AIA FB BOB REFRESH STEP 1",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "AIA_SP_BOB_OOS_REGRESSION_PROCESS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[AIA_102].[AIA_SP_BOOK_OF_BUSINESS_OOS_FB_STEP1]",
+					"storedProcedureParameters": {
+						"@PERIOD_NAME": {
+							"value": "'Dec_Wk4_2025'",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServere2eis_PROD",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "AIA_SP_BOOK_OF_BUSINESS_CONSOLIDATION_FB",
+				"description": "AIA FB BOB REFRESH STEP 2",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "AIA_SP_BOOK_OF_BUSINESS_OOS_FB_STEP1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[AIA_102].[AIA_SP_BOOK_OF_BUSINESS_CONSOLIDATION_FB]",
+					"storedProcedureParameters": {
+						"@PERIOD_NAME": {
+							"value": "'Dec_Wk4_2025'",
+							"type": "String"
+						}
+					}
 				},
 				"linkedServiceName": {
 					"referenceName": "SqlServere2eis_PROD",
