@@ -25469,8 +25469,6 @@
 				"name": "AIA_SP_AGENCIES_WEEKLY_NEW_POLICIES_CONSOLIDATI_REGULAR",
 				"description": "STEP 3",
 				"type": "SqlServerStoredProcedure",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_SP_WEEKLY_DOMO_KPI_BOB_REFRESH",
@@ -25499,8 +25497,6 @@
 				"name": "AIA_SP_BOB_WEEKLY_CLEANUP",
 				"description": "STEP 4 Weekly New Policy Insert into BOB",
 				"type": "SqlServerStoredProcedure",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_SP_AGENCIES_WEEKLY_NEW_POLICIES_CONSOLIDATI_REGULAR",
@@ -25522,7 +25518,7 @@
 					"storedProcedureParameters": {
 						"PERIOD_NAME": {
 							"value": {
-								"value": "@'Dec_WK4_2025'",
+								"value": "@'Jan_WK1_2026'",
 								"type": "Expression"
 							},
 							"type": "String"
@@ -25536,10 +25532,8 @@
 			},
 			{
 				"name": "AIA_BOB_WEEKLY_HISTORY_BACKUP_DATA_LOCKED",
-				"description": "STEP 5 Run for backup data locks every week before BOB publish",
+				"description": "STEP 5 Run for Previous week backup data locks every week before BOB publish",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_SP_BOB_WEEKLY_CLEANUP",
@@ -26298,8 +26292,6 @@
 				"name": "AIA_SP_BOOK_OF_BUSSINESS_WEEKLY_PUBLISH_PRD",
 				"description": "STEP 6 DATA MOVE OLD TABLE TO NEW TABLE BOB final weekly celebration",
 				"type": "SqlServerStoredProcedure",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_BOB_WEEKLY_HISTORY_BACKUP_DATA_LOCKED",
@@ -35969,8 +35961,6 @@
 				"name": "AIA_SP_BOB_OOS_REGRESSION_PROCESS",
 				"description": "STEP 8 REGRESSION AUTOMATION PROCESS",
 				"type": "SqlServerStoredProcedure",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_SP_BOOK_OF_BUSSINESS_WEEKLY_PUBLISH_PRD",
@@ -35997,10 +35987,8 @@
 			},
 			{
 				"name": "AIA_SP_BOOK_OF_BUSINESS_OOS_FB_STEP1",
-				"description": "AIA FB BOB REFRESH STEP 1",
+				"description": "AIA FB BOB REFRESH STEP 2 STEP 1 IS CHECK PREVIOUS WEEK DATA USING BELOW QUERY,\n Select * from [AIA_102].AIA_BOOK_OF_BUSSINESS_ALL_CARRIERS_HISTORY\nWhere period_end_date = (Select max(period_end_date) from [AIA_102].AIA_BOOK_OF_BUSSINESS_ALL_CARRIERS_HISTORY);",
 				"type": "SqlServerStoredProcedure",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_SP_BOB_OOS_REGRESSION_PROCESS",
@@ -36022,7 +36010,7 @@
 					"storedProcedureParameters": {
 						"PERIOD_NAME": {
 							"value": {
-								"value": "@'Dec_Wk4_2025'",
+								"value": "@'Jan_Wk1_2026'",
 								"type": "Expression"
 							},
 							"type": "String"
@@ -36036,10 +36024,8 @@
 			},
 			{
 				"name": "AIA_SP_BOOK_OF_BUSINESS_CONSOLIDATION_FB",
-				"description": "AIA FB BOB REFRESH STEP 2",
+				"description": "AIA FB BOB REFRESH STEP 3",
 				"type": "SqlServerStoredProcedure",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "AIA_SP_BOOK_OF_BUSINESS_OOS_FB_STEP1",
@@ -36061,7 +36047,7 @@
 					"storedProcedureParameters": {
 						"PERIOD_NAME": {
 							"value": {
-								"value": "@'Dec_Wk4_2025'",
+								"value": "@'Jan_Wk1_2026'",
 								"type": "Expression"
 							},
 							"type": "String"
