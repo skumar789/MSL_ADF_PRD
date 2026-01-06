@@ -6,8 +6,6 @@
 				"name": "ABI_COMMISSION_ALL_SALES_REPORT_DETAIL",
 				"description": "DATA MOVE IN HISTORY TABLE AFTER CLOSE CURRENT PERIOD",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -20,7 +18,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"sqlReaderQuery": "select * from ABI_101.ABI_COMMISSION_ALL_SALES_REPORT_DETAIL \nwhere Period_Name='June 2025';",
+						"sqlReaderQuery": "select * from dbo.ABI_COMMISSION_ALL_SALES_REPORT_DETAIL \nwhere Period_Name='October 2025';",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -96,7 +94,7 @@
 							{
 								"source": {
 									"name": "AccountingDate",
-									"type": "DateTime",
+									"type": "Date",
 									"physicalType": "date"
 								},
 								"sink": {
@@ -204,7 +202,7 @@
 							{
 								"source": {
 									"name": "OriginalEffectiveDate",
-									"type": "DateTime",
+									"type": "Date",
 									"physicalType": "date"
 								},
 								"sink": {
@@ -216,7 +214,7 @@
 							{
 								"source": {
 									"name": "CoverageFromDate",
-									"type": "DateTime",
+									"type": "Date",
 									"physicalType": "date"
 								},
 								"sink": {
@@ -228,7 +226,7 @@
 							{
 								"source": {
 									"name": "CoverageToDate",
-									"type": "DateTime",
+									"type": "Date",
 									"physicalType": "date"
 								},
 								"sink": {
@@ -240,7 +238,7 @@
 							{
 								"source": {
 									"name": "CancelDate",
-									"type": "DateTime",
+									"type": "Date",
 									"physicalType": "date"
 								},
 								"sink": {
@@ -433,13 +431,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "ABI_COMMISSION_ALL_SALES_REPORT_DETAIL_APP_PROD",
+						"referenceName": "ABI_COMMISSION_ALL_SALES_REPORT_DETAIL_PRD",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "ABI_COMMISSION_ALL_SALES_REPORT_HISTORY_APP_PROD",
+						"referenceName": "ABI_COMMISSION_ALL_SALES_REPORT_HISTORY_PROD",
 						"type": "DatasetReference"
 					}
 				]
@@ -448,8 +446,6 @@
 				"name": "ABI_COMMISSION_ALL_SALES_SUMMARY",
 				"description": "DATA MOVE IN HISTORY TABLE AFTER CLOSE CURRENT PERIOD",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "ABI_COMMISSION_ALL_SALES_REPORT_DETAIL",
@@ -469,7 +465,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"sqlReaderQuery": "select * from ABI_101.ABI_COMMISSION_ALL_SALES_SUMMARY \nwhere Period_Name='June 2025';",
+						"sqlReaderQuery": "select * from dbo.ABI_COMMISSION_ALL_SALES_SUMMARY \nwhere Period_Name='October 2025';",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -696,13 +692,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "ABI_COMMISSION_ALL_SALES_SUMMARY_APP_PROD",
+						"referenceName": "ABI_COMMISSION_ALL_SALES_SUMMARY_PRD",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY_APP_PROD",
+						"referenceName": "ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY_PROD",
 						"type": "DatasetReference"
 					}
 				]
