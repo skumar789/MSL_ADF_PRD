@@ -13,6 +13,122 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/MIA_FB_BuddyLockList_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "e2eiS_UAT",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "Contract",
+						"type": "varchar"
+					},
+					{
+						"name": "Pay_To",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Number",
+						"type": "varchar"
+					},
+					{
+						"name": "Comp_Type",
+						"type": "varchar"
+					},
+					{
+						"name": "Benefit_Effective_Date",
+						"type": "date"
+					},
+					{
+						"name": "MEM_CONT_NO_BENEFIT_EFFDATE",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "MIA_104",
+					"table": "MIA_FB_BuddyLockList"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MIA_FB_COMMISSIONS_SUMMARY_REPORT_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "e2eis_APP_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "Payee_AOR",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Payee_Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "WritingAgentName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Writing_AgentPayrollId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Agency_Payment",
+						"type": "decimal",
+						"precision": 38,
+						"scale": 10
+					},
+					{
+						"name": "Agency_Stmt_Payment",
+						"type": "decimal",
+						"precision": 38,
+						"scale": 10
+					},
+					{
+						"name": "FB_Payment",
+						"type": "decimal",
+						"precision": 38,
+						"scale": 2
+					},
+					{
+						"name": "Agent_Commission",
+						"type": "decimal",
+						"precision": 38,
+						"scale": 10
+					},
+					{
+						"name": "Override_Commission",
+						"type": "decimal",
+						"precision": 38,
+						"scale": 10
+					},
+					{
+						"name": "Adjustments",
+						"type": "decimal",
+						"precision": 38,
+						"scale": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "MIA_104",
+					"table": "MIA_FB_COMMISSIONS_SUMMARY_REPORT"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/MIA_FB_COMMISSIONS_SUMMARY_REPORT_UAT')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1319,68 +1435,6 @@
 					"schema": "MIA_104",
 					"table": "MIA_PAYEE_DETAILS_STG"
 				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/MIA_PAYEE_WEEKLY_FEED_BLUECHIP_APP_PROD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp1_connections_ALL_FEED",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "MIA_PAYEE_WEEKLY_FEED_BLUECHIP_PRD.txt",
-						"folderPath": "/MSL_Cloud_App_Prd/FromAgency/MIA"
-					},
-					"columnDelimiter": "\t",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "CONTRACT_YEAR\tCOMPENSATION_DATE\tEMPLOYEE_TYPE\tEMPLOYEE_ID\tFULL_NAME\tPRIMARY_ROLE\tPRE_ACA_WRITING_AGENT_COMP_TIER\tLTL_WRITING_AGENT_COMP_TIER\tMED_SUP_WRITING_AGENT_COMP_TIER\tDENTAL_NEWSALE_WRITING_AGENT_COMP_TIER\tACA_NEWSALE_WRITING_AGENT_COMP_TIER\tGROUP_WRITING_AGENT_COMP_TIER\tANCILLARY_RENEWAL_WRITING_AGENT_COMP_TIER\tPAYROLL_ID\tPAYEE_EMPLOYEE_ID\tPAYEE_NAME\tMAIN_UPLINE_EMPLOYEE_ID\tMAIN_UPLINE_FULL_NAME\tSECONDARY_UPLINE_EMPLOYEE_ID\tSECONDARY_UPLINE_FULL_NAME\tROLE_START_DATE\tROLE_END_DATE\tROLE_END_REASON\tALL_SALES_PAYEE\tSUBMITTING_AGENT\tSECONDARY_ROLE\tDEPARTMENT_ENTITY_ID\tDEPARTMENT_NAME\tHEALTH_ACA_EMPLOYEE_TIER\tPAYEE_EMAIL_ADDRESS",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/MIA_PAYEE_WEEKLY_FEED_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp1_connections_ALL_FEED",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "MIA_PAYEE_WEEKLY_FEED_PRD.txt",
-						"folderPath": "/MSL_Cloud_Prd/FromAgency/MIA"
-					},
-					"columnDelimiter": "\t",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "Contract_Year\tEmployee_Type\tEmployee_ID\tFull_Name\tPrimary_Role\tMonthly_Renewal_Writing_Agent_Comp_Tier\tPre_ACA_Writing_Agent_Comp_Tier\tLTL_Writing_Agent_Comp_Tier\tMed_Sup_Writing_Agent_Comp_Tier\tDental_NewSale_Writing_Agent_Comp_Tier\tACA_NewSale_Writing_Agent_Comp_Tier\tGroup_Writing_Agent_Comp_Tier\tAncillary_Renewal_Writing_Agent_Comp_Tier\tPayroll_Id\tPayee_Employee_Id\tPayee_Name\tMain_Upline_Employee_ID\tMain_Upline_Full_Name\tSecondary_Upline_Employee_ID\tSecondary_Upline_Full_Name\tRole_End_Date\tRole_End_Reason\tAll_Sales_Payee\tSubmitting_Agent\tSecondary_Role\tDepartment_Entity_ID\tDepartment_Name\tHealth_ACA_Employee Tier\tPayee_Email_Address",
-						"type": "String"
-					}
-				]
 			},
 			"dependsOn": []
 		}

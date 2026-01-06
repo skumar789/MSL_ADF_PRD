@@ -13,6 +13,284 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/new_mapping_sim')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "new_mapping_sim.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/SIM"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "E2E_SEQ_NO\tFILE_NAME\tFILE_FREQUENCY\tFILE_ENABLED\tETL_PROCESS_NAME\tTABLE_NAME\tSCHEMA_TABLE",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AUTOMATED_PIPELINE_FOR_ALL_SIM_WEEKLY_DATA_FEEDS_DOTNET')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "ForEachProcesses",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "DELETE_BY_FILERECORDBIRTHDATE",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@pipeline().parameters.processControls",
+								"type": "Expression"
+							},
+							"batchCount": 5,
+							"activities": [
+								{
+									"name": "IfEnabled",
+									"type": "IfCondition",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"expression": {
+											"value": "@item().Enabled",
+											"type": "Expression"
+										},
+										"ifTrueActivities": [
+											{
+												"name": "Copy",
+												"type": "Copy",
+												"dependsOn": [],
+												"policy": {
+													"timeout": "0.12:00:00",
+													"retry": 0,
+													"retryIntervalInSeconds": 30,
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"source": {
+														"type": "DelimitedTextSource",
+														"storeSettings": {
+															"type": "SftpReadSettings",
+															"recursive": true,
+															"enablePartitionDiscovery": false,
+															"disableChunking": false
+														},
+														"formatSettings": {
+															"type": "DelimitedTextReadSettings"
+														}
+													},
+													"sink": {
+														"type": "AzureSqlSink",
+														"writeBehavior": "insert",
+														"sqlWriterUseTableLock": false
+													},
+													"enableStaging": false,
+													"translator": {
+														"type": "TabularTranslator",
+														"typeConversion": true,
+														"typeConversionSettings": {
+															"allowDataTruncation": true,
+															"treatBooleanAsNumber": false
+														}
+													}
+												},
+												"inputs": [
+													{
+														"referenceName": "SftpDelimitedParam",
+														"type": "DatasetReference",
+														"parameters": {
+															"p_folderPath": {
+																"value": "@item().FolderPath",
+																"type": "Expression"
+															},
+															"p_fileName": {
+																"value": "@item().FileName",
+																"type": "Expression"
+															}
+														}
+													}
+												],
+												"outputs": [
+													{
+														"referenceName": "SqlTableParam",
+														"type": "DatasetReference",
+														"parameters": {
+															"p_schema": {
+																"value": "@item().TargetSchema",
+																"type": "Expression"
+															},
+															"p_table": {
+																"value": "@item().TargetTable",
+																"type": "Expression"
+															}
+														}
+													}
+												]
+											}
+										]
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "SP_MarkSuccess",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "ForEachProcesses",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[SIM_103].[SIM_SP_ETL_AUDIT_UPDATE_BY_PIPELINE]",
+							"storedProcedureParameters": {
+								"PipelineRunId": {
+									"value": {
+										"value": "@pipeline().RunId",
+										"type": "Expression"
+									}
+								},
+								"Status": {
+									"value": "Succeeded",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "e2eis_APP_PROD",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "SP_MarkFailure",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "ForEachProcesses",
+								"dependencyConditions": [
+									"Failed"
+								]
+							},
+							{
+								"activity": "DELETE_BY_FILERECORDBIRTHDATE",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[SIM_103].[SIM_SP_ETL_AUDIT_UPDATE_BY_PIPELINE]",
+							"storedProcedureParameters": {
+								"PipelineRunId": {
+									"value": {
+										"value": "@pipeline().RunId",
+										"type": "Expression"
+									}
+								},
+								"Status": {
+									"value": "Failed",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "e2eis_APP_PROD",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "DELETE_BY_FILERECORDBIRTHDATE",
+						"description": "This procedure will delete the records based on the input in the FileRecordBirthDate for each table",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.1:00:00",
+							"retry": 3,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[SIM_103].[SIM_SP_ETL_DELETE_BY_FILERECORDBIRTHDATE]",
+							"storedProcedureParameters": {
+								"FileRecordBirthDate": {
+									"value": {
+										"value": "@pipeline().parameters.fileRecordBirthDate",
+										"type": "Expression"
+									},
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "e2eis_APP_PROD",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"concurrency": 5,
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"processControls": {
+						"type": "array"
+					},
+					"fileRecordBirthDate": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"lastPublishTime": "2025-09-08T11:05:57Z"
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/PIPELINE_FOR_ALL_AGENCY_DATA_LOCK_APP_PROD')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -22,8 +300,6 @@
 						"name": "ABI_COMMISSION_ALL_SALES_REPORT_DETAIL",
 						"description": "DATA MOVE IN HISTORY TABLE AFTER CLOSE CURRENT PERIOD",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
@@ -36,7 +312,7 @@
 						"typeProperties": {
 							"source": {
 								"type": "SqlServerSource",
-								"sqlReaderQuery": "select * from ABI_101.ABI_COMMISSION_ALL_SALES_REPORT_DETAIL \nwhere Period_Name='June 2025';",
+								"sqlReaderQuery": "select * from dbo.ABI_COMMISSION_ALL_SALES_REPORT_DETAIL \nwhere Period_Name='October 2025';",
 								"queryTimeout": "02:00:00",
 								"partitionOption": "None"
 							},
@@ -112,7 +388,7 @@
 									{
 										"source": {
 											"name": "AccountingDate",
-											"type": "DateTime",
+											"type": "Date",
 											"physicalType": "date"
 										},
 										"sink": {
@@ -220,7 +496,7 @@
 									{
 										"source": {
 											"name": "OriginalEffectiveDate",
-											"type": "DateTime",
+											"type": "Date",
 											"physicalType": "date"
 										},
 										"sink": {
@@ -232,7 +508,7 @@
 									{
 										"source": {
 											"name": "CoverageFromDate",
-											"type": "DateTime",
+											"type": "Date",
 											"physicalType": "date"
 										},
 										"sink": {
@@ -244,7 +520,7 @@
 									{
 										"source": {
 											"name": "CoverageToDate",
-											"type": "DateTime",
+											"type": "Date",
 											"physicalType": "date"
 										},
 										"sink": {
@@ -256,7 +532,7 @@
 									{
 										"source": {
 											"name": "CancelDate",
-											"type": "DateTime",
+											"type": "Date",
 											"physicalType": "date"
 										},
 										"sink": {
@@ -449,14 +725,14 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "ABI_COMMISSION_ALL_SALES_REPORT_DETAIL_APP_PROD",
+								"referenceName": "ABI_COMMISSION_ALL_SALES_REPORT_DETAIL_PRD",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "ABI_COMMISSION_ALL_SALES_REPORT_HISTORY_APP_PROD",
+								"referenceName": "ABI_COMMISSION_ALL_SALES_REPORT_HISTORY_PROD",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -466,8 +742,6 @@
 						"name": "ABI_COMMISSION_ALL_SALES_SUMMARY",
 						"description": "DATA MOVE IN HISTORY TABLE AFTER CLOSE CURRENT PERIOD",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "ABI_COMMISSION_ALL_SALES_REPORT_DETAIL",
@@ -487,7 +761,7 @@
 						"typeProperties": {
 							"source": {
 								"type": "SqlServerSource",
-								"sqlReaderQuery": "select * from ABI_101.ABI_COMMISSION_ALL_SALES_SUMMARY \nwhere Period_Name='June 2025';",
+								"sqlReaderQuery": "select * from dbo.ABI_COMMISSION_ALL_SALES_SUMMARY \nwhere Period_Name='October 2025';",
 								"queryTimeout": "02:00:00",
 								"partitionOption": "None"
 							},
@@ -714,14 +988,14 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "ABI_COMMISSION_ALL_SALES_SUMMARY_APP_PROD",
+								"referenceName": "ABI_COMMISSION_ALL_SALES_SUMMARY_PRD",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY_APP_PROD",
+								"referenceName": "ABI_COMMISSION_ALL_SALES_SUMMARY_HISTORY_PROD",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
