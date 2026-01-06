@@ -13,6 +13,37 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/AIA_Benavest_BOB_Weekly_Feed_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_BENAVEST_BOB_WEEKLY_FEED_PRD.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "AGENT_NAME\tNPN\tAGENT_STATUS\tAGENCY\tSTATE\tCARRIER\tPOLICY_NUMBER\tPOLICY_STATUS\tPOLICY_EFFECTIVE_DATE\tPOLICY_TERM_DATE\tPRODUCT_TYPE\tPLAN_NAME\tINSURED_NAME\tINSURED_DATE_OF_BIRTH\tINSURED_EMAIL\tINSURED_PHONE_NUMBER\tINSURED_MAILING_ADDRESS\tINSURED_ZIP_CODE\tNUMBER_OF_MEMBERS",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AIA_CARESOURCE_POLICY_DETAILS_APP_PROD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -2876,180 +2907,6 @@
 			"properties": {
 				"linkedServiceName": {
 					"referenceName": "e2eis_APP_PROD",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "Policy_Seq_Number",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "Agency_Code",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Agent_Code",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Agent_Last",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Agent_First",
-						"type": "nvarchar"
-					},
-					{
-						"name": "FB_UID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Member_Contract_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Comp_Amount",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Flat_Rate",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Member_Count",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Percent_Of_Prem",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Prem_Paid_Amt",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Comp_Type",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Event_Type",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Initial_Payment_Date",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Owning_Agency_AOR_Effective_Date",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Accounting_Date",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Compensation_Date",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Original_Effective_Date",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Benefit_Effective_Date",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Cancel_Date",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Product_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Product_Type",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Product_Tier_Metal_Level",
-						"type": "nvarchar"
-					},
-					{
-						"name": "County_Name",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Bonus_County_Indicator",
-						"type": "nvarchar"
-					},
-					{
-						"name": "App_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Exchange_Ind",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Subscriber_Last",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Subscriber_First",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Subscriber_Middle",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Coverage_From_Date",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Coverage_To_Date",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Record Load Date",
-						"type": "date"
-					},
-					{
-						"name": "Record Loaded By",
-						"type": "varchar"
-					},
-					{
-						"name": "Record Data Source",
-						"type": "varchar"
-					},
-					{
-						"name": "Record Flag Status",
-						"type": "char"
-					},
-					{
-						"name": "Transaction_Id",
-						"type": "bigint",
-						"precision": 19
-					}
-				],
-				"typeProperties": {
-					"schema": "AIA_102",
-					"table": "AIA_Comp_U13_File_Data_Temp_FB"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AIA_Comp_U13_File_Data_Temp_FB_PROD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServere2eis_PROD",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
