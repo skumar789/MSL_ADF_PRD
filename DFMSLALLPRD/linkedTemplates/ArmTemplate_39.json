@@ -337,7 +337,14 @@
 						"type": "Copy",
 						"state": "Inactive",
 						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [],
+						"dependsOn": [
+							{
+								"activity": "AIA_BOB_WEEKLY_HISTORY_BACKUP_DATA_LOCKED",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
 						"policy": {
 							"timeout": "0.12:00:00",
 							"retry": 0,
@@ -4291,6 +4298,772 @@
 								"parameters": {}
 							}
 						]
+					},
+					{
+						"name": "AIA_BOB_WEEKLY_HISTORY_BACKUP_DATA_LOCKED",
+						"description": "STEP 5 Run for Previous week backup data locks every week before BOB publish",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "SftpReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false,
+									"disableChunking": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "SqlServerSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "E2EIS_SEQ_NUMBER",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "E2EIS_SEQ_NUMBER",
+											"type": "Int64",
+											"physicalType": "bigint"
+										}
+									},
+									{
+										"source": {
+											"name": "CARRIER",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "CARRIER",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "OWNING_AGENT_OF_RECORD",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "OWNING_AGENT_OF_RECORD",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "ASSIGNED_AGENT_NUMBER",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "ASSIGNED_AGENT_NUMBER",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "BROKER_START_DATE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "BROKER_START_DATE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "BROKER_END_DATE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "BROKER_END_DATE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PRODUCT_TYPE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PRODUCT_TYPE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PRODUCT_DESCRIPTION",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PRODUCT_DESCRIPTION",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "IMS_TRANSACTION_ID",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "IMS_TRANSACTION_ID",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "POLICY_STATUS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "POLICY_STATUS",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "POLICY_ID",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "POLICY_ID",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "GROUP_NAME",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "GROUP_NAME",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "MEMBER_COUNT",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "MEMBER_COUNT",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "ON/OFF_EXCHANGE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "ON/OFF_EXCHANGE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "EXCHANGE_SUBSCRIBER_ID",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "EXCHANGE_SUBSCRIBER_ID",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "COVERAGE_TYPE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "COVERAGE_TYPE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "SUBSCRIBER_ORIGINAL_EFFECTIVE_DATE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "SUBSCRIBER_ORIGINAL_EFFECTIVE_DATE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "COVERAGE_START__DATE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "COVERAGE_START_DATE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "COVERAGE_END_DATE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "COVERAGE_END_DATE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PAID_THROUGH_DATE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PAID_THROUGH_DATE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "SUBSCRIBER_FIRST_NAME",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "SUBSCRIBER_FIRST_NAME",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "SUBSCRIBER_MIDDLE_NAME",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "SUBSCRIBER_MIDDLE_NAME",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "SUBSCRIBER_LAST_NAME",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "SUBSCRIBER_LAST_NAME",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "SUBSCRIBER_FULL_NAME",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "SUBSCRIBER_FULL_NAME",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "SUBSCRIBER_DOB",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "SUBSCRIBER_DOB",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "SUBSCRIBER_EMAIL",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "SUBSCRIBER_EMAIL",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "ADDRESS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "ADDRESS",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "ADDRESS_2",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "ADDRESS_2",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "ZIP_CODE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "ZIP_CODE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CITY",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "CITY",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "STATE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "STATE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "COUNTY",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "COUNTY",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "APP_SUBMIT_DATE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "APP_SUBMIT_DATE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "MEMBER_PHONE_NUMBER_1",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "MEMBER_PHONE_NUMBER_1",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "MEMBER_PHONE_NUMBER_2",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "MEMBER_PHONE_NUMBER_2",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "COMPENSATION_TYPE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "COMPENSATION_TYPE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "COMPENSATION_PERIOD",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "COMPENSATION_PERIOD",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "COMPENSATION_AMOUNT",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "COMPENSATION_AMOUNT",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PAYEE_NAME",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PAYEE_NAME",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "MAIN_UPLINE_AGENT",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "MAIN_UPLINE_AGENT",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "GROUP_TEAM_SALES",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "GROUP_TEAM_SALES",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "TRANSITION_DATE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TRANSITION_DATE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "ASSIGNED_AGENT_NAME",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "ASSIGNED_AGENT_NAME",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "POLICY_ADDED_DATE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "POLICY_ADDED_DATE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "POLICY_REMOVED_DATE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "POLICY_REMOVED_DATE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "POLICY_CANCELLED_DATE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "POLICY_CANCELLED_DATE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "POLICY_REACTIVATION_DATE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "POLICY_REACTIVATION_DATE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "POLICY_RETENTION_DATE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "POLICY_RETENTION_DATE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "ADDS_MEMBER_COUNT",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "ADDS_MEMBER_COUNT",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CANCELS_MEMBER_COUNT",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "CANCELS_MEMBER_COUNT",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "ORIGINAL_POLICY_STATUS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "ORIGINAL_POLICY_STATUS",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "ACTIVITY_FLAG",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "ACTIVITY_FLAG",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PERIOD_START_DATE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Period_Start_date",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PERIOD_END_DATE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Period_End_date",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PERIOD_NAME",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Period_Name",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PERIOD_DESCRIPTION",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Period_Description",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "BILL_STATUS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Bill_Status",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "AGENCY_SUBSCRIBER_ORIG_EFFDATE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "AGENCY_SUBSCRIBER_ORIG_EFFDATE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Comments",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "COMMENTS",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "AIA_BOB_ALL_AGENCY_ALL_POLICY_DAY2_UPDATE_PRD",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "AIA_BOOK_OF_BUSSINESS_ALL_CARRIERS_OOS_KPI_PRD",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
 					}
 				],
 				"policy": {
@@ -4616,8 +5389,6 @@
 						"name": "AIA_AMBETTER_ACTIVE_POLICY_DETAILS",
 						"description": "STEP_6_ WRE_1",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_AETNA_NEW_ACTIVE_POLICY_DETAILS",
@@ -4971,8 +5742,6 @@
 						"name": "AIA_ANTHEM_ACTIVE_POLICY_DETAILS",
 						"description": "STEP_6_ WRE_1",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_AMBETTER_ACTIVE_POLICY_DETAILS",
@@ -5362,8 +6131,6 @@
 						"name": "AIA_BCBSTX_MAIN_POLICY_DETAILS",
 						"description": "STEP_6_ WRE_1",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_ANTHEM_ACTIVE_POLICY_DETAILS",
@@ -5753,8 +6520,6 @@
 						"name": "AIA_CARESOURCE_POLICY_DETAILS",
 						"description": "STEP_6_ WRE_1",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_BCBSTX_MAIN_POLICY_DETAILS",
@@ -6499,8 +7264,6 @@
 						"name": "AIA_MOLINA_ACTIVE_POLICY_DETAILS",
 						"description": "STEP_6_WRE_1",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_CIGNA_ACTIVE_POLICY_DETAILS",
@@ -6926,8 +7689,6 @@
 						"name": "AIA_OSCAR_POLICY_DETAILS",
 						"description": "STEP_6_WRE_1",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_MOLINA_ACTIVE_POLICY_DETAILS",
@@ -7233,8 +7994,6 @@
 						"name": "AIA_O65_ALIGNED_ACCOUNTS_STG",
 						"description": "AIA FB WEEKLY FILE ",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_U65_RENEWAL_LIST_STG",
@@ -7792,8 +8551,6 @@
 						"name": "AIA_U65_ALIGNED_ACCOUNTS_STG",
 						"description": "AIA FB WEEKLY FILE ",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_O65_ALIGNED_ACCOUNTS_STG",
@@ -8981,8 +9738,6 @@
 						"name": "AIA_ALL_CARRIERS_IMS_TRANSACTION_ID_ULTIMATE_TRUTH",
 						"description": "ULIMATE_TRUTH_OOS_STEP_6_WRE_1",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_AGENCY_ANNUAL_RATE_DETAILS_HISTORY_APP_PROD_copy1",
@@ -9203,8 +9958,6 @@
 					{
 						"name": "AIA_AGENCY_PAYEE_DETAILS",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_ALL_CARRIERS_STATEMENT_DETAILS",
@@ -10453,8 +11206,6 @@
 						"name": "AIA_U65_RENEWAL_LIST_STG",
 						"description": "AIA FB WEEKLY FILE ",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_U65_EASY_RENEWAL_STG",
@@ -10796,8 +11547,6 @@
 						"name": "AIA_U65_EASY_RENEWAL_STG",
 						"description": "AIA FB WEEKLY FILE ",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_U65_DELINQUENCY_STG",
@@ -11583,8 +12332,6 @@
 						"name": "AIA_U65_DELINQUENCY_STG",
 						"description": "AIA FB WEEKLY FILE ",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_O65_APPLICATION_TRACKER_STG",
@@ -12094,8 +12841,6 @@
 						"name": "AIA_O65_APPLICATION_TRACKER_STG",
 						"description": "AIA FB WEEKLY FILE ",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_U65_APPLICATION_TRACKER_STG",
@@ -12413,8 +13158,6 @@
 						"name": "AIA_U65_APPLICATION_TRACKER_STG",
 						"description": "AIA FB WEEKLY FILE ",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_COMMISSION_HISTORY_OOS",
@@ -12948,8 +13691,6 @@
 						"name": "AIA_AGENCY_PAYEE_DETAILS_HISTORY_APP_PROD",
 						"description": "AIA PAYEE DETAILS TO HISTORY APP PROD",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_AGENCY_PAYEE_DETAILS",
@@ -18417,8 +19158,6 @@
 						"name": "AIA_ALL_CARRIER_BENAVEST_WEEKLY_COMMISSION",
 						"description": "BANAVEST BOB",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_BENAVEST_BOB_WEEKLY_DETAILS",
@@ -18737,8 +19476,6 @@
 						"name": "AIA_ALL_CARRIERS_IMS_TRANSACTION_ID_ULTIMATE_TRUTH_FB",
 						"description": "AIA ULTIMATE TRUTH FB",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_ALL_CARRIERS_IMS_TRANSACTION_ID_ULTIMATE_TRUTH",
@@ -25349,8 +26086,6 @@
 					{
 						"name": "AIA_FHCP_WEEKLY_FEED_APP_PROD",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "AIA_UNITED_HEALTH_CARE_POLICY_DETAILS",
