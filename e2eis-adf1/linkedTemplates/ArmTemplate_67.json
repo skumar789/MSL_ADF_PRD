@@ -13,6 +13,37 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/SIM_Aetna_Commission_Feed_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "SIM_Aetna_Commission_Feed_PRD.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/ SIM_COMMISSION_2023"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Selling agent last name\tSelling agent first name\tSelling agent NPN\tProducer comp address\tProducer location code\tGeneral agency name\tCustomer UID\tCustomer name\tCustomer effective date\tCustomer contract state\tSubscriber month\tTotal subscriber\tGross compensation\tTax withholding\tNet compensation\tScale name/adjustment description\tCheck run date\tOn exchange\tCarrier name\tFIle_Record_Birth_Date",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SIM_Aetna_Main_Weekly_Feed_DEV')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -968,37 +999,6 @@
 					"schema": "SIM_103",
 					"table": "SIM_BCBS_IL_AHM_COMMISSION_DETAILS"
 				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_BCBS_IL_AHM_Commission_Feed_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp_connection_ALL_FEED",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "SIM_BCBS IL_AHM_Commission_Feed_PRD.txt",
-						"folderPath": "/MSL_Cloud_Prd/FromAgency/ SIM_COMMISSION_2023"
-					},
-					"columnDelimiter": "\t",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "Client Key\tCalc Method\tCreditProducer Type\tProducer  Name\tLine of Business\tGroup\tContracts/Members\tSubscriber\tGroup Subname\tPayment Type\tCollection Amount\tPaid To Date\tEffective Date\tMonth Policy\tProduct\tSplit Indicator\tSplit Percentage\tCommission Rate\tCommission Paid\tService Rate\tService Fee\tSubProducer  Number\tFile_Record_Birth_date",
-						"type": "String"
-					}
-				]
 			},
 			"dependsOn": []
 		}

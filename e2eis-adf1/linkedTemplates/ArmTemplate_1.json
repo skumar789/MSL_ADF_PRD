@@ -7,9 +7,9 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "e2eis-adf1"
 		},
-		"SqlServer_mslbcpprd_password": {
+		"SqlServer_msluat_connectionString": {
 			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'SqlServer_mslbcpprd'"
+			"metadata": "Secure string for 'connectionString' of 'SqlServer_msluat'"
 		},
 		"ls_logging store_connectionString": {
 			"type": "secureString",
@@ -18,18 +18,6 @@
 		"sftp_outgoing_file_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'sftp_outgoing_file'"
-		},
-		"SqlServer_mslbcpprd_properties_typeProperties_server": {
-			"type": "string",
-			"defaultValue": "dbserver-e2eis-prod.database.windows.net"
-		},
-		"SqlServer_mslbcpprd_properties_typeProperties_database": {
-			"type": "string",
-			"defaultValue": "E2EIS_PROD_BCP"
-		},
-		"SqlServer_mslbcpprd_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "MSLPRD"
 		},
 		"sftp_outgoing_file_properties_typeProperties_host": {
 			"type": "string",
@@ -45,24 +33,15 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/SqlServer_mslbcpprd')]",
+			"name": "[concat(parameters('factoryName'), '/SqlServer_msluat')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"description": "This will be use for prd.msusportal.com",
+				"description": "This will be used to connect with UAT database.",
 				"annotations": [],
 				"type": "SqlServer",
 				"typeProperties": {
-					"server": "[parameters('SqlServer_mslbcpprd_properties_typeProperties_server')]",
-					"database": "[parameters('SqlServer_mslbcpprd_properties_typeProperties_database')]",
-					"encrypt": "optional",
-					"trustServerCertificate": false,
-					"authenticationType": "SQL",
-					"userName": "[parameters('SqlServer_mslbcpprd_properties_typeProperties_userName')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('SqlServer_mslbcpprd_password')]"
-					}
+					"connectionString": "[parameters('SqlServer_msluat_connectionString')]"
 				}
 			},
 			"dependsOn": []

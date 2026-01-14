@@ -13,6 +13,37 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/MIA_MANUAL_ADJUSTMENTS_FEED_BLUECHIP_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "MIA_MANUAL_ADJUSTMENTS_FEED_BLUECHIP_UAT.txt",
+						"folderPath": "/MSL_Cloud_Uat/FromAgency/MIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "COMP_PERIOD\tACTION\tFREQUENCY\tCONTRACT ID_OR_GROUP NUMBER\tPRODUCT_ID\tCARRIER_COMP_TYPE\tADJUSTMENT_START_DATE\tADJUSTMENT_END_DATE\tACCOUNTING_START_DATE\tACCOUNTING_END_DATE\tCOMMISSION_STATEMENT_AGENT_CODE\tWRITING_AGENT_CODE\tPAYEE_AGENT_CODE\tPAYMENT\tCOMMENTS\tCOMPENSATION_DATE",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/MIA_MANUAL_ADJUSTMENTS_MONTHLY_DETAILS_DEV')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -2217,95 +2248,6 @@
 						"type": "String"
 					}
 				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/MSL_ADVANCES_DETAILS_DEV')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_msldev",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "PAYEE_ID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "PAYEE_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "DATE_PAID",
-						"type": "date"
-					},
-					{
-						"name": "FOR_PERIOD",
-						"type": "varchar"
-					},
-					{
-						"name": "ADVANCE_USED",
-						"type": "decimal",
-						"precision": 18,
-						"scale": 2
-					},
-					{
-						"name": "ADVANCE_AMOUNT",
-						"type": "decimal",
-						"precision": 18,
-						"scale": 2
-					},
-					{
-						"name": "CURRENT_PERIOD",
-						"type": "varchar"
-					},
-					{
-						"name": "ADVANCE_REMAINING",
-						"type": "decimal",
-						"precision": 18,
-						"scale": 2
-					},
-					{
-						"name": "RECORD_ADD_BY",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "MSL_998",
-					"table": "MSL_ADVANCES_DETAILS"
-				}
 			},
 			"dependsOn": []
 		}
