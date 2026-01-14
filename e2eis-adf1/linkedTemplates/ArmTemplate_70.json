@@ -13,6 +13,37 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/SIM_Ambetter_Weekly_Feed_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "SIM_Ambetter_Weekly_Feed_DEV.txt",
+						"folderPath": "/MSL_Cloud_Dev/FromAgency/SIM"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "BROKER_NAME\tBROKER_NPN\tPOLICY_NUMBER\tINUSRED_FIRST_NAME\tINSURED_LAST_NAME\tBROKER_EFFECTIVE_DATE\tBROKER_TERM_DATE\tPOLICY_EFFECTIVE_DATE\tPOLICY_TERM_DATE\tPAID_THROUGH_DATE\tCOUNTY\tSTATE\tON/OFF EXCHANGE\tEXCHANGE_SUBSCRIBER_ID\tMEMBER_PHONE_NUMBER\tMEMBER_EMAIL\tMEMBER_RESPONSIBILITY\tMEMBER_DATE_OF_BIRTH\tAUTOPAY\tELIGIBLE_FOR_COMMISSION\tNUMBER_OF_MEMBERS\tPAYABLE_AGENT\tAR_POLICY_TYPE\tSTATUS",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SIM_Ambetter_Weekly_Feed_PRD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1385,37 +1416,6 @@
 				"schema": [
 					{
 						"name": "Client Key\tCalc Method\tCreditProducer Type\tProducer  Name\tLine of Business\tGroup\tContracts/Members\tSubscriber\tGroup Subname\tPayment Type\tCollection Amount\tPaid To Date\tEffective Date\tMonth Policy\tProduct\tSplit Indicator\tSplit Percentage\tCommission Rate\tCommission Paid\tService Rate\tService Fee\tSubProducer  Number\tFile_Record_Birth_date",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_BCBS_IL_MHA_WEEKLY_FEED_UAT')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp_connection_ALL_FEED",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "SIM_BCBS_IL_MHA_WEEKLY_FEED_UAT.txt",
-						"folderPath": "/MSL_Cloud_Uat/FromAgency/SIM"
-					},
-					"columnDelimiter": "\t",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "LAST_NAME\tFIRST_NAME\tDATE_OF_BIRTH\tRECORD_TYPE\tE-APP_NUMBER\tEXCHANGE_ID\tCLIENT_APP_ID\tMEMBER_COUNT\tGROUP_NUMBER\tACCOUNT_NUMBER\tSTATUS\tPRODUCT_TYPE\tPLAN_NAME\tSOURCE\tAPTC\tRENEWAL_INDICATOR\tCOVERAGE_EFFECTIVE_DATE\tPAID_TO_DATE\tTERMED\tPRODUCER_NAME\tNINE_DIGIT_PRODUCER_NUMBER\tCLIENT_ADDRESS_1\tCLIENT_ADDRESS_2\tCITY\tSTATE\tZIP_CODE\tCLIENT'S_PRIMARY_PHONE\tEMAIL\tFILE_RECORD_BIRTH_DATE",
 						"type": "String"
 					}
 				]

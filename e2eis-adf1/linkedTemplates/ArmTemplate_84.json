@@ -13,6 +13,37 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/SIM_FHCP_DELINQUENT_WEEKLY_FEED_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "SIM_FHCP_DELINQUENCY_WEEKLY_FEED_UAT.txt",
+						"folderPath": "/MSL_Cloud_Uat/FromAgency/SIM"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "SUBSCRIBER_ID\tISSUER_SUBSCRIBER_ID\tLAST_NAME\tFIRST_NAME\tPHONE\tEMAIL\tBROKER_LAST_NAME\tBROKER_FIRST_NAME\tAGENCY\tAMOUNT\tRECORD_TYPE\tSTATUS\tAPTC_STATUS\tBILL_STATUS\tTERM_DATE\tPAID_THROUGH_DATE\tGRACE_PERIOD_START\tGRACE_PERIOD_CHECK\tGRACE_PERIOD_END\tAPPLICATION_TYPE\tEFFECTIVE_DATE\tRENEWAL_STATUS\tFILE_RECORD_BIRTH_DATE",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SIM_FHCP_DELIQUENCY_WEEKLY_DETAILS_PROD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -2015,203 +2046,6 @@
 			"properties": {
 				"linkedServiceName": {
 					"referenceName": "SqlServer_msldev",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "AGENCY_IDENTIFIER",
-						"type": "nvarchar"
-					},
-					{
-						"name": "AGENT_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "AGENT_NPN",
-						"type": "nvarchar"
-					},
-					{
-						"name": "AGENT_FULL_NAME",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CONTRACT_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "SUBSCRIBER_FIRST_NAME",
-						"type": "nvarchar"
-					},
-					{
-						"name": "SUBSCRIBER_LAST_NAME",
-						"type": "nvarchar"
-					},
-					{
-						"name": "FB_UID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "PRODUCT_TYPE",
-						"type": "nvarchar"
-					},
-					{
-						"name": "DAYS_DELINQUENT",
-						"type": "nvarchar"
-					},
-					{
-						"name": "APTC_EXPIRED_DAYS",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ACCOUNT_BALANCE",
-						"type": "nvarchar"
-					},
-					{
-						"name": "MEMBER_EMAIL_ADDRESS",
-						"type": "nvarchar"
-					},
-					{
-						"name": "APTC_FLAG",
-						"type": "nvarchar"
-					},
-					{
-						"name": "MASTER_AGENCY_NAME",
-						"type": "nvarchar"
-					},
-					{
-						"name": "AGENCY_NAME",
-						"type": "nvarchar"
-					},
-					{
-						"name": "PLAN_NAME",
-						"type": "nvarchar"
-					},
-					{
-						"name": "PRODUCT_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "PRODUCT",
-						"type": "nvarchar"
-					},
-					{
-						"name": "SUBSCRIBER_DATE_OF_BIRTH",
-						"type": "nvarchar"
-					},
-					{
-						"name": "COVERAGE_EFFECTIVE_DATE",
-						"type": "nvarchar"
-					},
-					{
-						"name": "COVERAGE_EXPIRATION_DATE",
-						"type": "nvarchar"
-					},
-					{
-						"name": "EXCHANGE_INDICATOR",
-						"type": "nvarchar"
-					},
-					{
-						"name": "AGENCY_TYPE",
-						"type": "nvarchar"
-					},
-					{
-						"name": "APTC_EFFECTIVE_DATE",
-						"type": "nvarchar"
-					},
-					{
-						"name": "APTC_END_DATE",
-						"type": "nvarchar"
-					},
-					{
-						"name": "DELINQUENT_DAYS",
-						"type": "nvarchar"
-					},
-					{
-						"name": "APTC_AMOUNT",
-						"type": "nvarchar"
-					},
-					{
-						"name": "PAID_THRU_DATE",
-						"type": "nvarchar"
-					},
-					{
-						"name": "MEMBER_PHONE_NUMBER",
-						"type": "nvarchar"
-					},
-					{
-						"name": "SUBSCRIBER_MOBILE_PHONE_NUMBER",
-						"type": "nvarchar"
-					},
-					{
-						"name": "SUBSCRIBER_CORRESPONDENCE_PHONE_NUMBER",
-						"type": "nvarchar"
-					},
-					{
-						"name": "APO_STATUS",
-						"type": "nvarchar"
-					},
-					{
-						"name": "APO_FAILURE_REASON",
-						"type": "nvarchar"
-					},
-					{
-						"name": "LATEST_PAYMENT_HISTORY_1",
-						"type": "nvarchar"
-					},
-					{
-						"name": "LATEST_PAYMENT_HISTORY_2",
-						"type": "nvarchar"
-					},
-					{
-						"name": "LATEST_PAYMENT_HISTORY_3",
-						"type": "nvarchar"
-					},
-					{
-						"name": "FILE_RECORD_BIRTH_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "SIM_103",
-					"table": "SIM_FLORIDABLUE_WEEKLY_DELINQENT_DETAILS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_FLORIDABLUE_DELINQENT_WEEKLY_DETAILS_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_mslprd",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
