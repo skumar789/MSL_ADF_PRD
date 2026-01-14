@@ -13,12 +13,12 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/MIA_ALL_SALES_HISTORICAL_DETAILS_FB_UAT')]",
+			"name": "[concat(parameters('factoryName'), '/E2EIS_DEMO_ALL_SALES_DETAILS_DEV')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "SqlServer_msluat",
+					"referenceName": "SqlServer_msldev",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
@@ -30,15 +30,43 @@
 						"precision": 19
 					},
 					{
-						"name": "PAY_TO",
+						"name": "PAYEE_AOR",
 						"type": "varchar"
 					},
 					{
-						"name": "AGENT_NUMBER",
+						"name": "PAYEE_AORNAME",
 						"type": "varchar"
 					},
 					{
-						"name": "AGENCY_CODE",
+						"name": "WRITING_AGENT_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "CARRIER",
+						"type": "varchar"
+					},
+					{
+						"name": "PERIOD_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "ACCOUNTING_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_COMP_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_COMP_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "PRIOR_COMP_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "SUBSCRIBER_NAME",
 						"type": "varchar"
 					},
 					{
@@ -46,63 +74,63 @@
 						"type": "varchar"
 					},
 					{
-						"name": "PLAN_DESCRIPTION",
-						"type": "varchar"
-					},
-					{
 						"name": "MEMBER_COUNT",
 						"type": "varchar"
 					},
 					{
-						"name": "SUBSCRIBER_NAME",
+						"name": "CONTRACT_COUNT",
 						"type": "varchar"
 					},
 					{
-						"name": "CUID",
+						"name": "FB_CONTRACT_ID",
 						"type": "varchar"
 					},
 					{
-						"name": "APP_ID",
+						"name": "ORIGINAL_EFFECTIVE_DATE",
 						"type": "varchar"
 					},
 					{
-						"name": "CONTRACT",
+						"name": "COVERAGE_FROM_DATE",
 						"type": "varchar"
 					},
 					{
-						"name": "EFF_DATE",
-						"type": "date"
+						"name": "COVERAGE_TO_DATE",
+						"type": "varchar"
 					},
 					{
 						"name": "CANCEL_DATE",
 						"type": "varchar"
 					},
 					{
-						"name": "ANN_PREM",
+						"name": "COUNTY",
 						"type": "varchar"
 					},
 					{
-						"name": "TRNX_TYPE",
+						"name": "AGENT_NUMBER",
 						"type": "varchar"
 					},
 					{
-						"name": "AGENCY_FLAT_RATE",
+						"name": "AGENT_NAME",
 						"type": "varchar"
 					},
 					{
-						"name": "AGENCY_COMMISSION",
+						"name": "FB_PAYMENT_AMOUNT",
 						"type": "varchar"
 					},
 					{
-						"name": "AGENT_CONTRACT_RATE",
+						"name": "FREQUENCY",
 						"type": "varchar"
 					},
 					{
-						"name": "AGENT_CALC_RATE",
+						"name": "FILE_TYPE",
 						"type": "varchar"
 					},
 					{
-						"name": "AGENT_STMT_TOTAL",
+						"name": "COMMISSION_RATE",
+						"type": "varchar"
+					},
+					{
+						"name": "RATE_TYPE",
 						"type": "varchar"
 					},
 					{
@@ -110,63 +138,88 @@
 						"type": "varchar"
 					},
 					{
-						"name": "CURRENT_YR_RSRV_HELD",
+						"name": "COMMISSION_TYPE",
 						"type": "varchar"
 					},
 					{
-						"name": "CURRENT_YR_RSRV_PAYOUT",
+						"name": "WRITING_AGENT_ROLE",
 						"type": "varchar"
 					},
 					{
-						"name": "PRIOR_YR_RSRV_HELD",
+						"name": "WRITING_AGENT_PAYROLL_ID",
 						"type": "varchar"
 					},
 					{
-						"name": "PRIOR_YR_RSRV_PAYOUT",
+						"name": "MANUAL_ADJ_COMMENTS",
 						"type": "varchar"
 					},
 					{
-						"name": "AGENT_LIAB",
+						"name": "FB_COMMISSION_FLAT_RATE",
 						"type": "varchar"
 					},
 					{
-						"name": "BEFORE_PRIOR_YR_RSRV_HELD",
+						"name": "WEEK",
 						"type": "varchar"
 					},
 					{
-						"name": "BEFORE_PRIOR_YR_RSRV_PAYOUT",
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					},
+					{
+						"name": "STAGE_FOR_NEXT_CYCLE_PROCESSING",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "MSL_998",
+					"table": "MSL_ALL_SALES_DETAILS_FB"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/E2EIS_DEMO_ALL_SALES_DETAILS_FB_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_APP_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "PAYEE_AOR",
 						"type": "varchar"
 					},
 					{
-						"name": "OVERRIDE_COMMISSION",
+						"name": "PAYEE_AORNAME",
 						"type": "varchar"
 					},
 					{
-						"name": "CURRENT_YR_OVERRIDE_RSRV_HELD",
-						"type": "varchar"
-					},
-					{
-						"name": "CURRENT_YR_OVERRIDE_RSRV_PAYOUT",
-						"type": "varchar"
-					},
-					{
-						"name": "PRIOR_YR_OVERRIDE_RSRV_HELD",
-						"type": "varchar"
-					},
-					{
-						"name": "PRIOR_YR_OVERRIDE_RSRV_PAYOUT",
-						"type": "varchar"
-					},
-					{
-						"name": "BEFORE_PRIOR_OVERRIDE_YR_RSRV_HELD",
-						"type": "varchar"
-					},
-					{
-						"name": "BEFORE_PRIOR_YR_OVERRIDE_RSRV_PAYOUT",
-						"type": "varchar"
-					},
-					{
-						"name": "MEDICARE_ADJ",
+						"name": "WRITING_AGENT_NAME",
 						"type": "varchar"
 					},
 					{
@@ -174,287 +227,124 @@
 						"type": "varchar"
 					},
 					{
-						"name": "COMP_TYPE",
+						"name": "PERIOD_NAME",
 						"type": "varchar"
 					},
 					{
-						"name": "AMF_COMP_TYPE",
+						"name": "ACCOUNTING_DATE",
 						"type": "varchar"
 					},
 					{
-						"name": "IS_QUALIFIED",
+						"name": "FB_COMP_TYPE",
 						"type": "varchar"
 					},
 					{
-						"name": "PERIOD",
+						"name": "AGENCY_COMP_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "PRIOR_COMP_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "SUBSCRIBER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCT_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "MEMBER_COUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "CONTRACT_COUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_CONTRACT_ID",
 						"type": "varchar"
 					},
 					{
 						"name": "ORIGINAL_EFFECTIVE_DATE",
-						"type": "date"
-					},
-					{
-						"name": "BENEFIT_EFFECTIVE_DATE",
-						"type": "date"
-					},
-					{
-						"name": "TRX_ORIGINATION",
 						"type": "varchar"
 					},
 					{
-						"name": "EXCLUDE_FROM_STATEMENT",
+						"name": "COVERAGE_FROM_DATE",
 						"type": "varchar"
 					},
 					{
-						"name": "PROD_TIER",
+						"name": "COVERAGE_TO_DATE",
 						"type": "varchar"
 					},
 					{
-						"name": "REGION",
+						"name": "CANCEL_DATE",
 						"type": "varchar"
 					},
 					{
-						"name": "AGENT_ADMN_FEE",
+						"name": "COUNTY",
 						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ADMN_FEE",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_CREDIT",
-						"type": "varchar"
-					},
-					{
-						"name": "OVERRIDE",
-						"type": "varchar"
-					},
-					{
-						"name": "WRITING_AGENT_OVR",
-						"type": "varchar"
-					},
-					{
-						"name": "CMS_DATE",
-						"type": "date"
-					},
-					{
-						"name": "CYCLE_YEAR",
-						"type": "varchar"
-					},
-					{
-						"name": "ADV_STMT_PERIOD",
-						"type": "varchar"
-					},
-					{
-						"name": "REQUIRES_REVIEW",
-						"type": "varchar"
-					},
-					{
-						"name": "ADJUSTMENT_DESCRIPTION",
-						"type": "varchar"
-					},
-					{
-						"name": "HOLD",
-						"type": "varchar"
-					},
-					{
-						"name": "HOLD_NOTE",
-						"type": "varchar"
-					},
-					{
-						"name": "RELEASE_DATE",
-						"type": "date"
-					},
-					{
-						"name": "AGENT_TITLE",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_CONTRACT_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_STATUS",
-						"type": "varchar"
-					},
-					{
-						"name": "SALES_REGION",
-						"type": "varchar"
-					},
-					{
-						"name": "CARRIER_AOR",
-						"type": "varchar"
-					},
-					{
-						"name": "CARRIER_AGENT_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_COMPANY",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_COMPANY_EIN",
-						"type": "varchar"
-					},
-					{
-						"name": "PAYROLL_EMP_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "ICTS_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "ICT_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "CT_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "POLICY_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "CTAR_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "MIA_104",
-					"table": "MIA_ALL_SALES_HISTORICAL_DETAILS_FB"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/MIA_ALL_SALES_REPORT_BLUECHIP_UAT')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp_connection_ALL_FEED",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "MIA_ALL_SALES_REPORT_BLUECHIP_UAT.txt",
-						"folderPath": "/MSL_Cloud_Uat/FromAgency/MIA"
-					},
-					"columnDelimiter": "\t",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "PAY_TO\tAGENT_NUMBER\tAGENCY_CODE\tPRODUCT_TYPE\tPLAN_DESCRIPTION\tMEMBER_COUNT\tSUBSCRIBER_NAME\tCUID\tAPP_ID\tCONTRACT\tEFF_DT\tCANC_DT\tANN_PREM\tTRNX_TYPE\tAGENCY_FLAT_RATE\tAGENCY_COMMISSION\tAGENT_CONTRACT_RATE\tAGENT_CALC_RATE\tAGENT_STMT_TOTAL\tAGENT_COMMISSION\tCURRENT_YR_RSRV_HELD\tCURRENT_YR_RSRV_PAYOUT\tPRIOR_YR_RSRV_HELD\tPRIOR_YR_RSRV_PAYOUT\tAGENT_LIAB\tBEFORE_PRIOR_YR_RSRV_HELD\tBEFORE_PRIOR_YR_RSRV_PAYOUT\tOVERRIDE_COMMISSION\tCURRENT_YR_OVERRIDE_RSRV_HELD\tCURRENT_YR_OVERRIDE_RSRV_PAYOUT\tPRIOR_YR_OVERRIDE_RSRV_HELD\tPRIOR_YR_OVERRIDE_RSRV_PAYOUT\tBEFORE_PRIOR_OVERRIDE_YR_RSRV_HELD\tBEFORE_PRIOR_YR_OVERRIDE_RSRV_PAYOUT\tMEDICARE_ADJ\tCARRIER\tCOMP_TYPE\tAMF_COMP_TYPE\tIS_QUALIFIED\tPERIOD\tORIGINAL_EFFECTIVE_DATE\tBENEFIT_EFFECTIVE_DATE\tTRX_ORIGINATION\tEXCLUDE_FROM_STATEMENT\tPROD_TIER\tREGION\tAGENT_ADMN_FEE\tAGENCY_ADMN_FEE\tAGENCY_CREDIT\tOVERRIDE\tWRITING_AGENT_OVR\tCMS_DATE\tCYCLE_YEAR\tADV_STMT_PERIOD\tREQUIRES_REVIEW\tADJUSTMENT_DESCRIPTION\tHOLD\tHOLD_NOTE\tRELEASE_DATE\tAGENT_TITLE\tAGENT_CONTRACT_TYPE\tAGENT_STATUS\tSALES_REGION\tCARRIER_AOR\tCARRIER_AGENT_NAME\tAGENT_COMPANY\tAGENT_COMPANY_EIN\tPAYROLL_EMP_ID\tICTS_ID\tICT_ID\tCT_ID\tPOLICY_ID\tCTAR_ID",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/MIA_ALL_SALES_REPORT_FB_UAT')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp_connection_ALL_FEED",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "MIA_ALL_SALES_REPORT_FB_UAT.txt",
-						"folderPath": "/MSL_Cloud_Uat/FromAgency/MIA"
-					},
-					"columnDelimiter": "\t",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "PAY_TO\tAGENT_NUMBER\tAGENCY_CODE\tPRODUCT_TYPE\tPLAN_DESCRIPTION\tMEMBER_COUNT\tSUBSCRIBER_NAME\tCUID\tAPP_ID\tCONTRACT\tEFF_DT\tCANC_DT\tANN_PREM\tTRNX_TYPE\tAGENCY_FLAT_RATE\tAGENCY_COMMISSION\tAGENT_CONTRACT_RATE\tAGENT_CALC_RATE\tAGENT_STMT_TOTAL\tAGENT_COMMISSION\tCURRENT_YR_RSRV_HELD\tCURRENT_YR_RSRV_PAYOUT\tPRIOR_YR_RSRV_HELD\tPRIOR_YR_RSRV_PAYOUT\tAGENT_LIAB\tBEFORE_PRIOR_YR_RSRV_HELD\tBEFORE_PRIOR_YR_RSRV_PAYOUT\tOVERRIDE_COMMISSION\tCURRENT_YR_OVERRIDE_RSRV_HELD\tCURRENT_YR_OVERRIDE_RSRV_PAYOUT\tPRIOR_YR_OVERRIDE_RSRV_HELD\tPRIOR_YR_OVERRIDE_RSRV_PAYOUT\tBEFORE_PRIOR_OVERRIDE_YR_RSRV_HELD\tBEFORE_PRIOR_YR_OVERRIDE_RSRV_PAYOUT\tMEDICARE_ADJ\tCARRIER\tCOMP_TYPE\tAMF_COMP_TYPE\tIS_QUALIFIED\tPERIOD\tORIGINAL_EFFECTIVE_DATE\tBENEFIT_EFFECTIVE_DATE\tTRX_ORIGINATION\tEXCLUDE_FROM_STATEMENT\tPROD_TIER\tREGION\tAGENT_ADMN_FEE\tAGENCY_ADMN_FEE\tAGENCY_CREDIT\tOVERRIDE\tWRITING_AGENT_OVR\tCMS_DATE\tCYCLE_YEAR\tADV_STMT_PERIOD\tREQUIRES_REVIEW\tADJUSTMENT_DESCRIPTION\tHOLD\tHOLD_NOTE\tRELEASE_DATE\tAGENT_TITLE\tAGENT_CONTRACT_TYPE\tAGENT_STATUS\tSALES_REGION\tCARRIER_AOR\tCARRIER_AGENT_NAME\tAGENT_COMPANY\tAGENT_COMPANY_EIN\tPAYROLL_EMP_ID\tICTS_ID\tICT_ID\tCT_ID\tPOLICY_ID\tCTAR_ID",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/MIA_AOR_CHANGES_FB_UAT')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_msluat",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "CARRIER",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CONTRACT_NUMBER",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CARRIER_AOR",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CARRIER_AGENT_NAME",
-						"type": "nvarchar"
-					},
-					{
-						"name": "PAY_TO",
-						"type": "nvarchar"
 					},
 					{
 						"name": "AGENT_NUMBER",
-						"type": "nvarchar"
+						"type": "varchar"
 					},
 					{
-						"name": "COMMENTS",
+						"name": "AGENT_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_PAYMENT_AMOUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "FREQUENCY",
+						"type": "varchar"
+					},
+					{
+						"name": "FILE_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "COMMISSION_RATE",
+						"type": "varchar"
+					},
+					{
+						"name": "RATE_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_COMMISSION",
+						"type": "varchar"
+					},
+					{
+						"name": "COMMISSION_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "WRITING_AGENT_ROLE",
+						"type": "varchar"
+					},
+					{
+						"name": "WRITING_AGENT_PAYROLL_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "MANUAL_ADJ_COMMENTS",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_COMMISSION_FLAT_RATE",
+						"type": "varchar"
+					},
+					{
+						"name": "WEEK",
 						"type": "varchar"
 					},
 					{
 						"name": "AGENCY_ID",
-						"type": "smallint",
-						"precision": 5
+						"type": "nvarchar"
 					},
 					{
 						"name": "RECORD_LOAD_DATE",
@@ -471,17 +361,21 @@
 					{
 						"name": "RECORD_FLAG_STATUS",
 						"type": "char"
+					},
+					{
+						"name": "STAGE_FOR_NEXT_CYCLE_PROCESSING",
+						"type": "varchar"
 					}
 				],
 				"typeProperties": {
-					"schema": "MIA_104",
-					"table": "MIA_AOR_CHANGES_FB"
+					"schema": "MSL_998",
+					"table": "MSL_ALL_SALES_DETAILS_FB"
 				}
 			},
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/MIA_AOR_CHANGES_FEED_FB_UAT')]",
+			"name": "[concat(parameters('factoryName'), '/E2EIS_DEMO_ALL_SALES_FEED_DEV')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -494,8 +388,8 @@
 				"typeProperties": {
 					"location": {
 						"type": "SftpLocation",
-						"fileName": "MIA_AOR_FB_CHANGES_FEED_UAT.txt",
-						"folderPath": "/MSL_Cloud_Uat/FromAgency/MIA"
+						"fileName": "E2EIS_DEMO_ALL_SALES_FEED_DEV.txt",
+						"folderPath": "/E2EIS_Cloud_Demo_Dev/E2EIS"
 					},
 					"columnDelimiter": "\t",
 					"escapeChar": "\\",
@@ -504,7 +398,7 @@
 				},
 				"schema": [
 					{
-						"name": "Carrier\tContractNo\tCarrier_AOR\tCarrier_Agent_Name\tPay_To\tAgent_Number\tComments",
+						"name": "PAYEE_AOR\tPAYEE_AORNAME\tWRITING_AGENT_NAME\tCARRIER\tPERIOD_NAME\tACCOUNTING_DATE\tFB_COMP_TYPE\tAGENCY_COMP_TYPE\tPRIOR_COMP_TYPE\tSUBSCRIBER_NAME\tPRODUCT_TYPE\tMEMBER_COUNT\tCONTRACT_COUNT\tPOLICY_ID\tORIGINAL_EFFECTIVE_DATE\tCOVERAGE_FROM_DATE\tCOVERAGE_TO_DATE\tCANCEL_DATE\tCOUNTY\tAGENT_NUMBER\tAGENT_NAME\tFB_PAYMENT_AMOUNT\tFREQUENCY\tFILE_TYPE\tCOMMISSION_RATE\tRATE_TYPE\tAGENT_COMMISSION\tCOMMISSION_TYPE\tWRITING_AGENT_ROLE\tWRITING_AGENT_PAYROLL_ID\tMANUAL_ADJ_COMMENTS\tFB_COMMISSION_FLAT_RATE\tWEEK",
 						"type": "String"
 					}
 				]
@@ -512,7 +406,131 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/MIA_BCBSNC_GROUP_DETAILS_PRD')]",
+			"name": "[concat(parameters('factoryName'), '/E2EIS_DEMO_FLORIDA_BOB_WEEKLY_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "E2EIS_DEMO_FLORIDA_BOB_FEED_DEV.txt",
+						"folderPath": "/E2EIS_Cloud_Demo_Dev/E2EIS"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "AGENCY_IDENTIFIER\tAGENT_ID\tAGENT_NPN\tAGENT_FULL_NAME\tPLAN_NAME\tPRODUCT\tCONTRACT_ID\tCONTRACT_MEMBER_COUNT\tMEMBER_RELATIONSHIP\tMEMBER_FIRST_NAME\tMEMBER_LAST_NAME\tMEMBER_DOB\tCOUNTY_NAME\tAGENT_CONTRACT_START_DATE\tAGENT_CONTRACT_TERM_DATE\tEXCHANGE_INDICATOR\tMEMBER_PHONE_NUMBER\tMEMBER_EMAIL_ADDRESS\tMEMBER_FB_UID\tMWS_REGISTRATION\tPRODUCT_TYPE\tAGENT_STATUS\tREINSTATEMENT_INDICATOR\tMEMBER_AGE_IN_INDICATOR\tMEMBER_AGE_OUT_INDICATOR\tTOTAL_REWARDS_EARNED\tTOTAL_REWARDS_APPLIED_TO_PREMIUM\tTOTAL_REWARDS_APPLIED_TO_GIFT_CARD\tMEMBER_WELLNESS_ELIGIBILITY\tMEMBER_PARTICIPATION_WELLNESS_PROGRAM\tMEMBER_SPECIAL_ELIGIBILITY\tMEMBER_SPECIAL_PARTICIPATION\tMASTER_AGENCY_NAME\tMASTER_AGENCY_ID\tPRODUCT_ID\tMEMBER_PROVIDER_NAME\tPROVIDER_GROUP\tPCP_ASSIGNMENT\tBEST_AVAILABLE_ADDRESS\tBEST_AVAILABLE_ADDRESS_LINE_2\tBEST_AVAILABLE_CITY_NAME\tBEST_AVAILABLE_STATE_NAME\tBEST_AVAILABLE_POSTAL_CODE\tCOUNTY_CODE\tFFM_REG_STATUS\tCANCELLATION_REASON_CODE\tCANCELLATION_REASON\tAPTC_EXPIRED_DAYS\tCOVERAGE_EFFECTIVE_DATE\tCOVERAGE_EXPIRATION_DATE\tMEMBER_ORIGINAL_EFFECTIVE_DATE\tMETAL_LEVEL\tCONTRACT_STATUS\tPREMIUM_AMOUNT\tSCHEDULED_PAYMENT_DATE\tAPTC_AMOUNT\tMEMBER_RESPONSIBILITY\tINCONSISTENCY_INDICATOR\tTOTAL_REWARDS_AVAILABLE_BALANCE\tCMS_CERT_STATUS\tONBOARDING_INDICATOR\tSOURCE_SYSTEM\tSEGMENT\tPOLICY_ADDED_DATE\tPOLICY_REMOVED_DATE\tPOLICY_CANCELLED_DATE\tPOLICY_REACTIVATION_DATE\tPOLICY_RETENTION_DATE\tADDS_MEMBER_COUNT\tCANCELS_MEMBER_COUNT\tORIGINAL_POLICY_STATUS\tACTIVITY_FLAG\tPERIOD_START_DATE\tPERIOD_END_DATE\tPERIOD_NAME\tPERIOD_DESCRIPTION\tBILL_STATUS\tFile_Record_Birth_date",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/E2EIS_DEMO_FLORIDA_BOB_WEEKLY_FEED_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "E2EIS_DEMO_FLORIDA_BOB_WEEKLY_FEED_DEV.txt",
+						"folderPath": "/E2EIS_Cloud_Demo_Dev/E2EIS"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "AGENCY_IDENTIFIER\tAGENT_ID\tAGENT_NPN\tAGENT_FULL_NAME\tPLAN_NAME\tPRODUCT\tCONTRACT_ID\tCONTRACT_MEMBER_COUNT\tMEMBER_RELATIONSHIP\tMEMBER_FIRST_NAME\tMEMBER_LAST_NAME\tMEMBER_DOB\tCOUNTY_NAME\tAGENT_CONTRACT_START_DATE\tAGENT_CONTRACT_TERM_DATE\tEXCHANGE_INDICATOR\tMEMBER_PHONE_NUMBER\tMEMBER_EMAIL_ADDRESS\tMEMBER_FB_UID\tMWS_REGISTRATION\tPRODUCT_TYPE\tAGENT_STATUS\tREINSTATEMENT_INDICATOR\tMEMBER_AGE_IN_INDICATOR\tMEMBER_AGE_OUT_INDICATOR\tTOTAL_REWARDS_EARNED\tTOTAL_REWARDS_APPLIED_TO_PREMIUM\tTOTAL_REWARDS_APPLIED_TO_GIFT_CARD\tMEMBER_WELLNESS_ELIGIBILITY\tMEMBER_PARTICIPATION_WELLNESS_PROGRAM\tMEMBER_SPECIAL_ELIGIBILITY\tMEMBER_SPECIAL_PARTICIPATION\tMASTER_AGENCY_NAME\tMASTER_AGENCY_ID\tPRODUCT_ID\tMEMBER_PROVIDER_NAME\tPROVIDER_GROUP\tPCP_ASSIGNMENT\tBEST_AVAILABLE_ADDRESS\tBEST_AVAILABLE_ADDRESS_LINE_2\tBEST_AVAILABLE_CITY_NAME\tBEST_AVAILABLE_STATE_NAME\tBEST_AVAILABLE_POSTAL_CODE\tCOUNTY_CODE\tFFM_REG_STATUS\tCANCELLATION_REASON_CODE\tCANCELLATION_REASON\tAPTC_EXPIRED_DAYS\tCOVERAGE_EFFECTIVE_DATE\tCOVERAGE_EXPIRATION_DATE\tMEMBER_ORIGINAL_EFFECTIVE_DATE\tMETAL_LEVEL\tCONTRACT_STATUS\tPREMIUM_AMOUNT\tSCHEDULED_PAYMENT_DATE\tAPTC_AMOUNT\tMEMBER_RESPONSIBILITY\tINCONSISTENCY_INDICATOR\tTOTAL_REWARDS_AVAILABLE_BALANCE\tCMS_CERT_STATUS\tONBOARDING_INDICATOR\tSOURCE_SYSTEM\tSEGMENT\tPOLICY_ADDED_DATE\tPOLICY_REMOVED_DATE\tPOLICY_CANCELLED_DATE\tPOLICY_REACTIVATION_DATE\tPOLICY_RETENTION_DATE\tADDS_MEMBER_COUNT\tCANCELS_MEMBER_COUNT\tORIGINAL_POLICY_STATUS\tACTIVITY_FLAG\tPERIOD_START_DATE\tPERIOD_END_DATE\tPERIOD_NAME\tPERIOD_DESCRIPTION\tBILL_STATUS\tFile_Record_Birth_date",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/E2EIS_DEMO_LEGACY_ALL_SALES_RECON_FEED_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "E2EIS_DEMO_LEGACY_ALL_SALES_RECON_FEED_DEV.txt",
+						"folderPath": "/E2EIS_Cloud_Demo_Dev/E2EIS"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "PAY_TO\tAGENT_NUMBER\tAGENCY_CODE\tPRODUCT_TYPE\tPLAN_DESCRIPTION\tMEMBER_COUNT\tSUBSCRIBER_NAME\tCU_ID\tAPP_ID\tCONTRACT\tEFF_DT\tCANC_DT\tANN_PREM\tTRNX_TYPE\tAGENCY_FLAT_RATE\tAGENCY_COMMISSION\tAGENT_CONTRACT_RATE\tAGENT_CALC_RATE\tAGENT_STMT_TOTAL\tAGENT_COMM\tCURRENT_YR_RSRV_HELD\tCURRENT_YR_RSRV_PAYOUT\tPRIOR_YR_RSRV_HELD\tPRIOR_YR_RSRV_PAYOUT\tAGENT_LIAB\tBEFORE_PRIOR_YR_RSRV_HELD\tBEFORE_PRIOR_YR_RSRV_PAYOUT\tOVERRIDE_COMM\tCURRENT_YR_OVERRIDE_RSRV_HELD\tCURRENT_YR_OVERRIDE_RSRV_PAYOUT\tPRIOR_YR_OVERRIDE_RSRV_HELD\tPRIOR_YR_OVERRIDE_RSRV_PAYOUT\tBEFORE_PRIOR_YR_OVERRIDE_RSRV_HELD\tBEFORE_PRIOR_YR_OVERRIDE_RSRV_PAYOUT\tMEDICARE_ADJ\tCARRIER\tCOMP_TYPE\tAMF_COMP_TYPE\tIS_QUALIFIED\tPERIOD\tORIGINAL_EFFECTIVE_DATE\tBENEFIT_EFFECTIVE_DATE\tTRX_ORIGINATION\tEXCLUDE_FROM_STATEMENT\tPROD_TIER\tREGION\tAGENT_ADMN_FEE\tAGENCY_ADMN_FEE\tAGENCY_CREDIT\tOVERRIDE\tWRITING_AGENT_OVR\tCMS_DATE\tCYCLE_YEAR\tADV_STMT_PERIOD\tREQUIRES_REVIEW\tADJUSTMENT_DESCRIPTION\tHOLD\tHOLD_NOTE\tRELEASE_DATE\tAGENT_TITLE\tAGENT_CONTRACT_TYPE\tAGENT_STATUS\tSALES_REGION\tCARRIER_AOR\tCARRIER_AGENT_NAME\tAGENT_COMPANY\tAGENT_COMPANY_EIN\tPAYROLL_EMP_ID\tICTS_ID\tICT_ID\tCT_ID\tPOLICY_ID\tCTAR_ID\tSTATUS",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/E2EIS_DEMO_NATIONAL_BOB_WEEKLY_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "E2EIS_DEMO_NATIONAL_BOB_FEED_DEV.txt",
+						"folderPath": "/E2EIS_Cloud_Demo_Dev/E2EIS"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "CARRIER\tOWNING_AGENT_OF_RECORD\tASSIGNED_AGENT_NUMBER\tBROKER_START_DATE\tBROKER_END_DATE\tPRODUCT_TYPE\tPRODUCT_DESCRIPTION\tPOLICY_STATUS\tPOLICY_ID\tGROUP_NAME\tMEMBER_COUNT\tOn/Off_Exchange\tEXCHANGE_INDICATOR\tEXCHANGE_SUBSCRIBER_ID\tCOVERAGE_TYPE\tSUBSCRIBER_ORIGINAL_EFFECTIVE_DATE\tCOVERAGE_START_DATE\tCOVERAGE_END_DATE\tPAID_THROUGH_DATE\tSUBSCRIBER_FIRST_NAME\tSUBSCRIBER_MIDDLE_NAME\tSUBSCRIBER_LAST_NAME\tSUBSCRIBER_FULL_NAME\tSUBSCRIBER_DOB\tSUBSCRIBER_EMAIL\tADDRESS\tADDRESS_2\tZIP_CODE\tCITY\tSTATE\tCOUNTY\tAPP_SUBMIT_DATE\tMEMBER_PHONE_NUMBER_1\tMEMBER_PHONE_NUMBER_2\tCOMPENSATION_TYPE\tCOMPENSATION_PERIOD\tCOMPENSATION_AMOUNT\tPAYEE_NAME\tMAIN_UPLINE_AGENT\tGROUP_TEAM_SALES\tTRANSITION_DATE\tASSIGNED_AGENT_NAME\tFFM_APP_ID\tACTIVITY_FLAG\tPOLICY_ADDED_DATE\tPOLICY_REMOVED_DATE\tPOLICY_CANCELLED_DATE\tPOLICY_REACTIVATION_DATE\tPOLICY_LAST_RECEIVED_DATE\tPERIOD_NAME\tPERIOD_DESCRIPTION\tPERIOD_START_DATE\tPERIOD_END_DATE\tBILL_STATUS\tELIGIBLE_FOR_COMMISSION\tAdds_Member_Count\tCancels_Member_Count\tOriginal_Policy_Status\tMEMBER_RESPONSIBILITY\tAccountingdate\tAnnual_Compensation_type\tAGENCY_SUBSCRIBER_ORIG_EFFDATE\tEnding_Active_Member_Flag\tREMOVALS_CONSIDER_FORCAL",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/FHCP_Payments_PROD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -524,201 +542,160 @@
 				"type": "SqlServerTable",
 				"schema": [
 					{
-						"name": "E2EIS_SEQ_NUMBER",
+						"name": "Period_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Group_Number",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Number",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Role",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Plan_Code",
+						"type": "varchar"
+					},
+					{
+						"name": "Plan_Type_Description",
+						"type": "varchar"
+					},
+					{
+						"name": "Member_Number",
+						"type": "varchar"
+					},
+					{
+						"name": "Member_First_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Member_Last_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Eligibility_Begin_Date",
+						"type": "date"
+					},
+					{
+						"name": "Eligibility_End_Date",
+						"type": "date"
+					},
+					{
+						"name": "Commission_Paid",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 3
+					},
+					{
+						"name": "Commission_Adjustment",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 3
+					},
+					{
+						"name": "adj_reason_Recovery",
+						"type": "varchar"
+					},
+					{
+						"name": "New_Renewal",
+						"type": "varchar"
+					},
+					{
+						"name": "CompYear",
 						"type": "bigint",
 						"precision": 19
 					},
 					{
-						"name": "PRODUCER_ID",
+						"name": "FBCompType",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "AgencyCompType",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "RateType",
 						"type": "varchar"
 					},
 					{
-						"name": "PRODUCER_NAME",
+						"name": "CommissionRate",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 3
+					},
+					{
+						"name": "Agent_Commission",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 3
+					},
+					{
+						"name": "Comments",
 						"type": "varchar"
 					},
 					{
-						"name": "CUSTOMER_NUMBER",
+						"name": "Frequency",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "WritingAgentPayrollId",
 						"type": "varchar"
 					},
 					{
-						"name": "ORIGINAL_SUBSCRIBER_COUNT",
+						"name": "TransactionId",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "CommissionType",
 						"type": "varchar"
 					},
 					{
-						"name": "CUSTOMER_NAME",
+						"name": "Override_AgentNumber",
 						"type": "varchar"
 					},
 					{
-						"name": "RENEWAL_DATE",
-						"type": "date"
-					},
-					{
-						"name": "PRODUCT_NAME",
+						"name": "Override_AgentName",
 						"type": "varchar"
 					},
 					{
-						"name": "PREMIUM_PERIOD",
-						"type": "date"
-					},
-					{
-						"name": "PRODUCT",
+						"name": "WritingAgentRole",
 						"type": "varchar"
 					},
 					{
-						"name": "COVERAGE_EFFECTIVE_DATE",
-						"type": "date"
-					},
-					{
-						"name": "BILL_AMOUNT",
+						"name": "Contract_Id_Group_Number",
 						"type": "varchar"
 					},
 					{
-						"name": "BILLED_SUBSCRIBER",
+						"name": "PAYEE_AOR",
 						"type": "varchar"
 					},
 					{
-						"name": "PERCENTAGE_PCPM_RATE",
+						"name": "PAYEE_AORNAME",
 						"type": "varchar"
-					},
-					{
-						"name": "COMMISSION",
-						"type": "varchar"
-					},
-					{
-						"name": "COMISSION_DATE",
-						"type": "date"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					},
-					{
-						"name": "FILE_RECORD_BIRTH_DATE",
-						"type": "date"
 					}
 				],
 				"typeProperties": {
-					"schema": "MIA_104",
-					"table": "MIA_BCBS_NC_GROUP_DETAILS"
+					"schema": "dbo",
+					"table": "FHCP_Payments"
 				}
 			},
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/MIA_BCBSNC_GROUP_DETAILS_UAT')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_msluat",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "PRODUCER_CODE",
-						"type": "varchar"
-					},
-					{
-						"name": "PRODUCER_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "ORIGINAL_SUBCRIBER_COUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "RENEWAL_DATE",
-						"type": "date"
-					},
-					{
-						"name": "PREMIUM_PERIOD",
-						"type": "date"
-					},
-					{
-						"name": "PRODUCT",
-						"type": "varchar"
-					},
-					{
-						"name": "COVERAGE_EFFECTIVE_DATE",
-						"type": "date"
-					},
-					{
-						"name": "BILL_AMOUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "BILLED_SUBSCRIBER",
-						"type": "varchar"
-					},
-					{
-						"name": "PERCENTAGE_PCPM_RATE",
-						"type": "varchar"
-					},
-					{
-						"name": "COMMISSION",
-						"type": "varchar"
-					},
-					{
-						"name": "COMPENSATION_DATE",
-						"type": "date"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					},
-					{
-						"name": "FILE_RECORD_BIRTH_DATE",
-						"type": "date"
-					}
-				],
-				"typeProperties": {
-					"schema": "MIA_104",
-					"table": "MIA_BCBS_NC_GROUP_DETAILS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/MIA_BCBSNC_GROUP_FEED_UAT')]",
+			"name": "[concat(parameters('factoryName'), '/IMS_DATA_EXP_FILE1')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -731,17 +708,513 @@
 				"typeProperties": {
 					"location": {
 						"type": "SftpLocation",
-						"fileName": "MIA_BCBSNC_GROUP_FEED_UAT.txt",
-						"folderPath": "/MSL_Cloud_Uat/FromAgency/MIA"
+						"fileName": "IMS_DATA_EXP_FILE1_DEV.csv",
+						"folderPath": "/MSL_Cloud_Dev/FromAgency/AIA"
 					},
-					"columnDelimiter": "\t",
+					"columnDelimiter": ",",
 					"escapeChar": "\\",
 					"firstRowAsHeader": true,
 					"quoteChar": "\""
 				},
 				"schema": [
 					{
-						"name": "PRODUCER_CODE\tPRODUCER_NAME\tORIGINAL_SUBCRIBER_COUNT\tRENEWAL_DATE\tPREMIUM_PERIOD\tPRODUCT\tCOVERAGE_EFFECTIVE_DATE\tBILL_AMOUNT\tBILLED_SUBSCRIBER\tPERCENTAGE_PCPM_RATE\tCOMMISSION\tCOMPENSATION_DATE",
+						"name": "Id",
+						"type": "String"
+					},
+					{
+						"name": "Submitter_ID",
+						"type": "String"
+					},
+					{
+						"name": "SubmitterFirstName",
+						"type": "String"
+					},
+					{
+						"name": "SubmitterLastName",
+						"type": "String"
+					},
+					{
+						"name": "Florida_Blue_Response",
+						"type": "String"
+					},
+					{
+						"name": "DateTime_Submitted",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Id",
+						"type": "String"
+					},
+					{
+						"name": "AgentFirstName",
+						"type": "String"
+					},
+					{
+						"name": "AgentLastName",
+						"type": "String"
+					},
+					{
+						"name": "Runner_Name",
+						"type": "String"
+					},
+					{
+						"name": "UplineFirstName",
+						"type": "String"
+					},
+					{
+						"name": "UplineLastName",
+						"type": "String"
+					},
+					{
+						"name": "DepartmentName",
+						"type": "String"
+					},
+					{
+						"name": "DepartmentDesignation",
+						"type": "String"
+					},
+					{
+						"name": "Client_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Client_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Client_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Client_Phone",
+						"type": "String"
+					},
+					{
+						"name": "Client_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Client_Email",
+						"type": "String"
+					},
+					{
+						"name": "Client_Address_1",
+						"type": "String"
+					},
+					{
+						"name": "Client_Address_2",
+						"type": "String"
+					},
+					{
+						"name": "Client_City",
+						"type": "String"
+					},
+					{
+						"name": "Client_State",
+						"type": "String"
+					},
+					{
+						"name": "Client_Zip",
+						"type": "String"
+					},
+					{
+						"name": "Member_Count_Enrolled",
+						"type": "String"
+					},
+					{
+						"name": "Client_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Product_Change",
+						"type": "String"
+					},
+					{
+						"name": "Married",
+						"type": "String"
+					},
+					{
+						"name": "Dependents",
+						"type": "String"
+					},
+					{
+						"name": "Pregnant",
+						"type": "String"
+					},
+					{
+						"name": "Smoker",
+						"type": "String"
+					},
+					{
+						"name": "American_Native",
+						"type": "String"
+					},
+					{
+						"name": "Employer_Name",
+						"type": "String"
+					},
+					{
+						"name": "Employer_Number",
+						"type": "String"
+					},
+					{
+						"name": "Client_Income",
+						"type": "String"
+					},
+					{
+						"name": "Client_Income_Freq",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Employer_Name",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Employer_Number",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Income",
+						"type": "String"
+					},
+					{
+						"name": "Spouse",
+						"type": "String"
+					},
+					{
+						"name": "Domestic_Partner",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Tax_Credit_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Plan_Premium",
+						"type": "String"
+					},
+					{
+						"name": "Payment_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Plan_Name",
+						"type": "String"
+					},
+					{
+						"name": "Plan_ID",
+						"type": "String"
+					},
+					{
+						"name": "Insurance_Company",
+						"type": "String"
+					},
+					{
+						"name": "Plan_Selected",
+						"type": "String"
+					},
+					{
+						"name": "Credit_Card",
+						"type": "String"
+					},
+					{
+						"name": "Exp_Date",
+						"type": "String"
+					},
+					{
+						"name": "CVC",
+						"type": "String"
+					},
+					{
+						"name": "Date_Processed",
+						"type": "String"
+					},
+					{
+						"name": "Assigned_Id",
+						"type": "String"
+					},
+					{
+						"name": "DateTime_Assigned",
+						"type": "String"
+					},
+					{
+						"name": "Status",
+						"type": "String"
+					},
+					{
+						"name": "App_Submitted_Date",
+						"type": "String"
+					},
+					{
+						"name": "Policy_Effective_Date",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Login_Used",
+						"type": "String"
+					},
+					{
+						"name": "LastStatusChange",
+						"type": "String"
+					},
+					{
+						"name": "SubmittedToFloridaBlue",
+						"type": "String"
+					},
+					{
+						"name": "Carrier",
+						"type": "String"
+					},
+					{
+						"name": "FederallyFacilitatedMarketplaceId",
+						"type": "String"
+					},
+					{
+						"name": "SubscriberId",
+						"type": "String"
+					},
+					{
+						"name": "ExpirationDate",
+						"type": "String"
+					},
+					{
+						"name": "ConsentConfirmedAt",
+						"type": "String"
+					},
+					{
+						"name": "ConsentConfirmedBy",
 						"type": "String"
 					}
 				]
@@ -749,233 +1222,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/MIA_BCBSNC_INDIVIDUAL_COMMISSION_DETAILS_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_mslprd",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "PRODUCER_CODE",
-						"type": "varchar"
-					},
-					{
-						"name": "PRODUCER_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "IND_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "CUSTOMER_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "CUSTOMER_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "PRODUCT",
-						"type": "varchar"
-					},
-					{
-						"name": "COVERAGE_EFF_DATE",
-						"type": "date"
-					},
-					{
-						"name": "COVERAGE_TO",
-						"type": "date"
-					},
-					{
-						"name": "PREMIUM_PERIOD",
-						"type": "date"
-					},
-					{
-						"name": "ORIGINAL_EFF_DATE",
-						"type": "date"
-					},
-					{
-						"name": "BILLED_MEMBERS_AMOUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "PREMIUM_AMOUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "TERM",
-						"type": "varchar"
-					},
-					{
-						"name": "PERCENTAGE",
-						"type": "varchar"
-					},
-					{
-						"name": "COMMISSION_EARNED",
-						"type": "varchar"
-					},
-					{
-						"name": "COMPENSATION_DATE",
-						"type": "date"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					},
-					{
-						"name": "FILE_RECORD_BIRTH_DATE",
-						"type": "date"
-					}
-				],
-				"typeProperties": {
-					"schema": "MIA_104",
-					"table": "MIA_BCBS_NC_INDIVIDUAL_COMMISSION_DETAILS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/MIA_BCBSNC_INDIVIDUAL_COMMISSION_DETAILS_UAT')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_msluat",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "PRODUCER_CODE",
-						"type": "varchar"
-					},
-					{
-						"name": "PRODUCER_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "IND_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "CUSTOMER_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "CUSTOMER_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "PRODUCT",
-						"type": "varchar"
-					},
-					{
-						"name": "COVERAGE_EFF_DATE",
-						"type": "date"
-					},
-					{
-						"name": "COVERAGE_TO",
-						"type": "date"
-					},
-					{
-						"name": "PREMIUM_PERIOD",
-						"type": "date"
-					},
-					{
-						"name": "ORIGINAL_EFF_DATE",
-						"type": "date"
-					},
-					{
-						"name": "BILLED_MEMBERS_AMOUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "PREMIUM_AMOUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "TERM",
-						"type": "varchar"
-					},
-					{
-						"name": "PERCENTAGE",
-						"type": "varchar"
-					},
-					{
-						"name": "COMMISSION_EARNED",
-						"type": "varchar"
-					},
-					{
-						"name": "COMPENSATION_DATE",
-						"type": "date"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					},
-					{
-						"name": "FILE_RECORD_BIRTH_DATE",
-						"type": "date"
-					}
-				],
-				"typeProperties": {
-					"schema": "MIA_104",
-					"table": "MIA_BCBS_NC_INDIVIDUAL_COMMISSION_DETAILS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/MIA_BCBSNC_INDIVIDUAL_COMMISSION_FEED_UAT')]",
+			"name": "[concat(parameters('factoryName'), '/IMS_DATA_EXP_FILE1_0_DEV')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -988,8 +1235,8 @@
 				"typeProperties": {
 					"location": {
 						"type": "SftpLocation",
-						"fileName": "MIA_BCBSNC_INDIVIDUAL COMMISSION_FEED_UAT.txt",
-						"folderPath": "/MSL_Cloud_Uat/FromAgency/MIA"
+						"fileName": "IMS_DATA_EXP_FILE1_0_DEV.txt",
+						"folderPath": "/MSL_Cloud_Dev/FromAgency/AIA"
 					},
 					"columnDelimiter": "\t",
 					"escapeChar": "\\",
@@ -998,7 +1245,503 @@
 				},
 				"schema": [
 					{
-						"name": "Producer Code\tProducer Name\tInd Type\tCustomer Name\tCustomer Id\tProduct\tCoverage Eff Date\tCoverage to \tpremium period\tOriginal eff Date\tBilled Members/Amount\tPremium amount \tTerm\tPercentage\tCommission Earned\tCommission Date",
+						"name": "Id",
+						"type": "String"
+					},
+					{
+						"name": "Submitter_ID",
+						"type": "String"
+					},
+					{
+						"name": "SubmitterFirstName",
+						"type": "String"
+					},
+					{
+						"name": "SubmitterLastName",
+						"type": "String"
+					},
+					{
+						"name": "Florida_Blue_Response",
+						"type": "String"
+					},
+					{
+						"name": "DateTime_Submitted",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Id",
+						"type": "String"
+					},
+					{
+						"name": "AgentFirstName",
+						"type": "String"
+					},
+					{
+						"name": "AgentLastName",
+						"type": "String"
+					},
+					{
+						"name": "Runner_Name",
+						"type": "String"
+					},
+					{
+						"name": "UplineFirstName",
+						"type": "String"
+					},
+					{
+						"name": "UplineLastName",
+						"type": "String"
+					},
+					{
+						"name": "DepartmentName",
+						"type": "String"
+					},
+					{
+						"name": "DepartmentDesignation",
+						"type": "String"
+					},
+					{
+						"name": "Client_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Client_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Client_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Client_Phone",
+						"type": "String"
+					},
+					{
+						"name": "Client_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Client_Email",
+						"type": "String"
+					},
+					{
+						"name": "Client_Address_1",
+						"type": "String"
+					},
+					{
+						"name": "Client_Address_2",
+						"type": "String"
+					},
+					{
+						"name": "Client_City",
+						"type": "String"
+					},
+					{
+						"name": "Client_State",
+						"type": "String"
+					},
+					{
+						"name": "Client_Zip",
+						"type": "String"
+					},
+					{
+						"name": "Member_Count_Enrolled",
+						"type": "String"
+					},
+					{
+						"name": "Client_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Product_Change",
+						"type": "String"
+					},
+					{
+						"name": "Married",
+						"type": "String"
+					},
+					{
+						"name": "Dependents",
+						"type": "String"
+					},
+					{
+						"name": "Pregnant",
+						"type": "String"
+					},
+					{
+						"name": "Smoker",
+						"type": "String"
+					},
+					{
+						"name": "American_Native",
+						"type": "String"
+					},
+					{
+						"name": "Employer_Name",
+						"type": "String"
+					},
+					{
+						"name": "Employer_Number",
+						"type": "String"
+					},
+					{
+						"name": "Client_Income",
+						"type": "String"
+					},
+					{
+						"name": "Client_Income_Freq",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Employer_Name",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Employer_Number",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Income",
+						"type": "String"
+					},
+					{
+						"name": "Spouse",
+						"type": "String"
+					},
+					{
+						"name": "Domestic_Partner",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Tax_Credit_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Plan_Premium",
+						"type": "String"
+					},
+					{
+						"name": "Payment_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Plan_Name",
+						"type": "String"
+					},
+					{
+						"name": "Plan_ID",
+						"type": "String"
+					},
+					{
+						"name": "Insurance_Company",
+						"type": "String"
+					},
+					{
+						"name": "Plan_Selected",
+						"type": "String"
+					},
+					{
+						"name": "Credit_Card",
+						"type": "String"
+					},
+					{
+						"name": "Exp_Date",
+						"type": "String"
+					},
+					{
+						"name": "CVC",
+						"type": "String"
+					},
+					{
+						"name": "Date_Processed",
+						"type": "String"
+					},
+					{
+						"name": "Assigned_Id",
+						"type": "String"
+					},
+					{
+						"name": "DateTime_Assigned",
+						"type": "String"
+					},
+					{
+						"name": "Status",
+						"type": "String"
+					},
+					{
+						"name": "App_Submitted_Date",
+						"type": "String"
+					},
+					{
+						"name": "Policy_Effective_Date",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Login_Used",
+						"type": "String"
+					},
+					{
+						"name": "LastStatusChange",
+						"type": "String"
+					},
+					{
+						"name": "SubmittedToFloridaBlue",
+						"type": "String"
+					},
+					{
+						"name": "Carrier",
+						"type": "String"
+					},
+					{
+						"name": "FederallyFacilitatedMarketplaceId",
+						"type": "String"
+					},
+					{
+						"name": "SubscriberId",
+						"type": "String"
+					},
+					{
+						"name": "ExpirationDate",
+						"type": "String"
+					},
+					{
+						"name": "ConsentConfirmedAt",
+						"type": "String"
+					},
+					{
+						"name": "ConsentConfirmedBy",
 						"type": "String"
 					}
 				]
@@ -1006,7 +1749,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/MIA_BCBSNC_INDIVITUAL_COMMISSION_MONTHLY_FEED_UAT')]",
+			"name": "[concat(parameters('factoryName'), '/IMS_DATA_EXP_FILE1_0_PRD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1019,8 +1762,8 @@
 				"typeProperties": {
 					"location": {
 						"type": "SftpLocation",
-						"fileName": "MIA_BCBSNC_INDIVIDUAL COMMISSION_MONTHLY_FEED_UAT.txt",
-						"folderPath": "/MSL_Cloud_Uat/FromAgency/MIA"
+						"fileName": "IMS_DATA_EXP_FILE1_0_PRD.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/AIA"
 					},
 					"columnDelimiter": "\t",
 					"escapeChar": "\\",
@@ -1029,7 +1772,503 @@
 				},
 				"schema": [
 					{
-						"name": "PRODUCER_CODE\tPRODUCER_NAME\tIND_TYPE\tCUSTOMER_NAME\tCUSTOMER_ID\tPRODUCT\tCOVERAGE_EFF_DATE\tCOVERAGE_TO\tPREMIUM_PERIOD\tORIGINAL_EFF_DATE\tBILLED_MEMBERS\tPREMIUM_AMOUNT\tTERM\tPERCENTAGE\tCOMMISSION_EARNED\tCOMPENSATION_DATE",
+						"name": "Id",
+						"type": "String"
+					},
+					{
+						"name": "Submitter_ID",
+						"type": "String"
+					},
+					{
+						"name": "SubmitterFirstName",
+						"type": "String"
+					},
+					{
+						"name": "SubmitterLastName",
+						"type": "String"
+					},
+					{
+						"name": "Florida_Blue_Response",
+						"type": "String"
+					},
+					{
+						"name": "DateTime_Submitted",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Id",
+						"type": "String"
+					},
+					{
+						"name": "AgentFirstName",
+						"type": "String"
+					},
+					{
+						"name": "AgentLastName",
+						"type": "String"
+					},
+					{
+						"name": "Runner_Name",
+						"type": "String"
+					},
+					{
+						"name": "UplineFirstName",
+						"type": "String"
+					},
+					{
+						"name": "UplineLastName",
+						"type": "String"
+					},
+					{
+						"name": "DepartmentName",
+						"type": "String"
+					},
+					{
+						"name": "DepartmentDesignation",
+						"type": "String"
+					},
+					{
+						"name": "Client_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Client_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Client_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Client_Phone",
+						"type": "String"
+					},
+					{
+						"name": "Client_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Client_Email",
+						"type": "String"
+					},
+					{
+						"name": "Client_Address_1",
+						"type": "String"
+					},
+					{
+						"name": "Client_Address_2",
+						"type": "String"
+					},
+					{
+						"name": "Client_City",
+						"type": "String"
+					},
+					{
+						"name": "Client_State",
+						"type": "String"
+					},
+					{
+						"name": "Client_Zip",
+						"type": "String"
+					},
+					{
+						"name": "Member_Count_Enrolled",
+						"type": "String"
+					},
+					{
+						"name": "Client_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Product_Change",
+						"type": "String"
+					},
+					{
+						"name": "Married",
+						"type": "String"
+					},
+					{
+						"name": "Dependents",
+						"type": "String"
+					},
+					{
+						"name": "Pregnant",
+						"type": "String"
+					},
+					{
+						"name": "Smoker",
+						"type": "String"
+					},
+					{
+						"name": "American_Native",
+						"type": "String"
+					},
+					{
+						"name": "Employer_Name",
+						"type": "String"
+					},
+					{
+						"name": "Employer_Number",
+						"type": "String"
+					},
+					{
+						"name": "Client_Income",
+						"type": "String"
+					},
+					{
+						"name": "Client_Income_Freq",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Employer_Name",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Employer_Number",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Income",
+						"type": "String"
+					},
+					{
+						"name": "Spouse",
+						"type": "String"
+					},
+					{
+						"name": "Domestic_Partner",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Tax_Credit_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Plan_Premium",
+						"type": "String"
+					},
+					{
+						"name": "Payment_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Plan_Name",
+						"type": "String"
+					},
+					{
+						"name": "Plan_ID",
+						"type": "String"
+					},
+					{
+						"name": "Insurance_Company",
+						"type": "String"
+					},
+					{
+						"name": "Plan_Selected",
+						"type": "String"
+					},
+					{
+						"name": "Credit_Card",
+						"type": "String"
+					},
+					{
+						"name": "Exp_Date",
+						"type": "String"
+					},
+					{
+						"name": "CVC",
+						"type": "String"
+					},
+					{
+						"name": "Date_Processed",
+						"type": "String"
+					},
+					{
+						"name": "Assigned_Id",
+						"type": "String"
+					},
+					{
+						"name": "DateTime_Assigned",
+						"type": "String"
+					},
+					{
+						"name": "Status",
+						"type": "String"
+					},
+					{
+						"name": "App_Submitted_Date",
+						"type": "String"
+					},
+					{
+						"name": "Policy_Effective_Date",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Login_Used",
+						"type": "String"
+					},
+					{
+						"name": "LastStatusChange",
+						"type": "String"
+					},
+					{
+						"name": "SubmittedToFloridaBlue",
+						"type": "String"
+					},
+					{
+						"name": "Carrier",
+						"type": "String"
+					},
+					{
+						"name": "FederallyFacilitatedMarketplaceId",
+						"type": "String"
+					},
+					{
+						"name": "SubscriberId",
+						"type": "String"
+					},
+					{
+						"name": "ExpirationDate",
+						"type": "String"
+					},
+					{
+						"name": "ConsentConfirmedAt",
+						"type": "String"
+					},
+					{
+						"name": "ConsentConfirmedBy",
 						"type": "String"
 					}
 				]
@@ -1037,161 +2276,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/MIA_BCBSNC_MONTHLY_PAYMENT_AS_EARNED_DEV')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_msldev",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "CONTRACT",
-						"type": "nvarchar"
-					},
-					{
-						"name": "FREQUENCY",
-						"type": "nvarchar"
-					},
-					{
-						"name": "EFFECTIVE_DATE",
-						"type": "date"
-					},
-					{
-						"name": "ACCOUNTING_DATE",
-						"type": "date"
-					},
-					{
-						"name": "MEMBER_COUNT",
-						"type": "nvarchar"
-					},
-					{
-						"name": "PAYMENT",
-						"type": "nvarchar"
-					},
-					{
-						"name": "AGENT_NAME",
-						"type": "nvarchar"
-					},
-					{
-						"name": "AGENT_CODE",
-						"type": "nvarchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "MIA_104",
-					"table": "MIA_BCBSNC_MONTHLY_PAYMENT_AS_EARNED"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/MIA_BCBSNC_MONTHLY_PAYMENT_AS_EARNED_UAT')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_msluat",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "CONTRACT",
-						"type": "nvarchar"
-					},
-					{
-						"name": "FREQUENCY",
-						"type": "nvarchar"
-					},
-					{
-						"name": "EFFECTIVE_DATE",
-						"type": "date"
-					},
-					{
-						"name": "ACCOUNTING_DATE",
-						"type": "date"
-					},
-					{
-						"name": "MEMBER_COUNT",
-						"type": "nvarchar"
-					},
-					{
-						"name": "PAYMENT",
-						"type": "nvarchar"
-					},
-					{
-						"name": "AGENT_NAME",
-						"type": "nvarchar"
-					},
-					{
-						"name": "AGENT_CODE",
-						"type": "nvarchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "MIA_104",
-					"table": "MIA_BCBSNC_MONTHLY_PAYMENT_AS_EARNED"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/MIA_BCBSNC_MONTHLY_PAYMENT_FEED_UAT')]",
+			"name": "[concat(parameters('factoryName'), '/IMS_DATA_EXP_FILE1_0_UAT')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1204,8 +2289,8 @@
 				"typeProperties": {
 					"location": {
 						"type": "SftpLocation",
-						"fileName": "MIA_BCBSNC_MONTHLY_PAYMENT_FEED_UAT.txt",
-						"folderPath": "/MSL_Cloud_Uat/FromAgency/MIA"
+						"fileName": "IMS_DATA_EXP_FILE1_0_UAT.txt",
+						"folderPath": "/MSL_Cloud_Uat/FromAgency/AIA"
 					},
 					"columnDelimiter": "\t",
 					"escapeChar": "\\",
@@ -1214,7 +2299,503 @@
 				},
 				"schema": [
 					{
-						"name": "Contract #\tFrequency\tEff Dt\tAccounting Date\tMember Count\tPayment\tAgent Name\tAgent Code",
+						"name": "Id",
+						"type": "String"
+					},
+					{
+						"name": "Submitter_ID",
+						"type": "String"
+					},
+					{
+						"name": "SubmitterFirstName",
+						"type": "String"
+					},
+					{
+						"name": "SubmitterLastName",
+						"type": "String"
+					},
+					{
+						"name": "Florida_Blue_Response",
+						"type": "String"
+					},
+					{
+						"name": "DateTime_Submitted",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Id",
+						"type": "String"
+					},
+					{
+						"name": "AgentFirstName",
+						"type": "String"
+					},
+					{
+						"name": "AgentLastName",
+						"type": "String"
+					},
+					{
+						"name": "Runner_Name",
+						"type": "String"
+					},
+					{
+						"name": "UplineFirstName",
+						"type": "String"
+					},
+					{
+						"name": "UplineLastName",
+						"type": "String"
+					},
+					{
+						"name": "DepartmentName",
+						"type": "String"
+					},
+					{
+						"name": "DepartmentDesignation",
+						"type": "String"
+					},
+					{
+						"name": "Client_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Client_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Client_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Client_Phone",
+						"type": "String"
+					},
+					{
+						"name": "Client_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Client_Email",
+						"type": "String"
+					},
+					{
+						"name": "Client_Address_1",
+						"type": "String"
+					},
+					{
+						"name": "Client_Address_2",
+						"type": "String"
+					},
+					{
+						"name": "Client_City",
+						"type": "String"
+					},
+					{
+						"name": "Client_State",
+						"type": "String"
+					},
+					{
+						"name": "Client_Zip",
+						"type": "String"
+					},
+					{
+						"name": "Member_Count_Enrolled",
+						"type": "String"
+					},
+					{
+						"name": "Client_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Product_Change",
+						"type": "String"
+					},
+					{
+						"name": "Married",
+						"type": "String"
+					},
+					{
+						"name": "Dependents",
+						"type": "String"
+					},
+					{
+						"name": "Pregnant",
+						"type": "String"
+					},
+					{
+						"name": "Smoker",
+						"type": "String"
+					},
+					{
+						"name": "American_Native",
+						"type": "String"
+					},
+					{
+						"name": "Employer_Name",
+						"type": "String"
+					},
+					{
+						"name": "Employer_Number",
+						"type": "String"
+					},
+					{
+						"name": "Client_Income",
+						"type": "String"
+					},
+					{
+						"name": "Client_Income_Freq",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Employer_Name",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Employer_Number",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Income",
+						"type": "String"
+					},
+					{
+						"name": "Spouse",
+						"type": "String"
+					},
+					{
+						"name": "Domestic_Partner",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Tax_Credit_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Plan_Premium",
+						"type": "String"
+					},
+					{
+						"name": "Payment_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Plan_Name",
+						"type": "String"
+					},
+					{
+						"name": "Plan_ID",
+						"type": "String"
+					},
+					{
+						"name": "Insurance_Company",
+						"type": "String"
+					},
+					{
+						"name": "Plan_Selected",
+						"type": "String"
+					},
+					{
+						"name": "Credit_Card",
+						"type": "String"
+					},
+					{
+						"name": "Exp_Date",
+						"type": "String"
+					},
+					{
+						"name": "CVC",
+						"type": "String"
+					},
+					{
+						"name": "Date_Processed",
+						"type": "String"
+					},
+					{
+						"name": "Assigned_Id",
+						"type": "String"
+					},
+					{
+						"name": "DateTime_Assigned",
+						"type": "String"
+					},
+					{
+						"name": "Status",
+						"type": "String"
+					},
+					{
+						"name": "App_Submitted_Date",
+						"type": "String"
+					},
+					{
+						"name": "Policy_Effective_Date",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Login_Used",
+						"type": "String"
+					},
+					{
+						"name": "LastStatusChange",
+						"type": "String"
+					},
+					{
+						"name": "SubmittedToFloridaBlue",
+						"type": "String"
+					},
+					{
+						"name": "Carrier",
+						"type": "String"
+					},
+					{
+						"name": "FederallyFacilitatedMarketplaceId",
+						"type": "String"
+					},
+					{
+						"name": "SubscriberId",
+						"type": "String"
+					},
+					{
+						"name": "ExpirationDate",
+						"type": "String"
+					},
+					{
+						"name": "ConsentConfirmedAt",
+						"type": "String"
+					},
+					{
+						"name": "ConsentConfirmedBy",
 						"type": "String"
 					}
 				]
@@ -1222,153 +2803,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/MIA_BCBSNC_ONETIME_PAYMENT_AS_EARNED_DEV')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_msldev",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "CONTRACT_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "FREQUENCY",
-						"type": "nvarchar"
-					},
-					{
-						"name": "EFFECTIVE_DATE",
-						"type": "date"
-					},
-					{
-						"name": "ACCOUNTING_DATE",
-						"type": "date"
-					},
-					{
-						"name": "PAYMENT",
-						"type": "nvarchar"
-					},
-					{
-						"name": "AGENT_NAME",
-						"type": "nvarchar"
-					},
-					{
-						"name": "AGENT_CODE",
-						"type": "nvarchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "MIA_104",
-					"table": "MIA_BCBSNC_ONETIME_PAYMENT_AS_EARNED"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/MIA_BCBSNC_ONETIME_PAYMENT_AS_EARNED_UAT')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_msluat",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "CONTRACT_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "FREQUENCY",
-						"type": "nvarchar"
-					},
-					{
-						"name": "EFFECTIVE_DATE",
-						"type": "date"
-					},
-					{
-						"name": "ACCOUNTING_DATE",
-						"type": "date"
-					},
-					{
-						"name": "PAYMENT",
-						"type": "nvarchar"
-					},
-					{
-						"name": "AGENT_NAME",
-						"type": "nvarchar"
-					},
-					{
-						"name": "AGENT_CODE",
-						"type": "nvarchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "MIA_104",
-					"table": "MIA_BCBSNC_ONETIME_PAYMENT_AS_EARNED"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/MIA_BCBSNC_ONETIME_PAYMENT_FEED_UAT')]",
+			"name": "[concat(parameters('factoryName'), '/IMS_DATA_EXP_FILE1_1_DEV')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1381,8 +2816,8 @@
 				"typeProperties": {
 					"location": {
 						"type": "SftpLocation",
-						"fileName": "MIA_BCBSNC_ONETIME_PAYMENT_FEED_UAT.txt",
-						"folderPath": "/MSL_Cloud_Uat/FromAgency/MIA"
+						"fileName": "IMS_DATA_EXP_FILE1_1_DEV.txt",
+						"folderPath": "/MSL_Cloud_Dev/FromAgency/AIA"
 					},
 					"columnDelimiter": "\t",
 					"escapeChar": "\\",
@@ -1391,7 +2826,503 @@
 				},
 				"schema": [
 					{
-						"name": "Contract Id\tFrequency\tEff Dt\tAccounting Date\tPayment\tAgent Name\tAgent Code",
+						"name": "Id",
+						"type": "String"
+					},
+					{
+						"name": "Submitter_ID",
+						"type": "String"
+					},
+					{
+						"name": "SubmitterFirstName",
+						"type": "String"
+					},
+					{
+						"name": "SubmitterLastName",
+						"type": "String"
+					},
+					{
+						"name": "Florida_Blue_Response",
+						"type": "String"
+					},
+					{
+						"name": "DateTime_Submitted",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Id",
+						"type": "String"
+					},
+					{
+						"name": "AgentFirstName",
+						"type": "String"
+					},
+					{
+						"name": "AgentLastName",
+						"type": "String"
+					},
+					{
+						"name": "Runner_Name",
+						"type": "String"
+					},
+					{
+						"name": "UplineFirstName",
+						"type": "String"
+					},
+					{
+						"name": "UplineLastName",
+						"type": "String"
+					},
+					{
+						"name": "DepartmentName",
+						"type": "String"
+					},
+					{
+						"name": "DepartmentDesignation",
+						"type": "String"
+					},
+					{
+						"name": "Client_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Client_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Client_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Client_Phone",
+						"type": "String"
+					},
+					{
+						"name": "Client_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Client_Email",
+						"type": "String"
+					},
+					{
+						"name": "Client_Address_1",
+						"type": "String"
+					},
+					{
+						"name": "Client_Address_2",
+						"type": "String"
+					},
+					{
+						"name": "Client_City",
+						"type": "String"
+					},
+					{
+						"name": "Client_State",
+						"type": "String"
+					},
+					{
+						"name": "Client_Zip",
+						"type": "String"
+					},
+					{
+						"name": "Member_Count_Enrolled",
+						"type": "String"
+					},
+					{
+						"name": "Client_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Product_Change",
+						"type": "String"
+					},
+					{
+						"name": "Married",
+						"type": "String"
+					},
+					{
+						"name": "Dependents",
+						"type": "String"
+					},
+					{
+						"name": "Pregnant",
+						"type": "String"
+					},
+					{
+						"name": "Smoker",
+						"type": "String"
+					},
+					{
+						"name": "American_Native",
+						"type": "String"
+					},
+					{
+						"name": "Employer_Name",
+						"type": "String"
+					},
+					{
+						"name": "Employer_Number",
+						"type": "String"
+					},
+					{
+						"name": "Client_Income",
+						"type": "String"
+					},
+					{
+						"name": "Client_Income_Freq",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Employer_Name",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Employer_Number",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Income",
+						"type": "String"
+					},
+					{
+						"name": "Spouse",
+						"type": "String"
+					},
+					{
+						"name": "Domestic_Partner",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Tax_Credit_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Plan_Premium",
+						"type": "String"
+					},
+					{
+						"name": "Payment_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Plan_Name",
+						"type": "String"
+					},
+					{
+						"name": "Plan_ID",
+						"type": "String"
+					},
+					{
+						"name": "Insurance_Company",
+						"type": "String"
+					},
+					{
+						"name": "Plan_Selected",
+						"type": "String"
+					},
+					{
+						"name": "Credit_Card",
+						"type": "String"
+					},
+					{
+						"name": "Exp_Date",
+						"type": "String"
+					},
+					{
+						"name": "CVC",
+						"type": "String"
+					},
+					{
+						"name": "Date_Processed",
+						"type": "String"
+					},
+					{
+						"name": "Assigned_Id",
+						"type": "String"
+					},
+					{
+						"name": "DateTime_Assigned",
+						"type": "String"
+					},
+					{
+						"name": "Status",
+						"type": "String"
+					},
+					{
+						"name": "App_Submitted_Date",
+						"type": "String"
+					},
+					{
+						"name": "Policy_Effective_Date",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Login_Used",
+						"type": "String"
+					},
+					{
+						"name": "LastStatusChange",
+						"type": "String"
+					},
+					{
+						"name": "SubmittedToFloridaBlue",
+						"type": "String"
+					},
+					{
+						"name": "Carrier",
+						"type": "String"
+					},
+					{
+						"name": "FederallyFacilitatedMarketplaceId",
+						"type": "String"
+					},
+					{
+						"name": "SubscriberId",
+						"type": "String"
+					},
+					{
+						"name": "ExpirationDate",
+						"type": "String"
+					},
+					{
+						"name": "ConsentConfirmedAt",
+						"type": "String"
+					},
+					{
+						"name": "ConsentConfirmedBy",
 						"type": "String"
 					}
 				]
@@ -1399,196 +3330,3691 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/MIA_BCBSSC_INDIVIDUAL_COMMISSION_DETAILS_DEV')]",
+			"name": "[concat(parameters('factoryName'), '/IMS_DATA_EXP_FILE1_1_PRD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "SqlServer_msldev",
+					"referenceName": "Sftp_connection_ALL_FEED",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
-				"type": "SqlServerTable",
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "IMS_DATA_EXP_FILE1_1_PRD.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
 				"schema": [
 					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
+						"name": "Id",
+						"type": "String"
 					},
 					{
-						"name": "SUBSCRIBER_NAME",
-						"type": "varchar"
+						"name": "Submitter_ID",
+						"type": "String"
 					},
 					{
-						"name": "ALTERNATE_ID",
-						"type": "varchar"
+						"name": "SubmitterFirstName",
+						"type": "String"
 					},
 					{
-						"name": "CONTRACT_TYPE",
-						"type": "varchar"
+						"name": "SubmitterLastName",
+						"type": "String"
 					},
 					{
-						"name": "EFF_DATE",
-						"type": "date"
+						"name": "Florida_Blue_Response",
+						"type": "String"
 					},
 					{
-						"name": "TC",
-						"type": "varchar"
+						"name": "DateTime_Submitted",
+						"type": "String"
 					},
 					{
-						"name": "DUE_DATE",
-						"type": "date"
+						"name": "Agent_Id",
+						"type": "String"
 					},
 					{
-						"name": "INITIAL_PREMIUM",
-						"type": "varchar"
+						"name": "AgentFirstName",
+						"type": "String"
 					},
 					{
-						"name": "PERCAP_PERCENT",
-						"type": "varchar"
+						"name": "AgentLastName",
+						"type": "String"
 					},
 					{
-						"name": "COMMISSION_AMOUNT",
-						"type": "varchar"
+						"name": "Runner_Name",
+						"type": "String"
 					},
 					{
-						"name": "ADJ_REA",
-						"type": "varchar"
+						"name": "UplineFirstName",
+						"type": "String"
 					},
 					{
-						"name": "SELLING_AGENT",
-						"type": "varchar"
+						"name": "UplineLastName",
+						"type": "String"
 					},
 					{
-						"name": "COMPENSATION_DATE",
-						"type": "date"
+						"name": "DepartmentName",
+						"type": "String"
 					},
 					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
+						"name": "DepartmentDesignation",
+						"type": "String"
 					},
 					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
+						"name": "Client_First_Name",
+						"type": "String"
 					},
 					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
+						"name": "Client_Last_Name",
+						"type": "String"
 					},
 					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
+						"name": "Client_DOB",
+						"type": "String"
 					},
 					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
+						"name": "Client_Phone",
+						"type": "String"
 					},
 					{
-						"name": "FILE_RECORD_BIRTH_DATE",
-						"type": "varchar"
+						"name": "Client_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Client_Email",
+						"type": "String"
+					},
+					{
+						"name": "Client_Address_1",
+						"type": "String"
+					},
+					{
+						"name": "Client_Address_2",
+						"type": "String"
+					},
+					{
+						"name": "Client_City",
+						"type": "String"
+					},
+					{
+						"name": "Client_State",
+						"type": "String"
+					},
+					{
+						"name": "Client_Zip",
+						"type": "String"
+					},
+					{
+						"name": "Member_Count_Enrolled",
+						"type": "String"
+					},
+					{
+						"name": "Client_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Product_Change",
+						"type": "String"
+					},
+					{
+						"name": "Married",
+						"type": "String"
+					},
+					{
+						"name": "Dependents",
+						"type": "String"
+					},
+					{
+						"name": "Pregnant",
+						"type": "String"
+					},
+					{
+						"name": "Smoker",
+						"type": "String"
+					},
+					{
+						"name": "American_Native",
+						"type": "String"
+					},
+					{
+						"name": "Employer_Name",
+						"type": "String"
+					},
+					{
+						"name": "Employer_Number",
+						"type": "String"
+					},
+					{
+						"name": "Client_Income",
+						"type": "String"
+					},
+					{
+						"name": "Client_Income_Freq",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Employer_Name",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Employer_Number",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Income",
+						"type": "String"
+					},
+					{
+						"name": "Spouse",
+						"type": "String"
+					},
+					{
+						"name": "Domestic_Partner",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Tax_Credit_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Plan_Premium",
+						"type": "String"
+					},
+					{
+						"name": "Payment_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Plan_Name",
+						"type": "String"
+					},
+					{
+						"name": "Plan_ID",
+						"type": "String"
+					},
+					{
+						"name": "Insurance_Company",
+						"type": "String"
+					},
+					{
+						"name": "Plan_Selected",
+						"type": "String"
+					},
+					{
+						"name": "Credit_Card",
+						"type": "String"
+					},
+					{
+						"name": "Exp_Date",
+						"type": "String"
+					},
+					{
+						"name": "CVC",
+						"type": "String"
+					},
+					{
+						"name": "Date_Processed",
+						"type": "String"
+					},
+					{
+						"name": "Assigned_Id",
+						"type": "String"
+					},
+					{
+						"name": "DateTime_Assigned",
+						"type": "String"
+					},
+					{
+						"name": "Status",
+						"type": "String"
+					},
+					{
+						"name": "App_Submitted_Date",
+						"type": "String"
+					},
+					{
+						"name": "Policy_Effective_Date",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Login_Used",
+						"type": "String"
+					},
+					{
+						"name": "LastStatusChange",
+						"type": "String"
+					},
+					{
+						"name": "SubmittedToFloridaBlue",
+						"type": "String"
+					},
+					{
+						"name": "Carrier",
+						"type": "String"
+					},
+					{
+						"name": "FederallyFacilitatedMarketplaceId",
+						"type": "String"
+					},
+					{
+						"name": "SubscriberId",
+						"type": "String"
+					},
+					{
+						"name": "ExpirationDate",
+						"type": "String"
+					},
+					{
+						"name": "ConsentConfirmedAt",
+						"type": "String"
+					},
+					{
+						"name": "ConsentConfirmedBy",
+						"type": "String"
 					}
-				],
-				"typeProperties": {
-					"schema": "MIA_104",
-					"table": "MIA_BCBS_SC_INDIVIDUAL_COMMISSION_DETAILS"
-				}
+				]
 			},
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/MIA_BCBSSC_INDIVIDUAL_COMMISSION_DETAILS_UAT')]",
+			"name": "[concat(parameters('factoryName'), '/IMS_DATA_EXP_FILE1_1_UAT')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "SqlServer_msluat",
+					"referenceName": "Sftp_connection_ALL_FEED",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
-				"type": "SqlServerTable",
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "IMS_DATA_EXP_FILE1_1_UAT.txt",
+						"folderPath": "/MSL_Cloud_Uat/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
 				"schema": [
 					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
+						"name": "Id",
+						"type": "String"
 					},
 					{
-						"name": "SUBSCRIBER_NAME",
-						"type": "varchar"
+						"name": "Submitter_ID",
+						"type": "String"
 					},
 					{
-						"name": "ALTERNATE_ID",
-						"type": "varchar"
+						"name": "SubmitterFirstName",
+						"type": "String"
 					},
 					{
-						"name": "CONTRACT_TYPE",
-						"type": "varchar"
+						"name": "SubmitterLastName",
+						"type": "String"
 					},
 					{
-						"name": "EFF_DATE",
-						"type": "date"
+						"name": "Florida_Blue_Response",
+						"type": "String"
 					},
 					{
-						"name": "TC",
-						"type": "varchar"
+						"name": "DateTime_Submitted",
+						"type": "String"
 					},
 					{
-						"name": "DUE_DATE",
-						"type": "date"
+						"name": "Agent_Id",
+						"type": "String"
 					},
 					{
-						"name": "INITIAL_PREMIUM",
-						"type": "varchar"
+						"name": "AgentFirstName",
+						"type": "String"
 					},
 					{
-						"name": "PERCAP_PERCENT",
-						"type": "varchar"
+						"name": "AgentLastName",
+						"type": "String"
 					},
 					{
-						"name": "COMMISSION_AMOUNT",
-						"type": "varchar"
+						"name": "Runner_Name",
+						"type": "String"
 					},
 					{
-						"name": "ADJ_REA",
-						"type": "varchar"
+						"name": "UplineFirstName",
+						"type": "String"
 					},
 					{
-						"name": "SELLING_AGENT",
-						"type": "varchar"
+						"name": "UplineLastName",
+						"type": "String"
 					},
 					{
-						"name": "COMPENSATION_DATE",
-						"type": "date"
+						"name": "DepartmentName",
+						"type": "String"
 					},
 					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
+						"name": "DepartmentDesignation",
+						"type": "String"
 					},
 					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
+						"name": "Client_First_Name",
+						"type": "String"
 					},
 					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
+						"name": "Client_Last_Name",
+						"type": "String"
 					},
 					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
+						"name": "Client_DOB",
+						"type": "String"
 					},
 					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
+						"name": "Client_Phone",
+						"type": "String"
 					},
 					{
-						"name": "FILE_RECORD_BIRTH_DATE",
-						"type": "varchar"
+						"name": "Client_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Client_Email",
+						"type": "String"
+					},
+					{
+						"name": "Client_Address_1",
+						"type": "String"
+					},
+					{
+						"name": "Client_Address_2",
+						"type": "String"
+					},
+					{
+						"name": "Client_City",
+						"type": "String"
+					},
+					{
+						"name": "Client_State",
+						"type": "String"
+					},
+					{
+						"name": "Client_Zip",
+						"type": "String"
+					},
+					{
+						"name": "Member_Count_Enrolled",
+						"type": "String"
+					},
+					{
+						"name": "Client_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Product_Change",
+						"type": "String"
+					},
+					{
+						"name": "Married",
+						"type": "String"
+					},
+					{
+						"name": "Dependents",
+						"type": "String"
+					},
+					{
+						"name": "Pregnant",
+						"type": "String"
+					},
+					{
+						"name": "Smoker",
+						"type": "String"
+					},
+					{
+						"name": "American_Native",
+						"type": "String"
+					},
+					{
+						"name": "Employer_Name",
+						"type": "String"
+					},
+					{
+						"name": "Employer_Number",
+						"type": "String"
+					},
+					{
+						"name": "Client_Income",
+						"type": "String"
+					},
+					{
+						"name": "Client_Income_Freq",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Employer_Name",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Employer_Number",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Income",
+						"type": "String"
+					},
+					{
+						"name": "Spouse",
+						"type": "String"
+					},
+					{
+						"name": "Domestic_Partner",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Tax_Credit_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Plan_Premium",
+						"type": "String"
+					},
+					{
+						"name": "Payment_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Plan_Name",
+						"type": "String"
+					},
+					{
+						"name": "Plan_ID",
+						"type": "String"
+					},
+					{
+						"name": "Insurance_Company",
+						"type": "String"
+					},
+					{
+						"name": "Plan_Selected",
+						"type": "String"
+					},
+					{
+						"name": "Credit_Card",
+						"type": "String"
+					},
+					{
+						"name": "Exp_Date",
+						"type": "String"
+					},
+					{
+						"name": "CVC",
+						"type": "String"
+					},
+					{
+						"name": "Date_Processed",
+						"type": "String"
+					},
+					{
+						"name": "Assigned_Id",
+						"type": "String"
+					},
+					{
+						"name": "DateTime_Assigned",
+						"type": "String"
+					},
+					{
+						"name": "Status",
+						"type": "String"
+					},
+					{
+						"name": "App_Submitted_Date",
+						"type": "String"
+					},
+					{
+						"name": "Policy_Effective_Date",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Login_Used",
+						"type": "String"
+					},
+					{
+						"name": "LastStatusChange",
+						"type": "String"
+					},
+					{
+						"name": "SubmittedToFloridaBlue",
+						"type": "String"
+					},
+					{
+						"name": "Carrier",
+						"type": "String"
+					},
+					{
+						"name": "FederallyFacilitatedMarketplaceId",
+						"type": "String"
+					},
+					{
+						"name": "SubscriberId",
+						"type": "String"
+					},
+					{
+						"name": "ExpirationDate",
+						"type": "String"
+					},
+					{
+						"name": "ConsentConfirmedAt",
+						"type": "String"
+					},
+					{
+						"name": "ConsentConfirmedBy",
+						"type": "String"
 					}
-				],
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IMS_DATA_EXP_FILE1_2_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
 				"typeProperties": {
-					"schema": "MIA_104",
-					"table": "MIA_BCBS_SC_INDIVIDUAL_COMMISSION_DETAILS_STG"
-				}
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "IMS_DATA_EXP_FILE1_2_PRD.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Id",
+						"type": "String"
+					},
+					{
+						"name": "Submitter_ID",
+						"type": "String"
+					},
+					{
+						"name": "SubmitterFirstName",
+						"type": "String"
+					},
+					{
+						"name": "SubmitterLastName",
+						"type": "String"
+					},
+					{
+						"name": "Florida_Blue_Response",
+						"type": "String"
+					},
+					{
+						"name": "DateTime_Submitted",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Id",
+						"type": "String"
+					},
+					{
+						"name": "AgentFirstName",
+						"type": "String"
+					},
+					{
+						"name": "AgentLastName",
+						"type": "String"
+					},
+					{
+						"name": "Runner_Name",
+						"type": "String"
+					},
+					{
+						"name": "UplineFirstName",
+						"type": "String"
+					},
+					{
+						"name": "UplineLastName",
+						"type": "String"
+					},
+					{
+						"name": "DepartmentName",
+						"type": "String"
+					},
+					{
+						"name": "DepartmentDesignation",
+						"type": "String"
+					},
+					{
+						"name": "Client_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Client_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Client_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Client_Phone",
+						"type": "String"
+					},
+					{
+						"name": "Client_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Client_Email",
+						"type": "String"
+					},
+					{
+						"name": "Client_Address_1",
+						"type": "String"
+					},
+					{
+						"name": "Client_Address_2",
+						"type": "String"
+					},
+					{
+						"name": "Client_City",
+						"type": "String"
+					},
+					{
+						"name": "Client_State",
+						"type": "String"
+					},
+					{
+						"name": "Client_Zip",
+						"type": "String"
+					},
+					{
+						"name": "Member_Count_Enrolled",
+						"type": "String"
+					},
+					{
+						"name": "Client_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Product_Change",
+						"type": "String"
+					},
+					{
+						"name": "Married",
+						"type": "String"
+					},
+					{
+						"name": "Dependents",
+						"type": "String"
+					},
+					{
+						"name": "Pregnant",
+						"type": "String"
+					},
+					{
+						"name": "Smoker",
+						"type": "String"
+					},
+					{
+						"name": "American_Native",
+						"type": "String"
+					},
+					{
+						"name": "Employer_Name",
+						"type": "String"
+					},
+					{
+						"name": "Employer_Number",
+						"type": "String"
+					},
+					{
+						"name": "Client_Income",
+						"type": "String"
+					},
+					{
+						"name": "Client_Income_Freq",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Employer_Name",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Employer_Number",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Income",
+						"type": "String"
+					},
+					{
+						"name": "Spouse",
+						"type": "String"
+					},
+					{
+						"name": "Domestic_Partner",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Tax_Credit_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Plan_Premium",
+						"type": "String"
+					},
+					{
+						"name": "Payment_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Plan_Name",
+						"type": "String"
+					},
+					{
+						"name": "Plan_ID",
+						"type": "String"
+					},
+					{
+						"name": "Insurance_Company",
+						"type": "String"
+					},
+					{
+						"name": "Plan_Selected",
+						"type": "String"
+					},
+					{
+						"name": "Credit_Card",
+						"type": "String"
+					},
+					{
+						"name": "Exp_Date",
+						"type": "String"
+					},
+					{
+						"name": "CVC",
+						"type": "String"
+					},
+					{
+						"name": "Date_Processed",
+						"type": "String"
+					},
+					{
+						"name": "Assigned_Id",
+						"type": "String"
+					},
+					{
+						"name": "DateTime_Assigned",
+						"type": "String"
+					},
+					{
+						"name": "Status",
+						"type": "String"
+					},
+					{
+						"name": "App_Submitted_Date",
+						"type": "String"
+					},
+					{
+						"name": "Policy_Effective_Date",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Login_Used",
+						"type": "String"
+					},
+					{
+						"name": "LastStatusChange",
+						"type": "String"
+					},
+					{
+						"name": "SubmittedToFloridaBlue",
+						"type": "String"
+					},
+					{
+						"name": "Carrier",
+						"type": "String"
+					},
+					{
+						"name": "FederallyFacilitatedMarketplaceId",
+						"type": "String"
+					},
+					{
+						"name": "SubscriberId",
+						"type": "String"
+					},
+					{
+						"name": "ExpirationDate",
+						"type": "String"
+					},
+					{
+						"name": "ConsentConfirmedAt",
+						"type": "String"
+					},
+					{
+						"name": "ConsentConfirmedBy",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IMS_DATA_EXP_FILE1_2_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "IMS_DATA_EXP_FILE1_2_UAT.txt",
+						"folderPath": "/MSL_Cloud_Uat/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Id",
+						"type": "String"
+					},
+					{
+						"name": "Submitter_ID",
+						"type": "String"
+					},
+					{
+						"name": "SubmitterFirstName",
+						"type": "String"
+					},
+					{
+						"name": "SubmitterLastName",
+						"type": "String"
+					},
+					{
+						"name": "Florida_Blue_Response",
+						"type": "String"
+					},
+					{
+						"name": "DateTime_Submitted",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Id",
+						"type": "String"
+					},
+					{
+						"name": "AgentFirstName",
+						"type": "String"
+					},
+					{
+						"name": "AgentLastName",
+						"type": "String"
+					},
+					{
+						"name": "Runner_Name",
+						"type": "String"
+					},
+					{
+						"name": "UplineFirstName",
+						"type": "String"
+					},
+					{
+						"name": "UplineLastName",
+						"type": "String"
+					},
+					{
+						"name": "DepartmentName",
+						"type": "String"
+					},
+					{
+						"name": "DepartmentDesignation",
+						"type": "String"
+					},
+					{
+						"name": "Client_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Client_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Client_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Client_Phone",
+						"type": "String"
+					},
+					{
+						"name": "Client_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Client_Email",
+						"type": "String"
+					},
+					{
+						"name": "Client_Address_1",
+						"type": "String"
+					},
+					{
+						"name": "Client_Address_2",
+						"type": "String"
+					},
+					{
+						"name": "Client_City",
+						"type": "String"
+					},
+					{
+						"name": "Client_State",
+						"type": "String"
+					},
+					{
+						"name": "Client_Zip",
+						"type": "String"
+					},
+					{
+						"name": "Member_Count_Enrolled",
+						"type": "String"
+					},
+					{
+						"name": "Client_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Product_Change",
+						"type": "String"
+					},
+					{
+						"name": "Married",
+						"type": "String"
+					},
+					{
+						"name": "Dependents",
+						"type": "String"
+					},
+					{
+						"name": "Pregnant",
+						"type": "String"
+					},
+					{
+						"name": "Smoker",
+						"type": "String"
+					},
+					{
+						"name": "American_Native",
+						"type": "String"
+					},
+					{
+						"name": "Employer_Name",
+						"type": "String"
+					},
+					{
+						"name": "Employer_Number",
+						"type": "String"
+					},
+					{
+						"name": "Client_Income",
+						"type": "String"
+					},
+					{
+						"name": "Client_Income_Freq",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Employer_Name",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Employer_Number",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Income",
+						"type": "String"
+					},
+					{
+						"name": "Spouse",
+						"type": "String"
+					},
+					{
+						"name": "Domestic_Partner",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Tax_Credit_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Plan_Premium",
+						"type": "String"
+					},
+					{
+						"name": "Payment_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Plan_Name",
+						"type": "String"
+					},
+					{
+						"name": "Plan_ID",
+						"type": "String"
+					},
+					{
+						"name": "Insurance_Company",
+						"type": "String"
+					},
+					{
+						"name": "Plan_Selected",
+						"type": "String"
+					},
+					{
+						"name": "Credit_Card",
+						"type": "String"
+					},
+					{
+						"name": "Exp_Date",
+						"type": "String"
+					},
+					{
+						"name": "CVC",
+						"type": "String"
+					},
+					{
+						"name": "Date_Processed",
+						"type": "String"
+					},
+					{
+						"name": "Assigned_Id",
+						"type": "String"
+					},
+					{
+						"name": "DateTime_Assigned",
+						"type": "String"
+					},
+					{
+						"name": "Status",
+						"type": "String"
+					},
+					{
+						"name": "App_Submitted_Date",
+						"type": "String"
+					},
+					{
+						"name": "Policy_Effective_Date",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Login_Used",
+						"type": "String"
+					},
+					{
+						"name": "LastStatusChange",
+						"type": "String"
+					},
+					{
+						"name": "SubmittedToFloridaBlue",
+						"type": "String"
+					},
+					{
+						"name": "Carrier",
+						"type": "String"
+					},
+					{
+						"name": "FederallyFacilitatedMarketplaceId",
+						"type": "String"
+					},
+					{
+						"name": "SubscriberId",
+						"type": "String"
+					},
+					{
+						"name": "ExpirationDate",
+						"type": "String"
+					},
+					{
+						"name": "ConsentConfirmedAt",
+						"type": "String"
+					},
+					{
+						"name": "ConsentConfirmedBy",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IMS_DATA_EXP_FILE1_3_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "IMS_DATA_EXP_FILE1_3_DEV.txt",
+						"folderPath": "/MSL_Cloud_Dev/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Id",
+						"type": "String"
+					},
+					{
+						"name": "Submitter_ID",
+						"type": "String"
+					},
+					{
+						"name": "SubmitterFirstName",
+						"type": "String"
+					},
+					{
+						"name": "SubmitterLastName",
+						"type": "String"
+					},
+					{
+						"name": "Florida_Blue_Response",
+						"type": "String"
+					},
+					{
+						"name": "DateTime_Submitted",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Id",
+						"type": "String"
+					},
+					{
+						"name": "AgentFirstName",
+						"type": "String"
+					},
+					{
+						"name": "AgentLastName",
+						"type": "String"
+					},
+					{
+						"name": "Runner_Name",
+						"type": "String"
+					},
+					{
+						"name": "UplineFirstName",
+						"type": "String"
+					},
+					{
+						"name": "UplineLastName",
+						"type": "String"
+					},
+					{
+						"name": "DepartmentName",
+						"type": "String"
+					},
+					{
+						"name": "DepartmentDesignation",
+						"type": "String"
+					},
+					{
+						"name": "Client_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Client_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Client_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Client_Phone",
+						"type": "String"
+					},
+					{
+						"name": "Client_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Client_Email",
+						"type": "String"
+					},
+					{
+						"name": "Client_Address_1",
+						"type": "String"
+					},
+					{
+						"name": "Client_Address_2",
+						"type": "String"
+					},
+					{
+						"name": "Client_City",
+						"type": "String"
+					},
+					{
+						"name": "Client_State",
+						"type": "String"
+					},
+					{
+						"name": "Client_Zip",
+						"type": "String"
+					},
+					{
+						"name": "Member_Count_Enrolled",
+						"type": "String"
+					},
+					{
+						"name": "Client_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Product_Change",
+						"type": "String"
+					},
+					{
+						"name": "Married",
+						"type": "String"
+					},
+					{
+						"name": "Dependents",
+						"type": "String"
+					},
+					{
+						"name": "Pregnant",
+						"type": "String"
+					},
+					{
+						"name": "Smoker",
+						"type": "String"
+					},
+					{
+						"name": "American_Native",
+						"type": "String"
+					},
+					{
+						"name": "Employer_Name",
+						"type": "String"
+					},
+					{
+						"name": "Employer_Number",
+						"type": "String"
+					},
+					{
+						"name": "Client_Income",
+						"type": "String"
+					},
+					{
+						"name": "Client_Income_Freq",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Employer_Name",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Employer_Number",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Income",
+						"type": "String"
+					},
+					{
+						"name": "Spouse",
+						"type": "String"
+					},
+					{
+						"name": "Domestic_Partner",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Tax_Credit_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Plan_Premium",
+						"type": "String"
+					},
+					{
+						"name": "Payment_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Plan_Name",
+						"type": "String"
+					},
+					{
+						"name": "Plan_ID",
+						"type": "String"
+					},
+					{
+						"name": "Insurance_Company",
+						"type": "String"
+					},
+					{
+						"name": "Plan_Selected",
+						"type": "String"
+					},
+					{
+						"name": "Credit_Card",
+						"type": "String"
+					},
+					{
+						"name": "Exp_Date",
+						"type": "String"
+					},
+					{
+						"name": "CVC",
+						"type": "String"
+					},
+					{
+						"name": "Date_Processed",
+						"type": "String"
+					},
+					{
+						"name": "Assigned_Id",
+						"type": "String"
+					},
+					{
+						"name": "DateTime_Assigned",
+						"type": "String"
+					},
+					{
+						"name": "Status",
+						"type": "String"
+					},
+					{
+						"name": "App_Submitted_Date",
+						"type": "String"
+					},
+					{
+						"name": "Policy_Effective_Date",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Login_Used",
+						"type": "String"
+					},
+					{
+						"name": "LastStatusChange",
+						"type": "String"
+					},
+					{
+						"name": "SubmittedToFloridaBlue",
+						"type": "String"
+					},
+					{
+						"name": "Carrier",
+						"type": "String"
+					},
+					{
+						"name": "FederallyFacilitatedMarketplaceId",
+						"type": "String"
+					},
+					{
+						"name": "SubscriberId",
+						"type": "String"
+					},
+					{
+						"name": "ExpirationDate",
+						"type": "String"
+					},
+					{
+						"name": "ConsentConfirmedAt",
+						"type": "String"
+					},
+					{
+						"name": "ConsentConfirmedBy",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IMS_DATA_EXP_FILE1_3_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "IMS_DATA_EXP_FILE1_3_PRD.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Id",
+						"type": "String"
+					},
+					{
+						"name": "Submitter_ID",
+						"type": "String"
+					},
+					{
+						"name": "SubmitterFirstName",
+						"type": "String"
+					},
+					{
+						"name": "SubmitterLastName",
+						"type": "String"
+					},
+					{
+						"name": "Florida_Blue_Response",
+						"type": "String"
+					},
+					{
+						"name": "DateTime_Submitted",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Id",
+						"type": "String"
+					},
+					{
+						"name": "AgentFirstName",
+						"type": "String"
+					},
+					{
+						"name": "AgentLastName",
+						"type": "String"
+					},
+					{
+						"name": "Runner_Name",
+						"type": "String"
+					},
+					{
+						"name": "UplineFirstName",
+						"type": "String"
+					},
+					{
+						"name": "UplineLastName",
+						"type": "String"
+					},
+					{
+						"name": "DepartmentName",
+						"type": "String"
+					},
+					{
+						"name": "DepartmentDesignation",
+						"type": "String"
+					},
+					{
+						"name": "Client_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Client_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Client_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Client_Phone",
+						"type": "String"
+					},
+					{
+						"name": "Client_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Client_Email",
+						"type": "String"
+					},
+					{
+						"name": "Client_Address_1",
+						"type": "String"
+					},
+					{
+						"name": "Client_Address_2",
+						"type": "String"
+					},
+					{
+						"name": "Client_City",
+						"type": "String"
+					},
+					{
+						"name": "Client_State",
+						"type": "String"
+					},
+					{
+						"name": "Client_Zip",
+						"type": "String"
+					},
+					{
+						"name": "Member_Count_Enrolled",
+						"type": "String"
+					},
+					{
+						"name": "Client_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Product_Change",
+						"type": "String"
+					},
+					{
+						"name": "Married",
+						"type": "String"
+					},
+					{
+						"name": "Dependents",
+						"type": "String"
+					},
+					{
+						"name": "Pregnant",
+						"type": "String"
+					},
+					{
+						"name": "Smoker",
+						"type": "String"
+					},
+					{
+						"name": "American_Native",
+						"type": "String"
+					},
+					{
+						"name": "Employer_Name",
+						"type": "String"
+					},
+					{
+						"name": "Employer_Number",
+						"type": "String"
+					},
+					{
+						"name": "Client_Income",
+						"type": "String"
+					},
+					{
+						"name": "Client_Income_Freq",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Employer_Name",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Employer_Number",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Income",
+						"type": "String"
+					},
+					{
+						"name": "Spouse",
+						"type": "String"
+					},
+					{
+						"name": "Domestic_Partner",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Tax_Credit_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Plan_Premium",
+						"type": "String"
+					},
+					{
+						"name": "Payment_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Plan_Name",
+						"type": "String"
+					},
+					{
+						"name": "Plan_ID",
+						"type": "String"
+					},
+					{
+						"name": "Insurance_Company",
+						"type": "String"
+					},
+					{
+						"name": "Plan_Selected",
+						"type": "String"
+					},
+					{
+						"name": "Credit_Card",
+						"type": "String"
+					},
+					{
+						"name": "Exp_Date",
+						"type": "String"
+					},
+					{
+						"name": "CVC",
+						"type": "String"
+					},
+					{
+						"name": "Date_Processed",
+						"type": "String"
+					},
+					{
+						"name": "Assigned_Id",
+						"type": "String"
+					},
+					{
+						"name": "DateTime_Assigned",
+						"type": "String"
+					},
+					{
+						"name": "Status",
+						"type": "String"
+					},
+					{
+						"name": "App_Submitted_Date",
+						"type": "String"
+					},
+					{
+						"name": "Policy_Effective_Date",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Login_Used",
+						"type": "String"
+					},
+					{
+						"name": "LastStatusChange",
+						"type": "String"
+					},
+					{
+						"name": "SubmittedToFloridaBlue",
+						"type": "String"
+					},
+					{
+						"name": "Carrier",
+						"type": "String"
+					},
+					{
+						"name": "FederallyFacilitatedMarketplaceId",
+						"type": "String"
+					},
+					{
+						"name": "SubscriberId",
+						"type": "String"
+					},
+					{
+						"name": "ExpirationDate",
+						"type": "String"
+					},
+					{
+						"name": "ConsentConfirmedAt",
+						"type": "String"
+					},
+					{
+						"name": "ConsentConfirmedBy",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IMS_DATA_EXP_FILE1_3_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "IMS_DATA_EXP_FILE1_3_UAT.txt",
+						"folderPath": "/MSL_Cloud_Uat/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Id",
+						"type": "String"
+					},
+					{
+						"name": "Submitter_ID",
+						"type": "String"
+					},
+					{
+						"name": "SubmitterFirstName",
+						"type": "String"
+					},
+					{
+						"name": "SubmitterLastName",
+						"type": "String"
+					},
+					{
+						"name": "Florida_Blue_Response",
+						"type": "String"
+					},
+					{
+						"name": "DateTime_Submitted",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Id",
+						"type": "String"
+					},
+					{
+						"name": "AgentFirstName",
+						"type": "String"
+					},
+					{
+						"name": "AgentLastName",
+						"type": "String"
+					},
+					{
+						"name": "Runner_Name",
+						"type": "String"
+					},
+					{
+						"name": "UplineFirstName",
+						"type": "String"
+					},
+					{
+						"name": "UplineLastName",
+						"type": "String"
+					},
+					{
+						"name": "DepartmentName",
+						"type": "String"
+					},
+					{
+						"name": "DepartmentDesignation",
+						"type": "String"
+					},
+					{
+						"name": "Client_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Client_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Client_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Client_Phone",
+						"type": "String"
+					},
+					{
+						"name": "Client_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Client_Email",
+						"type": "String"
+					},
+					{
+						"name": "Client_Address_1",
+						"type": "String"
+					},
+					{
+						"name": "Client_Address_2",
+						"type": "String"
+					},
+					{
+						"name": "Client_City",
+						"type": "String"
+					},
+					{
+						"name": "Client_State",
+						"type": "String"
+					},
+					{
+						"name": "Client_Zip",
+						"type": "String"
+					},
+					{
+						"name": "Member_Count_Enrolled",
+						"type": "String"
+					},
+					{
+						"name": "Client_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Product_Change",
+						"type": "String"
+					},
+					{
+						"name": "Married",
+						"type": "String"
+					},
+					{
+						"name": "Dependents",
+						"type": "String"
+					},
+					{
+						"name": "Pregnant",
+						"type": "String"
+					},
+					{
+						"name": "Smoker",
+						"type": "String"
+					},
+					{
+						"name": "American_Native",
+						"type": "String"
+					},
+					{
+						"name": "Employer_Name",
+						"type": "String"
+					},
+					{
+						"name": "Employer_Number",
+						"type": "String"
+					},
+					{
+						"name": "Client_Income",
+						"type": "String"
+					},
+					{
+						"name": "Client_Income_Freq",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Employer_Name",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Employer_Number",
+						"type": "String"
+					},
+					{
+						"name": "Spousal_Income",
+						"type": "String"
+					},
+					{
+						"name": "Spouse",
+						"type": "String"
+					},
+					{
+						"name": "Domestic_Partner",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_0_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_1_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_2_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_3_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_4_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_5_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_6_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_7_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_DOB",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_Sex",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_SSN",
+						"type": "String"
+					},
+					{
+						"name": "Dependent_8_Covered",
+						"type": "String"
+					},
+					{
+						"name": "Tax_Credit_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Plan_Premium",
+						"type": "String"
+					},
+					{
+						"name": "Payment_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Plan_Name",
+						"type": "String"
+					},
+					{
+						"name": "Plan_ID",
+						"type": "String"
+					},
+					{
+						"name": "Insurance_Company",
+						"type": "String"
+					},
+					{
+						"name": "Plan_Selected",
+						"type": "String"
+					},
+					{
+						"name": "Credit_Card",
+						"type": "String"
+					},
+					{
+						"name": "Exp_Date",
+						"type": "String"
+					},
+					{
+						"name": "CVC",
+						"type": "String"
+					},
+					{
+						"name": "Date_Processed",
+						"type": "String"
+					},
+					{
+						"name": "Assigned_Id",
+						"type": "String"
+					},
+					{
+						"name": "DateTime_Assigned",
+						"type": "String"
+					},
+					{
+						"name": "Status",
+						"type": "String"
+					},
+					{
+						"name": "App_Submitted_Date",
+						"type": "String"
+					},
+					{
+						"name": "Policy_Effective_Date",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Login_Used",
+						"type": "String"
+					},
+					{
+						"name": "LastStatusChange",
+						"type": "String"
+					},
+					{
+						"name": "SubmittedToFloridaBlue",
+						"type": "String"
+					},
+					{
+						"name": "Carrier",
+						"type": "String"
+					},
+					{
+						"name": "FederallyFacilitatedMarketplaceId",
+						"type": "String"
+					},
+					{
+						"name": "SubscriberId",
+						"type": "String"
+					},
+					{
+						"name": "ExpirationDate",
+						"type": "String"
+					},
+					{
+						"name": "ConsentConfirmedAt",
+						"type": "String"
+					},
+					{
+						"name": "ConsentConfirmedBy",
+						"type": "String"
+					}
+				]
 			},
 			"dependsOn": []
 		}

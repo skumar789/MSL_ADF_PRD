@@ -7,6 +7,10 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "e2eis-adf1"
 		},
+		"SqlServer_mslbcpprd_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'SqlServer_mslbcpprd'"
+		},
 		"ls_logging store_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'ls_logging store'"
@@ -14,6 +18,18 @@
 		"sftp_outgoing_file_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'sftp_outgoing_file'"
+		},
+		"SqlServer_mslbcpprd_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "dbserver-e2eis-prod.database.windows.net"
+		},
+		"SqlServer_mslbcpprd_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "E2EIS_PROD_BCP"
+		},
+		"SqlServer_mslbcpprd_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "MSLPRD"
 		},
 		"sftp_outgoing_file_properties_typeProperties_host": {
 			"type": "string",
@@ -28,6 +44,29 @@
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServer_mslbcpprd')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "This will be use for prd.msusportal.com",
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"server": "[parameters('SqlServer_mslbcpprd_properties_typeProperties_server')]",
+					"database": "[parameters('SqlServer_mslbcpprd_properties_typeProperties_database')]",
+					"encrypt": "optional",
+					"trustServerCertificate": false,
+					"authenticationType": "SQL",
+					"userName": "[parameters('SqlServer_mslbcpprd_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('SqlServer_mslbcpprd_password')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
 		{
 			"name": "[concat(parameters('factoryName'), '/ls_logging store')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
@@ -101,6 +140,1059 @@
 						"timeZone": "Eastern Standard Time"
 					}
 				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PIPELINE_FOR_COMMISSION_WORKFLOW_MSL998_VIA_DOTNET')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "UpdateStatusInProgress",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[MSL_998].[SP_LOG_COMMISSION_WORKFLOW_ETL]",
+							"storedProcedureParameters": {
+								"Period": {
+									"value": {
+										"value": "@concat(pipeline().parameters.MONTH, '/', pipeline().parameters.YEAR)\r\n",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"State": {
+									"value": {
+										"value": "@pipeline().parameters.State",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"Status": {
+									"value": "IN PROGRESS",
+									"type": "String"
+								},
+								"RunID": {
+									"value": {
+										"value": "@pipeline().RunId",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"StartDateTime": {
+									"value": {
+										"value": "@formatDateTime(convertTimeZone(utcNow(), 'UTC', 'Eastern Standard Time'), 'MM:dd:yyyy HH:mm:ss')\n",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"Week": {
+									"value": {
+										"value": "@pipeline().parameters.WEEK",
+										"type": "Expression"
+									},
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer_msldev",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "ExeCommissionWorkflow",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "UpdateStatusInProgress",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": {
+								"value": "@if(equals(pipeline().parameters.State, 'OOS'), '[MSL_998].[MSL_COMMISSION_CALCULATION_OOS]', '[MSL_998].[MSL_COMMISSION_CALCULATION_FB]')\n\n",
+								"type": "Expression"
+							},
+							"storedProcedureParameters": {
+								"MONTH": {
+									"value": {
+										"value": "@pipeline().parameters.MONTH",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"YEAR": {
+									"value": {
+										"value": "@pipeline().parameters.YEAR",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"WEEK": {
+									"value": {
+										"value": "@pipeline().parameters.WEEK",
+										"type": "Expression"
+									},
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer_msldev",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "UpdateStatusSuccess",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "ExeCommissionWorkflow",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[MSL_998].[SP_LOG_COMMISSION_WORKFLOW_ETL]",
+							"storedProcedureParameters": {
+								"Period": {
+									"value": {
+										"value": "@concat(pipeline().parameters.MONTH, '/', pipeline().parameters.YEAR)",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"State": {
+									"value": {
+										"value": "@pipeline().parameters.State",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"Status": {
+									"value": "COMPLETED",
+									"type": "String"
+								},
+								"RunID": {
+									"value": {
+										"value": "@pipeline().RunId",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"EndDateTime": {
+									"value": {
+										"value": "@formatDateTime(convertTimeZone(utcNow(), 'UTC', 'Eastern Standard Time'), 'MM:dd:yyyy HH:mm:ss')",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"Week": {
+									"value": {
+										"value": "@pipeline().parameters.WEEK",
+										"type": "Expression"
+									},
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer_msldev",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "UpdateStatusFailure",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "ExeCommissionWorkflow",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[MSL_998].[SP_LOG_COMMISSION_WORKFLOW_ETL]",
+							"storedProcedureParameters": {
+								"Period": {
+									"value": {
+										"value": "@concat(pipeline().parameters.MONTH, '/', pipeline().parameters.YEAR)",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"State": {
+									"value": {
+										"value": "@pipeline().parameters.State",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"Status": {
+									"value": "FAILED",
+									"type": "String"
+								},
+								"Error": {
+									"value": {
+										"value": "@activity('ExeCommissionWorkflow').error.message",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"RunID": {
+									"value": {
+										"value": "@pipeline().RunId",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"EndDateTime": {
+									"value": {
+										"value": "@formatDateTime(convertTimeZone(utcNow(), 'UTC', 'Eastern Standard Time'), 'MM:dd:yyyy HH:mm:ss')",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"Week": {
+									"value": {
+										"value": "@pipeline().parameters.WEEK",
+										"type": "Expression"
+									},
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer_msldev",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"concurrency": 2,
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"MONTH": {
+						"type": "string"
+					},
+					"YEAR": {
+						"type": "string"
+					},
+					"State": {
+						"type": "string"
+					},
+					"WEEK": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"lastPublishTime": "2026-01-12T07:23:36Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PIPELINE_FOR_MSL_FL_BOB_GENERATION')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "UpdateStatusInProgress",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[MSL_998].[MSL_SP_UPDATE_STATUS]",
+							"storedProcedureParameters": {
+								"PeriodName": {
+									"value": {
+										"value": "@pipeline().parameters.PeriodName",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"State": {
+									"value": {
+										"value": "@pipeline().parameters.State",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"Status": {
+									"value": "IN PROGRESS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer_msldev",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "ExecuteBobProcess",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "UpdateAuditWithRunID",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": {
+								"value": "@if(equals(pipeline().parameters.State, 'OOS'), '[MSL_998].[MSL_SP_BOB_PROCESS_OOS]', '[MSL_998].[MSL_SP_BOB_PROCESS_FL]')",
+								"type": "Expression"
+							},
+							"storedProcedureParameters": {
+								"PeriodName ": {
+									"value": {
+										"value": "@pipeline().parameters.PeriodName",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"PreviousPeriodName ": {
+									"value": {
+										"value": "@pipeline().parameters.PreviousPeriodName",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"IsRegeneration ": {
+									"value": {
+										"value": "@pipeline().parameters.IsRegeneration",
+										"type": "Expression"
+									},
+									"type": "Boolean"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer_msldev",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "UpdateStatusSuccess",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "ExecuteBobProcess",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[MSL_998].[MSL_SP_UPDATE_STATUS]",
+							"storedProcedureParameters": {
+								"PeriodName": {
+									"value": {
+										"value": "@pipeline().parameters.PeriodName",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"State": {
+									"value": {
+										"value": "@pipeline().parameters.State",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"Status": {
+									"value": "COMPLETED",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer_msldev",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "UpdateStatusFailure",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "ExecuteBobProcess",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[MSL_998].[MSL_SP_UPDATE_STATUS]",
+							"storedProcedureParameters": {
+								"PeriodName": {
+									"value": {
+										"value": "@pipeline().parameters.PeriodName",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"State": {
+									"value": {
+										"value": "@pipeline().parameters.State",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"Status": {
+									"value": "FAILED",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer_msldev",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "UpdateAuditWithRunID",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "UpdateStatusInProgress",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[MSL_998].[MSL_SP_UPDATE_BOB_AUDIT]",
+							"storedProcedureParameters": {
+								"AuditID": {
+									"value": {
+										"value": "@pipeline().parameters.AuditID",
+										"type": "Expression"
+									},
+									"type": "Int32"
+								},
+								"RunID": {
+									"value": {
+										"value": "@pipeline().RunId",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"Status": {
+									"value": "IN PROGRESS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer_msldev",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "UpdateAuditSuccess",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "UpdateStatusSuccess",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[MSL_998].[MSL_SP_UPDATE_BOB_AUDIT]",
+							"storedProcedureParameters": {
+								"AuditID": {
+									"value": {
+										"value": "@pipeline().parameters.AuditID",
+										"type": "Expression"
+									},
+									"type": "Int32"
+								},
+								"DateTime_Completed": {
+									"value": {
+										"value": "@utcnow()",
+										"type": "Expression"
+									},
+									"type": "DateTime"
+								},
+								"Error_Message": {
+									"value": "The Audit Captured with No Errors",
+									"type": "String"
+								},
+								"RunID": {
+									"value": {
+										"value": "@pipeline().RunId",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"Status": {
+									"value": "COMPLETED",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer_msldev",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "UpdateAuditFailure",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "UpdateStatusFailure",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[MSL_998].[MSL_SP_UPDATE_BOB_AUDIT]",
+							"storedProcedureParameters": {
+								"AuditID": {
+									"value": {
+										"value": "@pipeline().parameters.AuditID",
+										"type": "Expression"
+									},
+									"type": "Int32"
+								},
+								"DateTime_Completed": {
+									"value": {
+										"value": "@utcnow()",
+										"type": "Expression"
+									},
+									"type": "DateTime"
+								},
+								"Error_Message": {
+									"value": "An Error Occurred or The BOB Generation Failed  ",
+									"type": "String"
+								},
+								"RunID": {
+									"value": {
+										"value": "@pipeline().RunId",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"Status": {
+									"value": "FAILED",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer_msldev",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"PeriodName": {
+						"type": "string"
+					},
+					"PreviousPeriodName": {
+						"type": "string"
+					},
+					"State": {
+						"type": "string"
+					},
+					"IsRegeneration": {
+						"type": "bool",
+						"defaultValue": false
+					},
+					"AuditID": {
+						"type": "int"
+					}
+				},
+				"annotations": [],
+				"lastPublishTime": "2025-11-13T11:36:58Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PIPELINE_FOR_MSL_OOS_BOB_GENERATION')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "UpdateStatusInProgress",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[MSL_998].[MSL_SP_UPDATE_STATUS]",
+							"storedProcedureParameters": {
+								"PeriodName": {
+									"value": {
+										"value": "@pipeline().parameters.PeriodName",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"State": {
+									"value": {
+										"value": "@pipeline().parameters.State",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"Status": {
+									"value": "IN PROGRESS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer_msldev",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "ExecuteBobProcess",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "UpdateAuditWithRunID",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": {
+								"value": "@if(equals(pipeline().parameters.State, 'OOS'), '[MSL_998].[MSL_SP_BOB_PROCESS_OOS]', '[MSL_998].[MSL_SP_BOB_PROCESS_FL]')",
+								"type": "Expression"
+							},
+							"storedProcedureParameters": {
+								"PeriodName ": {
+									"value": {
+										"value": "@pipeline().parameters.PeriodName",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"PreviousPeriodName ": {
+									"value": {
+										"value": "@pipeline().parameters.PreviousPeriodName",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"IsRegeneration ": {
+									"value": {
+										"value": "@pipeline().parameters.IsRegeneration",
+										"type": "Expression"
+									},
+									"type": "Boolean"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer_msldev",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "UpdateStatusSuccess",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "ExecuteBobProcess",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[MSL_998].[MSL_SP_UPDATE_STATUS]",
+							"storedProcedureParameters": {
+								"PeriodName": {
+									"value": {
+										"value": "@pipeline().parameters.PeriodName",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"State": {
+									"value": {
+										"value": "@pipeline().parameters.State",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"Status": {
+									"value": "COMPLETED",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer_msldev",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "UpdateStatusFailure",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "ExecuteBobProcess",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[MSL_998].[MSL_SP_UPDATE_STATUS]",
+							"storedProcedureParameters": {
+								"PeriodName": {
+									"value": {
+										"value": "@pipeline().parameters.PeriodName",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"State": {
+									"value": {
+										"value": "@pipeline().parameters.State",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"Status": {
+									"value": "FAILED",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer_msldev",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "UpdateAuditWithRunID",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "UpdateStatusInProgress",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[MSL_998].[MSL_SP_UPDATE_BOB_AUDIT]",
+							"storedProcedureParameters": {
+								"AuditID": {
+									"value": {
+										"value": "@pipeline().parameters.AuditID",
+										"type": "Expression"
+									},
+									"type": "Int32"
+								},
+								"RunID": {
+									"value": {
+										"value": "@pipeline().RunId",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"Status": {
+									"value": "IN PROGRESS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer_msldev",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "UpdateAuditSuccess",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "UpdateStatusSuccess",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[MSL_998].[MSL_SP_UPDATE_BOB_AUDIT]",
+							"storedProcedureParameters": {
+								"AuditID": {
+									"value": {
+										"value": "@pipeline().parameters.AuditID",
+										"type": "Expression"
+									},
+									"type": "Int32"
+								},
+								"DateTime_Completed": {
+									"value": {
+										"value": "@utcnow()",
+										"type": "Expression"
+									},
+									"type": "DateTime"
+								},
+								"Error_Message": {
+									"value": "The Audit Captured with No Errors",
+									"type": "String"
+								},
+								"RunID": {
+									"value": {
+										"value": "@pipeline().RunId",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"Status": {
+									"value": "COMPLETED",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer_msldev",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "UpdateAuditFailure",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "UpdateStatusFailure",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[MSL_998].[MSL_SP_UPDATE_BOB_AUDIT]",
+							"storedProcedureParameters": {
+								"AuditID": {
+									"value": {
+										"value": "@pipeline().parameters.AuditID",
+										"type": "Expression"
+									},
+									"type": "Int32"
+								},
+								"DateTime_Completed": {
+									"value": {
+										"value": "@utcnow()",
+										"type": "Expression"
+									},
+									"type": "DateTime"
+								},
+								"Error_Message": {
+									"value": "An Error Occurred or The BOB Generation Failed  ",
+									"type": "String"
+								},
+								"RunID": {
+									"value": {
+										"value": "@pipeline().RunId",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"Status": {
+									"value": "FAILED",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer_msldev",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"PeriodName": {
+						"type": "string"
+					},
+					"PreviousPeriodName": {
+						"type": "string"
+					},
+					"State": {
+						"type": "string"
+					},
+					"IsRegeneration": {
+						"type": "bool",
+						"defaultValue": false
+					},
+					"AuditID": {
+						"type": "int"
+					}
+				},
+				"annotations": [],
+				"lastPublishTime": "2025-11-13T11:50:45Z"
 			},
 			"dependsOn": []
 		},
@@ -322,7 +1414,7 @@
 					}
 				},
 				"annotations": [],
-				"lastPublishTime": "2025-09-01T11:35:21Z"
+				"lastPublishTime": "2025-10-13T18:30:45Z"
 			},
 			"dependsOn": []
 		},
@@ -705,7 +1797,7 @@
 					}
 				},
 				"annotations": [],
-				"lastPublishTime": "2025-08-31T12:46:53Z"
+				"lastPublishTime": "2025-10-13T18:30:45Z"
 			},
 			"dependsOn": []
 		},
@@ -1088,7 +2180,7 @@
 					}
 				},
 				"annotations": [],
-				"lastPublishTime": "2025-08-31T19:52:23Z"
+				"lastPublishTime": "2025-10-13T18:30:45Z"
 			},
 			"dependsOn": []
 		},
@@ -1305,7 +2397,7 @@
 					}
 				},
 				"annotations": [],
-				"lastPublishTime": "2025-08-31T19:48:42Z"
+				"lastPublishTime": "2025-10-13T18:30:46Z"
 			},
 			"dependsOn": []
 		},
@@ -2549,607 +3641,6 @@
 				"typeProperties": {
 					"schema": "ABI_101",
 					"table": "ABI_AGENCY_ANNUAL_RATE_DETAILS_HISTORY"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ABI_AGENCY_ANNUAL_RATE_DETAILS_HISTORY_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_mslprd",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "YEAR",
-						"type": "varchar"
-					},
-					{
-						"name": "SEGMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_CONTRACT_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "FB_COMP_STATEMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "FB_PRODUCT_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "FB_COMP_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_COMP_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "CONTRACT_STARTS_WITH",
-						"type": "varchar"
-					},
-					{
-						"name": "E2E_PLAN_DESCRIPTION",
-						"type": "varchar"
-					},
-					{
-						"name": "FREQUENCY",
-						"type": "varchar"
-					},
-					{
-						"name": "FB_COMMISSION_FLAT_RATE",
-						"type": "varchar"
-					},
-					{
-						"name": "STANDARD_AMOUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "PERCENT_OF_FB_PAYMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "OVERRIDE_PERCENT_OF_FB_PAYMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "PAYMENT_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "TIER1_PERCENT_OF_FB_PAYMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "TIER2_PERCENT_OF_FB_PAYMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "TIER3_PERCENT_OF_FB_PAYMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "TIER4_PERCENT_OF_FB_PAYMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "ENROLLMENT_YEAR_START",
-						"type": "varchar"
-					},
-					{
-						"name": "ENROLLMENT_YEAR_END",
-						"type": "varchar"
-					},
-					{
-						"name": "GROUP_SIZE_RANGE_START",
-						"type": "varchar"
-					},
-					{
-						"name": "GROUP_SIZE_RANGE_END",
-						"type": "varchar"
-					},
-					{
-						"name": "GROUP_COUNTY",
-						"type": "varchar"
-					},
-					{
-						"name": "TIER1_AMOUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "TIER2_AMOUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "TIER3_AMOUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "CARRIER",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "TIER5_PERCENT_OF_FB_PAYMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "TIER6_PERCENT_OF_FB_PAYMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "TIER7_PERCENT_OF_FB_PAYMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "TIER8_PERCENT_OF_FB_PAYMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "TIER9_PERCENT_OF_FB_PAYMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "TIER10_PERCENT_OF_FB_PAYMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "ORIGINAL_EFFECTIVE_DATE_START_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "ORIGINAL_EFFECTIVE_DATE_END_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "smallint",
-						"precision": 5
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "ABI_101",
-					"table": "ABI_AGENCY_ANNUAL_RATE_DETAILS_HISTORY"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ABI_AGENCY_ANNUAL_RATE_DETAILS_HISTORY_UAT')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_msluat",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "ABI_AGENCY_ANNUAL_RATE_DETAILS_HISTORY"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ABI_AGENCY_ANNUAL_RATE_DETAILS_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_mslprd",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "YEAR",
-						"type": "varchar"
-					},
-					{
-						"name": "SEGMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_CONTRACT_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "FB_COMP_STATEMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "FB_PRODUCT_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "FB_COMP_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_COMP_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "CONTRACT_STARTS_WITH",
-						"type": "varchar"
-					},
-					{
-						"name": "E2E_PLAN_DESCRIPTION",
-						"type": "varchar"
-					},
-					{
-						"name": "FREQUENCY",
-						"type": "varchar"
-					},
-					{
-						"name": "FB_COMMISSION_FLAT_RATE",
-						"type": "varchar"
-					},
-					{
-						"name": "STANDARD_AMOUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "PERCENT_OF_FB_PAYMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "OVERRIDE_PERCENT_OF_FB_PAYMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "PAYMENT_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "TIER1_PERCENT_OF_FB_PAYMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "TIER2_PERCENT_OF_FB_PAYMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "TIER3_PERCENT_OF_FB_PAYMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "TIER4_PERCENT_OF_FB_PAYMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "ENROLLMENT_YEAR_START",
-						"type": "varchar"
-					},
-					{
-						"name": "ENROLLMENT_YEAR_END",
-						"type": "varchar"
-					},
-					{
-						"name": "GROUP_SIZE_RANGE_START",
-						"type": "varchar"
-					},
-					{
-						"name": "GROUP_SIZE_RANGE_END",
-						"type": "varchar"
-					},
-					{
-						"name": "GROUP_COUNTY",
-						"type": "varchar"
-					},
-					{
-						"name": "TIER1_AMOUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "TIER2_AMOUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "TIER3_AMOUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "CARRIER",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "TIER5_PERCENT_OF_FB_PAYMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "TIER6_PERCENT_OF_FB_PAYMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "TIER7_PERCENT_OF_FB_PAYMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "TIER8_PERCENT_OF_FB_PAYMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "TIER9_PERCENT_OF_FB_PAYMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "TIER10_PERCENT_OF_FB_PAYMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "ORIGINAL_EFFECTIVE_DATE_START_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "ORIGINAL_EFFECTIVE_DATE_END_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "smallint",
-						"precision": 5
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "ABI_101",
-					"table": "ABI_AGENCY_ANNUAL_RATE_DETAILS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ABI_AGENCY_ANNUAL_RATE_DETAILS_UAT')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_msluat",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "YEAR",
-						"type": "varchar"
-					},
-					{
-						"name": "SEGMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_CONTRACT_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "FB_COMP_STATEMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "FB_PRODUCT_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "FB_COMP_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_COMP_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "CONTRACT_STARTS_WITH",
-						"type": "varchar"
-					},
-					{
-						"name": "E2E_PLAN_DESCRIPTION",
-						"type": "varchar"
-					},
-					{
-						"name": "FREQUENCY",
-						"type": "varchar"
-					},
-					{
-						"name": "FB_COMMISSION_FLAT_RATE",
-						"type": "varchar"
-					},
-					{
-						"name": "STANDARD_AMOUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "PERCENT_OF_FB_PAYMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "OVERRIDE_PERCENT_OF_FB_PAYMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "PAYMENT_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "TIER1_PERCENT_OF_FB_PAYMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "TIER2_PERCENT_OF_FB_PAYMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "TIER3_PERCENT_OF_FB_PAYMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "TIER4_PERCENT_OF_FB_PAYMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "ENROLLMENT_YEAR_START",
-						"type": "varchar"
-					},
-					{
-						"name": "ENROLLMENT_YEAR_END",
-						"type": "varchar"
-					},
-					{
-						"name": "GROUP_SIZE_RANGE_START",
-						"type": "varchar"
-					},
-					{
-						"name": "GROUP_SIZE_RANGE_END",
-						"type": "varchar"
-					},
-					{
-						"name": "GROUP_COUNTY",
-						"type": "varchar"
-					},
-					{
-						"name": "TIER1_AMOUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "TIER2_AMOUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "TIER3_AMOUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "CARRIER",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "TIER5_PERCENT_OF_FB_PAYMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "TIER6_PERCENT_OF_FB_PAYMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "TIER7_PERCENT_OF_FB_PAYMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "TIER8_PERCENT_OF_FB_PAYMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "TIER9_PERCENT_OF_FB_PAYMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "TIER10_PERCENT_OF_FB_PAYMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "ORIGINAL_EFFECTIVE_DATE_START_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "ORIGINAL_EFFECTIVE_DATE_END_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "smallint",
-						"precision": 5
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "ABI_101",
-					"table": "ABI_AGENCY_ANNUAL_RATE_DETAILS"
 				}
 			},
 			"dependsOn": []
