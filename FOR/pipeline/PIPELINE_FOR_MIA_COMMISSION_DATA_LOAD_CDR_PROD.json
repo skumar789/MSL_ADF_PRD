@@ -1,5 +1,5 @@
 {
-	"name": "PIPELINE_FOR_ALL_MIA_DATA_FEEDS_CDR_PROD",
+	"name": "PIPELINE_FOR_MIA_COMMISSION_DATA_LOAD_CDR_PROD",
 	"properties": {
 		"activities": [
 			{
@@ -16093,6 +16093,177 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "MIA_SP_PAYEE_RATE_BLUECHIP_PROC_COMP1",
+				"description": "MIA BLUECHIP COMMISSION RUN STEP 1",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[AQI_104].[MIA_SP_PAYEE_RATE_BLUECHIP_PROC_COMP1]"
+				},
+				"linkedServiceName": {
+					"referenceName": "e2eiS_UAT",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "MIA_SP_BLUECHIP_COMMISSION_PROCESS",
+				"description": "MIA BLUECHIP COMMISSION RUN STEP 2",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "MIA_SP_PAYEE_RATE_BLUECHIP_PROC_COMP1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[AQI_104].[MIA_SP_BLUECHIP_COMMISSION_PROCESS]",
+					"storedProcedureParameters": {
+						"Month": {
+							"value": {
+								"value": "@'11'",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Year": {
+							"value": {
+								"value": "@'2025'",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "e2eiS_UAT",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "MIA_SP_BLUECHIP_COMMISSION_SUMMARY",
+				"description": "MIA BLUECHIP COMMISSION RUN STEP 3",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "MIA_SP_BLUECHIP_COMMISSION_PROCESS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[AQI_104].[MIA_SP_BLUECHIP_COMMISSION_SUMMARY] ",
+					"storedProcedureParameters": {
+						"Month": {
+							"value": {
+								"value": "@'11'",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Year": {
+							"value": {
+								"value": "@'2025'",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "e2eiS_UAT",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "DF_MIA_BLUECHIP_DETAILS",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "MIA_SP_BLUECHIP_COMMISSION_SUMMARY",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "dfmiabluechipdetails",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_MIA_BLUECHIP_SUMMARY",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DF_MIA_BLUECHIP_DETAILS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "dfmiabluechipsummary",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
 			}
 		],
 		"annotations": []

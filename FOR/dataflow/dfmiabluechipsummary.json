@@ -1,0 +1,52 @@
+{
+	"name": "dfmiabluechipsummary",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "MIA_BCBS_BLUECHIP_COMISSIONS_SUMMARY_CDR_PROD",
+						"type": "DatasetReference"
+					},
+					"name": "sourcemiabluechipsummary"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedText11",
+						"type": "DatasetReference"
+					},
+					"name": "sinkmiabluechip"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          Agent_or_Agency as string,",
+				"          Company_Name as string,",
+				"          Payee_Name as string,",
+				"          Payroll_Id as string,",
+				"          Agent_Statement_Total as decimal(38,10),",
+				"          Agency_Commission as decimal(38,2),",
+				"          Agent_Commission as decimal(38,10),",
+				"          Override_Commission as decimal(38,10),",
+				"          Manual_Adjustments as decimal(38,10),",
+				"          Seq_No as long",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'Select * from MIA_104.MIA_BCBS_BLUECHIP_COMISSIONS_SUMMARY',",
+				"     format: 'query') ~> sourcemiabluechipsummary",
+				"sourcemiabluechipsummary sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['MIA_BLUECHIP_ALL_SALES_SUMMARY_NOVEMBER_2025_RUN1.csv'],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sinkmiabluechip"
+			]
+		}
+	}
+}

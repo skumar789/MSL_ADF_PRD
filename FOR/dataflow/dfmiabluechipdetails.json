@@ -1,0 +1,87 @@
+{
+	"name": "dfmiabluechipdetails",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "MIA_BCBS_NCSC_COMISSIONS_CDR_PROD",
+						"type": "DatasetReference"
+					},
+					"name": "sourcebluechipdetails"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedText10",
+						"type": "DatasetReference"
+					},
+					"name": "sinkbluchipdetails"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          Carrier as string,",
+				"          Individual_Group as string,",
+				"          PRODUCER_CODE as string,",
+				"          PRODUCER_NAME as string,",
+				"          FB_CompType as string,",
+				"          Agency_CompType as string,",
+				"          CUSTOMER_NAME as string,",
+				"          CUSTOMER_ID as string,",
+				"          PRODUCT as string,",
+				"          COVERAGE_EFF_DATE as date,",
+				"          COVERAGE_TO as date,",
+				"          PREMIUM_PERIOD as date,",
+				"          ORIGINAL_EFF_DATE as date,",
+				"          BILLED_MEMBERS_AMOUNT as string,",
+				"          PREMIUM_AMOUNT as string,",
+				"          TERM as string,",
+				"          PERCENTAGE as string,",
+				"          COMPENSATION_DATE as date,",
+				"          Contract_Year as string,",
+				"          Employee_Type as string,",
+				"          Employee_Id as string,",
+				"          Full_Name as string,",
+				"          Payroll_Id as string,",
+				"          Payee_Employee_Id as string,",
+				"          Payee_Name as string,",
+				"          Main_Upline_Employee_id as string,",
+				"          Main_Upline_Full_Name as string,",
+				"          Secondary_Upline_Employee_ID as string,",
+				"          Secondary_Upline_Full_Name as string,",
+				"          Primary_Role as string,",
+				"          AGENCY_COMP_TYPE as string,",
+				"          COMMISSION_EARNED as decimal(14,2),",
+				"          PERCENT_OF_FB_PAYMENT as decimal(18,8),",
+				"          Agent_Commission as decimal(33,10),",
+				"          CommissionType as string,",
+				"          Transaction_id as long,",
+				"          Paticipant_Relation as string,",
+				"          Section_Name as string,",
+				"          Period_Name as string,",
+				"          Comments as string,",
+				"          ADJ_COMMENTS as string,",
+				"          ADJ_ACTION as string,",
+				"          E2E_PLAN_DESCRIPTION as string,",
+				"          Transaction_Comments as string,",
+				"          E2ESEQ_NO as long",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'Select * from MIA_104.MIA_BCBS_NCSC_COMISSIONS where period_name = ‘November 2025’;\\n\\n',",
+				"     format: 'query') ~> sourcebluechipdetails",
+				"sourcebluechipdetails sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['MIA_BLUECHIP_ALL_SALES_DETAIL_NOVEMBER_2025_RUN1.csv'],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sinkbluchipdetails"
+			]
+		}
+	}
+}
