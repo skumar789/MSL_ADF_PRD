@@ -38740,7 +38740,14 @@
 						"name": "MIA_SP_PAYEE_RATE_BLUECHIP_PROC_COMP1",
 						"description": "MIA BLUECHIP COMMISSION RUN STEP 1",
 						"type": "SqlServerStoredProcedure",
-						"dependsOn": [],
+						"dependsOn": [
+							{
+								"activity": "DF_MIA_FB_SUMMARY",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
 						"policy": {
 							"timeout": "0.12:00:00",
 							"retry": 0,
@@ -38847,6 +38854,7 @@
 					},
 					{
 						"name": "DF_MIA_BLUECHIP_DETAILS",
+						"description": "MIA BLUECHIP COMMISSION RUN STEP 4\ngenerate bluechip details",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [
 							{
@@ -38884,6 +38892,7 @@
 					},
 					{
 						"name": "DF_MIA_BLUECHIP_SUMMARY",
+						"description": "MIA BLUECHIP COMMISSION RUN STEP 5\ngenerate bluechip summary",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [
 							{
@@ -38920,9 +38929,19 @@
 						}
 					},
 					{
-						"name": "Stored procedure1",
+						"name": "MIA_SP_FB_COMMISSION_PROCESS",
+						"description": "MIA FLORIDA COMMISSION RUN STEP 3",
 						"type": "SqlServerStoredProcedure",
-						"dependsOn": [],
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [
+							{
+								"activity": "MIA_SP_PAYEE_RATE_BASE_PROC_COMP1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
 						"policy": {
 							"timeout": "0.12:00:00",
 							"retry": 0,
@@ -38931,11 +38950,66 @@
 							"secureInput": false
 						},
 						"userProperties": [],
-						"typeProperties": {}
+						"typeProperties": {
+							"storedProcedureName": "AQI_104.MIA_SP_FB_COMMISSION_PROCESS ",
+							"storedProcedureParameters": {
+								"Month": {
+									"value": {
+										"value": "@'11'",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"Year": {
+									"value": {
+										"value": "@'2025'",
+										"type": "Expression"
+									},
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "e2eiS_UAT",
+							"type": "LinkedServiceReference"
+						}
 					},
 					{
-						"name": "Stored procedure2",
+						"name": "MIA_SP_PAYEE_RATE_BASE_PROC_COMP1",
+						"description": "MIA FLORIDA COMMISSION RUN STEP 2",
 						"type": "SqlServerStoredProcedure",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [
+							{
+								"activity": "MIA_SP_FB_POPULATE_RESERVE_PAYOUT",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "AQI_104.MIA_SP_PAYEE_RATE_BASE_PROC_COMP1"
+						},
+						"linkedServiceName": {
+							"referenceName": "e2eiS_UAT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "MIA_SP_FB_POPULATE_RESERVE_PAYOUT",
+						"description": "MIA FLORIDA COMMISSION RUN STEP 1",
+						"type": "SqlServerStoredProcedure",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
@@ -38945,7 +39019,135 @@
 							"secureInput": false
 						},
 						"userProperties": [],
-						"typeProperties": {}
+						"typeProperties": {
+							"storedProcedureName": "[[AQI_104].[MIA_SP_FB_POPULATE_RESERVE_PAYOUT]"
+						},
+						"linkedServiceName": {
+							"referenceName": "e2eiS_UAT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "MIA_SP_FB_COMMISSION_SUMMARY_REPORT",
+						"description": "MIA FLORIDA COMMISSION RUN STEP 4",
+						"type": "SqlServerStoredProcedure",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [
+							{
+								"activity": "MIA_SP_FB_COMMISSION_PROCESS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": " [AQI_104].[MIA_SP_FB_COMMISSION_SUMMARY_REPORT]",
+							"storedProcedureParameters": {
+								"Month": {
+									"value": {
+										"value": "@'11'",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"Year": {
+									"value": {
+										"value": "@'2025'",
+										"type": "Expression"
+									},
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "e2eiS_UAT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "DF_MIA_FB_DETAILS",
+						"description": "MIA FLORIDA COMMISSION RUN STEP 5\ngenerate FB details file",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "MIA_SP_FB_COMMISSION_SUMMARY_REPORT",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dfmiafb",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"sourcemiafbdetails": {},
+									"sinkmiafbdetails": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "DF_MIA_FB_SUMMARY",
+						"description": "MIA FLORIDA COMMISSION RUN STEP 5\ngenerate FB summary file",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "DF_MIA_FB_DETAILS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dataflowmiafbsummary",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"sourcemiafbsummary": {},
+									"sinkmiafbsummary": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
 					}
 				],
 				"policy": {
