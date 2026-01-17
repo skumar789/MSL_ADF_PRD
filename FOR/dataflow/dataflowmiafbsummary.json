@@ -1,0 +1,52 @@
+{
+	"name": "dataflowmiafbsummary",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "MIA_FB_COMMISSIONS_SUMMARY_REPORT_CDR_PROD",
+						"type": "DatasetReference"
+					},
+					"name": "sourcemiafbsummary"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedText13",
+						"type": "DatasetReference"
+					},
+					"name": "sinkmiafbsummary"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          Payee_AOR as string,",
+				"          Payee_Name as string,",
+				"          WritingAgentName as string,",
+				"          Writing_AgentPayrollId as string,",
+				"          Agency_Payment as decimal(38,10),",
+				"          Agency_Stmt_Payment as decimal(38,10),",
+				"          FB_Payment as decimal(38,2),",
+				"          Agent_Commission as decimal(38,10),",
+				"          Override_Commission as decimal(38,10),",
+				"          Adjustments as decimal(38,10)",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'Select * from [MIA_104].[MIA_FB_COMMISSIONS_SUMMARY_REPORT]',",
+				"     format: 'query') ~> sourcemiafbsummary",
+				"sourcemiafbsummary sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['MIA_FB_ALL_SALES_SUMMARY_NOVEMBER_2025_RUN1.csv'],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sinkmiafbsummary"
+			]
+		}
+	}
+}
