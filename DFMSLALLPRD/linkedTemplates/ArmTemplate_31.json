@@ -13,6 +13,148 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/MIA_FB_NEW_AS_EARNED_DETAILS_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "e2eiS_UAT",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "CARRIER",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_NUMBER_STATUS",
+						"type": "varchar"
+					},
+					{
+						"name": "COMPENSATION_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "TRANSACTION_COUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "COMMISSION_AMOUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "COMPENSATION_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "PAYEE_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "PAYEE_EMPLOYEE_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_CODE",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCT_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "PLAN_DESCRIPTION",
+						"type": "varchar"
+					},
+					{
+						"name": "MEMBER_COUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "SUBSCRIBER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "CONTRACT",
+						"type": "varchar"
+					},
+					{
+						"name": "EFFECTIVE_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "CANCEL_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "APP_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "ORIGINAL_EFFECTIVE_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "BENEFIT_EFFECTIVE_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_COMMISSION",
+						"type": "varchar"
+					},
+					{
+						"name": "REMANING_AS_EARNED_COMMISSION",
+						"type": "varchar"
+					},
+					{
+						"name": "RELEASE_SCHEDULE",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "MIA_104",
+					"table": "MIA_FB_NEW_AS_EARNED_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/MIA_FB_NEW_AS_EARNED_EXISTING_APP_PROD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -564,6 +706,37 @@
 					"schema": "MIA_104",
 					"table": "MIA_MANUAL_ADJUSTMENTS_DETAILS_BLUECHIP"
 				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MIA_MANUAL_ADJUSTMENTS_FEED_BLUECHIP_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "MIA_MANUAL_ADJUSTMENTS_FEED_BLUECHIP_PRD.txt",
+						"folderPath": "/MSL_Cloud_App_Prd/FromAgency/MIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "COMP_PERIOD\tACTION\tFREQUENCY\tCONTRACT ID_OR_GROUP NUMBER\tPRODUCT_ID\tCARRIER_COMP_TYPE\tADJUSTMENT_START_DATE\tADJUSTMENT_END_DATE\tACCOUNTING_START_DATE\tACCOUNTING_END_DATE\tCOMMISSION_STATEMENT_AGENT_CODE\tWRITING_AGENT_CODE\tPAYEE_AGENT_CODE\tPAYMENT\tCOMMENTS\tCOMPENSATION_DATE",
+						"type": "String"
+					}
+				]
 			},
 			"dependsOn": []
 		},
@@ -1578,150 +1751,6 @@
 						"type": "String"
 					}
 				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/MIA_VW_FB_COMMISSIONS_SUMMARY_APP_PROD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "e2eis_APP_PROD",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "Payee_AOR",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Payee_Name",
-						"type": "nvarchar"
-					},
-					{
-						"name": "WritingAgentName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Writing_AgentPayrollId",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Agency_Payment",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 10
-					},
-					{
-						"name": "Agency_Stmt_Payment",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 10
-					},
-					{
-						"name": "FB_Payment",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 2
-					},
-					{
-						"name": "Agent_Commission",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 10
-					},
-					{
-						"name": "Override_Commission",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 10
-					},
-					{
-						"name": "Adjustments",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 10
-					}
-				],
-				"typeProperties": {
-					"schema": "MIA_104",
-					"table": "MIA_VW_FB_COMMISSIONS_SUMMARY"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/MIA_VW_FB_COMMISSIONS_SUMMARY_UAT')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "e2eiS_UAT",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "Payee_AOR",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Payee_Name",
-						"type": "nvarchar"
-					},
-					{
-						"name": "WritingAgentName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Writing_AgentPayrollId",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Agency_Payment",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 10
-					},
-					{
-						"name": "Agency_Stmt_Payment",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 10
-					},
-					{
-						"name": "FB_Payment",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 2
-					},
-					{
-						"name": "Agent_Commission",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 10
-					},
-					{
-						"name": "Override_Commission",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 10
-					},
-					{
-						"name": "Adjustments",
-						"type": "decimal",
-						"precision": 38,
-						"scale": 10
-					}
-				],
-				"typeProperties": {
-					"schema": "MIA_104",
-					"table": "MIA_VW_FB_COMMISSIONS_SUMMARY"
-				}
 			},
 			"dependsOn": []
 		}
