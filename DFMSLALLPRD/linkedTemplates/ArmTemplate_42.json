@@ -9586,6 +9586,8 @@
 					{
 						"name": "SIM_BOB_FB_HISTORY_BACKUP",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "SIM_BOB_OOS_HISTORY_BACKUP",
@@ -10829,7 +10831,14 @@
 						"type": "Copy",
 						"state": "Inactive",
 						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [],
+						"dependsOn": [
+							{
+								"activity": "Copy data1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
 						"policy": {
 							"timeout": "0.12:00:00",
 							"retry": 0,
@@ -23107,6 +23116,8 @@
 					{
 						"name": "SIM_FB_APPLICATION_TRACKER_HISTORY",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "SIM_FLORIDABLUE_PAYMENT_HISTORY",
@@ -23126,6 +23137,7 @@
 						"typeProperties": {
 							"source": {
 								"type": "SqlServerSource",
+								"sqlReaderQuery": "select  *  from SIM_103.SIM_FB_APPLICATION_TRACKER_WEEKLY_DETAILS where Record_Load_Date IN (\n    select max(Record_Load_Date) from SIM_103.SIM_FB_APPLICATION_TRACKER_WEEKLY_DETAILS);\n",
 								"queryTimeout": "02:00:00",
 								"partitionOption": "None"
 							},
@@ -23656,6 +23668,8 @@
 					{
 						"name": "SIM_FB_EASY RENEWAL_HISTORY",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "SIM_FB_APPLICATION_TRACKER_HISTORY",
@@ -23675,6 +23689,7 @@
 						"typeProperties": {
 							"source": {
 								"type": "SqlServerSource",
+								"sqlReaderQuery": "select  *  from SIM_103.SIM_FB_EASY_RENEWAL_WEEKLY_DETAILS where Record_Load_Date IN (\n    select max(Record_Load_Date) from SIM_103.SIM_FB_EASY_RENEWAL_WEEKLY_DETAILS);\n",
 								"queryTimeout": "02:00:00",
 								"partitionOption": "None"
 							},
@@ -24453,6 +24468,22 @@
 								"parameters": {}
 							}
 						]
+					},
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"enableStaging": false
+						}
 					}
 				],
 				"policy": {
