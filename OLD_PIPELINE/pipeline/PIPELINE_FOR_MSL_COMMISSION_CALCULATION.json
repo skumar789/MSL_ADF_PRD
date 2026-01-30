@@ -5,7 +5,14 @@
 			{
 				"name": "UpdateStatusInProgress",
 				"type": "SqlServerStoredProcedure",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "UpdateAuditStatusInProgress",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"retry": 0,
 					"retryIntervalInSeconds": 30,
@@ -47,6 +54,13 @@
 						"Status": {
 							"value": "IN PROGRESS",
 							"type": "String"
+						},
+						"AuditID": {
+							"value": {
+								"value": "@pipeline().parameters.AuditID",
+								"type": "Expression"
+							},
+							"type": "Int32"
 						}
 					}
 				},
@@ -163,6 +177,13 @@
 						"Status": {
 							"value": "COMPLETED",
 							"type": "String"
+						},
+						"AuditID": {
+							"value": {
+								"value": "@pipeline().parameters.AuditID",
+								"type": "Expression"
+							},
+							"type": "Int32"
 						}
 					}
 				},
@@ -223,6 +244,223 @@
 						"Status": {
 							"value": "FAILED",
 							"type": "String"
+						},
+						"AuditID": {
+							"value": {
+								"value": "@pipeline().parameters.AuditID",
+								"type": "Expression"
+							},
+							"type": "Int32"
+						},
+						"ErrorMessage": {
+							"value": {
+								"value": "@activity('ExecuteCommissionProcess').error.message",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msldev",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "UpdateAuditStatusInProgress",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[MSL_998].[SP_LOG_COMMISSION_WORKFLOW_ETL]",
+					"storedProcedureParameters": {
+						"RunID": {
+							"value": {
+								"value": "@pipeline().RunId",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Period": {
+							"value": {
+								"value": "@concat(string(pipeline().parameters.Month), '/', string(pipeline().parameters.Year))",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"CommissionType": {
+							"value": {
+								"value": "@pipeline().parameters.CommissionType",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Status": {
+							"value": "IN PROGRESS",
+							"type": "String"
+						},
+						"StartDateTime": {
+							"value": {
+								"value": "@formatDateTime(convertTimeZone(utcNow(), 'UTC', 'Eastern Standard Time'), 'MM:dd:yyyy HH:mm:ss')",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Week": {
+							"value": {
+								"value": "@pipeline().parameters.Week",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"AuditID": {
+							"value": {
+								"value": "@pipeline().parameters.AuditID",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msldev",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "UpdateAuditStatusSuccess",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "UpdateStatusSuccess",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[MSL_998].[SP_LOG_COMMISSION_WORKFLOW_ETL]",
+					"storedProcedureParameters": {
+						"RunID": {
+							"value": {
+								"value": "@pipeline().RunId",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Status": {
+							"value": {
+								"value": "COMPLETED",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"EndDateTime": {
+							"value": {
+								"value": "@formatDateTime(convertTimeZone(utcNow(), 'UTC', 'Eastern Standard Time'), 'MM:dd:yyyy HH:mm:ss')",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msldev",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "UpdateAuditStatusFailure",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "UpdateStatusFailure",
+						"dependencyConditions": [
+							"Succeeded",
+							"Failed"
+						]
+					},
+					{
+						"activity": "UpdateAuditStatusInProgress",
+						"dependencyConditions": [
+							"Failed"
+						]
+					},
+					{
+						"activity": "UpdateStatusInProgress",
+						"dependencyConditions": [
+							"Failed"
+						]
+					},
+					{
+						"activity": "ExecuteCommissionProcess",
+						"dependencyConditions": [
+							"Failed"
+						]
+					},
+					{
+						"activity": "UpdateStatusSuccess",
+						"dependencyConditions": [
+							"Failed"
+						]
+					},
+					{
+						"activity": "UpdateAuditStatusSuccess",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[MSL_998].[SP_LOG_COMMISSION_WORKFLOW_ETL]",
+					"storedProcedureParameters": {
+						"RunID": {
+							"value": {
+								"value": "@pipeline().RunId",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Status": {
+							"value": "FAILED",
+							"type": "String"
+						},
+						"EndDateTime": {
+							"value": {
+								"value": "@formatDateTime(convertTimeZone(utcNow(), 'UTC', 'Eastern Standard Time'), 'MM:dd:yyyy HH:mm:ss')",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Error": {
+							"value": {
+								"value": "@concat(\n  'UASIP: ', coalesce(activity('UpdateAuditStatusInProgress')?.error?.message, 'NA'),\n  ' | USIP: ', coalesce(activity('UpdateStatusInProgress')?.error?.message, 'NA'),\n  ' | ECP: ', coalesce(activity('ExecuteCommissionProcess')?.error?.message, 'NA'),\n  ' | USS: ', coalesce(activity('UpdateStatusSuccess')?.error?.message, 'NA'),\n  ' | USF: ', coalesce(activity('UpdateStatusFailure')?.error?.message, 'NA'),\n  ' | UASS: ', coalesce(activity('UpdateAuditStatusSuccess')?.error?.message, 'NA')\n)\n",
+								"type": "Expression"
+							},
+							"type": "String"
 						}
 					}
 				},
@@ -249,6 +487,8 @@
 				"type": "int"
 			}
 		},
-		"annotations": []
-	}
+		"annotations": [],
+		"lastPublishTime": "2026-01-27T18:27:13Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
 }
