@@ -13,6 +13,406 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/ABI_MONTHLY_PAYABLE_REPORT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"folderPath": "/MSL_Cloud_Prd/ToAgency/ABI"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "E2eis_Seq_Number",
+						"type": "String"
+					},
+					{
+						"name": "Payee_AOR",
+						"type": "String"
+					},
+					{
+						"name": "Payee_AORName",
+						"type": "String"
+					},
+					{
+						"name": "WritingAgentName",
+						"type": "String"
+					},
+					{
+						"name": "Carrier",
+						"type": "String"
+					},
+					{
+						"name": "Period_Name",
+						"type": "String"
+					},
+					{
+						"name": "AccountingDate",
+						"type": "String"
+					},
+					{
+						"name": "FB_CompType",
+						"type": "String"
+					},
+					{
+						"name": "AgencyCompType",
+						"type": "String"
+					},
+					{
+						"name": "Prior_CompType",
+						"type": "String"
+					},
+					{
+						"name": "SubscriberName",
+						"type": "String"
+					},
+					{
+						"name": "ProductType",
+						"type": "String"
+					},
+					{
+						"name": "MemberCount",
+						"type": "String"
+					},
+					{
+						"name": "ContractCount",
+						"type": "String"
+					},
+					{
+						"name": "FBContractId",
+						"type": "String"
+					},
+					{
+						"name": "OriginalEffectiveDate",
+						"type": "String"
+					},
+					{
+						"name": "CoverageFromDate",
+						"type": "String"
+					},
+					{
+						"name": "CoverageToDate",
+						"type": "String"
+					},
+					{
+						"name": "CancelDate",
+						"type": "String"
+					},
+					{
+						"name": "County",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Number",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Name",
+						"type": "String"
+					},
+					{
+						"name": "FBPaymentAmount",
+						"type": "String"
+					},
+					{
+						"name": "Frequency",
+						"type": "String"
+					},
+					{
+						"name": "FileType",
+						"type": "String"
+					},
+					{
+						"name": "CommissionRate",
+						"type": "String"
+					},
+					{
+						"name": "RateType",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Commission",
+						"type": "String"
+					},
+					{
+						"name": "CommissionType",
+						"type": "String"
+					},
+					{
+						"name": "WritingAgentRole",
+						"type": "String"
+					},
+					{
+						"name": "WritingAgentPayrollId",
+						"type": "String"
+					},
+					{
+						"name": "ManualAdjComments",
+						"type": "String"
+					},
+					{
+						"name": "FB_Commission_Flat_Rate",
+						"type": "String"
+					},
+					{
+						"name": "Agency_ID",
+						"type": "String"
+					},
+					{
+						"name": "Record_Load_Date",
+						"type": "String"
+					},
+					{
+						"name": "Record_Loaded_By",
+						"type": "String"
+					},
+					{
+						"name": "Record_Data_Source",
+						"type": "String"
+					},
+					{
+						"name": "Record_Flag_Status",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ABI_MONTHLY_STATEMENT_PAYEE_EMAIL_PRINTS_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_mslprd",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "Payee_AOR",
+						"type": "varchar"
+					},
+					{
+						"name": "Payee_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "WritingAgentPayrollId",
+						"type": "varchar"
+					},
+					{
+						"name": "Payee_Email_Address",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "ABI_MONTHLY_STATEMENT_PAYEE_EMAIL_PRINTS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ABI_NewSale_Renewal_Prior_Month_Onetime_ADF')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "ABI_NewSale_Renewal_Prior_Month_Onetime_ADF.csv",
+						"folderPath": "/MSL_Cloud_Dev/FromAgency/ABI"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Agency_Code",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Code",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Agent_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "FB_UID",
+						"type": "String"
+					},
+					{
+						"name": "Member_Contract_ID",
+						"type": "String"
+					},
+					{
+						"name": "Comp_Amount",
+						"type": "String"
+					},
+					{
+						"name": "Flat_Rate",
+						"type": "String"
+					},
+					{
+						"name": "Member_Count",
+						"type": "String"
+					},
+					{
+						"name": "Percent_Of_Prem",
+						"type": "String"
+					},
+					{
+						"name": "Prem_Paid_Amt",
+						"type": "String"
+					},
+					{
+						"name": "Comp_Type",
+						"type": "String"
+					},
+					{
+						"name": "Event_Type",
+						"type": "String"
+					},
+					{
+						"name": "Initial_Payment_Date",
+						"type": "String"
+					},
+					{
+						"name": "Owning_Agency_AOR_Effective_Date",
+						"type": "String"
+					},
+					{
+						"name": "Accounting_Date",
+						"type": "String"
+					},
+					{
+						"name": "Compensation_Date",
+						"type": "String"
+					},
+					{
+						"name": "Original_Effective_Date",
+						"type": "String"
+					},
+					{
+						"name": "Benefit_Effective_Date",
+						"type": "String"
+					},
+					{
+						"name": "Cancel_Date",
+						"type": "String"
+					},
+					{
+						"name": "Product_ID",
+						"type": "String"
+					},
+					{
+						"name": "Product_Type",
+						"type": "String"
+					},
+					{
+						"name": "Product_Tier_Metal_Level",
+						"type": "String"
+					},
+					{
+						"name": "Count_Name",
+						"type": "String"
+					},
+					{
+						"name": "Bonus_County_Indicator",
+						"type": "String"
+					},
+					{
+						"name": "App_ID ",
+						"type": "String"
+					},
+					{
+						"name": "Exchange_Ind",
+						"type": "String"
+					},
+					{
+						"name": "Subscriber_Last_Name",
+						"type": "String"
+					},
+					{
+						"name": "Subscriber_First_Name",
+						"type": "String"
+					},
+					{
+						"name": "Subscriber_Middle_Name",
+						"type": "String"
+					},
+					{
+						"name": "Coverage_From_Date ",
+						"type": "String"
+					},
+					{
+						"name": "Coverage_To_Date",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ABI_O65_ALIGNED_ACCOUNTS_FEED_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "ABI_O65_ALIGNED_ACCOUNTS_FEED_DEV.txt",
+						"folderPath": "/MSL_Cloud_Dev/FromAgency/ABI"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "AGENT_ID\tAGENT_NPN\tAGENT_FULL_NAME\tSUBSCRIBER_LAST_NAME\tSUBSCRIBER_FIRST_NAME\tSUBSCRIBER_DOB\tAGENT_CONTRACT_START_DATE\tAGENT_CONTRACT_TERM_DATE\tCONTRACT_ID\tMWS_REGISTRATION\tPLAN_NAME\tPRODUCT_TYPE\tPRODUCT\tSOURCE_SYSTEM\tMASTER_AGENCY_ID\tMASTER_AGENCY_NAME\tAGENCY_IDENTIFIER\tAGENCY_NAME\tAGENT_STATUS\tBEST_AVAILABLE_ADDRESS\tBEST_AVAILABLE_ADDRESS_LINE_2\tMEMBER_PHONE_NUMBER\tCOUNTY_NAME\tMEMBER_EMAIL_ADDRESS\tBEST_AVAILABLE_CITY_NAME\tBEST_AVAILABLE_STATE_NAME\tBEST_AVAILABLE_POSTAL_CODE\tAGENCY_TYPE\tCOVERAGE_EFFECTIVE_DATE\tONBOARDING_INDICATOR\tCOVERAGE_EXPIRATION_DATE\tCONTRACT_STATUS\tFB_UID\tORIGINAL_EFFECTIVE_DATE\tPROVIDER_NAME\tPROVIDER_GROUP\tSEGMENT\tCMS_CERT_STATUS\tCANCELLATION_REASON_CODE\tCANCELLATION_REASON",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ABI_O65_ALIGNED_ACCOUNTS_FEED_PRD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1731,409 +2131,6 @@
 				"typeProperties": {
 					"schema": "dbo",
 					"table": "ABI_PAYMENTS_HISTORY"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ABI_PAYMENTS_HISTOR_UAT')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_msluat",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2eis_Seq_Number",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "PaymentId",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "JobId",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "DataFileType",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "DataFileId",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "AccountingDate",
-						"type": "date"
-					},
-					{
-						"name": "FBCompType",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "AgencyCompType",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "SubscriberFirstName",
-						"type": "varchar"
-					},
-					{
-						"name": "SubscriberMiddleName",
-						"type": "varchar"
-					},
-					{
-						"name": "SubscriberLastName",
-						"type": "varchar"
-					},
-					{
-						"name": "ProductType",
-						"type": "varchar"
-					},
-					{
-						"name": "PlanDescription",
-						"type": "varchar"
-					},
-					{
-						"name": "MemberCount",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "ContractCount",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "FBContractId",
-						"type": "varchar"
-					},
-					{
-						"name": "OriginalEffectiveDate",
-						"type": "date"
-					},
-					{
-						"name": "CoverageFromDate",
-						"type": "date"
-					},
-					{
-						"name": "CancelDate",
-						"type": "date"
-					},
-					{
-						"name": "County",
-						"type": "varchar"
-					},
-					{
-						"name": "FBWritingAgentId",
-						"type": "varchar"
-					},
-					{
-						"name": "Carrier",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "FBPaymentAmount",
-						"type": "money",
-						"precision": 19,
-						"scale": 4
-					},
-					{
-						"name": "Frequency",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "CreatedAt",
-						"type": "datetimeoffset",
-						"scale": 7
-					},
-					{
-						"name": "ModifiedAt",
-						"type": "datetimeoffset",
-						"scale": 7
-					},
-					{
-						"name": "PriorCompensationType",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "PriorAccountingDate",
-						"type": "date"
-					},
-					{
-						"name": "CompensationDate",
-						"type": "date"
-					},
-					{
-						"name": "FBUserId",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "CommissionRateFlatRate",
-						"type": "decimal",
-						"precision": 10,
-						"scale": 4
-					},
-					{
-						"name": "Agency_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "Record_Load_Date",
-						"type": "date"
-					},
-					{
-						"name": "Record_Loaded_By",
-						"type": "char"
-					},
-					{
-						"name": "Record_Data_Source",
-						"type": "char"
-					},
-					{
-						"name": "Record_Flag_Status",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "ABI_PAYMENTS_HISTORY"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ABI_PAYMENT_EXCEPTION_DETAILS_DEV')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_msldev",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2eis_Seq_Number",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "Field_1",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Field_2",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Field_3",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Field_4",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Field_5",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Field_6",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Field_7",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Field_8",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Agency_ID",
-						"type": "smallint",
-						"precision": 5
-					},
-					{
-						"name": "Record_Load_Date",
-						"type": "date"
-					},
-					{
-						"name": "Record_Loaded_By",
-						"type": "char"
-					},
-					{
-						"name": "Record_Data_Source",
-						"type": "char"
-					},
-					{
-						"name": "Record_Flag_Status",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "ABI_101",
-					"table": "ABI_PAYMENT_EXCEPTION_DETAILS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ABI_PAYMENT_EXCEPTION_DETAILS_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_mslprd",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "FIELD_1",
-						"type": "nvarchar"
-					},
-					{
-						"name": "FIELD_2",
-						"type": "nvarchar"
-					},
-					{
-						"name": "FIELD_3",
-						"type": "nvarchar"
-					},
-					{
-						"name": "FIELD_4",
-						"type": "nvarchar"
-					},
-					{
-						"name": "FIELD_5",
-						"type": "nvarchar"
-					},
-					{
-						"name": "FIELD_6",
-						"type": "nvarchar"
-					},
-					{
-						"name": "FIELD_7",
-						"type": "nvarchar"
-					},
-					{
-						"name": "FIELD_8",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "varchar"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "varchar"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "ABI_101",
-					"table": "ABI_PAYMENT_EXCEPTION_DETAILS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ABI_PAYMENT_EXCEPTION_STG_UAT')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_msluat",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "HCCID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ACCOUNTING_DATE",
-						"type": "nvarchar"
-					},
-					{
-						"name": "EXCEPTION_REASON",
-						"type": "nvarchar"
-					},
-					{
-						"name": "INITIAL_PAYMENT",
-						"type": "nvarchar"
-					},
-					{
-						"name": "AMF",
-						"type": "nvarchar"
-					},
-					{
-						"name": "FB_UID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "varchar"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "varchar"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "ABI_101",
-					"table": "ABI_PAYMENT_EXCEPTION_STG"
 				}
 			},
 			"dependsOn": []
