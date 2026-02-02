@@ -13,6 +13,1021 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/SIM_AMBETTER_WEEKLY_FEED_DELINQUENT_DETAILS_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msldev",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "BROKER_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BROKER_NPN",
+						"type": "nvarchar"
+					},
+					{
+						"name": "POLICY_NUMBER",
+						"type": "nvarchar"
+					},
+					{
+						"name": "INUSRED_FIRST_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "INUSRED_LAST_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BROKER_EFFECTIVE_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BROKER_TERM_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "POLICY_EFFECTIVE_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "POLICY_TERM_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PAID_THROUGH_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "COUNTY",
+						"type": "nvarchar"
+					},
+					{
+						"name": "STATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ON/OFF_EXCHANGE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EXCHANGE_SUBSCRIBER_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MEMBER_PHONE_NUMBER",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MEMBER_EMAIL",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MEMBER_RESPONSIBILITY",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MEMBER_DATE_OF_BIRTH",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AUTOPAY",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ELIGIBLE_FOR_COMMISSION",
+						"type": "nvarchar"
+					},
+					{
+						"name": "NUMBER_OF_MEMBERS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PAYABLE_AGENT",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AR_POLICY_TYPE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FILE_RECORD_BIRTH_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					},
+					{
+						"name": "ICHRA_INDICATOR",
+						"type": "varchar"
+					},
+					{
+						"name": "EMPLOYER_GROUP_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "EMPLOYER_START_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "EMPLOYER_SUBSIDY_AMOUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "EMPLOYER_SUBSIDY_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "PLAN_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "MONTHLY_PREMIUM_AMOUNT",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_AMBETTER_WEEKLY_DELINQENT_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_AMBETTER_WEEKLY_FEED_DELINQUENT_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "SIM_AMBETTER_DELINQUENT_WEEKLY_FEED_DEV.txt",
+						"folderPath": "/MSL_Cloud_Dev/FromAgency/SIM"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "BROKER_NAME\tBROKER_NPN\tPOLICY_NUMBER\tPLAN_NAME\tINUSRED_FIRST_NAME\tINSURED_LAST_NAME\tBROKER_EFFECTIVE_DATE\tBROKER_TERM_DATE\tPOLICY_EFFECTIVE_DATE\tPOLICY_TERM_DATE\tPAID_THROUGH_DATE\tMEMBER_RESPONSIBILITY\tMONTHLY_PREMIUM_AMOUNT \tCOUNTY\tSTATE\tON/OFF EXCHANGE\tEXCHANGE_SUBSCRIBER_ID\tMEMBER_PHONE_NUMBER\tMEMBER_EMAIL\tMEMBER_RESPONSIBILITY\tMEMBER_DATE_OF_BIRTH\tAUTOPAY\tELIGIBLE_FOR_COMMISSION\tNUMBER_OF_MEMBERS\tPAYABLE_AGENT\tAR_POLICY_TYPE\tICHRA_INDICATOR\tEMPLOYER_GROUP_NAME\tEMPLOYER_START_DATE\tEMPLOYER_SUBSIDY_AMOUNT\tEMPLOYER_SUBSIDY_TYPE\tFILE_RECORD_BIRTH_DATE",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_AMBETTER_WEEKLY_FEED_UNPAID_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "SIM_AMBETTER_UNPAID_WEEKLY_FEED_DEV.txt",
+						"folderPath": "/MSL_Cloud_Dev/FromAgency/SIM"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "BROKER_NAME\tBROKER_NPN\tPOLICY_NUMBER\tPLAN_NAME\tINUSRED_FIRST_NAME\tINSURED_LAST_NAME\tBROKER_EFFECTIVE_DATE\tBROKER_TERM_DATE\tPOLICY_EFFECTIVE_DATE\tPOLICY_TERM_DATE\tPAID_THROUGH_DATE\tMEMBER_RESPONSIBILITY\tMONTHLY_PREMIUM_AMOUNT \tCOUNTY\tSTATE\tON/OFF EXCHANGE\tEXCHANGE_SUBSCRIBER_ID\tMEMBER_PHONE_NUMBER\tMEMBER_EMAIL\tMEMBER_RESPONSIBILITY\tMEMBER_DATE_OF_BIRTH\tAUTOPAY\tELIGIBLE_FOR_COMMISSION\tNUMBER_OF_MEMBERS\tPAYABLE_AGENT\tAR_POLICY_TYPE\tICHRA_INDICATOR\tEMPLOYER_GROUP_NAME\tEMPLOYER_START_DATE\tEMPLOYER_SUBSIDY_AMOUNT\tEMPLOYER_SUBSIDY_TYPE\tFILE_RECORD_BIRTH_DATE",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_AMBETTER_WEEKLY_FEED_UNPAID_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "SIM_AMBETTER_WEEKLY_FEED_UNPAID_UAT.txt",
+						"folderPath": "/MSL_Cloud_Uat/FromAgency/SIM"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "BROKER_NAME\tBROKER_NPN\tPOLICY_NUMBER\tPLAN_NAME\tINUSRED_FIRST_NAME\tINSURED_LAST_NAME\tBROKER_EFFECTIVE_DATE\tBROKER_TERM_DATE\tPOLICY_EFFECTIVE_DATE\tPOLICY_TERM_DATE\tPAID_THROUGH_DATE\tMEMBER_RESPONSIBILITY\tMONTHLY_PREMIUM_AMOUNT \tCOUNTY\tSTATE\tON/OFF EXCHANGE\tEXCHANGE_SUBSCRIBER_ID\tMEMBER_PHONE_NUMBER\tMEMBER_EMAIL\tMEMBER_RESPONSIBILITY\tMEMBER_DATE_OF_BIRTH\tAUTOPAY\tELIGIBLE_FOR_COMMISSION\tNUMBER_OF_MEMBERS\tPAYABLE_AGENT\tAR_POLICY_TYPE\tICHRA_INDICATOR\tEMPLOYER_GROUP_NAME\tEMPLOYER_START_DATE\tEMPLOYER_SUBSIDY_AMOUNT\tEMPLOYER_SUBSIDY_TYPE\tFILE_RECORD_BIRTH_DATE",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_AMBETTER_WEEKLY_UNPAID_DETAILS_HISTORY_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_APP_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "BROKER_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BROKER_NPN",
+						"type": "nvarchar"
+					},
+					{
+						"name": "POLICY_NUMBER",
+						"type": "nvarchar"
+					},
+					{
+						"name": "INUSRED_FIRST_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "INUSRED_LAST_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BROKER_EFFECTIVE_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BROKER_TERM_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "POLICY_EFFECTIVE_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "POLICY_TERM_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PAID_THROUGH_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "COUNTY",
+						"type": "nvarchar"
+					},
+					{
+						"name": "STATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ON/OFF_EXCHANGE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EXCHANGE_SUBSCRIBER_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MEMBER_PHONE_NUMBER",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MEMBER_EMAIL",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MEMBER_RESPONSIBILITY",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MEMBER_DATE_OF_BIRTH",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AUTOPAY",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ELIGIBLE_FOR_COMMISSION",
+						"type": "nvarchar"
+					},
+					{
+						"name": "NUMBER_OF_MEMBERS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PAYABLE_AGENT",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AR_POLICY_TYPE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FILE_RECORD_BIRTH_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_AMBETTER_WEEKLY_UNPAID_DETAILS_HISTORY"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_AMBETTER_WEEKLY_UNPAID_DETAILS_HISTORY_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_mslprd",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "BROKER_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BROKER_NPN",
+						"type": "nvarchar"
+					},
+					{
+						"name": "POLICY_NUMBER",
+						"type": "nvarchar"
+					},
+					{
+						"name": "INUSRED_FIRST_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "INUSRED_LAST_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BROKER_EFFECTIVE_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BROKER_TERM_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "POLICY_EFFECTIVE_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "POLICY_TERM_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PAID_THROUGH_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "COUNTY",
+						"type": "nvarchar"
+					},
+					{
+						"name": "STATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ON/OFF_EXCHANGE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EXCHANGE_SUBSCRIBER_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MEMBER_PHONE_NUMBER",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MEMBER_EMAIL",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MEMBER_RESPONSIBILITY",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MEMBER_DATE_OF_BIRTH",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AUTOPAY",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ELIGIBLE_FOR_COMMISSION",
+						"type": "nvarchar"
+					},
+					{
+						"name": "NUMBER_OF_MEMBERS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PAYABLE_AGENT",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AR_POLICY_TYPE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FILE_RECORD_BIRTH_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_AMBETTER_WEEKLY_UNPAID_DETAILS_HISTORY"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_ANTHEM_ACTIVE_POLICY_DETAILS_2021_2023_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_APP_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "CLIENT_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "CLIENT_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "MARKET",
+						"type": "varchar"
+					},
+					{
+						"name": "STATUS",
+						"type": "varchar"
+					},
+					{
+						"name": "STATE",
+						"type": "varchar"
+					},
+					{
+						"name": "EXCHANGE",
+						"type": "varchar"
+					},
+					{
+						"name": "EFFECTIVE_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "ORIGINAL_EFFECTIVE_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "CANCELLATION_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCT",
+						"type": "varchar"
+					},
+					{
+						"name": "PLAN_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "NEW_BUSINESS",
+						"type": "varchar"
+					},
+					{
+						"name": "BILL_STATUS",
+						"type": "varchar"
+					},
+					{
+						"name": "BILL_DUE_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "RENEWAL_MONTH",
+						"type": "varchar"
+					},
+					{
+						"name": "ACA",
+						"type": "varchar"
+					},
+					{
+						"name": "FAMILY_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "GROUP_SIZE",
+						"type": "varchar"
+					},
+					{
+						"name": "WRITING_AGENT",
+						"type": "varchar"
+					},
+					{
+						"name": "WRITING_TIN",
+						"type": "varchar"
+					},
+					{
+						"name": "PAID_AGENT",
+						"type": "varchar"
+					},
+					{
+						"name": "PAID_TIN",
+						"type": "varchar"
+					},
+					{
+						"name": "PARENT_AGENT",
+						"type": "varchar"
+					},
+					{
+						"name": "PARENT_TIN",
+						"type": "varchar"
+					},
+					{
+						"name": "REPORTING_AGENT",
+						"type": "varchar"
+					},
+					{
+						"name": "REPORTING_TIN",
+						"type": "varchar"
+					},
+					{
+						"name": "FUNDING_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					},
+					{
+						"name": "FILE_RECORD_BIRTH_DATE",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_ANTHEM_ACTIVE_POLICY_DETAILS_2021_2023"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_ANTHEM_ACTIVE_POLICY_DETAILS_2021_2023_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_mslprd",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "CLIENT_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "CLIENT_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "MARKET",
+						"type": "varchar"
+					},
+					{
+						"name": "STATUS",
+						"type": "varchar"
+					},
+					{
+						"name": "STATE",
+						"type": "varchar"
+					},
+					{
+						"name": "EXCHANGE",
+						"type": "varchar"
+					},
+					{
+						"name": "EFFECTIVE_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "ORIGINAL_EFFECTIVE_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "CANCELLATION_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCT",
+						"type": "varchar"
+					},
+					{
+						"name": "PLAN_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "NEW_BUSINESS",
+						"type": "varchar"
+					},
+					{
+						"name": "BILL_STATUS",
+						"type": "varchar"
+					},
+					{
+						"name": "BILL_DUE_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "RENEWAL_MONTH",
+						"type": "varchar"
+					},
+					{
+						"name": "ACA",
+						"type": "varchar"
+					},
+					{
+						"name": "FAMILY_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "GROUP_SIZE",
+						"type": "varchar"
+					},
+					{
+						"name": "WRITING_AGENT",
+						"type": "varchar"
+					},
+					{
+						"name": "WRITING_TIN",
+						"type": "varchar"
+					},
+					{
+						"name": "PAID_AGENT",
+						"type": "varchar"
+					},
+					{
+						"name": "PAID_TIN",
+						"type": "varchar"
+					},
+					{
+						"name": "PARENT_AGENT",
+						"type": "varchar"
+					},
+					{
+						"name": "PARENT_TIN",
+						"type": "varchar"
+					},
+					{
+						"name": "REPORTING_AGENT",
+						"type": "varchar"
+					},
+					{
+						"name": "REPORTING_TIN",
+						"type": "varchar"
+					},
+					{
+						"name": "FUNDING_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					},
+					{
+						"name": "FILE_RECORD_BIRTH_DATE",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_ANTHEM_ACTIVE_POLICY_DETAILS_2021_2023"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_ANTHEM_ACTIVE_POLICY_DETAILS_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_APP_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "CLIENT_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "CLIENT_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "MARKET",
+						"type": "varchar"
+					},
+					{
+						"name": "STATUS",
+						"type": "varchar"
+					},
+					{
+						"name": "STATE",
+						"type": "varchar"
+					},
+					{
+						"name": "EXCHANGE",
+						"type": "varchar"
+					},
+					{
+						"name": "EFFECTIVE_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "ORIGINAL_EFFECTIVE_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "CANCELLATION_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCT",
+						"type": "varchar"
+					},
+					{
+						"name": "PLAN_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "NEW_BUSINESS",
+						"type": "varchar"
+					},
+					{
+						"name": "BILL_STATUS",
+						"type": "varchar"
+					},
+					{
+						"name": "BILL_DUE_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "RENEWAL_MONTH",
+						"type": "varchar"
+					},
+					{
+						"name": "ACA",
+						"type": "varchar"
+					},
+					{
+						"name": "FAMILY_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "GROUP_SIZE",
+						"type": "varchar"
+					},
+					{
+						"name": "WRITING_AGENT",
+						"type": "varchar"
+					},
+					{
+						"name": "WRITING_TIN",
+						"type": "varchar"
+					},
+					{
+						"name": "PAID_AGENT",
+						"type": "varchar"
+					},
+					{
+						"name": "PAID_TIN",
+						"type": "varchar"
+					},
+					{
+						"name": "PARENT_AGENT",
+						"type": "varchar"
+					},
+					{
+						"name": "PARENT_TIN",
+						"type": "varchar"
+					},
+					{
+						"name": "REPORTING_AGENT",
+						"type": "varchar"
+					},
+					{
+						"name": "REPORTING_TIN",
+						"type": "varchar"
+					},
+					{
+						"name": "FUNDING_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					},
+					{
+						"name": "FILE_RECORD_BIRTH_DATE",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_ANTHEM_ACTIVE_POLICY_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SIM_ANTHEM_ACTIVE_POLICY_DETAILS_DEV')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1327,285 +2342,6 @@
 				"schema": [
 					{
 						"name": "Segment\tProduct 1\tProduct 2\tProduct 3\tProduct 4\tCustomer name\tCustomer no\tEffective date\tState\tMedical subscribers\tYTD prem\tYTD comp\tTax withholding\tNet compensation\tStatus",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_Aetna_Weekly_Feed_2021_2023_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp_connection_ALL_FEED",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "SIM_Aetna_Weekly_Feed_2021_2023_PRD.txt",
-						"folderPath": "/MSL_Cloud_Prd/FromAgency/SIM"
-					},
-					"columnDelimiter": "\t",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "MEMBER_STATUS\tCURRENT_ISSUER_SUBSCRIBER_ID\tFIRST_NAME\tLAST_NAME\tMEMBER_COUNT\tDATE_OF_BIRTH\tAGE\tSTATE\tCOUNTY\tAPPLICATION_DATE\tCOVERAGE_BEGIN_DATE\tCOVERAGE_END_DATE\tTRANSACTION_REASON\tBROKER_NPN\tBROKER_NAME\tFINANCE_PAID_THROUGH_DATE\tGA_FIRM\tUPLINE\tPAYEE\tFILE_RECORD_BIRTH_DATE",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_Aetna_Weekly_Feed_DEV')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp_connection_ALL_FEED",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "SIM_AETNA_WEEKLY_FEED_DEV.txt",
-						"folderPath": "/MSL_Cloud_Dev/FromAgency/SIM"
-					},
-					"columnDelimiter": "\t",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "CURRENT_ISSUER_SUBSCRIBER_ID\tCURRENT_ISSUER_MEMBER_ID\tAPPLICATION_ID\tMEMBER_STATUS\tPAID_THROUGH_DATE\tNPN\tBROKER_LAST_NAME\tBROKER_FIRST_NAME\tGAELSEUPLINE_SYNERGYMARKETING\tPAYEE_NAME\tCOVERAGE_START_DATE\tCOVERAGE_END_DATE\tMEMBER_LAST_NAME\tMEMBER_FIRST_NAME\tMEMBER_EMAIL\tMEMBER_PHONE\tRELATIONSHIP\tDATE_OF_BIRTH\tGEO_MEMBER_STATE\tCOUNTY_NAME\tZIP_CODE\tPLAN_MARKETING_NAME\tPLAN_ID\tMETAL_TIER\tONEXCHANGE_IND\tCURRENT_EXCHANGE_MEMBER_ID\tCURRENT_EXCHANGE_SUBSCRIBER_ID\tAUTOPAY_STATUS\tRENEWAL_INDICATOR\tTOTAL_AMOUNT_DUE\tNUMBER_OF_DAYS_DELINQUENT\tPAIDTHROUGHDATE\tFILLER_1\tFILLER_2\tFILLER_3\tFILE_RECORD_BIRTH_DATE",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_Aetna_Weekly_Feed_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp_connection_ALL_FEED",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "SIM_Aetna_Weekly_Feed_PRD.txt",
-						"folderPath": "/MSL_Cloud_Prd/FromAgency/SIM_2023_FILE"
-					},
-					"columnDelimiter": "\t",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "MEMBER_STATUS\tCURRENT_ISSUER_SUBSCRIBER_ID\tFIRST_NAME\tLAST_NAME\tMEMBER_COUNT\tDATE_OF_BIRTH\tAGE\tSTATE\tCOUNTY\tAPPLICATION_DATE\tCOVERAGE_BEGIN_DATE\tCOVERAGE_END_DATE\tTRANSACTION_REASON\tBROKER_NPN\tBROKER_NAME\tFINANCE_PAID_THROUGH_DATE\tGA_FIRM\tUPLINE\tPAYEE\tFILE_RECORD_BIRTH_DATE",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_Aetna_Weekly_Feed_UAT')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp_connection_ALL_FEED",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "SIM_AETNA_WEEKLY_FEED_UAT.txt",
-						"folderPath": "/MSL_Cloud_Uat/FromAgency/SIM"
-					},
-					"columnDelimiter": "\t",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "MEMBER_STATUS\tCURRENT_ISSUER_SUBSCRIBER_ID\tFIRST_NAME\tLAST_NAME\tMEMBER_COUNT\tDATE_OF_BIRTH\tAGE\tSTATE\tCOUNTY\tAPPLICATION_DATE\tCOVERAGE_BEGIN_DATE\tCOVERAGE_END_DATE\tTRANSACTION_REASON\tBROKER_NPN\tBROKER_NAME\tFINANCE_PAID_THROUGH_DATE\tGA_FIRM\tUPLINE\tPAYEE",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_Ambetter_Commission_Feed_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp_connection_ALL_FEED",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "SIM_Ambetter_Commission_Feed_PRD.txt",
-						"folderPath": "/MSL_Cloud_Prd/FromAgency/SIM_2025"
-					},
-					"columnDelimiter": "\t",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "Agent Name\tInsured First Name\tInsured Last Name\tPolicy Holder State\tAgent Number\tRate\tNumber of Members\tPolicy Effective Date\tCommission Date\tStatement Date\tCommission Amount\tPolicy Number\tDescription\tFile_Record_Birth_Date",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_Ambetter_Monthly_Feed_DEV')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp_connection_ALL_FEED",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "SIM_Ambetter_Weekly_Feed_DEV.txt",
-						"folderPath": "/MSL_Cloud_Dev/FromAgency/SIM"
-					},
-					"columnDelimiter": "\t",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "Broker Name\tBroker NPN\tPolicy Number\tInusred First Name\tInsured Last Name\tBroker Effective Date\tBroker Term Date\tPolicy Effective Date\tPolicy Term Date\tPaid Through Date\tCounty\tState\tOn/Off Exchange\tExchange Subscriber ID\tMember Phone Number\tMember Email\tMember Responsibility\tMember Date Of Birth\tAutopay\tEligible for Commission\tNumber of Members\tPayable Agent\tAR Policy Type",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_Ambetter_Weekly_Feed_DEV')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp_connection_ALL_FEED",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "SIM_Ambetter_Weekly_Feed_DEV.txt",
-						"folderPath": "/MSL_Cloud_Dev/FromAgency/SIM"
-					},
-					"columnDelimiter": "\t",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "BROKER_NAME\tBROKER_NPN\tPOLICY_NUMBER\tINUSRED_FIRST_NAME\tINSURED_LAST_NAME\tBROKER_EFFECTIVE_DATE\tBROKER_TERM_DATE\tPOLICY_EFFECTIVE_DATE\tPOLICY_TERM_DATE\tPAID_THROUGH_DATE\tCOUNTY\tSTATE\tON/OFF EXCHANGE\tEXCHANGE_SUBSCRIBER_ID\tMEMBER_PHONE_NUMBER\tMEMBER_EMAIL\tMEMBER_RESPONSIBILITY\tMEMBER_DATE_OF_BIRTH\tAUTOPAY\tELIGIBLE_FOR_COMMISSION\tNUMBER_OF_MEMBERS\tPAYABLE_AGENT\tAR_POLICY_TYPE\tSTATUS",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_Ambetter_Weekly_Feed_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp_connection_ALL_FEED",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "SIM_Ambetter_Weekly_Feed_PRD.txt",
-						"folderPath": "/MSL_Cloud_Prd/FromAgency/SIM_2022_FILE"
-					},
-					"columnDelimiter": "\t",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "BROKER_NAME\tBROKER_NPN\tPOLICY_NUMBER\tINUSRED_FIRST_NAME\tINSURED_LAST_NAME\tBROKER_EFFECTIVE_DATE\tBROKER_TERM_DATE\tPOLICY_EFFECTIVE_DATE\tPOLICY_TERM_DATE\tPAID_THROUGH_DATE\tCOUNTY\tSTATE\tON/OFF EXCHANGE\tEXCHANGE_SUBSCRIBER_ID\tMEMBER_PHONE_NUMBER\tMEMBER_EMAIL\tMEMBER_RESPONSIBILITY\tMEMBER_DATE_OF_BIRTH\tAUTOPAY\tELIGIBLE_FOR_COMMISSION\tNUMBER_OF_MEMBERS\tPAYABLE_AGENT\tAR_POLICY_TYPE\tFILE_RECORD_BIRTH_DATE",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_Ambetter_Weekly_Feed_UAT')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp_connection_ALL_FEED",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "SIM_AMBETTER_WEEKLY_FEED_UAT.txt",
-						"folderPath": "/MSL_Cloud_Uat/FromAgency/SIM"
-					},
-					"columnDelimiter": "\t",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "BROKER_NAME\tBROKER_NPN\tPOLICY_NUMBER\tINUSRED_FIRST_NAME\tINSURED_LAST_NAME\tBROKER_EFFECTIVE_DATE\tBROKER_TERM_DATE\tPOLICY_EFFECTIVE_DATE\tPOLICY_TERM_DATE\tPAID_THROUGH_DATE\tCOUNTY\tSTATE\tON/OFF EXCHANGE\tEXCHANGE_SUBSCRIBER_ID\tMEMBER_PHONE_NUMBER\tMEMBER_EMAIL\tMEMBER_RESPONSIBILITY\tMEMBER_DATE_OF_BIRTH\tAUTOPAY\tELIGIBLE_FOR_COMMISSION\tNUMBER_OF_MEMBERS\tPAYABLE_AGENT\tAR_POLICY_TYPE\tSTATUS",
 						"type": "String"
 					}
 				]
