@@ -13,6 +13,68 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/SIM_Aetna_Commission_Feed_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "SIM_Aetna_Commission_Feed_TEMPLATE_DIFFERENT.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/SIM_2025/Archive"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Selling agent last name\tSelling agent first name\tSelling agent NPN\tProducer comp address\tProducer location code\tGeneral agency name\tCustomer UID\tCustomer name\tCustomer effective date\tCustomer contract state\tSubscriber month\tTotal subscriber\tGross compensation\tTax withholding\tNet compensation\tScale name/adjustment description\tCheck run date\tOn exchange\tCarrier name\tFIle_Record_Birth_Date",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_Aetna_Main_Weekly_Feed_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "SIM_Aetna_Weekly_Feed_DEV.txt",
+						"folderPath": "/MSL_Cloud_Dev/FromAgency/SIM"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Segment\tProduct 1\tProduct 2\tProduct 3\tProduct 4\tCustomer name\tCustomer no\tEffective date\tState\tMedical subscribers\tYTD prem\tYTD comp\tTax withholding\tNet compensation\tStatus",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SIM_Aetna_Weekly_Feed_2021_2023_PRD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -554,190 +616,6 @@
 					"location": {
 						"type": "SftpLocation",
 						"fileName": "SIM_BCBSTX_AHM_Commission_Feed_PRD.txt",
-						"folderPath": "/MSL_Cloud_Prd/FromAgency/SIM_2025_COMMISSION"
-					},
-					"columnDelimiter": "\t",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "Client Key\tCalc Method\tCreditProducer Type\tProducer  Name\tLine of Business\tGroup\tContracts/Members\tSubscriber\tGroup Subname\tPayment Type\tCollection Amount\tPaid To Date\tEffective Date\tMonth Policy\tProduct\tSplit Indicator\tSplit Percentage\tCommission Rate\tCommission Paid\tService Rate\tService Fee\tSubProducer  Number\tFile_Record_Birth_date",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_BCBSTX_MAIN_POLICY_DETAILS_DEV')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_msldev",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "LAST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "FIRST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "DATE_OF_BIRTH",
-						"type": "varchar"
-					},
-					{
-						"name": "RECORD_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "E_APP_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "EXCHANGE_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENT_APP_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_COUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "GROUP_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "ACCOUNT_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "STATUS",
-						"type": "varchar"
-					},
-					{
-						"name": "PRODUCT_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "PLAN_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "APTC",
-						"type": "varchar"
-					},
-					{
-						"name": "RENEWAL_INDICATOR",
-						"type": "varchar"
-					},
-					{
-						"name": "COVERAGE_EFFECTIVE_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "PAID_TO_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "TERMED",
-						"type": "varchar"
-					},
-					{
-						"name": "PRODUCER_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "NINE_DIGIT_PRODUCER_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENT_ADDRESS_1",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENT_ADDRESS_2",
-						"type": "varchar"
-					},
-					{
-						"name": "CITY",
-						"type": "varchar"
-					},
-					{
-						"name": "STATE",
-						"type": "varchar"
-					},
-					{
-						"name": "ZIP_CODE",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENT_PRIMARY_PHONE",
-						"type": "varchar"
-					},
-					{
-						"name": "EMAIL",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "SIM_103",
-					"table": "SIM_BCBSTX_MAIN_POLICY_DETAILS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_BCBSTX_MHA_Commission_Feed_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp_connection_ALL_FEED",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "SIM_BCBSTX_MHA_Commission_Feed_PRD.txt",
 						"folderPath": "/MSL_Cloud_Prd/FromAgency/SIM_2025_COMMISSION"
 					},
 					"columnDelimiter": "\t",

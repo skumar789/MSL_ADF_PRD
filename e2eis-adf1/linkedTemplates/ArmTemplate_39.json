@@ -13,6 +13,166 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/AIA_MONTHY_MANUAL_ENROLLMENTS_DETAILS_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_mslprd",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "Agent_First_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Last_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Client_First_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Client_Last_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Client_DOB",
+						"type": "varchar"
+					},
+					{
+						"name": "Lives",
+						"type": "varchar"
+					},
+					{
+						"name": "Effective_Date",
+						"type": "varchar"
+					},
+					{
+						"name": "Carrier",
+						"type": "varchar"
+					},
+					{
+						"name": "FFM_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "H_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_id",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "AIA_102",
+					"table": "AIA_MONTHY_MANUAL_ENROLLMENTS_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_MONTHY_MANUAL_ENROLLMENTS_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_monthy_manual_enrollments_DEV.csv",
+						"folderPath": "/MSL_Cloud_Dev/FromAgency/AIA"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Agent First Name",
+						"type": "String"
+					},
+					{
+						"name": "Agent Last Name",
+						"type": "String"
+					},
+					{
+						"name": "Client First Name",
+						"type": "String"
+					},
+					{
+						"name": "Client Last Name",
+						"type": "String"
+					},
+					{
+						"name": "Client DOB",
+						"type": "String"
+					},
+					{
+						"name": "Lives",
+						"type": "String"
+					},
+					{
+						"name": "Effective Date",
+						"type": "String"
+					},
+					{
+						"name": "Carrier",
+						"type": "String"
+					},
+					{
+						"name": "FFM ID",
+						"type": "String"
+					},
+					{
+						"name": "H-Number",
+						"type": "String"
+					},
+					{
+						"name": "Agent ID",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AIA_MONTHY_MANUAL_ENROLLMENTS_PRD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1761,92 +1921,6 @@
 					"schema": "AIA_102",
 					"table": "AIA_O65_APPLICATION_TRACKER_STG"
 				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AIA_OOS_Adjustments_DEV')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp_connection_ALL_FEED",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "AIA_OOS_Adjustments_DEV.csv",
-						"folderPath": "/MSL_Cloud_Dev/FromAgency/AIA"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "Payee_Name",
-						"type": "String"
-					},
-					{
-						"name": "Comp Type",
-						"type": "String"
-					},
-					{
-						"name": "Description",
-						"type": "String"
-					},
-					{
-						"name": "Agent Commission",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AIA_OOS_Adjustments_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp_connection_ALL_FEED",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "AIA_OOS_Adjustments_PRD.txt",
-						"folderPath": "/MSL_Cloud_Prd/FromAgency/AIA"
-					},
-					"columnDelimiter": "\t",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "Payee_Name",
-						"type": "String"
-					},
-					{
-						"name": "Comp Type",
-						"type": "String"
-					},
-					{
-						"name": "Description",
-						"type": "String"
-					},
-					{
-						"name": "Agent Commission",
-						"type": "String"
-					}
-				]
 			},
 			"dependsOn": []
 		}

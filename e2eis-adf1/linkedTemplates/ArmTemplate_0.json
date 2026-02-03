@@ -47,6 +47,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'CDC_DEV'"
 		},
+		"E2EIS_PROD_HISTORY_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'E2EIS_PROD_HISTORY'"
+		},
 		"LS_SFTP_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'LS_SFTP'"
@@ -82,10 +86,6 @@
 		"SqlServer_msldev_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'SqlServer_msldev'"
-		},
-		"SqlServer_mslprd_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'SqlServer_mslprd'"
 		},
 		"All_ABI_FILES_TRANSFERS_TO_AZURE_CLOUD_properties_typeProperties_url": {
 			"type": "string",
@@ -130,6 +130,18 @@
 		"AzureSqlServer_APP_PROD_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "MSLADMIN_APP_PRD"
+		},
+		"E2EIS_PROD_HISTORY_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "dbserver-e2eis-prod.database.windows.net"
+		},
+		"E2EIS_PROD_HISTORY_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "e2eis_PROD_HISTORY"
+		},
+		"E2EIS_PROD_HISTORY_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "mslprod"
 		},
 		"LS_SFTP_properties_typeProperties_host": {
 			"type": "string",
@@ -384,6 +396,28 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/E2EIS_PROD_HISTORY')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"server": "[parameters('E2EIS_PROD_HISTORY_properties_typeProperties_server')]",
+					"database": "[parameters('E2EIS_PROD_HISTORY_properties_typeProperties_database')]",
+					"encrypt": "mandatory",
+					"trustServerCertificate": false,
+					"authenticationType": "SQL",
+					"userName": "[parameters('E2EIS_PROD_HISTORY_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('E2EIS_PROD_HISTORY_password')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/LS_SFTP')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -571,19 +605,6 @@
 				"type": "SqlServer",
 				"typeProperties": {
 					"connectionString": "[parameters('SqlServer_msldev_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SqlServer_mslprd')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "SqlServer",
-				"typeProperties": {
-					"connectionString": "[parameters('SqlServer_mslprd_connectionString')]"
 				}
 			},
 			"dependsOn": []

@@ -47,6 +47,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'CDC_DEV'"
 		},
+		"E2EIS_PROD_HISTORY_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'E2EIS_PROD_HISTORY'"
+		},
 		"LS_SFTP_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'LS_SFTP'"
@@ -142,6 +146,18 @@
 		"AzureSqlServer_APP_PROD_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "MSLADMIN_APP_PRD"
+		},
+		"E2EIS_PROD_HISTORY_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "dbserver-e2eis-prod.database.windows.net"
+		},
+		"E2EIS_PROD_HISTORY_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "e2eis_PROD_HISTORY"
+		},
+		"E2EIS_PROD_HISTORY_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "mslprod"
 		},
 		"LS_SFTP_properties_typeProperties_host": {
 			"type": "string",
@@ -288,6 +304,9 @@
 					"CDC_DEV_connectionString": {
 						"value": "[parameters('CDC_DEV_connectionString')]"
 					},
+					"E2EIS_PROD_HISTORY_password": {
+						"value": "[parameters('E2EIS_PROD_HISTORY_password')]"
+					},
 					"LS_SFTP_password": {
 						"value": "[parameters('LS_SFTP_password')]"
 					},
@@ -314,9 +333,6 @@
 					},
 					"SqlServer_msldev_connectionString": {
 						"value": "[parameters('SqlServer_msldev_connectionString')]"
-					},
-					"SqlServer_mslprd_connectionString": {
-						"value": "[parameters('SqlServer_mslprd_connectionString')]"
 					},
 					"All_ABI_FILES_TRANSFERS_TO_AZURE_CLOUD_properties_typeProperties_url": {
 						"value": "[parameters('All_ABI_FILES_TRANSFERS_TO_AZURE_CLOUD_properties_typeProperties_url')]"
@@ -350,6 +366,15 @@
 					},
 					"AzureSqlServer_APP_PROD_properties_typeProperties_userName": {
 						"value": "[parameters('AzureSqlServer_APP_PROD_properties_typeProperties_userName')]"
+					},
+					"E2EIS_PROD_HISTORY_properties_typeProperties_server": {
+						"value": "[parameters('E2EIS_PROD_HISTORY_properties_typeProperties_server')]"
+					},
+					"E2EIS_PROD_HISTORY_properties_typeProperties_database": {
+						"value": "[parameters('E2EIS_PROD_HISTORY_properties_typeProperties_database')]"
+					},
+					"E2EIS_PROD_HISTORY_properties_typeProperties_userName": {
+						"value": "[parameters('E2EIS_PROD_HISTORY_properties_typeProperties_userName')]"
 					},
 					"LS_SFTP_properties_typeProperties_host": {
 						"value": "[parameters('LS_SFTP_properties_typeProperties_host')]"
@@ -428,6 +453,9 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"SqlServer_mslprd_connectionString": {
+						"value": "[parameters('SqlServer_mslprd_connectionString')]"
 					},
 					"SqlServer_msluat_connectionString": {
 						"value": "[parameters('SqlServer_msluat_connectionString')]"
@@ -2388,6 +2416,26 @@
 			},
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', 'e2eis-adf1_ArmTemplate_97')]"
+			]
+		},
+		{
+			"name": "e2eis-adf1_ArmTemplate_99",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_99.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'e2eis-adf1_ArmTemplate_98')]"
 			]
 		}
 	]
