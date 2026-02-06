@@ -13,6 +13,138 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/AIA_MANUAL_ADJUSTMENT_DETAILS_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msluat",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2eis_Seq_Number",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "Comp_Period",
+						"type": "date"
+					},
+					{
+						"name": "Action",
+						"type": "varchar"
+					},
+					{
+						"name": "Frequency",
+						"type": "varchar"
+					},
+					{
+						"name": "Contract ID_Or_Group Number",
+						"type": "varchar"
+					},
+					{
+						"name": "Product_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "Carrier_Comp_Type",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Adjustment_Start_Date",
+						"type": "date"
+					},
+					{
+						"name": "Adjustment_End_Date",
+						"type": "date"
+					},
+					{
+						"name": "Accounting_Start_Date",
+						"type": "date"
+					},
+					{
+						"name": "Accounting_End_Date",
+						"type": "date"
+					},
+					{
+						"name": "Writing_Agent",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Payee_AOR",
+						"type": "varchar"
+					},
+					{
+						"name": "Payment",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Comments",
+						"type": "varchar"
+					},
+					{
+						"name": "Agency_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Record_Load_Date",
+						"type": "date"
+					},
+					{
+						"name": "Record_Loaded_By",
+						"type": "char"
+					},
+					{
+						"name": "Record_Data_Source",
+						"type": "char"
+					},
+					{
+						"name": "Record_Flag_Status",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "AIA_MANUAL_ADJUSTMENT_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_MJM_Advance_History_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_MJM_Advance-History_PRD.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Id\tDateTime\tAgent Name\tUpline\tTeam\tClient\tClient State\tClient Zip\tStatus Description\tLast Status Change\tMember Count Enrolled\tDate Advanced",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AIA_MOLINA_ACTIVE_POLICY_DETAILS_DEV')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1973,68 +2105,6 @@
 					"schema": "AIA_102",
 					"table": "AIA_O65_ALIGNED_ACCOUNTS_STG"
 				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AIA_O65_APPLICATION_TRACKER_FEED_DEV')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp_connection_ALL_FEED",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "AIA_O65_APPLICATION_TRACKER_FEED_DEV.txt",
-						"folderPath": "/MSL_Cloud_Dev/FromAgency/AIA"
-					},
-					"columnDelimiter": "\t",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "AGENT_ID\tAGENT_NPN\tCONTRACT_ID\tAPPLICATION_ID\tAPPLICATION_STATUS\tAPPLICANT_FIRST_NAME\tAPPLICANT_LAST_NAME\tPRODUCT_TYPE\tMETHOD_OF_RECEIPT\tAGENT_ELIGIBILITY_CHECK\tALIGNED_AOR\tAPP_SUBMIT_DATE\tAGENCY_IDENTIFIER\tAGENCY_NAME\tREQUESTED_EFFECTIVE_DATE\tAGENT_FULL_NAME\tAGENT_STATUS\tAPPLICANT_DOB\tAPPLICANT_PRIMARY_PHONE\tAPPLICANT_EMAIL_ADDRESS\tAPPLICANT_COUNTY",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AIA_O65_APPLICATION_TRACKER_FEED_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp_connection_ALL_FEED",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "AIA_O65_APPLICATION_TRACKER_FEED_PRD.txt",
-						"folderPath": "/MSL_Cloud_Prd/FromAgency/AIA"
-					},
-					"columnDelimiter": "\t",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "AGENT_ID\tAGENT_NPN\tCONTRACT_ID\tAPPLICATION_ID\tAPPLICATION_STATUS\tAPPLICANT_FIRST_NAME\tAPPLICANT_LAST_NAME\tPRODUCT_TYPE\tMETHOD_OF_RECEIPT\tAGENT_ELIGIBILITY_CHECK\tALIGNED_AOR\tAPP_SUBMIT_DATE\tAGENCY_IDENTIFIER\tAGENCY_NAME\tREQUESTED_EFFECTIVE_DATE\tAGENT_FULL_NAME\tAGENT_STATUS\tAPPLICANT_DOB\tAPPLICANT_PRIMARY_PHONE\tAPPLICANT_EMAIL_ADDRESS\tAPPLICANT_COUNTY",
-						"type": "String"
-					}
-				]
 			},
 			"dependsOn": []
 		}

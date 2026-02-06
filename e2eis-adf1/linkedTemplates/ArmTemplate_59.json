@@ -13,6 +13,68 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/MIA_BCBSSC_INDIVIDUAL_COMMISSION_FEED_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "MIA_BCBSSC_INDIVIDUAL COMMISSION_MONTHLY_FEED_UAT.txt",
+						"folderPath": "/MSL_Cloud_Uat/FromAgency/MIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "SUBSCRIBER_NAME\tALTERNATE_ID\tCONTRACT_TYPE\tEFF_DATE\tTC\tDUE_DATE\tINITIAL_PREMIUM\tPERCAP_PERCENT\tCOMMISSION_AMOUNT\tADJ_REA\tSELLING_AGENT\tCOMPENSATION_DATE",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MIA_BCBSSC_INDIVIDUAL_FEED_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "MIA_BCBSSC_INDIVIDUAL COMMISSION_FEED_UAT.txt",
+						"folderPath": "/MSL_Cloud_Uat/FromAgency/MIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "SUBSCRIBER NAME\tALTERNATE ID\tCONTRACT TYPE\tEFF DATE\tTC\tDUE DATE\tINITIAL PREMIUM\tPERCAP/PERCENT\tCOMMISSION AMOUNT\tADJ REA\tSELLING AGENT\tCOMPENSATION_DATE",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/MIA_BCBS_FB_COMISSIONS_FINALIZED_APP_PROD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -2456,185 +2518,6 @@
 				"typeProperties": {
 					"schema": "MIA_104",
 					"table": "MIA_BCBS_SC_INDIVITUAL_COMMISSION_DETAILS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/MIA_BCBS_SC_INDIVITUAL_MONTHLY_DETAILS_DEV')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_msldev",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "SUBSCRIBER_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "ALTERNATE_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "CONTRACT_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "EFF_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "TC",
-						"type": "varchar"
-					},
-					{
-						"name": "DUE_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "INITIAL_PREMIUM",
-						"type": "varchar"
-					},
-					{
-						"name": "PERCAP_PERCENT",
-						"type": "varchar"
-					},
-					{
-						"name": "COMMISSION_AMOUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "ADJ_REA",
-						"type": "varchar"
-					},
-					{
-						"name": "SELLING_AGENT",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					},
-					{
-						"name": "FILE_RECORD_BIRTH_DATE",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "MIA_104",
-					"table": "MIA_BCBS_SC_INDIVITUAL_MONTHLY_DETAILS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/MIA_BUDDY_AGENT_LOCK_LIST_DETAILS_DEV')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_msldev",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "CARRIER",
-						"type": "varchar"
-					},
-					{
-						"name": "CONTRACT",
-						"type": "varchar"
-					},
-					{
-						"name": "COMPENSATION_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "UNIQUE_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "ACCOUNTING_DATE",
-						"type": "date"
-					},
-					{
-						"name": "AGENT_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "WRITING_AGENT",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "LOCK_REFERENCE",
-						"type": "varchar"
-					},
-					{
-						"name": "PAYEE",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "smallint",
-						"precision": 5
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "MIA_104",
-					"table": "MIA_BUDDY_AGENT_LOCK_LIST_DETAILS"
 				}
 			},
 			"dependsOn": []
