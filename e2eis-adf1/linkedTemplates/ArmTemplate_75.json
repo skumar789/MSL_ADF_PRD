@@ -13,6 +13,194 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/SIM_BCBS_MI_MHA_Commission_Feed_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "SIM_BCBS MI_MHA_Commission_Feed_PRD.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/ SIM_COMMISSION_2023"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "PERIODNAME\tAGENCY_ID\tAGENCY_NAME\tAGENT_ID\tAGENT_NAME\tBUSINESS_SEGMENT\tGROUP_SUFFIX / DEID\tGROUP NAME / INDIVIDUAL_NAME\tLOB\tPRODUCT\tLEGAL_ENTITY\tFUNDING TYPE\tEVENT TYPE\tAPPLIED DATE\tCOMMISSIONABLE PREMIUM\tGROUP SIZE /  CONTRACT COUNT\tCOMMISSION_RATE\tCOMMISSION\tCOMMISSION LEVEL\tIBU PREFERRED TIER\tCREDITTYPE / EARNINGCODEID\tADJUSTMENT\tRENEWAL MONTH\tCMS YEAR\tLOCAL GROUP \tFILE_RECORD_BIRTH_DATE",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_BCBS_MI_WEEKLY_DETAILS_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_APP_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "FIRST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "LAST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "BIRTHDATE",
+						"type": "varchar"
+					},
+					{
+						"name": "PHYSICAL_STREET_ADDRESS_1",
+						"type": "varchar"
+					},
+					{
+						"name": "PHYSICAL_STREET_ADDRESS_2",
+						"type": "varchar"
+					},
+					{
+						"name": "PHYSICAL_CITY",
+						"type": "varchar"
+					},
+					{
+						"name": "PHYSICAL_STATE",
+						"type": "varchar"
+					},
+					{
+						"name": "PHYSICAL_ZIP",
+						"type": "varchar"
+					},
+					{
+						"name": "PHONE",
+						"type": "varchar"
+					},
+					{
+						"name": "EMAIL",
+						"type": "varchar"
+					},
+					{
+						"name": "PLAN",
+						"type": "varchar"
+					},
+					{
+						"name": "ISSUER",
+						"type": "varchar"
+					},
+					{
+						"name": "ON/OFF_MARKETPLACE",
+						"type": "varchar"
+					},
+					{
+						"name": "LINE_OF_BUSINESS",
+						"type": "varchar"
+					},
+					{
+						"name": "ENROLLEE_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "COVERAGE",
+						"type": "varchar"
+					},
+					{
+						"name": "COVERAGE_EFFECTIVE_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "PAID_TO_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "COVERAGE_END_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "MEMBER_STATUS",
+						"type": "varchar"
+					},
+					{
+						"name": "APTC_AMOUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "MBI",
+						"type": "varchar"
+					},
+					{
+						"name": "FEDERAL_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "MEMBER_PREMIUM_AMOUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "RESPONSIBLE_AMOUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "TOTAL_PREMIUM_AMOUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					},
+					{
+						"name": "FILE_RECORD_BIRTH_DATE",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_BCBS_MI_WEEKLY_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SIM_BCBS_MI_WEEKLY_DETAILS_DEV')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1818,174 +2006,6 @@
 				"schema": [
 					{
 						"name": "Client Key\tCalc Method\tCreditProducer Type\tProducer  Name\tLine of Business\tGroup\tContracts/Members\tSubscriber\tGroup Subname\tPayment Type\tCollection Amount\tPaid To Date\tEffective Date\tMonth Policy\tProduct\tSplit Indicator\tSplit Percentage\tCommission Rate\tCommission Paid\t\"Service ",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_BCBS_OK_MHA_WEEKLY_DETAILS_DEV')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_msldev",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "CLIENT_KEY",
-						"type": "varchar"
-					},
-					{
-						"name": "CALC_METHOD",
-						"type": "varchar"
-					},
-					{
-						"name": "CREDIT_PRODUCER_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "PRODUCER_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "LINE_OF_BUSINESS",
-						"type": "varchar"
-					},
-					{
-						"name": "GROUP",
-						"type": "varchar"
-					},
-					{
-						"name": "CONTRACTS_MEMBERS",
-						"type": "varchar"
-					},
-					{
-						"name": "SUBSCRIBER",
-						"type": "varchar"
-					},
-					{
-						"name": "GROUP_SUBNAME",
-						"type": "varchar"
-					},
-					{
-						"name": "PAYMENT_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "COLLECTION_AMOUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "PAID_TO_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "EFFECTIVE_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "MONTH_POLICY",
-						"type": "varchar"
-					},
-					{
-						"name": "PRODUCT",
-						"type": "varchar"
-					},
-					{
-						"name": "SPLIT_INDICATOR",
-						"type": "varchar"
-					},
-					{
-						"name": "SPLIT_PERCENTAGE",
-						"type": "varchar"
-					},
-					{
-						"name": "COMMISSION_RATE",
-						"type": "varchar"
-					},
-					{
-						"name": "COMMISSION_PAID",
-						"type": "varchar"
-					},
-					{
-						"name": "SERVICE_RATE",
-						"type": "varchar"
-					},
-					{
-						"name": "SERVICE_FEE",
-						"type": "varchar"
-					},
-					{
-						"name": "SUBPRODUCER_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					},
-					{
-						"name": "FILE_RECORD_BIRTH_DATE",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "SIM_103",
-					"table": "SIM_BCBS_OK_MHA_COMMISSION_DETAILS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_BCBS_OK_MHA_WEEKLY_FEED_UAT')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp_connection_ALL_FEED",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "SIM_BCBS_OK_MHA_WEEKLY_FEED_UAT.txt",
-						"folderPath": "/MSL_Cloud_Uat/FromAgency/SIM"
-					},
-					"columnDelimiter": "\t",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "LAST_NAME\tFIRST_NAME\tDATE_OF_BIRTH\tRECORD_TYPE\tE-APP_NUMBER\tEXCHANGE_ID\tCLIENT_APP_ID\tMEMBER_COUNT\tGROUP_NUMBER\tACCOUNT_NUMBER\tSTATUS\tPRODUCT_TYPE\tPLAN_NAME\tSOURCE\tAPTC\tRENEWAL_INDICATOR\tCOVERAGE_EFFECTIVE_DATE\tPAID_TO_DATE\tTERMED\tPRODUCER_NAME\tNINE_DIGIT_PRODUCER_NUMBER\tCLIENT_ADDRESS_1\tCLIENT_ADDRESS_2\tCITY\tSTATE\tZIP_CODE\tCLIENTS_PRIMARY_PHONE\tEMAIL\tFILE_RECORD_BIRTH_DATE",
 						"type": "String"
 					}
 				]

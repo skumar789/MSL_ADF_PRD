@@ -13,6 +13,184 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/SIM_UHC_DELINQUENT_WEEKLY_DETAILS_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_APP_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "SUBSCRIBER_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "PHONE",
+						"type": "varchar"
+					},
+					{
+						"name": "GRACE_PERIOD_DAYS_LEFT",
+						"type": "varchar"
+					},
+					{
+						"name": "PAID_THROUGH",
+						"type": "varchar"
+					},
+					{
+						"name": "MONTHLY_PREMIUM",
+						"type": "varchar"
+					},
+					{
+						"name": "BALANCE_DUE",
+						"type": "varchar"
+					},
+					{
+						"name": "GRACE_PERIOD_END_DATE",
+						"type": "date"
+					},
+					{
+						"name": "MEMBERS_PLAN_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "AOR_WRITING_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "FILE_RECORD_BIRTH_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_UHC_DELINQUENT_WEEKLY_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_UHC_DELINQUENT_WEEKLY_DETAILS_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msldev",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "SUBSCRIBER_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "PHONE",
+						"type": "varchar"
+					},
+					{
+						"name": "GRACE_PERIOD_DAYS_LEFT",
+						"type": "varchar"
+					},
+					{
+						"name": "PAID_THROUGH",
+						"type": "varchar"
+					},
+					{
+						"name": "MONTHLY_PREMIUM",
+						"type": "varchar"
+					},
+					{
+						"name": "BALANCE_DUE",
+						"type": "varchar"
+					},
+					{
+						"name": "GRACE_PERIOD_END_DATE",
+						"type": "date"
+					},
+					{
+						"name": "MEMBERS_PLAN_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "AOR_WRITING_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "FILE_RECORD_BIRTH_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_UHC_DELINQUENT_WEEKLY_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SIM_UHC_DELINQUENT_WEEKLY_DETAILS_HISTORY_APP_PROD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1403,68 +1581,6 @@
 				"schema": [
 					{
 						"name": "AGENCY_IDENTIFIER\tAGENCY_NAME\tAGENT_ID\tAGENT_ID_STATUS\tAGENT_NAME\tPLAN_LEVEL\tPLAN_NBR\tPLAN_NAME\tAPP_STATE\tRECEIVED_DATE\tEFFECTIVE_DATE\tMEM_FIRST_NAME\tMEM_LAST_NAME\tMEMBER_DOB\tAPP_STATUS\tFILE_RECORD_BIRTH_DATE",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_UHC_Weekly_Feed_DEV')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp_connection_ALL_FEED",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "SIM_UHC_Weekly_Feed_Dev.txt",
-						"folderPath": "/MSL_Cloud_Dev/FromAgency/SIM"
-					},
-					"columnDelimiter": "\t",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "SUBSCRIBER_ID\tCUSTOMER_NUMBER\tPRIMARY_LAST_NAME\tPRIMARY_FIRST_NAME\tWRITING_AGENT_NPN\tWRITING_AGENT\tPRODUCT_TYPE\tON_OFF_EXCHANGE\tSUBSIDY\tTOTAL_PREMIUM\tAPTC\tPREMIUM_CUSTOMER_RESPONSIBILITY\tPLAN_NAME\tPOLICY_STATUS\tEFFECTIVE_DATE\tDATE_APPLICATION_RECEIVED\tRENEWAL_MONTH\tPAID_THROUGH_DATE\tTERMINATION_DATE\tSTATE\tCUSTOMER_EMAIL_ADDRESS\tCUSTOMER_PHONE_NUMBER",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_UHC_Weekly_Feed_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp_connection_ALL_FEED",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "SIM_UHC_Weekly_Feed_PRD.txt",
-						"folderPath": "/MSL_Cloud_Prd/FromAgency/SIM_2022_FILE"
-					},
-					"columnDelimiter": "\t",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "Agency ID\tAgency Name\tAgent ID\tAgent Name\tAgent Email\tParty ID\tAgentNIPR\tMemberNumber\tMember Last Name\tMember First Name\tMember Middle Initial\tMember DOB\tMember Email\tMember Phone #\tMember Address 1\tMember Address 2\tMember City\tMember State\tMember Zip\tMember County\tMember Status\tPolicy Eff Date\tPolicy Term Date\tTerm Reason Code\tProduct\tContract\tApplication ID\tPlan Name\tPlan Type\tGRGR ID\tRenewal\tFILE_RECORD_BIRTH_DATE",
 						"type": "String"
 					}
 				]

@@ -13,6 +13,186 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/SIM_AGENCY_PAYEE_DETAILS_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_mslprd",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "CONTRACT_YEAR",
+						"type": "varchar"
+					},
+					{
+						"name": "EMPLOYEE_TYPE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EMPLOYEE_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "FULL_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PRIMARY_ROLE",
+						"type": "varchar"
+					},
+					{
+						"name": "MONTHLY_RENEWAL_WRITING_AGENT_COMP_TIER",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PRE_ACA_WRITING_AGENT_COMP_TIER",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LTL_WRITING_AGENT_COMP_TIER",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MED_SUP_WRITING_AGENT_COMP_TIER",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DENTAL_NEWSALE_WRITING_AGENT_COMP_TIER",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ACA_NEWSALE_WRITING_AGENT_COMP_TIER",
+						"type": "nvarchar"
+					},
+					{
+						"name": "GROUP_WRITING_AGENT_COMP_TIER",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ANCILLARY_RENEWAL_WRITING_AGENT_COMP_TIER",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PAYROLL_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PAYEE_EMPLOYEE_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PAYEE_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MAIN_UPLINE_EMPLOYEE_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MAIN_UPLINE_FULL_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ROLE_END_DATE",
+						"type": "date"
+					},
+					{
+						"name": "ROLE_END_REASON",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ALL_SALES_PAYEE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SUBMITTING_AGENT",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SECONDARY_ROLE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DEPARTMENT_ENTITY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DEPARTMENT_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "HEALTH_ACA_EMPLOYEE TIER",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_AGENCY_PAYEE_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_AGENCY_RATE_ANNUAL_FEED_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "SIM_AGENCY_RATE_ANNUAL_FEED_PRD.txt",
+						"folderPath": "/MSL_Cloud_App_Prd/FromAgency/SIM"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Carrier\tState\tRate\tProduct\tYear",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SIM_AGENCY_RATE_DETAILS_APP_PROD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -2332,232 +2512,6 @@
 				"typeProperties": {
 					"schema": "SIM_103",
 					"table": "SIM_AMBETTER_ACTIVE_POLICY_DETAILS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_AMBETTER_CED_PATCH_MONTHLY_DETAILS_DNU_APP_PROD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_APP_PROD",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "MEMBER_SOFTHEON_NBR",
-						"type": "varchar"
-					},
-					{
-						"name": "POLICY_NBR",
-						"type": "varchar"
-					},
-					{
-						"name": "MBR_EXCHANGE_MEMBER_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_AMISYS_NBR",
-						"type": "varchar"
-					},
-					{
-						"name": "APP_ID_AND_ORIGIN",
-						"type": "varchar"
-					},
-					{
-						"name": "EFFECTIVE_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "STATE",
-						"type": "varchar"
-					},
-					{
-						"name": "STATE_EXCHANGE",
-						"type": "varchar"
-					},
-					{
-						"name": "EXCHANGE_PLAN_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "CASE_PLAN_MARKETING_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "METAL_LEVEL",
-						"type": "varchar"
-					},
-					{
-						"name": "PRODUCT_LINE",
-						"type": "varchar"
-					},
-					{
-						"name": "BROKER_NPN",
-						"type": "varchar"
-					},
-					{
-						"name": "BROKER_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "BROKER_AGENCY_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "BROKER_AGENCY_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					},
-					{
-						"name": "FILE_RECORD_BIRTH_DATE",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "SIM_103",
-					"table": "SIM_AMBETTER_CED_PATCH_MONTHLY_DETAILS_HIST"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_AMBETTER_CED_PATCH_MONTHLY_DETAILS_DNU_PROD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_mslprd",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "MEMBER_SOFTHEON_NBR",
-						"type": "varchar"
-					},
-					{
-						"name": "POLICY_NBR",
-						"type": "varchar"
-					},
-					{
-						"name": "MBR_EXCHANGE_MEMBER_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_AMISYS_NBR",
-						"type": "varchar"
-					},
-					{
-						"name": "APP_ID_AND_ORIGIN",
-						"type": "varchar"
-					},
-					{
-						"name": "EFFECTIVE_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "STATE",
-						"type": "varchar"
-					},
-					{
-						"name": "STATE_EXCHANGE",
-						"type": "varchar"
-					},
-					{
-						"name": "EXCHANGE_PLAN_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "CASE_PLAN_MARKETING_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "METAL_LEVEL",
-						"type": "varchar"
-					},
-					{
-						"name": "PRODUCT_LINE",
-						"type": "varchar"
-					},
-					{
-						"name": "BROKER_NPN",
-						"type": "varchar"
-					},
-					{
-						"name": "BROKER_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "BROKER_AGENCY_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "BROKER_AGENCY_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					},
-					{
-						"name": "FILE_RECORD_BIRTH_DATE",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "SIM_103",
-					"table": "SIM_AMBETTER_CED_PATCH_MONTHLY_DETAILS_DNU"
 				}
 			},
 			"dependsOn": []

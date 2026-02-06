@@ -13,6 +13,190 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/MSL_ISSUE_TRACKER_LOGS_KPI_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msluat",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "CLIENT_ISSUE_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "CLIENT_ISSUE_CODE",
+						"type": "varchar"
+					},
+					{
+						"name": "CLIENT_ISSUE_DESCR",
+						"type": "varchar"
+					},
+					{
+						"name": "CLIENT_ISSUE_BUSINESS_IMPACT",
+						"type": "varchar"
+					},
+					{
+						"name": "CLIENT_ISSUE_PRIORITY",
+						"type": "varchar"
+					},
+					{
+						"name": "CLIENT_ISSUE_ESCLATION_REQ",
+						"type": "varchar"
+					},
+					{
+						"name": "CLIENT_ISSUE_STATUS",
+						"type": "varchar"
+					},
+					{
+						"name": "CLIENT_ISSUE_COMMENTS",
+						"type": "varchar"
+					},
+					{
+						"name": "CLIENT_ISSUE_APPROX_RESOLUTION_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "CLIENT_ISSUE_LOG_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "CLIENT_ISSUE_CREATED_BY",
+						"type": "varchar"
+					},
+					{
+						"name": "CLIENT_ISSUE_RESOLUTION_BY",
+						"type": "varchar"
+					},
+					{
+						"name": "CLIENT_ISSUE_RESOLUTION_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "CLIENT_ISSUE_CATEGORY",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AGENCY_CODE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "MSL_999",
+					"table": "MSL_ISSUE_TRACKER_LOGS_KPI"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MSL_ISSUE_TRACKER_LOGS_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "MSL_ISSUE_TRACKER_LOGS.csv",
+						"folderPath": "/MSL_Cloud_PRD_BCP/FromAgency"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Ticket ID",
+						"type": "String"
+					},
+					{
+						"name": "Status",
+						"type": "String"
+					},
+					{
+						"name": "Priority",
+						"type": "String"
+					},
+					{
+						"name": "Esclation",
+						"type": "String"
+					},
+					{
+						"name": "Ticket Date",
+						"type": "String"
+					},
+					{
+						"name": "Created By",
+						"type": "String"
+					},
+					{
+						"name": "Approx Resolution Date",
+						"type": "String"
+					},
+					{
+						"name": "Assigned To",
+						"type": "String"
+					},
+					{
+						"name": "Updated By",
+						"type": "String"
+					},
+					{
+						"name": "Updated Date",
+						"type": "String"
+					},
+					{
+						"name": "Description",
+						"type": "String"
+					},
+					{
+						"name": "Business Impact",
+						"type": "String"
+					},
+					{
+						"name": "Comments",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/MSL_ISSUE_TRACKER_LOGS_PROD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1484,179 +1668,6 @@
 				"schema": [
 					{
 						"name": "AGENT_STATEMENT_DATE\tAGENCY_NAME\tAGENT_NAME\tAGENT_ID\tAGENT_NUMBER\tAGENT_COMMISSION_NOTE\tCARRIER_NAME\tEFFECTIVE_DATE\tCLIENT_NAME\tPOLICY_ID\tPOLICY_NUMBER\tCOVERAGE_TYPE\tBILL_FROM_DATE\tMONTH_OF_BILL_FROM_DATE\tLIVES\tPREMIUM_AMOUNT\tCOMMISSION_AMOUNT\tCOMMISSION_ENTRY_NOTE\tREVENUE_TYPE\tBALANCE_FORWARDED\tSTATE\tCOMPENSATION_MONTH\tCOMMISSION_TYPE\tFRIQUENCY",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/MSL_PAYEE_FILE_DETAILS_DEV')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_msldev",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "PAYEE_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "CONTRACT_YEAR",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "PAYEE",
-						"type": "varchar"
-					},
-					{
-						"name": "YEAR",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "COMPENSATION_DATE",
-						"type": "date"
-					},
-					{
-						"name": "EMPLOYEE_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "EMPLOYEE_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "FULL_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "PRIMARY_ROLE",
-						"type": "varchar"
-					},
-					{
-						"name": "PAYROLL_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "PAYEE_EMPLOYEE_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "MAIN_UPLINE_EMPLOYEE_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "MAIN_UPLINE_FULL_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "ROLE_START_DATE",
-						"type": "date"
-					},
-					{
-						"name": "ROLE_END_DATE",
-						"type": "date"
-					},
-					{
-						"name": "ALL_SALES_PAYEE",
-						"type": "bit"
-					},
-					{
-						"name": "SUBMITTING_AGENT",
-						"type": "bit"
-					},
-					{
-						"name": "SECONDARY_ROLE",
-						"type": "varchar"
-					},
-					{
-						"name": "DEPARTMENT_ENTITY_ID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "DEPARTMENT_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "PAYEE_EMAIL_ADDRESS",
-						"type": "varchar"
-					},
-					{
-						"name": "TEMPLATE_ID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "RECORD_ADD_BY",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "MSL_998",
-					"table": "MSL_PAYEE_FILE_DETAILS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/MSL_PAYEE_FILE_FEED_DEV')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp_connection_ALL_FEED",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "MSL_PAYEE_FILE_FEED_DEV.txt",
-						"folderPath": "/E2EIS_Cloud_Demo_Dev/E2EIS"
-					},
-					"columnDelimiter": "\t",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "PAYEE_NAME\tCONTRACT_YEAR\tPAYEE\tYEAR\tCOMPENSATION_DATE\tEMPLOYEE_TYPE\tEMPLOYEE_ID\tFULL_NAME\tPRIMARY_ROLE\tPAYROLL_ID\tPAYEE_EMPLOYEE_ID\tMAIN_UPLINE_EMPLOYEE_ID\tMAIN_UPLINE_FULL_NAME\tROLE_START_DATE\tROLE_END_DATE\tALL_SALES_PAYEE\tSUBMITTING_AGENT\tSECONDARY_ROLE\tDEPARTMENT_ENTITY_ID\tDEPARTMENT_NAME\tPAYEE_EMAIL_ADDRESS\tTEMPLATE_ID\tRECORD_ADD_BY",
 						"type": "String"
 					}
 				]
