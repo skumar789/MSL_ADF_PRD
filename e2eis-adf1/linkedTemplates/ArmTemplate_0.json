@@ -67,6 +67,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'SFTPBOBFLORIDA'"
 		},
+		"SFTP_Prod_Source_Sink_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'SFTP_Prod_Source_Sink'"
+		},
 		"Sftp_Automation_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'Sftp_Automation'"
@@ -75,17 +79,13 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'Sftp_connection_ALL_FEED'"
 		},
+		"Sftp_e2eprod_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'Sftp_e2eprod'"
+		},
 		"SqlServer_APP_PROD_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'SqlServer_APP_PROD'"
-		},
-		"SqlServer_mslbcpprd_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'SqlServer_mslbcpprd'"
-		},
-		"SqlServer_msldev_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'SqlServer_msldev'"
 		},
 		"All_ABI_FILES_TRANSFERS_TO_AZURE_CLOUD_properties_typeProperties_url": {
 			"type": "string",
@@ -183,6 +183,14 @@
 			"type": "string",
 			"defaultValue": "sftpprdadmin"
 		},
+		"SFTP_Prod_Source_Sink_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "sftpprd.msusportal.com"
+		},
+		"SFTP_Prod_Source_Sink_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "adfsftp"
+		},
 		"Sftp_Automation_properties_typeProperties_host": {
 			"type": "string",
 			"defaultValue": "sftpprd.msusportal.com"
@@ -199,6 +207,14 @@
 			"type": "string",
 			"defaultValue": "sftpprdadmin"
 		},
+		"Sftp_e2eprod_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "74.235.205.234"
+		},
+		"Sftp_e2eprod_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "e2eprod"
+		},
 		"SqlServer_APP_PROD_properties_typeProperties_server": {
 			"type": "string",
 			"defaultValue": "dbserver-e2eis-prod.database.windows.net"
@@ -210,18 +226,6 @@
 		"SqlServer_APP_PROD_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "mslprod"
-		},
-		"SqlServer_mslbcpprd_properties_typeProperties_server": {
-			"type": "string",
-			"defaultValue": "dbserver-e2eis-prod.database.windows.net"
-		},
-		"SqlServer_mslbcpprd_properties_typeProperties_database": {
-			"type": "string",
-			"defaultValue": "E2EIS_PROD_BCP"
-		},
-		"SqlServer_mslbcpprd_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "MSLPRD"
 		}
 	},
 	"variables": {
@@ -508,6 +512,27 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/SFTP_Prod_Source_Sink')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "Sftp",
+				"typeProperties": {
+					"host": "[parameters('SFTP_Prod_Source_Sink_properties_typeProperties_host')]",
+					"port": 22,
+					"skipHostKeyValidation": true,
+					"authenticationType": "Basic",
+					"userName": "[parameters('SFTP_Prod_Source_Sink_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('SFTP_Prod_Source_Sink_password')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Sftp_Automation')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -551,6 +576,27 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Sftp_e2eprod')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "Sftp",
+				"typeProperties": {
+					"host": "[parameters('Sftp_e2eprod_properties_typeProperties_host')]",
+					"port": 22,
+					"skipHostKeyValidation": true,
+					"authenticationType": "Basic",
+					"userName": "[parameters('Sftp_e2eprod_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('Sftp_e2eprod_password')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SqlServer_APP_PROD')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -568,43 +614,6 @@
 						"type": "SecureString",
 						"value": "[parameters('SqlServer_APP_PROD_password')]"
 					}
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SqlServer_mslbcpprd')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "This will be use for prd.msusportal.com",
-				"annotations": [],
-				"type": "SqlServer",
-				"typeProperties": {
-					"server": "[parameters('SqlServer_mslbcpprd_properties_typeProperties_server')]",
-					"database": "[parameters('SqlServer_mslbcpprd_properties_typeProperties_database')]",
-					"encrypt": "optional",
-					"trustServerCertificate": false,
-					"authenticationType": "SQL",
-					"userName": "[parameters('SqlServer_mslbcpprd_properties_typeProperties_userName')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('SqlServer_mslbcpprd_password')]"
-					}
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SqlServer_msldev')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "This connection will WRITE file data into Dev database.",
-				"annotations": [],
-				"type": "SqlServer",
-				"typeProperties": {
-					"connectionString": "[parameters('SqlServer_msldev_connectionString')]"
 				}
 			},
 			"dependsOn": []

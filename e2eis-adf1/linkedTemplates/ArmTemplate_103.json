@@ -1,0 +1,2512 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "e2eis-adf1"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_FHCP_COMMISSION_DETAILS_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_mslprd",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "GROUP_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "PLAN_CODE",
+						"type": "varchar"
+					},
+					{
+						"name": "PLAN_TYPE_DESCRIPTION",
+						"type": "varchar"
+					},
+					{
+						"name": "BEGIN_COMMISSION_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "END_COMMISSION_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_FIRST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_LAST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "MEMBER_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "MEMBER_FIRST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "MEMBER_LAST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "ELIGIBILITY_BEGIN_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "ELIGIBILITY_END_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "COMMISSION_PAID",
+						"type": "varchar"
+					},
+					{
+						"name": "COMMISSION_ADJUSTMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "ADJ_REASON",
+						"type": "varchar"
+					},
+					{
+						"name": "EFFECTIVE_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "MEMBER_DOB",
+						"type": "varchar"
+					},
+					{
+						"name": "MEMBER_AGE",
+						"type": "varchar"
+					},
+					{
+						"name": "NEW_RENEWAL",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_FHCP_COMMISSION_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_FHCP_Commission_Feed_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "SIM_FHCP_Commission_Feed_PRD.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/SIM/FHCP2021"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "GROUP_NUMBER\tPLAN_CODE\tPLAN TYPE_DESCRIPTION\tBEGIN_COMMISSION_DATE\tEND_COMMISSION_DATE\tAGENT_FIRST_NAME\tAGENT_LAST_NAME\tMEMBER_NUMBER\tMEMBER_FIRST_NAME\tMEMBER_LAST_NAME\tELIGIBILITY_BEGIN_DATE\tELIGIBILITY_END_DATE\tCOMMISSION_PAID\tCOMMISSION_ADJUSTMENT\tADJ_REASON \t EFFECTIVE_DATE\tMEMBER_DOB\tMEMBER_AGE\tNEW_RENEWAL\tFILE_RECORD_BIRTH_DATE",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_FHCP_DELINQUENCY_WEEKLY_DETAILS_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_APP_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "ISSUER_SUBSCRIBER_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LAST_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FIRST_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PHONE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EMAIL",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BROKER_LAST_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BROKER_FIRST_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AGENCY",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AMOUNT",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_TYPE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "STATUS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "APTC_STATUS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BILL_STATUS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TERM_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PAID_THROUGH_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "GRACE_PERIOD_START",
+						"type": "nvarchar"
+					},
+					{
+						"name": "GRACE_PERIOD_CHECK",
+						"type": "nvarchar"
+					},
+					{
+						"name": "GRACE_PERIOD_END",
+						"type": "nvarchar"
+					},
+					{
+						"name": "GRACE_POLICY",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PAYMENT_PENDING",
+						"type": "nvarchar"
+					},
+					{
+						"name": "APPLICATION_TYPE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EFFECTIVE_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RENEWAL_STATUS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FILE_RECORD_BIRTH_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					},
+					{
+						"name": "SUBSCRIBER_ID",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_FHCP_DELINQUENCY_WEEKLY_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_FHCP_DELINQUENCY_WEEKLY_DETAILS_HISTORY_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_APP_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "ISSUER_SUBSCRIBER_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LAST_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FIRST_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PHONE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EMAIL",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BROKER_LAST_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BROKER_FIRST_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AGENCY",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AMOUNT",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_TYPE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "STATUS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "APTC_STATUS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BILL_STATUS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TERM_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PAID_THROUGH_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "GRACE_PERIOD_START",
+						"type": "nvarchar"
+					},
+					{
+						"name": "GRACE_PERIOD_CHECK",
+						"type": "nvarchar"
+					},
+					{
+						"name": "GRACE_PERIOD_END",
+						"type": "nvarchar"
+					},
+					{
+						"name": "GRACE_POLICY",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PAYMENT_PENDING",
+						"type": "nvarchar"
+					},
+					{
+						"name": "APPLICATION_TYPE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EFFECTIVE_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RENEWAL_STATUS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FILE_RECORD_BIRTH_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					},
+					{
+						"name": "SUBSCRIBER_ID",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_FHCP_DELINQUENCY_WEEKLY_DETAILS_HISTORY"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_FHCP_DELINQUENCY_WEEKLY_DETAILS_HISTORY_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_mslprd",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "ISSUER_SUBSCRIBER_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LAST_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FIRST_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PHONE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EMAIL",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BROKER_LAST_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BROKER_FIRST_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AGENCY",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AMOUNT",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_TYPE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "STATUS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "APTC_STATUS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BILL_STATUS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TERM_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PAID_THROUGH_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "GRACE_PERIOD_START",
+						"type": "nvarchar"
+					},
+					{
+						"name": "GRACE_PERIOD_CHECK",
+						"type": "nvarchar"
+					},
+					{
+						"name": "GRACE_PERIOD_END",
+						"type": "nvarchar"
+					},
+					{
+						"name": "GRACE_POLICY",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PAYMENT_PENDING",
+						"type": "nvarchar"
+					},
+					{
+						"name": "APPLICATION_TYPE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EFFECTIVE_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RENEWAL_STATUS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FILE_RECORD_BIRTH_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					},
+					{
+						"name": "SUBSCRIBER_ID",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_FHCP_DELINQUENCY_WEEKLY_DETAILS_HISTORY"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_FHCP_DELINQUENCY_WEEKLY_DETAILS_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_mslprd",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "ISSUER_SUBSCRIBER_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LAST_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FIRST_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PHONE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EMAIL",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BROKER_LAST_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BROKER_FIRST_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AGENCY",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AMOUNT",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_TYPE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "STATUS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "APTC_STATUS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BILL_STATUS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TERM_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PAID_THROUGH_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "GRACE_PERIOD_START",
+						"type": "nvarchar"
+					},
+					{
+						"name": "GRACE_PERIOD_CHECK",
+						"type": "nvarchar"
+					},
+					{
+						"name": "GRACE_PERIOD_END",
+						"type": "nvarchar"
+					},
+					{
+						"name": "GRACE_POLICY",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PAYMENT_PENDING",
+						"type": "nvarchar"
+					},
+					{
+						"name": "APPLICATION_TYPE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EFFECTIVE_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RENEWAL_STATUS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FILE_RECORD_BIRTH_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					},
+					{
+						"name": "SUBSCRIBER_ID",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_FHCP_DELINQUENCY_WEEKLY_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_FHCP_DELINQUENT_WEEKLY_DETAILS_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msldev",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "ACCOUNT_NUMBER",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SUBSCRIBER_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ISSUER_SUBSCRIBER_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LAST_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FIRST_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PHONE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EMAIL",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BROKER_LAST_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BROKER_FIRST_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AGENCY",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AMOUNT",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_TYPE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "STATUS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "APTC_STATUS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BILL_STATUS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TERM_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PAID_THROUGH_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "GRACE_PERIOD_START",
+						"type": "nvarchar"
+					},
+					{
+						"name": "GRACE_PERIOD_CHECK",
+						"type": "nvarchar"
+					},
+					{
+						"name": "GRACE_PERIOD_END",
+						"type": "nvarchar"
+					},
+					{
+						"name": "APPLICATION_TYPE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EFFECTIVE_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RENEWAL_STATUS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FILE_RECORD_BIRTH_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_FHCP_DELINQUENT_WEEKLY_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_FHCP_DELINQUENT_WEEKLY_FEED_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "SIM_FHCP_Weekly_Feed_Delinquent_DEV.txt",
+						"folderPath": "/MSL_Cloud_Dev/FromAgency/SIM"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "ACCOUNT_NUMBER\tSUBSCRIBER_ID\tISSUER_SUBSCRIBER_ID\tLAST_NAME\tFIRST_NAME\tPHONE\tEMAIL\tBROKER_LAST_NAME\tBROKER_FIRST_NAME\tAGENCY\tAMOUNT\tRECORD_TYPE\tSTATUS\tAPTC_STATUS\tBILL_STATUS\tTERM_DATE\tPAID_THROUGH_DATE\tGRACE_PERIOD_START\tGRACE_PERIOD_CHECK\tGRACE_PERIOD_END\tAPPLICATION_TYPE\tEFFECTIVE_DATE\tRENEWAL_STATUS\tFILE_RECORD_BIRTH_DATE",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_FHCP_DELINQUENT_WEEKLY_FEED_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "SIM_FHCP_DELINQUENCY_WEEKLY_FEED_UAT.txt",
+						"folderPath": "/MSL_Cloud_Uat/FromAgency/SIM"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "SUBSCRIBER_ID\tISSUER_SUBSCRIBER_ID\tLAST_NAME\tFIRST_NAME\tPHONE\tEMAIL\tBROKER_LAST_NAME\tBROKER_FIRST_NAME\tAGENCY\tAMOUNT\tRECORD_TYPE\tSTATUS\tAPTC_STATUS\tBILL_STATUS\tTERM_DATE\tPAID_THROUGH_DATE\tGRACE_PERIOD_START\tGRACE_PERIOD_CHECK\tGRACE_PERIOD_END\tAPPLICATION_TYPE\tEFFECTIVE_DATE\tRENEWAL_STATUS\tFILE_RECORD_BIRTH_DATE",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_FHCP_DELIQUENCY_WEEKLY_DETAILS_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_mslprd",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "ISSUER_SUBSCRIBER_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LAST_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FIRST_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PHONE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EMAIL",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BROKER_LAST_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BROKER_FIRST_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AGENCY",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AMOUNT",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_TYPE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "STATUS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "APTC_STATUS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BILL_STATUS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TERM_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PAID_THROUGH_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "GRACE_PERIOD_START",
+						"type": "nvarchar"
+					},
+					{
+						"name": "GRACE_PERIOD_CHECK",
+						"type": "nvarchar"
+					},
+					{
+						"name": "GRACE_PERIOD_END",
+						"type": "nvarchar"
+					},
+					{
+						"name": "GRACE_POLICY",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PAYMENT_PENDING",
+						"type": "nvarchar"
+					},
+					{
+						"name": "APPLICATION_TYPE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EFFECTIVE_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RENEWAL_STATUS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FILE_RECORD_BIRTH_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					},
+					{
+						"name": "SUBSCRIBER_ID",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_FHCP_DELINQUENCY_WEEKLY_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_FHCP_NEW_WEEKLY_DETAILS_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_APP_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "ISSUER_SUBSCRIBER_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "ACCOUNT_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "LAST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "FIRST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "EMAIL",
+						"type": "varchar"
+					},
+					{
+						"name": "PHONE",
+						"type": "varchar"
+					},
+					{
+						"name": "POLICY_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "ROLE",
+						"type": "varchar"
+					},
+					{
+						"name": "TOTAL_MEMBERS_ON_POLICY",
+						"type": "varchar"
+					},
+					{
+						"name": "QUOTE_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "PERSON_EFFECTIVE_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "OLD_EFFECTIVE_YEAR",
+						"type": "varchar"
+					},
+					{
+						"name": "OLD_POLICY_EFFECTIVE_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "OLD_PLAN_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "OLD_PREMIUM",
+						"type": "varchar"
+					},
+					{
+						"name": "OLD_RESPONSIBLE_AMOUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "NEW_EFFECTIVE_YEAR",
+						"type": "varchar"
+					},
+					{
+						"name": "NEW_POLICY_EFFECTIVE_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "NEW_PLAN_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "NEW_PREMIUM",
+						"type": "varchar"
+					},
+					{
+						"name": "NEW_RESPONSIBLE_AMOUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "COUNTY",
+						"type": "varchar"
+					},
+					{
+						"name": "STATE",
+						"type": "varchar"
+					},
+					{
+						"name": "ZIP",
+						"type": "varchar"
+					},
+					{
+						"name": "STATUS",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_LAST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_FIRST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "BROKER_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "NPN",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "GENERAL_AGENCY_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "GENERAL_AGENCY_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "BILLING_STATUS",
+						"type": "varchar"
+					},
+					{
+						"name": "RECURRING_PAYMENT_STATUS",
+						"type": "varchar"
+					},
+					{
+						"name": "RECURRING_PAYMENT_FREQUENCY",
+						"type": "varchar"
+					},
+					{
+						"name": "RECURRING_PAYMENT_START_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "APPLICATION_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "EXCHANGE",
+						"type": "varchar"
+					},
+					{
+						"name": "FILE_RECORD_BIRTH_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_FHCP_NEW_WEEKLY_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_FHCP_NEW_WEEKLY_FEED_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "SIM_FHCP_NEW_WEEKLY_FEED_UAT.txt",
+						"folderPath": "/MSL_Cloud_Uat/FromAgency/SIM"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "ISSUER_SUBSCRIBER_ID\tACCOUNT_NUMBER\tLAST_NAME\tFIRST_NAME\tEMAIL\tPHONE\tPOLICY_TYPE\tROLE\tTOTAL_MEMBERS_ON_POLICY\tQUOTE_TYPE\tPERSON_EFFECTIVE_DATE\tOLD_EFFECTIVE_YEAR\tOLD_POLICY_EFFECTIVE_DATE\tOLD_PLAN_NAME\tOLD_PREMIUM\tOLD_RESPONSIBLE_AMOUNT\tNEW_EFFECTIVE_YEAR\tNEW_POLICY_EFFECTIVE_DATE\tNEW_PLAN_NAME\tNEW_PREMIUM\tNEW_RESPONSIBLE_AMOUNT\tCOUNTY\tSTATE\tZIP\tSTATUS\tAGENT_LAST_NAME\tAGENT_FIRST_NAME\tBROKER_ID\tNPN\tAGENCY_NUMBER\tAGENCY_NAME\tGENERAL_AGENCY_NUMBER\tGENERAL_AGENCY_NAME\tBILLING_STATUS\tRECURRING_PAYMENT_STATUS\tRECURRING_PAYMENT_FREQUENCY\tRECURRING_PAYMENT_START_DATE\tAPPLICATION_TYPE\tEXCHANGE\tFILE_RECORD_BIRTH_DATE",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_FHCP_WEEKLY_DETAILS_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_APP_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "ISSUER_MEMBER_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "MEMBER_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "LAST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "FIRST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "DATE_OF_BIRTH",
+						"type": "date"
+					},
+					{
+						"name": "EMAIL",
+						"type": "varchar"
+					},
+					{
+						"name": "PHONE",
+						"type": "varchar"
+					},
+					{
+						"name": "SPOKEN_LANGUAGE",
+						"type": "varchar"
+					},
+					{
+						"name": "WRITTEN_LANGUAGE",
+						"type": "varchar"
+					},
+					{
+						"name": "POLICY_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "ROLE",
+						"type": "varchar"
+					},
+					{
+						"name": "TOTAL_MEMBERS_ON_POLICY",
+						"type": "varchar"
+					},
+					{
+						"name": "QUOTE_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "PERSON_EFFECTIVE_DATE",
+						"type": "date"
+					},
+					{
+						"name": "EFFECTIVE_YEAR",
+						"type": "varchar"
+					},
+					{
+						"name": "POLICY_EFFECTIVE_DATE",
+						"type": "date"
+					},
+					{
+						"name": "PLAN_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "PREMIUM",
+						"type": "varchar"
+					},
+					{
+						"name": "COUNTY",
+						"type": "varchar"
+					},
+					{
+						"name": "STATE",
+						"type": "varchar"
+					},
+					{
+						"name": "ZIP",
+						"type": "varchar"
+					},
+					{
+						"name": "STATUS",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_LAST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_FIRST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "BROKER_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "NPN",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "GENERAL_AGENCY_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "GENERAL_AGENCY_NMAE",
+						"type": "varchar"
+					},
+					{
+						"name": "BILLING_STATUS",
+						"type": "varchar"
+					},
+					{
+						"name": "RECURRING_PAYMENT_STATUS",
+						"type": "varchar"
+					},
+					{
+						"name": "RECURRING_PAYMENT_START_DATE",
+						"type": "date"
+					},
+					{
+						"name": "APPLICATION_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "EXCHANGE",
+						"type": "varchar"
+					},
+					{
+						"name": "FILE_RECORD_BIRTH_DATE",
+						"type": "date"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_FHCP_WEEKLY_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_FHCP_WEEKLY_DETAILS_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msldev",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "MRN",
+						"type": "varchar"
+					},
+					{
+						"name": "SUBSCRIBER_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "RELATION",
+						"type": "varchar"
+					},
+					{
+						"name": "MEMBER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "BIRTH_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "START_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "END_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "PHONE_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "EMAIL_ADDRESS",
+						"type": "varchar"
+					},
+					{
+						"name": "COUNTY",
+						"type": "varchar"
+					},
+					{
+						"name": "COVERED_LIVES",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_NPN",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_FIRST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_LAST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "BROKER_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "BROKER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "HIOS_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "PLAN_CODE",
+						"type": "varchar"
+					},
+					{
+						"name": "PLAN_DESCRIPTION",
+						"type": "varchar"
+					},
+					{
+						"name": "PLAN_PREMIUM",
+						"type": "varchar"
+					},
+					{
+						"name": "APTC",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_FHCP_WEEKLY_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_FHCP_WEEKLY_DETAILS_DNU_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_APP_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "MRN",
+						"type": "varchar"
+					},
+					{
+						"name": "SUBSCRIBER_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "RELATION",
+						"type": "varchar"
+					},
+					{
+						"name": "MEMBER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "BIRTH_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "START_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "END_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "PHONE_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "EMAIL_ADDRESS",
+						"type": "varchar"
+					},
+					{
+						"name": "COUNTY",
+						"type": "varchar"
+					},
+					{
+						"name": "COVERED_LIVES",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_NPN",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_FIRST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_LAST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "BROKER_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "BROKER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "HIOS_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "PLAN_CODE",
+						"type": "varchar"
+					},
+					{
+						"name": "PLAN_DESCRIPTION",
+						"type": "varchar"
+					},
+					{
+						"name": "PLAN_PREMIUM",
+						"type": "varchar"
+					},
+					{
+						"name": "APTC",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					},
+					{
+						"name": "FILE_RECORD_BIRTH_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "ADDRESS_1",
+						"type": "varchar"
+					},
+					{
+						"name": "ADDRESS_2",
+						"type": "varchar"
+					},
+					{
+						"name": "CITY",
+						"type": "varchar"
+					},
+					{
+						"name": "IRS_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "GA",
+						"type": "varchar"
+					},
+					{
+						"name": "ADDRESS3",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_FHCP_WEEKLY_DETAILS_HIST"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_FHCP_WEEKLY_DETAILS_DNU_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_mslprd",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "MRN",
+						"type": "varchar"
+					},
+					{
+						"name": "SUBSCRIBER_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "RELATION",
+						"type": "varchar"
+					},
+					{
+						"name": "MEMBER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "BIRTH_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "START_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "END_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "PHONE_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "EMAIL_ADDRESS",
+						"type": "varchar"
+					},
+					{
+						"name": "COUNTY",
+						"type": "varchar"
+					},
+					{
+						"name": "COVERED_LIVES",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_NPN",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_FIRST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_LAST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "BROKER_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "BROKER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "HIOS_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "PLAN_CODE",
+						"type": "varchar"
+					},
+					{
+						"name": "PLAN_DESCRIPTION",
+						"type": "varchar"
+					},
+					{
+						"name": "PLAN_PREMIUM",
+						"type": "varchar"
+					},
+					{
+						"name": "APTC",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					},
+					{
+						"name": "FILE_RECORD_BIRTH_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "ADDRESS_1",
+						"type": "varchar"
+					},
+					{
+						"name": "ADDRESS_2",
+						"type": "varchar"
+					},
+					{
+						"name": "CITY",
+						"type": "varchar"
+					},
+					{
+						"name": "IRS_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "GA",
+						"type": "varchar"
+					},
+					{
+						"name": "ADDRESS3",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_FHCP_WEEKLY_DETAILS_DNU"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_FHCP_WEEKLY_DETAILS_HISTORY_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_APP_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "MRN",
+						"type": "varchar"
+					},
+					{
+						"name": "SUBSCRIBER_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "RELATION",
+						"type": "varchar"
+					},
+					{
+						"name": "MEMBER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "ADDRESS1",
+						"type": "varchar"
+					},
+					{
+						"name": "ADDRESS2",
+						"type": "varchar"
+					},
+					{
+						"name": "ADDRESS3",
+						"type": "varchar"
+					},
+					{
+						"name": "CITY",
+						"type": "varchar"
+					},
+					{
+						"name": "COUNTY",
+						"type": "varchar"
+					},
+					{
+						"name": "COVERED_LIVES",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_NPN",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_FIRST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_LAST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "BROKER_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "BROKER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "GA",
+						"type": "varchar"
+					},
+					{
+						"name": "VENDOR_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "IRS_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "MEMBER_NUMBER_ACA_ISSUER_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "HIOS_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "PLAN_CODE",
+						"type": "varchar"
+					},
+					{
+						"name": "PLAN_DESCRIPTION",
+						"type": "varchar"
+					},
+					{
+						"name": "PLAN_PREMIUM",
+						"type": "varchar"
+					},
+					{
+						"name": "APTC",
+						"type": "varchar"
+					},
+					{
+						"name": "FILE_RECORD_BIRTH_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_FHCP_WEEKLY_DETAILS_HISTORY"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_FHCP_WEEKLY_DETAILS_HISTORY_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_mslprd",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "MRN",
+						"type": "varchar"
+					},
+					{
+						"name": "SUBSCRIBER_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "RELATION",
+						"type": "varchar"
+					},
+					{
+						"name": "MEMBER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "ADDRESS1",
+						"type": "varchar"
+					},
+					{
+						"name": "ADDRESS2",
+						"type": "varchar"
+					},
+					{
+						"name": "ADDRESS3",
+						"type": "varchar"
+					},
+					{
+						"name": "CITY",
+						"type": "varchar"
+					},
+					{
+						"name": "COUNTY",
+						"type": "varchar"
+					},
+					{
+						"name": "COVERED_LIVES",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_NPN",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_FIRST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_LAST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "BROKER_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "BROKER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "GA",
+						"type": "varchar"
+					},
+					{
+						"name": "VENDOR_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "IRS_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "MEMBER_NUMBER_ACA_ISSUER_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "HIOS_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "PLAN_CODE",
+						"type": "varchar"
+					},
+					{
+						"name": "PLAN_DESCRIPTION",
+						"type": "varchar"
+					},
+					{
+						"name": "PLAN_PREMIUM",
+						"type": "varchar"
+					},
+					{
+						"name": "APTC",
+						"type": "varchar"
+					},
+					{
+						"name": "FILE_RECORD_BIRTH_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_FHCP_WEEKLY_DETAILS_HISTORY"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_FHCP_WEEKLY_DETAILS_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_mslprd",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "MRN",
+						"type": "varchar"
+					},
+					{
+						"name": "SUBSCRIBER_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "RELATION",
+						"type": "varchar"
+					},
+					{
+						"name": "MEMBER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "BIRTH_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "START_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "END_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "PHONE_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "EMAIL_ADDRESS",
+						"type": "varchar"
+					},
+					{
+						"name": "COUNTY",
+						"type": "varchar"
+					},
+					{
+						"name": "COVERED_LIVES",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_NPN",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_FIRST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_LAST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "BROKER_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "BROKER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "HIOS_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "PLAN_CODE",
+						"type": "varchar"
+					},
+					{
+						"name": "PLAN_DESCRIPTION",
+						"type": "varchar"
+					},
+					{
+						"name": "PLAN_PREMIUM",
+						"type": "varchar"
+					},
+					{
+						"name": "APTC",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_FHCP_WEEKLY_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_FHCP_WEEKLY_DETAILS_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msluat",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "MRN",
+						"type": "varchar"
+					},
+					{
+						"name": "SUBSCRIBER_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "RELATION",
+						"type": "varchar"
+					},
+					{
+						"name": "MEMBER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "BIRTH_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "START_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "END_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "PHONE_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "EMAIL_ADDRESS",
+						"type": "varchar"
+					},
+					{
+						"name": "COUNTY",
+						"type": "varchar"
+					},
+					{
+						"name": "COVERED_LIVES",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_NPN",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_FIRST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_LAST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "BROKER_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "BROKER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "HIOS_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "PLAN_CODE",
+						"type": "varchar"
+					},
+					{
+						"name": "PLAN_DESCRIPTION",
+						"type": "varchar"
+					},
+					{
+						"name": "PLAN_PREMIUM",
+						"type": "varchar"
+					},
+					{
+						"name": "APTC",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_FHCP_WEEKLY_DETAILS"
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
