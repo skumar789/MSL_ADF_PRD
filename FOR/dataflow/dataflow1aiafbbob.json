@@ -122,7 +122,7 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     query: 'Select * from AIA_102.AIA_VW_FB_BOB_EXTRACT',",
+				"     query: 'Select * from [AIA_102].[AIA_BOOK_OF_BUSSINESS_ALL_CARRIERS_FB]',",
 				"     format: 'query') ~> sourceaiafbbob",
 				"sourceaiafbbob sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
@@ -224,9 +224,10 @@
 				"          COMPENSATION_TYPE as string,",
 				"          RECORD_NUMBER as string",
 				"     ),",
-				"     partitionFileNames:['AIA_FLORIDA_BOB_WEEKLY_EXTRACT_MMDDYYYY.csv'],",
+				"     partitionFileNames:[('AIA_FLORIDA_BOB_WEEKLY_EXTRACT_' + toString(currentUTC(), 'MMddyyyy') + '.csv')],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
+				"     quoteAll: true,",
 				"     partitionBy('hash', 1)) ~> sink1aiafbbobgenerate"
 			]
 		}
