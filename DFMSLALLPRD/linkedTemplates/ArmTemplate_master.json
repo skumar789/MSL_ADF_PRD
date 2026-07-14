@@ -7,6 +7,14 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "DFMSLALLPRD"
 		},
+		"E2EIS_DEV_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'E2EIS_DEV'"
+		},
+		"E2EIS_PROD_HISTORY_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'E2EIS_PROD_HISTORY'"
+		},
 		"LS_SFTP_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'LS_SFTP'"
@@ -14,6 +22,10 @@
 		"LS_SQL_PROD_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'LS_SQL_PROD'"
+		},
+		"SFTP_ETL_extract_file_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'SFTP_ETL_extract_file'"
 		},
 		"Sftp1_connections_ALL_FEED_password": {
 			"type": "secureString",
@@ -35,6 +47,30 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'e2eis_APP_PROD'"
 		},
+		"E2EIS_DEV_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "dbserver-e2eis-prod.database.windows.net"
+		},
+		"E2EIS_DEV_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "E2EIS_DEV"
+		},
+		"E2EIS_DEV_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "msldev"
+		},
+		"E2EIS_PROD_HISTORY_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "dbserver-e2eis-prod.database.windows.net"
+		},
+		"E2EIS_PROD_HISTORY_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "e2eis_PROD_HISTORY"
+		},
+		"E2EIS_PROD_HISTORY_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "Mslprod"
+		},
 		"LS_SFTP_properties_typeProperties_host": {
 			"type": "string",
 			"defaultValue": "sftpprd.msusportal.com"
@@ -53,7 +89,15 @@
 		},
 		"LS_SQL_PROD_properties_typeProperties_userName": {
 			"type": "string",
-			"defaultValue": "MSLADMIN_APP_PRD"
+			"defaultValue": "Mslprod"
+		},
+		"SFTP_ETL_extract_file_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "sftpprd.msusportal.com"
+		},
+		"SFTP_ETL_extract_file_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "adfsftp"
 		},
 		"Sftp1_connections_ALL_FEED_properties_typeProperties_host": {
 			"type": "string",
@@ -134,11 +178,20 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"E2EIS_DEV_password": {
+						"value": "[parameters('E2EIS_DEV_password')]"
+					},
+					"E2EIS_PROD_HISTORY_password": {
+						"value": "[parameters('E2EIS_PROD_HISTORY_password')]"
+					},
 					"LS_SFTP_password": {
 						"value": "[parameters('LS_SFTP_password')]"
 					},
 					"LS_SQL_PROD_password": {
 						"value": "[parameters('LS_SQL_PROD_password')]"
+					},
+					"SFTP_ETL_extract_file_password": {
+						"value": "[parameters('SFTP_ETL_extract_file_password')]"
 					},
 					"Sftp1_connections_ALL_FEED_password": {
 						"value": "[parameters('Sftp1_connections_ALL_FEED_password')]"
@@ -155,6 +208,24 @@
 					"e2eis_APP_PROD_password": {
 						"value": "[parameters('e2eis_APP_PROD_password')]"
 					},
+					"E2EIS_DEV_properties_typeProperties_server": {
+						"value": "[parameters('E2EIS_DEV_properties_typeProperties_server')]"
+					},
+					"E2EIS_DEV_properties_typeProperties_database": {
+						"value": "[parameters('E2EIS_DEV_properties_typeProperties_database')]"
+					},
+					"E2EIS_DEV_properties_typeProperties_userName": {
+						"value": "[parameters('E2EIS_DEV_properties_typeProperties_userName')]"
+					},
+					"E2EIS_PROD_HISTORY_properties_typeProperties_server": {
+						"value": "[parameters('E2EIS_PROD_HISTORY_properties_typeProperties_server')]"
+					},
+					"E2EIS_PROD_HISTORY_properties_typeProperties_database": {
+						"value": "[parameters('E2EIS_PROD_HISTORY_properties_typeProperties_database')]"
+					},
+					"E2EIS_PROD_HISTORY_properties_typeProperties_userName": {
+						"value": "[parameters('E2EIS_PROD_HISTORY_properties_typeProperties_userName')]"
+					},
 					"LS_SFTP_properties_typeProperties_host": {
 						"value": "[parameters('LS_SFTP_properties_typeProperties_host')]"
 					},
@@ -169,6 +240,12 @@
 					},
 					"LS_SQL_PROD_properties_typeProperties_userName": {
 						"value": "[parameters('LS_SQL_PROD_properties_typeProperties_userName')]"
+					},
+					"SFTP_ETL_extract_file_properties_typeProperties_host": {
+						"value": "[parameters('SFTP_ETL_extract_file_properties_typeProperties_host')]"
+					},
+					"SFTP_ETL_extract_file_properties_typeProperties_userName": {
+						"value": "[parameters('SFTP_ETL_extract_file_properties_typeProperties_userName')]"
 					},
 					"Sftp1_connections_ALL_FEED_properties_typeProperties_host": {
 						"value": "[parameters('Sftp1_connections_ALL_FEED_properties_typeProperties_host')]"
@@ -1151,6 +1228,466 @@
 			},
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', 'DFMSLALLPRD_ArmTemplate_46')]"
+			]
+		},
+		{
+			"name": "DFMSLALLPRD_ArmTemplate_48",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_48.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'DFMSLALLPRD_ArmTemplate_47')]"
+			]
+		},
+		{
+			"name": "DFMSLALLPRD_ArmTemplate_49",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_49.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'DFMSLALLPRD_ArmTemplate_48')]"
+			]
+		},
+		{
+			"name": "DFMSLALLPRD_ArmTemplate_50",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_50.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'DFMSLALLPRD_ArmTemplate_49')]"
+			]
+		},
+		{
+			"name": "DFMSLALLPRD_ArmTemplate_51",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_51.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'DFMSLALLPRD_ArmTemplate_50')]"
+			]
+		},
+		{
+			"name": "DFMSLALLPRD_ArmTemplate_52",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_52.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'DFMSLALLPRD_ArmTemplate_51')]"
+			]
+		},
+		{
+			"name": "DFMSLALLPRD_ArmTemplate_53",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_53.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'DFMSLALLPRD_ArmTemplate_52')]"
+			]
+		},
+		{
+			"name": "DFMSLALLPRD_ArmTemplate_54",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_54.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'DFMSLALLPRD_ArmTemplate_53')]"
+			]
+		},
+		{
+			"name": "DFMSLALLPRD_ArmTemplate_55",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_55.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'DFMSLALLPRD_ArmTemplate_54')]"
+			]
+		},
+		{
+			"name": "DFMSLALLPRD_ArmTemplate_56",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_56.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'DFMSLALLPRD_ArmTemplate_55')]"
+			]
+		},
+		{
+			"name": "DFMSLALLPRD_ArmTemplate_57",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_57.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'DFMSLALLPRD_ArmTemplate_56')]"
+			]
+		},
+		{
+			"name": "DFMSLALLPRD_ArmTemplate_58",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_58.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'DFMSLALLPRD_ArmTemplate_57')]"
+			]
+		},
+		{
+			"name": "DFMSLALLPRD_ArmTemplate_59",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_59.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'DFMSLALLPRD_ArmTemplate_58')]"
+			]
+		},
+		{
+			"name": "DFMSLALLPRD_ArmTemplate_60",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_60.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'DFMSLALLPRD_ArmTemplate_59')]"
+			]
+		},
+		{
+			"name": "DFMSLALLPRD_ArmTemplate_61",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_61.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'DFMSLALLPRD_ArmTemplate_60')]"
+			]
+		},
+		{
+			"name": "DFMSLALLPRD_ArmTemplate_62",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_62.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'DFMSLALLPRD_ArmTemplate_61')]"
+			]
+		},
+		{
+			"name": "DFMSLALLPRD_ArmTemplate_63",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_63.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'DFMSLALLPRD_ArmTemplate_62')]"
+			]
+		},
+		{
+			"name": "DFMSLALLPRD_ArmTemplate_64",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_64.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'DFMSLALLPRD_ArmTemplate_63')]"
+			]
+		},
+		{
+			"name": "DFMSLALLPRD_ArmTemplate_65",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_65.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'DFMSLALLPRD_ArmTemplate_64')]"
+			]
+		},
+		{
+			"name": "DFMSLALLPRD_ArmTemplate_66",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_66.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'DFMSLALLPRD_ArmTemplate_65')]"
+			]
+		},
+		{
+			"name": "DFMSLALLPRD_ArmTemplate_67",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_67.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'DFMSLALLPRD_ArmTemplate_66')]"
+			]
+		},
+		{
+			"name": "DFMSLALLPRD_ArmTemplate_68",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_68.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'DFMSLALLPRD_ArmTemplate_67')]"
+			]
+		},
+		{
+			"name": "DFMSLALLPRD_ArmTemplate_69",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_69.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'DFMSLALLPRD_ArmTemplate_68')]"
+			]
+		},
+		{
+			"name": "DFMSLALLPRD_ArmTemplate_70",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_70.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'DFMSLALLPRD_ArmTemplate_69')]"
 			]
 		}
 	]

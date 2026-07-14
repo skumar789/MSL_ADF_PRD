@@ -13,7 +13,7 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/SIM_BCBS_IL_MHA_Weekly_Feed_PRD')]",
+			"name": "[concat(parameters('factoryName'), '/IMS_HIER_EXP_FILE3_PRD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -26,8 +26,8 @@
 				"typeProperties": {
 					"location": {
 						"type": "SftpLocation",
-						"fileName": "SIM_BCBS_IL_MHA_Weekly_Feed_PRD.txt",
-						"folderPath": "/MSL_Cloud_Prd/FromAgency/SIM"
+						"fileName": "IMS_HIER_EXP_FILE3_PRD.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/AIA"
 					},
 					"columnDelimiter": "\t",
 					"escapeChar": "\\",
@@ -36,7 +36,7 @@
 				},
 				"schema": [
 					{
-						"name": "LAST_NAME\tFIRST_NAME\tDATE_OF_BIRTH\tRECORD_TYPE\tE_APP_NUMBER\tEXCHANGE_ID\tCLIENT_APP_ID\tMEMBER_COUNT\tGROUP_NUMBER\tACCOUNT_NUMBER\tSTATUS\tPRODUCT_TYPE\tPLAN_NAME\tSOURCE\tAPTC\tRENEWAL_INDICATOR\tCOVERAGE_EFFECTIVE_DATE\tPAID_TO_DATE\tTERMED\tPRODUCER_NAME\tNINE_DIGIT_PRODUCER_NUMBER\tCLIENT_ADDRESS1\tCLIENT_ADDRESS2\tCITY\tSTATE\tZIP_CODE\tCLIENTS_PRIMARY_PHONE\tEMAIL\tAGENCY\tFILE_RECORD_BIRTH_DATE",
+						"name": "UserId\tFirstName\tLastName\tEmail\tTerminated\tDepartment\tNpnGrouping\tUplineId\tUplineFirstName\tUplineLastName\tLevel",
 						"type": "String"
 					}
 				]
@@ -44,651 +44,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SIM_BCBS_IL_WEEKLY_DETAILS_APP_PROD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "e2eis_APP_PROD",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "LAST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "FIRST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "DATE_OF_BIRTH",
-						"type": "varchar"
-					},
-					{
-						"name": "RECORD_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "E_APP_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "EXCHANGE_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENT_APP_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_COUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "GROUP_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "ACCOUNT_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "STATUS",
-						"type": "varchar"
-					},
-					{
-						"name": "PRODUCT_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "PLAN_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "APTC",
-						"type": "varchar"
-					},
-					{
-						"name": "RENEWAL_INDICATOR",
-						"type": "varchar"
-					},
-					{
-						"name": "COVERAGE_EFFECTIVE_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "PAID_TO_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "TERMED",
-						"type": "varchar"
-					},
-					{
-						"name": "PRODUCER_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "NINE_DIGIT_PRODUCER_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENT_ADDRESS1",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENT_ADDRESS2",
-						"type": "varchar"
-					},
-					{
-						"name": "CITY",
-						"type": "varchar"
-					},
-					{
-						"name": "STATE",
-						"type": "varchar"
-					},
-					{
-						"name": "ZIP_CODE",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENTS_PRIMARY_PHONE",
-						"type": "varchar"
-					},
-					{
-						"name": "EMAIL",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					},
-					{
-						"name": "FILE_RECORD_BIRTH_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "SOURCE",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "SIM_103",
-					"table": "SIM_BCBS_IL_WEEKLY_DETAILS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_BCBS_IL_WEEKLY_DETAILS_HISTORY_APP_PROD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "e2eis_APP_PROD",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "LAST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "FIRST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "DATE_OF_BIRTH",
-						"type": "varchar"
-					},
-					{
-						"name": "RECORD_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "E_APP_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "EXCHANGE_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENT_APP_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_COUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "GROUP_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "ACCOUNT_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "STATUS",
-						"type": "varchar"
-					},
-					{
-						"name": "PRODUCT_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "PLAN_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "APTC",
-						"type": "varchar"
-					},
-					{
-						"name": "RENEWAL_INDICATOR",
-						"type": "varchar"
-					},
-					{
-						"name": "COVERAGE_EFFECTIVE_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "PAID_TO_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "TERMED",
-						"type": "varchar"
-					},
-					{
-						"name": "PRODUCER_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "NINE_DIGIT_PRODUCER_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENT_ADDRESS1",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENT_ADDRESS2",
-						"type": "varchar"
-					},
-					{
-						"name": "CITY",
-						"type": "varchar"
-					},
-					{
-						"name": "STATE",
-						"type": "varchar"
-					},
-					{
-						"name": "ZIP_CODE",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENTS_PRIMARY_PHONE",
-						"type": "varchar"
-					},
-					{
-						"name": "EMAIL",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					},
-					{
-						"name": "FILE_RECORD_BIRTH_DATE",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "SIM_103",
-					"table": "SIM_BCBS_IL_WEEKLY_DETAILS_HISTORY"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_BCBS_IL_WEEKLY_DETAILS_HISTORY_PROD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServere2eis_PROD",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "LAST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "FIRST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "DATE_OF_BIRTH",
-						"type": "varchar"
-					},
-					{
-						"name": "RECORD_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "E_APP_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "EXCHANGE_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENT_APP_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_COUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "GROUP_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "ACCOUNT_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "STATUS",
-						"type": "varchar"
-					},
-					{
-						"name": "PRODUCT_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "PLAN_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "APTC",
-						"type": "varchar"
-					},
-					{
-						"name": "RENEWAL_INDICATOR",
-						"type": "varchar"
-					},
-					{
-						"name": "COVERAGE_EFFECTIVE_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "PAID_TO_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "TERMED",
-						"type": "varchar"
-					},
-					{
-						"name": "PRODUCER_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "NINE_DIGIT_PRODUCER_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENT_ADDRESS1",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENT_ADDRESS2",
-						"type": "varchar"
-					},
-					{
-						"name": "CITY",
-						"type": "varchar"
-					},
-					{
-						"name": "STATE",
-						"type": "varchar"
-					},
-					{
-						"name": "ZIP_CODE",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENTS_PRIMARY_PHONE",
-						"type": "varchar"
-					},
-					{
-						"name": "EMAIL",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					},
-					{
-						"name": "FILE_RECORD_BIRTH_DATE",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "SIM_103",
-					"table": "SIM_BCBS_IL_WEEKLY_DETAILS_HISTORY"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_BCBS_IL_WEEKLY_DETAILS_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServere2eis_PROD",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "LAST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "FIRST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "DATE_OF_BIRTH",
-						"type": "varchar"
-					},
-					{
-						"name": "RECORD_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "E_APP_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "EXCHANGE_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENT_APP_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_COUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "GROUP_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "ACCOUNT_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "STATUS",
-						"type": "varchar"
-					},
-					{
-						"name": "PRODUCT_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "PLAN_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "APTC",
-						"type": "varchar"
-					},
-					{
-						"name": "RENEWAL_INDICATOR",
-						"type": "varchar"
-					},
-					{
-						"name": "COVERAGE_EFFECTIVE_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "PAID_TO_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "TERMED",
-						"type": "varchar"
-					},
-					{
-						"name": "PRODUCER_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "NINE_DIGIT_PRODUCER_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENT_ADDRESS1",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENT_ADDRESS2",
-						"type": "varchar"
-					},
-					{
-						"name": "CITY",
-						"type": "varchar"
-					},
-					{
-						"name": "STATE",
-						"type": "varchar"
-					},
-					{
-						"name": "ZIP_CODE",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENTS_PRIMARY_PHONE",
-						"type": "varchar"
-					},
-					{
-						"name": "EMAIL",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "SIM_103",
-					"table": "SIM_BCBS_IL_WEEKLY_DETAILS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_BCBS_IL_Weekly_Feed_PRD')]",
+			"name": "[concat(parameters('factoryName'), '/IMS_HIER_EXP_FILE4_APP_PROD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -701,8 +57,8 @@
 				"typeProperties": {
 					"location": {
 						"type": "SftpLocation",
-						"fileName": "SIM_BCBS_IL_Weekly_Feed_PRD.txt",
-						"folderPath": "/MSL_Cloud_Prd/FromAgency/SIM"
+						"fileName": "IMS_HIER_EXP_FILE4_PRD.txt",
+						"folderPath": "/MSL_Cloud_App_Prd/FromAgency/AIA"
 					},
 					"columnDelimiter": "\t",
 					"escapeChar": "\\",
@@ -711,7 +67,7 @@
 				},
 				"schema": [
 					{
-						"name": "LAST_NAME\tFIRST_NAME\tDATE_OF_BIRTH\tRECORD_TYPE\tE_APP_NUMBER\tEXCHANGE_ID\tCLIENT_APP_ID\tMEMBER_COUNT\tGROUP_NUMBER\tACCOUNT_NUMBER\tSTATUS\tPRODUCT_TYPE\tPLAN_NAME\tAPTC\tRENEWAL_INDICATOR\tCOVERAGE_EFFECTIVE_DATE\tPAID_TO_DATE\tTERMED\tPRODUCER_NAME\tNINE_DIGIT_PRODUCER_NUMBER\tCLIENT_ADDRESS1\tCLIENT_ADDRESS2\tCITY\tSTATE\tZIP_CODE\tCLIENTS_PRIMARY_PHONE\tEMAIL\tAGENCY",
+						"name": "USER_ID\tFIRST_NAME\tLAST_NAME\tEMAIL\tTERMINATED\tDEPARTMENT\tNPN_GROUPING\tUPLINE_ID\tUPLINE_FIRST_NAME\tUPLINE_LAST_NAME\tLEVEL",
 						"type": "String"
 					}
 				]
@@ -719,631 +75,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SIM_BCBS_MI_WEEKLY_DETAILS_APP_PROD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "e2eis_APP_PROD",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "FIRST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "LAST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "BIRTHDATE",
-						"type": "varchar"
-					},
-					{
-						"name": "PHYSICAL_STREET_ADDRESS_1",
-						"type": "varchar"
-					},
-					{
-						"name": "PHYSICAL_STREET_ADDRESS_2",
-						"type": "varchar"
-					},
-					{
-						"name": "PHYSICAL_CITY",
-						"type": "varchar"
-					},
-					{
-						"name": "PHYSICAL_STATE",
-						"type": "varchar"
-					},
-					{
-						"name": "PHYSICAL_ZIP",
-						"type": "varchar"
-					},
-					{
-						"name": "PHONE",
-						"type": "varchar"
-					},
-					{
-						"name": "EMAIL",
-						"type": "varchar"
-					},
-					{
-						"name": "PLAN",
-						"type": "varchar"
-					},
-					{
-						"name": "ISSUER",
-						"type": "varchar"
-					},
-					{
-						"name": "ON/OFF_MARKETPLACE",
-						"type": "varchar"
-					},
-					{
-						"name": "LINE_OF_BUSINESS",
-						"type": "varchar"
-					},
-					{
-						"name": "ENROLLEE_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "COVERAGE",
-						"type": "varchar"
-					},
-					{
-						"name": "COVERAGE_EFFECTIVE_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "PAID_TO_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "COVERAGE_END_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_STATUS",
-						"type": "varchar"
-					},
-					{
-						"name": "APTC_AMOUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "MBI",
-						"type": "varchar"
-					},
-					{
-						"name": "FEDERAL_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_PREMIUM_AMOUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "RESPONSIBLE_AMOUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "TOTAL_PREMIUM_AMOUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					},
-					{
-						"name": "FILE_RECORD_BIRTH_DATE",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "SIM_103",
-					"table": "SIM_BCBS_MI_WEEKLY_DETAILS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_BCBS_MI_WEEKLY_DETAILS_HISTORY_APP_PROD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "e2eis_APP_PROD",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "FIRST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "LAST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "BIRTHDATE",
-						"type": "varchar"
-					},
-					{
-						"name": "PHYSICAL_STREET_ADDRESS_1",
-						"type": "varchar"
-					},
-					{
-						"name": "PHYSICAL_STREET_ADDRESS_2",
-						"type": "varchar"
-					},
-					{
-						"name": "PHYSICAL_CITY",
-						"type": "varchar"
-					},
-					{
-						"name": "PHYSICAL_STATE",
-						"type": "varchar"
-					},
-					{
-						"name": "PHYSICAL_ZIP",
-						"type": "varchar"
-					},
-					{
-						"name": "PHONE",
-						"type": "varchar"
-					},
-					{
-						"name": "EMAIL",
-						"type": "varchar"
-					},
-					{
-						"name": "PLAN",
-						"type": "varchar"
-					},
-					{
-						"name": "ISSUER",
-						"type": "varchar"
-					},
-					{
-						"name": "ON/OFF_MARKETPLACE",
-						"type": "varchar"
-					},
-					{
-						"name": "LINE_OF_BUSINESS",
-						"type": "varchar"
-					},
-					{
-						"name": "ENROLLEE_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "COVERAGE",
-						"type": "varchar"
-					},
-					{
-						"name": "COVERAGE_EFFECTIVE_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "PAID_TO_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "COVERAGE_END_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_STATUS",
-						"type": "varchar"
-					},
-					{
-						"name": "APTC_AMOUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "MBI",
-						"type": "varchar"
-					},
-					{
-						"name": "FEDERAL_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_PREMIUM_AMOUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "RESPONSIBLE_AMOUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "TOTAL_PREMIUM_AMOUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					},
-					{
-						"name": "FILE_RECORD_BIRTH_DATE",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "SIM_103",
-					"table": "SIM_BCBS_MI_WEEKLY_DETAILS_HISTORY"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_BCBS_MI_WEEKLY_DETAILS_HISTORY_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServere2eis_PROD",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "FIRST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "LAST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "BIRTHDATE",
-						"type": "varchar"
-					},
-					{
-						"name": "PHYSICAL_STREET_ADDRESS_1",
-						"type": "varchar"
-					},
-					{
-						"name": "PHYSICAL_STREET_ADDRESS_2",
-						"type": "varchar"
-					},
-					{
-						"name": "PHYSICAL_CITY",
-						"type": "varchar"
-					},
-					{
-						"name": "PHYSICAL_STATE",
-						"type": "varchar"
-					},
-					{
-						"name": "PHYSICAL_ZIP",
-						"type": "varchar"
-					},
-					{
-						"name": "PHONE",
-						"type": "varchar"
-					},
-					{
-						"name": "EMAIL",
-						"type": "varchar"
-					},
-					{
-						"name": "PLAN",
-						"type": "varchar"
-					},
-					{
-						"name": "ISSUER",
-						"type": "varchar"
-					},
-					{
-						"name": "ON/OFF_MARKETPLACE",
-						"type": "varchar"
-					},
-					{
-						"name": "LINE_OF_BUSINESS",
-						"type": "varchar"
-					},
-					{
-						"name": "ENROLLEE_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "COVERAGE",
-						"type": "varchar"
-					},
-					{
-						"name": "COVERAGE_EFFECTIVE_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "PAID_TO_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "COVERAGE_END_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_STATUS",
-						"type": "varchar"
-					},
-					{
-						"name": "APTC_AMOUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "MBI",
-						"type": "varchar"
-					},
-					{
-						"name": "FEDERAL_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_PREMIUM_AMOUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "RESPONSIBLE_AMOUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "TOTAL_PREMIUM_AMOUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					},
-					{
-						"name": "FILE_RECORD_BIRTH_DATE",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "SIM_103",
-					"table": "SIM_BCBS_MI_WEEKLY_DETAILS_HISTORY"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_BCBS_MI_WEEKLY_DETAILS_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServere2eis_PROD",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "FIRST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "LAST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "BIRTHDATE",
-						"type": "varchar"
-					},
-					{
-						"name": "PHYSICAL_STREET_ADDRESS_1",
-						"type": "varchar"
-					},
-					{
-						"name": "PHYSICAL_STREET_ADDRESS_2",
-						"type": "varchar"
-					},
-					{
-						"name": "PHYSICAL_CITY",
-						"type": "varchar"
-					},
-					{
-						"name": "PHYSICAL_STATE",
-						"type": "varchar"
-					},
-					{
-						"name": "PHYSICAL_ZIP",
-						"type": "varchar"
-					},
-					{
-						"name": "PHONE",
-						"type": "varchar"
-					},
-					{
-						"name": "EMAIL",
-						"type": "varchar"
-					},
-					{
-						"name": "PLAN",
-						"type": "varchar"
-					},
-					{
-						"name": "ISSUER",
-						"type": "varchar"
-					},
-					{
-						"name": "ON/OFF_MARKETPLACE",
-						"type": "varchar"
-					},
-					{
-						"name": "LINE_OF_BUSINESS",
-						"type": "varchar"
-					},
-					{
-						"name": "ENROLLEE_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "COVERAGE",
-						"type": "varchar"
-					},
-					{
-						"name": "COVERAGE_EFFECTIVE_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "PAID_TO_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "COVERAGE_END_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_STATUS",
-						"type": "varchar"
-					},
-					{
-						"name": "APTC_AMOUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "MBI",
-						"type": "varchar"
-					},
-					{
-						"name": "FEDERAL_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_PREMIUM_AMOUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "RESPONSIBLE_AMOUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "TOTAL_PREMIUM_AMOUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "SIM_103",
-					"table": "SIM_BCBS_MI_WEEKLY_DETAILS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_BCBS_OK_MHA_AHM_Weekly_Feed_PRD')]",
+			"name": "[concat(parameters('factoryName'), '/IMS_HIER_EXP_FILE4_PRD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1356,8 +88,8 @@
 				"typeProperties": {
 					"location": {
 						"type": "SftpLocation",
-						"fileName": "SIM_BCBS_OK_MHA_AHM_Weekly_Feed_PRD.txt",
-						"folderPath": "/MSL_Cloud_Prd/FromAgency/SIM"
+						"fileName": "IMS_HIER_EXP_FILE4_PRD.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/AIA"
 					},
 					"columnDelimiter": "\t",
 					"escapeChar": "\\",
@@ -1366,7 +98,7 @@
 				},
 				"schema": [
 					{
-						"name": "LAST_NAME\tFIRST_NAME\tDATE_OF_BIRTH\tRECORD_TYPE\tE-APP_NUMBER\tEXCHANGE_ID\tCLIENT_APP_ID\tMEMBER_COUNT\tGROUP_NUMBER\tACCOUNT_NUMBER\tSTATUS\tPRODUCT_TYPE\tPLAN_NAME\tAPTC\tRENEWAL_INDICATOR\tCOVERAGE_EFFECTIVE_DATE\tPAID_TO_DATE\tTERMED\tPRODUCER_NAME\tNINE_DIGIT_PRODUCER_NUMBER\tCLIENT_ADDRESS_1\tCLIENT_ADDRESS_2\tCITY\tSTATE\tZIP_CODE\tCLIENTS_PRIMARY_PHONE\tEMAIL\tAGENCY\tFILE_RECORD_BIRTH_DATE",
+						"name": "UserId\tFirstName\tLastName\tEmail\tTerminated\tDepartment\tNpnGrouping\tUplineId\tUplineFirstName\tUplineLastName\tLevel",
 						"type": "String"
 					}
 				]
@@ -1374,7 +106,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SIM_BCBS_OK_MHA_Weekly_Feed_PRD')]",
+			"name": "[concat(parameters('factoryName'), '/IMS_HIER_EXP_FILE5_APP_PROD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1387,8 +119,8 @@
 				"typeProperties": {
 					"location": {
 						"type": "SftpLocation",
-						"fileName": "SIM_BCBS_OK_MHA_Weekly_Feed_PRD.txt",
-						"folderPath": "/MSL_Cloud_Prd/FromAgency/SIM"
+						"fileName": "IMS_HIER_EXP_FILE5_PRD.txt",
+						"folderPath": "/MSL_Cloud_App_Prd/FromAgency/AIA"
 					},
 					"columnDelimiter": "\t",
 					"escapeChar": "\\",
@@ -1397,7 +129,7 @@
 				},
 				"schema": [
 					{
-						"name": "LAST_NAME\tFIRST_NAME\tDATE_OF_BIRTH\tRECORD_TYPE\tE-APP_NUMBER\tEXCHANGE_ID\tCLIENT_APP_ID\tMEMBER_COUNT\tGROUP_NUMBER\tACCOUNT_NUMBER\tSTATUS\tPRODUCT_TYPE\tPLAN_NAME\tSOURCE\tAPTC\tRENEWAL_INDICATOR\tCOVERAGE_EFFECTIVE_DATE\tPAID_TO_DATE\tTERMED\tPRODUCER_NAME\tNINE_DIGIT_PRODUCER_NUMBER\tCLIENT_ADDRESS_1\tCLIENT_ADDRESS_2\tCITY\tSTATE\tZIP_CODE\tCLIENTS_PRIMARY_PHONE\tEMAIL\tAGENCY\tFILE_RECORD_BIRTH_DATE",
+						"name": "USER_ID\tFIRST_NAME\tLAST_NAME\tEMAIL\tTERMINATED\tDEPARTMENT\tNPN_GROUPING\tUPLINE_ID\tUPLINE_FIRST_NAME\tUPLINE_LAST_NAME\tLEVEL",
 						"type": "String"
 					}
 				]
@@ -1405,513 +137,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SIM_BCBS_OK_WEEKLY_DETAILS_APP_PROD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "e2eis_APP_PROD",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "LAST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "FIRST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "DATE_OF_BIRTH",
-						"type": "varchar"
-					},
-					{
-						"name": "RECORD_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "E-APP_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "EXCHANGE_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENT_APP_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_COUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "GROUP_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "ACCOUNT_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "STATUS",
-						"type": "varchar"
-					},
-					{
-						"name": "PRODUCT_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "PLAN_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "APTC",
-						"type": "varchar"
-					},
-					{
-						"name": "RENEWAL_INDICATOR",
-						"type": "varchar"
-					},
-					{
-						"name": "COVERAGE_EFFECTIVE_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "PAID_TO_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "TERMED",
-						"type": "varchar"
-					},
-					{
-						"name": "PRODUCER_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "NINE_DIGIT_PRODUCER_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENT_ADDRESS_1",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENT_ADDRESS_2",
-						"type": "varchar"
-					},
-					{
-						"name": "CITY",
-						"type": "varchar"
-					},
-					{
-						"name": "STATE",
-						"type": "varchar"
-					},
-					{
-						"name": "ZIP_CODE",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENTS_PRIMARY_PHONE",
-						"type": "varchar"
-					},
-					{
-						"name": "EMAIL",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY",
-						"type": "varchar"
-					},
-					{
-						"name": "FILE_RECORD_BIRTH_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					},
-					{
-						"name": "SOURCE",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "SIM_103",
-					"table": "SIM_BCBS_OK_WEEKLY_DETAILS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_BCBS_OK_WEEKLY_DETAILS_HISTORY_APP_PROD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "e2eis_APP_PROD",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "LAST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "FIRST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "DATE_OF_BIRTH",
-						"type": "varchar"
-					},
-					{
-						"name": "RECORD_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "E-APP_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "EXCHANGE_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENT_APP_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_COUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "GROUP_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "ACCOUNT_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "STATUS",
-						"type": "varchar"
-					},
-					{
-						"name": "PRODUCT_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "PLAN_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "APTC",
-						"type": "varchar"
-					},
-					{
-						"name": "RENEWAL_INDICATOR",
-						"type": "varchar"
-					},
-					{
-						"name": "COVERAGE_EFFECTIVE_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "PAID_TO_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "TERMED",
-						"type": "varchar"
-					},
-					{
-						"name": "PRODUCER_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "NINE_DIGIT_PRODUCER_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENT_ADDRESS_1",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENT_ADDRESS_2",
-						"type": "varchar"
-					},
-					{
-						"name": "CITY",
-						"type": "varchar"
-					},
-					{
-						"name": "STATE",
-						"type": "varchar"
-					},
-					{
-						"name": "ZIP_CODE",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENTS_PRIMARY_PHONE",
-						"type": "varchar"
-					},
-					{
-						"name": "EMAIL",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY",
-						"type": "varchar"
-					},
-					{
-						"name": "FILE_RECORD_BIRTH_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "SIM_103",
-					"table": "SIM_BCBS_OK_WEEKLY_DETAILS_HISTORY"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_BCBS_OK_WEEKLY_DETAILS_HISTORY_PROD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServere2eis_PROD",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "LAST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "FIRST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "DATE_OF_BIRTH",
-						"type": "varchar"
-					},
-					{
-						"name": "RECORD_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "E-APP_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "EXCHANGE_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENT_APP_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_COUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "GROUP_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "ACCOUNT_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "STATUS",
-						"type": "varchar"
-					},
-					{
-						"name": "PRODUCT_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "PLAN_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "APTC",
-						"type": "varchar"
-					},
-					{
-						"name": "RENEWAL_INDICATOR",
-						"type": "varchar"
-					},
-					{
-						"name": "COVERAGE_EFFECTIVE_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "PAID_TO_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "TERMED",
-						"type": "varchar"
-					},
-					{
-						"name": "PRODUCER_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "NINE_DIGIT_PRODUCER_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENT_ADDRESS_1",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENT_ADDRESS_2",
-						"type": "varchar"
-					},
-					{
-						"name": "CITY",
-						"type": "varchar"
-					},
-					{
-						"name": "STATE",
-						"type": "varchar"
-					},
-					{
-						"name": "ZIP_CODE",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENTS_PRIMARY_PHONE",
-						"type": "varchar"
-					},
-					{
-						"name": "EMAIL",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY",
-						"type": "varchar"
-					},
-					{
-						"name": "FILE_RECORD_BIRTH_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "SIM_103",
-					"table": "SIM_BCBS_OK_WEEKLY_DETAILS_HISTORY"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_BCBS_OK_WEEKLY_DETAILS_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServere2eis_PROD",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "SIM_103",
-					"table": "SIM_BCBS_OK_WEEKLY_DETAILS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_BCBS_OK_Weekly_Feed_PRD')]",
+			"name": "[concat(parameters('factoryName'), '/IMS_HIER_EXP_FILE5_PRD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1924,8 +150,8 @@
 				"typeProperties": {
 					"location": {
 						"type": "SftpLocation",
-						"fileName": "SIM_BCBS_OK_Weekly_Feed_PRD.txt",
-						"folderPath": "/MSL_Cloud_Prd/FromAgency/SIM"
+						"fileName": "IMS_HIER_EXP_FILE5_PRD.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/AIA"
 					},
 					"columnDelimiter": "\t",
 					"escapeChar": "\\",
@@ -1934,7 +160,7 @@
 				},
 				"schema": [
 					{
-						"name": "LAST_NAME\tFIRST_NAME\tDATE_OF_BIRTH\tRECORD_TYPE\tE-APP_NUMBER\tEXCHANGE_ID\tCLIENT_APP_ID\tMEMBER_COUNT\tGROUP_NUMBER\tACCOUNT_NUMBER\tSTATUS\tPRODUCT_TYPE\tPLAN_NAME\tAPTC\tRENEWAL_INDICATOR\tCOVERAGE_EFFECTIVE_DATE\tPAID_TO_DATE\tTERMED\tPRODUCER_NAME\tNINE_DIGIT_PRODUCER_NUMBER\tCLIENT_ADDRESS_1\tCLIENT_ADDRESS_2\tCITY\tSTATE\tZIP_CODE\tCLIENTS_PRIMARY_PHONE\tEMAIL\tAGENCY",
+						"name": "UserId\tFirstName\tLastName\tEmail\tTerminated\tDepartment\tNpnGrouping\tUplineId\tUplineFirstName\tUplineLastName\tLevel",
 						"type": "String"
 					}
 				]
@@ -1942,7 +168,193 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SIM_BCBS_TX_AHM_MHA_NPA_POLICY_DETAILS_APP_PROD')]",
+			"name": "[concat(parameters('factoryName'), '/IMS_HIER_EXP_FILE6_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "IMS_HIER_EXP_FILE6_PRD.txt",
+						"folderPath": "/MSL_Cloud_App_Prd/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "USER_ID\tFIRST_NAME\tLAST_NAME\tEMAIL\tTERMINATED\tDEPARTMENT\tNPN_GROUPING\tUPLINE_ID\tUPLINE_FIRST_NAME\tUPLINE_LAST_NAME\tLEVEL",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IMS_HIER_EXP_FILE6_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "IMS_HIER_EXP_FILE6_PRD.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "UserId\tFirstName\tLastName\tEmail\tTerminated\tDepartment\tNpnGrouping\tUplineId\tUplineFirstName\tUplineLastName\tLevel",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IMS_MIDWEEK_EXP_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "IMS_MIDWEEK_EXP_PRD.txt",
+						"folderPath": "/MSL_Cloud_App_Prd/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "ID\tSUBMITTER_ID\tSUBMITTERFIRSTNAME\tSUBMITTERLASTNAME\tFLORIDA_BLUE_RESPONSE\tDATETIME_SUBMITTED\tAGENT_ID\tAGENTFIRSTNAME\tAGENTLASTNAME\tRUNNER_NAME\tUPLINEFIRSTNAME\tUPLINELASTNAME\tDEPARTMENTNAME\tDEPARTMENTDESIGNATION\tCLIENT_FIRST_NAME\tCLIENT_LAST_NAME\tCLIENT_DOB\tCLIENT_PHONE\tCLIENT_SSN\tCLIENT_EMAIL\tCLIENT_ADDRESS_1\tCLIENT_ADDRESS_2\tCLIENT_CITY\tCLIENT_STATE\tCLIENT_ZIP\tMEMBER_COUNT_ENROLLED\tCLIENT_SEX\tPRODUCT_CHANGE\tMARRIED\tDEPENDENTS\tPREGNANT\tSMOKER\tAMERICAN_NATIVE\tEMPLOYER_NAME\tEMPLOYER_NUMBER\tCLIENT_INCOME\tCLIENT_INCOME_FREQ\tSPOUSAL_FIRST_NAME\tSPOUSAL_LAST_NAME\tSPOUSAL_SSN\tSPOUSAL_DOB\tSPOUSAL_EMPLOYER_NAME\tSPOUSAL_EMPLOYER_NUMBER\tSPOUSAL_INCOME\tSPOUSE\tDOMESTIC_PARTNER\tDEPENDENT_0_FIRST_NAME\tDEPENDENT_0_LAST_NAME\tDEPENDENT_0_DOB\tDEPENDENT_0_SEX\tDEPENDENT_0_SSN\tDEPENDENT_0_COVERED\tDEPENDENT_1_FIRST_NAME\tDEPENDENT_1_LAST_NAME\tDEPENDENT_1_DOB\tDEPENDENT_1_SEX\tDEPENDENT_1_SSN\tDEPENDENT_1_COVERED\tDEPENDENT_2_FIRST_NAME\tDEPENDENT_2_LAST_NAME\tDEPENDENT_2_DOB\tDEPENDENT_2_SEX\tDEPENDENT_2_SSN\tDEPENDENT_2_COVERED\tDEPENDENT_3_FIRST_NAME\tDEPENDENT_3_LAST_NAME\tDEPENDENT_3_DOB\tDEPENDENT_3_SEX\tDEPENDENT_3_SSN\tDEPENDENT_3_COVERED\tDEPENDENT_4_FIRST_NAME\tDEPENDENT_4_LAST_NAME\tDEPENDENT_4_DOB\tDEPENDENT_4_SEX\tDEPENDENT_4_SSN\tDEPENDENT_4_COVERED\tDEPENDENT_5_FIRST_NAME\tDEPENDENT_5_LAST_NAME\tDEPENDENT_5_DOB\tDEPENDENT_5_SEX\tDEPENDENT_5_SSN\tDEPENDENT_5_COVERED\tDEPENDENT_6_FIRST_NAME\tDEPENDENT_6_LAST_NAME\tDEPENDENT_6_DOB\tDEPENDENT_6_SEX\tDEPENDENT_6_SSN\tDEPENDENT_6_COVERED\tDEPENDENT_7_FIRST_NAME\tDEPENDENT_7_LAST_NAME\tDEPENDENT_7_DOB\tDEPENDENT_7_SEX\tDEPENDENT_7_SSN\tDEPENDENT_7_COVERED\tDEPENDENT_8_FIRST_NAME\tDEPENDENT_8_LAST_NAME\tDEPENDENT_8_DOB\tDEPENDENT_8_SEX\tDEPENDENT_8_SSN\tDEPENDENT_8_COVERED\tTAX_CREDIT_AMOUNT\tPLAN_PREMIUM\tPAYMENT_AMOUNT\tPLAN_NAME\tPLAN_ID\tINSURANCE_COMPANY\tPLAN_SELECTED\tCREDIT_CARD\tEXP_DATE\tCVC\tDATE_PROCESSED\tASSIGNED_ID\tDATETIME_ASSIGNED\tSTATUS\tAPP_SUBMITTED_DATE\tPOLICY_EFFECTIVE_DATE\tAGENT_LOGIN_USED\tLASTSTATUSCHANGE\tSUBMITTEDTOFLORIDABLUE\tCARRIER\tFEDERALLYFACILITATEDMARKETPLACEID\tSUBSCRIBERID\tEXPIRATIONDATE\tCONSENTCONFIRMEDAT\tCONSENTCONFIRMEDBY",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IMS_MIDWEEK_EXP_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "IMS_MIDWEEK_EXP_PRD.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "ID\tSUBMITTER_ID\tSUBMITTERFIRSTNAME\tSUBMITTERLASTNAME\tFLORIDA_BLUE_RESPONSE\tDATETIME_SUBMITTED\tAGENT_ID\tAGENTFIRSTNAME\tAGENTLASTNAME\tRUNNER_NAME\tUPLINEFIRSTNAME\tUPLINELASTNAME\tDEPARTMENTNAME\tDEPARTMENTDESIGNATION\tCLIENT_FIRST_NAME\tCLIENT_LAST_NAME\tCLIENT_DOB\tCLIENT_PHONE\tCLIENT_SSN\tCLIENT_EMAIL\tCLIENT_ADDRESS_1\tCLIENT_ADDRESS_2\tCLIENT_CITY\tCLIENT_STATE\tCLIENT_ZIP\tMEMBER_COUNT_ENROLLED\tCLIENT_SEX\tPRODUCT_CHANGE\tMARRIED\tDEPENDENTS\tPREGNANT\tSMOKER\tAMERICAN_NATIVE\tEMPLOYER_NAME\tEMPLOYER_NUMBER\tCLIENT_INCOME\tCLIENT_INCOME_FREQ\tSPOUSAL_FIRST_NAME\tSPOUSAL_LAST_NAME\tSPOUSAL_SSN\tSPOUSAL_DOB\tSPOUSAL_EMPLOYER_NAME\tSPOUSAL_EMPLOYER_NUMBER\tSPOUSAL_INCOME\tSPOUSE\tDOMESTIC_PARTNER\tDEPENDENT_0_FIRST_NAME\tDEPENDENT_0_LAST_NAME\tDEPENDENT_0_DOB\tDEPENDENT_0_SEX\tDEPENDENT_0_SSN\tDEPENDENT_0_COVERED\tDEPENDENT_1_FIRST_NAME\tDEPENDENT_1_LAST_NAME\tDEPENDENT_1_DOB\tDEPENDENT_1_SEX\tDEPENDENT_1_SSN\tDEPENDENT_1_COVERED\tDEPENDENT_2_FIRST_NAME\tDEPENDENT_2_LAST_NAME\tDEPENDENT_2_DOB\tDEPENDENT_2_SEX\tDEPENDENT_2_SSN\tDEPENDENT_2_COVERED\tDEPENDENT_3_FIRST_NAME\tDEPENDENT_3_LAST_NAME\tDEPENDENT_3_DOB\tDEPENDENT_3_SEX\tDEPENDENT_3_SSN\tDEPENDENT_3_COVERED\tDEPENDENT_4_FIRST_NAME\tDEPENDENT_4_LAST_NAME\tDEPENDENT_4_DOB\tDEPENDENT_4_SEX\tDEPENDENT_4_SSN\tDEPENDENT_4_COVERED\tDEPENDENT_5_FIRST_NAME\tDEPENDENT_5_LAST_NAME\tDEPENDENT_5_DOB\tDEPENDENT_5_SEX\tDEPENDENT_5_SSN\tDEPENDENT_5_COVERED\tDEPENDENT_6_FIRST_NAME\tDEPENDENT_6_LAST_NAME\tDEPENDENT_6_DOB\tDEPENDENT_6_SEX\tDEPENDENT_6_SSN\tDEPENDENT_6_COVERED\tDEPENDENT_7_FIRST_NAME\tDEPENDENT_7_LAST_NAME\tDEPENDENT_7_DOB\tDEPENDENT_7_SEX\tDEPENDENT_7_SSN\tDEPENDENT_7_COVERED\tDEPENDENT_8_FIRST_NAME\tDEPENDENT_8_LAST_NAME\tDEPENDENT_8_DOB\tDEPENDENT_8_SEX\tDEPENDENT_8_SSN\tDEPENDENT_8_COVERED\tTAX_CREDIT_AMOUNT\tPLAN_PREMIUM\tPAYMENT_AMOUNT\tPLAN_NAME\tPLAN_ID\tINSURANCE_COMPANY\tPLAN_SELECTED\tCREDIT_CARD\tEXP_DATE\tCVC\tDATE_PROCESSED\tASSIGNED_ID\tDATETIME_ASSIGNED\tSTATUS\tAPP_SUBMITTED_DATE\tPOLICY_EFFECTIVE_DATE\tAGENT_LOGIN_USED\tLASTSTATUSCHANGE\tSUBMITTEDTOFLORIDABLUE\tCARRIER\tFEDERALLYFACILITATEDMARKETPLACEID\tSUBSCRIBERID\tEXPIRATIONDATE\tCONSENTCONFIRMEDAT\tCONSENTCONFIRMEDBY",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IMS_RAS_MIDWEEK_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "IMS_RAS_MIDWEEK_PRD.txt",
+						"folderPath": "/MSL_Cloud_App_Prd/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "ID\tSUBMITTER_ID\tSUBMITTERFIRSTNAME\tSUBMITTERLASTNAME\tFLORIDA_BLUE_RESPONSE\tDATETIME_SUBMITTED\tAGENT_ID\tAGENTFIRSTNAME\tAGENTLASTNAME\tRUNNER_NAME\tUPLINEFIRSTNAME\tUPLINELASTNAME\tDEPARTMENTNAME\tDEPARTMENTDESIGNATION\tCLIENT_FIRST_NAME\tCLIENT_LAST_NAME\tCLIENT_DOB\tCLIENT_PHONE\tCLIENT_SSN\tCLIENT_EMAIL\tCLIENT_ADDRESS_1\tCLIENT_ADDRESS_2\tCLIENT_CITY\tCLIENT_STATE\tCLIENT_ZIP\tMEMBER_COUNT_ENROLLED\tCLIENT_SEX\tPRODUCT_CHANGE\tMARRIED\tDEPENDENTS\tPREGNANT\tSMOKER\tAMERICAN_NATIVE\tEMPLOYER_NAME\tEMPLOYER_NUMBER\tCLIENT_INCOME\tCLIENT_INCOME_FREQ\tSPOUSAL_FIRST_NAME\tSPOUSAL_LAST_NAME\tSPOUSAL_SSN\tSPOUSAL_DOB\tSPOUSAL_EMPLOYER_NAME\tSPOUSAL_EMPLOYER_NUMBER\tSPOUSAL_INCOME\tSPOUSE\tDOMESTIC_PARTNER\tDEPENDENT_0_FIRST_NAME\tDEPENDENT_0_LAST_NAME\tDEPENDENT_0_DOB\tDEPENDENT_0_SEX\tDEPENDENT_0_SSN\tDEPENDENT_0_COVERED\tDEPENDENT_1_FIRST_NAME\tDEPENDENT_1_LAST_NAME\tDEPENDENT_1_DOB\tDEPENDENT_1_SEX\tDEPENDENT_1_SSN\tDEPENDENT_1_COVERED\tDEPENDENT_2_FIRST_NAME\tDEPENDENT_2_LAST_NAME\tDEPENDENT_2_DOB\tDEPENDENT_2_SEX\tDEPENDENT_2_SSN\tDEPENDENT_2_COVERED\tDEPENDENT_3_FIRST_NAME\tDEPENDENT_3_LAST_NAME\tDEPENDENT_3_DOB\tDEPENDENT_3_SEX\tDEPENDENT_3_SSN\tDEPENDENT_3_COVERED\tDEPENDENT_4_FIRST_NAME\tDEPENDENT_4_LAST_NAME\tDEPENDENT_4_DOB\tDEPENDENT_4_SEX\tDEPENDENT_4_SSN\tDEPENDENT_4_COVERED\tDEPENDENT_5_FIRST_NAME\tDEPENDENT_5_LAST_NAME\tDEPENDENT_5_DOB\tDEPENDENT_5_SEX\tDEPENDENT_5_SSN\tDEPENDENT_5_COVERED\tDEPENDENT_6_FIRST_NAME\tDEPENDENT_6_LAST_NAME\tDEPENDENT_6_DOB\tDEPENDENT_6_SEX\tDEPENDENT_6_SSN\tDEPENDENT_6_COVERED\tDEPENDENT_7_FIRST_NAME\tDEPENDENT_7_LAST_NAME\tDEPENDENT_7_DOB\tDEPENDENT_7_SEX\tDEPENDENT_7_SSN\tDEPENDENT_7_COVERED\tDEPENDENT_8_FIRST_NAME\tDEPENDENT_8_LAST_NAME\tDEPENDENT_8_DOB\tDEPENDENT_8_SEX\tDEPENDENT_8_SSN\tDEPENDENT_8_COVERED\tTAX_CREDIT_AMOUNT\tPLAN_PREMIUM\tPAYMENT_AMOUNT\tPLAN_NAME\tPLAN_ID\tINSURANCE_COMPANY\tPLAN_SELECTED\tCREDIT_CARD\tEXP_DATE\tCVC\tDATE_PROCESSED\tASSIGNED_ID\tDATETIME_ASSIGNED\tSTATUS\tAPP_SUBMITTED_DATE\tPOLICY_EFFECTIVE_DATE\tAGENT_LOGIN_USED\tLASTSTATUSCHANGE\tSUBMITTEDTOFLORIDABLUE\tCARRIER\tFEDERALLYFACILITATEDMARKETPLACEID\tSUBSCRIBERID\tEXPIRATIONDATE\tCONSENTCONFIRMEDAT\tCONSENTCONFIRMEDBY",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IMS_RAS_MIDWEEK_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "IMS_RAS_MIDWEEK_PRD.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "ID\tSUBMITTER_ID\tSUBMITTERFIRSTNAME\tSUBMITTERLASTNAME\tFLORIDA_BLUE_RESPONSE\tDATETIME_SUBMITTED\tAGENT_ID\tAGENTFIRSTNAME\tAGENTLASTNAME\tRUNNER_NAME\tUPLINEFIRSTNAME\tUPLINELASTNAME\tDEPARTMENTNAME\tDEPARTMENTDESIGNATION\tCLIENT_FIRST_NAME\tCLIENT_LAST_NAME\tCLIENT_DOB\tCLIENT_PHONE\tCLIENT_SSN\tCLIENT_EMAIL\tCLIENT_ADDRESS_1\tCLIENT_ADDRESS_2\tCLIENT_CITY\tCLIENT_STATE\tCLIENT_ZIP\tMEMBER_COUNT_ENROLLED\tCLIENT_SEX\tPRODUCT_CHANGE\tMARRIED\tDEPENDENTS\tPREGNANT\tSMOKER\tAMERICAN_NATIVE\tEMPLOYER_NAME\tEMPLOYER_NUMBER\tCLIENT_INCOME\tCLIENT_INCOME_FREQ\tSPOUSAL_FIRST_NAME\tSPOUSAL_LAST_NAME\tSPOUSAL_SSN\tSPOUSAL_DOB\tSPOUSAL_EMPLOYER_NAME\tSPOUSAL_EMPLOYER_NUMBER\tSPOUSAL_INCOME\tSPOUSE\tDOMESTIC_PARTNER\tDEPENDENT_0_FIRST_NAME\tDEPENDENT_0_LAST_NAME\tDEPENDENT_0_DOB\tDEPENDENT_0_SEX\tDEPENDENT_0_SSN\tDEPENDENT_0_COVERED\tDEPENDENT_1_FIRST_NAME\tDEPENDENT_1_LAST_NAME\tDEPENDENT_1_DOB\tDEPENDENT_1_SEX\tDEPENDENT_1_SSN\tDEPENDENT_1_COVERED\tDEPENDENT_2_FIRST_NAME\tDEPENDENT_2_LAST_NAME\tDEPENDENT_2_DOB\tDEPENDENT_2_SEX\tDEPENDENT_2_SSN\tDEPENDENT_2_COVERED\tDEPENDENT_3_FIRST_NAME\tDEPENDENT_3_LAST_NAME\tDEPENDENT_3_DOB\tDEPENDENT_3_SEX\tDEPENDENT_3_SSN\tDEPENDENT_3_COVERED\tDEPENDENT_4_FIRST_NAME\tDEPENDENT_4_LAST_NAME\tDEPENDENT_4_DOB\tDEPENDENT_4_SEX\tDEPENDENT_4_SSN\tDEPENDENT_4_COVERED\tDEPENDENT_5_FIRST_NAME\tDEPENDENT_5_LAST_NAME\tDEPENDENT_5_DOB\tDEPENDENT_5_SEX\tDEPENDENT_5_SSN\tDEPENDENT_5_COVERED\tDEPENDENT_6_FIRST_NAME\tDEPENDENT_6_LAST_NAME\tDEPENDENT_6_DOB\tDEPENDENT_6_SEX\tDEPENDENT_6_SSN\tDEPENDENT_6_COVERED\tDEPENDENT_7_FIRST_NAME\tDEPENDENT_7_LAST_NAME\tDEPENDENT_7_DOB\tDEPENDENT_7_SEX\tDEPENDENT_7_SSN\tDEPENDENT_7_COVERED\tDEPENDENT_8_FIRST_NAME\tDEPENDENT_8_LAST_NAME\tDEPENDENT_8_DOB\tDEPENDENT_8_SEX\tDEPENDENT_8_SSN\tDEPENDENT_8_COVERED\tTAX_CREDIT_AMOUNT\tPLAN_PREMIUM\tPAYMENT_AMOUNT\tPLAN_NAME\tPLAN_ID\tINSURANCE_COMPANY\tPLAN_SELECTED\tCREDIT_CARD\tEXP_DATE\tCVC\tDATE_PROCESSED\tASSIGNED_ID\tDATETIME_ASSIGNED\tSTATUS\tAPP_SUBMITTED_DATE\tPOLICY_EFFECTIVE_DATE\tAGENT_LOGIN_USED\tLASTSTATUSCHANGE\tSUBMITTEDTOFLORIDABLUE\tCARRIER\tFEDERALLYFACILITATEDMARKETPLACEID\tSUBSCRIBERID\tEXPIRATIONDATE\tCONSENTCONFIRMEDAT\tCONSENTCONFIRMEDBY",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MIA_AGENCY_ANNUAL_RATE_DETAILS_BLUECHIP_APP_PROD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1959,111 +371,1798 @@
 						"precision": 19
 					},
 					{
-						"name": "LAST_NAME",
+						"name": "YEAR",
 						"type": "varchar"
 					},
 					{
-						"name": "FIRST_NAME",
+						"name": "COMPENSATION_DATE",
+						"type": "date"
+					},
+					{
+						"name": "SEGMENT",
 						"type": "varchar"
 					},
 					{
-						"name": "DOB",
+						"name": "AGENT_CONTRACT_TYPE",
 						"type": "varchar"
 					},
 					{
-						"name": "RECORD_TYPE",
+						"name": "PATICIPANT_RELATION",
 						"type": "varchar"
 					},
 					{
-						"name": "E_APP_NUMBER",
+						"name": "PATICIPANT_RELATION_1_PRODUCER",
 						"type": "varchar"
 					},
 					{
-						"name": "EXCHANGE_ID",
+						"name": "PATICIPANT_RELATION_2_REF",
 						"type": "varchar"
 					},
 					{
-						"name": "CLIENT_APP_ID",
+						"name": "FB_COMP_STATEMENT",
 						"type": "varchar"
 					},
 					{
-						"name": "MEMBER_COUNT",
+						"name": "FB_PRODUCT_ID",
 						"type": "varchar"
 					},
 					{
-						"name": "GROUP_NUMBER",
+						"name": "FB_COMP_TYPE",
 						"type": "varchar"
 					},
 					{
-						"name": "ACCOUNT_NUMBER",
+						"name": "AGENCY_COMP_TYPE",
 						"type": "varchar"
 					},
 					{
-						"name": "POLICY_STATUS",
+						"name": "CONTRACT_STARTS_WITH",
 						"type": "varchar"
 					},
 					{
-						"name": "PRODUCT_TYPE",
+						"name": "E2E_PLAN_DESCRIPTION",
 						"type": "varchar"
 					},
 					{
-						"name": "PLAN_NAME",
+						"name": "FREQUENCY",
 						"type": "varchar"
 					},
 					{
-						"name": "APTC",
+						"name": "FB_COMMISSION_FLAT_RATE",
 						"type": "varchar"
 					},
 					{
-						"name": "RENEWAL_INDICATOR",
+						"name": "STANDARD_AMOUNT",
 						"type": "varchar"
 					},
 					{
-						"name": "COVERAGE_EFFECTIVE_DATE",
+						"name": "PERCENT_OF_FB_PAYMENT",
 						"type": "varchar"
 					},
 					{
-						"name": "PAID_TO_DATE",
+						"name": "OVERRIDE_1_PERCENT_OF_FB_PAYMENT",
 						"type": "varchar"
 					},
 					{
-						"name": "TERMED",
+						"name": "OVERRIDE_2_PERCENT_OF_FB_PAYMENT",
 						"type": "varchar"
 					},
 					{
-						"name": "PRODUCER_NAME",
+						"name": "PAYMENT_TYPE",
 						"type": "varchar"
 					},
 					{
-						"name": "NINE_DIGIT_PRODUCER_NUMBER",
+						"name": "TIER1_PERCENT_OF_FB_PAYMENT",
 						"type": "varchar"
 					},
 					{
-						"name": "CLIENT_ADDRESS_1",
+						"name": "TIER2_PERCENT_OF_FB_PAYMENT",
 						"type": "varchar"
 					},
 					{
-						"name": "CLIENT_ADDRESS_2",
+						"name": "TIER3_PERCENT_OF_FB_PAYMENT",
 						"type": "varchar"
 					},
 					{
-						"name": "CITY",
+						"name": "TIER4_PERCENT_OF_FB_PAYMENT",
 						"type": "varchar"
 					},
 					{
-						"name": "STATE",
+						"name": "TIER5_PERCENT_OF_FB_PAYMENT",
 						"type": "varchar"
 					},
 					{
-						"name": "ZIP_CODE",
+						"name": "TIER6_PERCENT_OF_FB_PAYMENT",
 						"type": "varchar"
 					},
 					{
-						"name": "CLIENT_PRIMARY_PHONE",
+						"name": "TIER7_PERCENT_OF_FB_PAYMENT",
 						"type": "varchar"
 					},
 					{
-						"name": "EMAIL",
+						"name": "TIER8_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER9_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER10_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "ORIGINAL_EFFECTIVE_DATE_START_DATE",
+						"type": "date"
+					},
+					{
+						"name": "ORIGINAL_EFFECTIVE_DATE_END_DATE",
+						"type": "date"
+					},
+					{
+						"name": "ENROLLMENT_YEAR_START",
+						"type": "varchar"
+					},
+					{
+						"name": "ENROLLMENT_YEAR_END",
+						"type": "varchar"
+					},
+					{
+						"name": "ROLE_AS_EARNED_ELIGBLE_COUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "OVERIDE_ROLE_AS_EARNED_1_ELIGBLE_COUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "OVERIDE_ROLE_2_AS_EARNED_ELIGBLE_COUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "CARRIER",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "AS_EARNED_ANNUAL_QUALIFIED_2",
+						"type": "varchar"
+					},
+					{
+						"name": "AS_EARNED_ANNUAL_QUALIFIED_3",
+						"type": "varchar"
+					},
+					{
+						"name": "AS_EARNED_ANNUAL_QUALIFIED_1",
+						"type": "varchar"
+					},
+					{
+						"name": "COMMENTS",
+						"type": "varchar"
+					},
+					{
+						"name": "DEVELOPMENT_ONLY",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "MIA_104",
+					"table": "MIA_AGENCY_ANNUAL_RATE_DETAILS_BLUECHIP"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MIA_AGENCY_ANNUAL_RATE_DETAILS_BLUECHIP_CDR_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "e2eiS_UAT",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "YEAR",
+						"type": "varchar"
+					},
+					{
+						"name": "COMPENSATION_DATE",
+						"type": "date"
+					},
+					{
+						"name": "SEGMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_CONTRACT_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "PATICIPANT_RELATION",
+						"type": "varchar"
+					},
+					{
+						"name": "PATICIPANT_RELATION_1_PRODUCER",
+						"type": "varchar"
+					},
+					{
+						"name": "PATICIPANT_RELATION_2_REF",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_COMP_STATEMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_PRODUCT_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_COMP_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_COMP_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "CONTRACT_STARTS_WITH",
+						"type": "varchar"
+					},
+					{
+						"name": "E2E_PLAN_DESCRIPTION",
+						"type": "varchar"
+					},
+					{
+						"name": "FREQUENCY",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_COMMISSION_FLAT_RATE",
+						"type": "varchar"
+					},
+					{
+						"name": "STANDARD_AMOUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "OVERRIDE_1_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "OVERRIDE_2_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "PAYMENT_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER1_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER2_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER3_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER4_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER5_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER6_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER7_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER8_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER9_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER10_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "ORIGINAL_EFFECTIVE_DATE_START_DATE",
+						"type": "date"
+					},
+					{
+						"name": "ORIGINAL_EFFECTIVE_DATE_END_DATE",
+						"type": "date"
+					},
+					{
+						"name": "ENROLLMENT_YEAR_START",
+						"type": "varchar"
+					},
+					{
+						"name": "ENROLLMENT_YEAR_END",
+						"type": "varchar"
+					},
+					{
+						"name": "ROLE_AS_EARNED_ELIGBLE_COUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "OVERIDE_ROLE_AS_EARNED_1_ELIGBLE_COUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "OVERIDE_ROLE_2_AS_EARNED_ELIGBLE_COUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "CARRIER",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "AS_EARNED_ANNUAL_QUALIFIED_2",
+						"type": "varchar"
+					},
+					{
+						"name": "AS_EARNED_ANNUAL_QUALIFIED_3",
+						"type": "varchar"
+					},
+					{
+						"name": "AS_EARNED_ANNUAL_QUALIFIED_1",
+						"type": "varchar"
+					},
+					{
+						"name": "COMMENTS",
+						"type": "varchar"
+					},
+					{
+						"name": "DEVELOPMENT_ONLY",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "AQI_104",
+					"table": "MIA_AGENCY_ANNUAL_RATE_DETAILS_BLUECHIP"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MIA_AGENCY_ANNUAL_RATE_DETAILS_BLUECHIP_HISTORY_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "e2eis_APP_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "YEAR",
+						"type": "varchar"
+					},
+					{
+						"name": "COMPENSATION_DATE",
+						"type": "date"
+					},
+					{
+						"name": "SEGMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_CONTRACT_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "PATICIPANT_RELATION",
+						"type": "varchar"
+					},
+					{
+						"name": "PATICIPANT_RELATION_1_PRODUCER",
+						"type": "varchar"
+					},
+					{
+						"name": "PATICIPANT_RELATION_2_REF",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_COMP_STATEMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_PRODUCT_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_COMP_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_COMP_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "CONTRACT_STARTS_WITH",
+						"type": "varchar"
+					},
+					{
+						"name": "E2E_PLAN_DESCRIPTION",
+						"type": "varchar"
+					},
+					{
+						"name": "FREQUENCY",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_COMMISSION_FLAT_RATE",
+						"type": "varchar"
+					},
+					{
+						"name": "STANDARD_AMOUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "OVERRIDE_1_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "OVERRIDE_2_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "PAYMENT_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER1_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER2_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER3_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER4_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER5_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER6_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER7_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER8_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER9_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER10_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "ORIGINAL_EFFECTIVE_DATE_START_DATE",
+						"type": "date"
+					},
+					{
+						"name": "ORIGINAL_EFFECTIVE_DATE_END_DATE",
+						"type": "date"
+					},
+					{
+						"name": "ENROLLMENT_YEAR_START",
+						"type": "varchar"
+					},
+					{
+						"name": "ENROLLMENT_YEAR_END",
+						"type": "varchar"
+					},
+					{
+						"name": "ROLE_AS_EARNED_ELIGBLE_COUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "OVERIDE_ROLE_AS_EARNED_1_ELIGBLE_COUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "OVERIDE_ROLE_2_AS_EARNED_ELIGBLE_COUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "CARRIER",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "AS_EARNED_ANNUAL_QUALIFIED_2",
+						"type": "varchar"
+					},
+					{
+						"name": "AS_EARNED_ANNUAL_QUALIFIED_3",
+						"type": "varchar"
+					},
+					{
+						"name": "AS_EARNED_ANNUAL_QUALIFIED_1",
+						"type": "varchar"
+					},
+					{
+						"name": "COMMENTS",
+						"type": "varchar"
+					},
+					{
+						"name": "DEVELOPMENT_ONLY",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "MIA_104",
+					"table": "MIA_AGENCY_ANNUAL_RATE_DETAILS_BLUECHIP_HISTORY"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MIA_AGENCY_ANNUAL_RATE_DETAILS_BLUECHIP_HISTORY_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "E2EIS_PROD_HISTORY",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "YEAR",
+						"type": "varchar"
+					},
+					{
+						"name": "COMPENSATION_DATE",
+						"type": "date"
+					},
+					{
+						"name": "SEGMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_CONTRACT_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "PATICIPANT_RELATION",
+						"type": "varchar"
+					},
+					{
+						"name": "PATICIPANT_RELATION_1_PRODUCER",
+						"type": "varchar"
+					},
+					{
+						"name": "PATICIPANT_RELATION_2_REF",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_COMP_STATEMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_PRODUCT_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_COMP_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_COMP_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "CONTRACT_STARTS_WITH",
+						"type": "varchar"
+					},
+					{
+						"name": "E2E_PLAN_DESCRIPTION",
+						"type": "varchar"
+					},
+					{
+						"name": "FREQUENCY",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_COMMISSION_FLAT_RATE",
+						"type": "varchar"
+					},
+					{
+						"name": "STANDARD_AMOUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "OVERRIDE_1_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "OVERRIDE_2_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "PAYMENT_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER1_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER2_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER3_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER4_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER5_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER6_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER7_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER8_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER9_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER10_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "ORIGINAL_EFFECTIVE_DATE_START_DATE",
+						"type": "date"
+					},
+					{
+						"name": "ORIGINAL_EFFECTIVE_DATE_END_DATE",
+						"type": "date"
+					},
+					{
+						"name": "ENROLLMENT_YEAR_START",
+						"type": "varchar"
+					},
+					{
+						"name": "ENROLLMENT_YEAR_END",
+						"type": "varchar"
+					},
+					{
+						"name": "ROLE_AS_EARNED_ELIGBLE_COUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "OVERIDE_ROLE_AS_EARNED_1_ELIGBLE_COUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "OVERIDE_ROLE_2_AS_EARNED_ELIGBLE_COUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "CARRIER",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "AS_EARNED_ANNUAL_QUALIFIED_2",
+						"type": "varchar"
+					},
+					{
+						"name": "AS_EARNED_ANNUAL_QUALIFIED_3",
+						"type": "varchar"
+					},
+					{
+						"name": "AS_EARNED_ANNUAL_QUALIFIED_1",
+						"type": "varchar"
+					},
+					{
+						"name": "COMMENTS",
+						"type": "varchar"
+					},
+					{
+						"name": "DEVELOPMENT_ONLY",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "MIA_104",
+					"table": "MIA_AGENCY_ANNUAL_RATE_DETAILS_BLUECHIP_HISTORY"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MIA_AGENCY_ANNUAL_RATE_DETAILS_BLUECHIP_STG_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "e2eis_APP_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "YEAR",
+						"type": "varchar"
+					},
+					{
+						"name": "COMPENSATION_DATE",
+						"type": "date"
+					},
+					{
+						"name": "SEGMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_CONTRACT_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "PATICIPANT_RELATION",
+						"type": "varchar"
+					},
+					{
+						"name": "PATICIPANT_RELATION_1_PRODUCER",
+						"type": "varchar"
+					},
+					{
+						"name": "PATICIPANT_RELATION_2_REF",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_COMP_STATEMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_PRODUCT_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_COMP_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_COMP_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "CONTRACT_STARTS_WITH",
+						"type": "varchar"
+					},
+					{
+						"name": "E2E_PLAN_DESCRIPTION",
+						"type": "varchar"
+					},
+					{
+						"name": "FREQUENCY",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_COMMISSION_FLAT_RATE",
+						"type": "varchar"
+					},
+					{
+						"name": "STANDARD_AMOUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "PERCENT_OF_FB_PAYMENT",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 8
+					},
+					{
+						"name": "OVERRIDE_1_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "OVERRIDE_2_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "PAYMENT_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER1_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER2_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER3_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER4_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER5_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER6_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER7_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER8_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER9_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER10_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "ORIGINAL_EFFECTIVE_DATE_START_DATE",
+						"type": "date"
+					},
+					{
+						"name": "ORIGINAL_EFFECTIVE_DATE_END_DATE",
+						"type": "date"
+					},
+					{
+						"name": "ENROLLMENT_YEAR_START",
+						"type": "varchar"
+					},
+					{
+						"name": "ENROLLMENT_YEAR_END",
+						"type": "varchar"
+					},
+					{
+						"name": "ROLE_AS_EARNED_ELIGBLE_COUNT",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "OVERIDE_ROLE_AS_EARNED_1_ELIGBLE_COUNT",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "OVERIDE_ROLE_2_AS_EARNED_ELIGBLE_COUNT",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "CARRIER",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "MIA_104",
+					"table": "MIA_AGENCY_ANNUAL_RATE_DETAILS_BLUECHIP_STG"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MIA_AGENCY_ANNUAL_RATE_DETAILS_BLUECHIP_STG_CDR_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "e2eiS_UAT",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "YEAR",
+						"type": "varchar"
+					},
+					{
+						"name": "COMPENSATION_DATE",
+						"type": "date"
+					},
+					{
+						"name": "SEGMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_CONTRACT_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "PATICIPANT_RELATION",
+						"type": "varchar"
+					},
+					{
+						"name": "PATICIPANT_RELATION_1_PRODUCER",
+						"type": "varchar"
+					},
+					{
+						"name": "PATICIPANT_RELATION_2_REF",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_COMP_STATEMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_PRODUCT_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_COMP_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_COMP_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "CONTRACT_STARTS_WITH",
+						"type": "varchar"
+					},
+					{
+						"name": "E2E_PLAN_DESCRIPTION",
+						"type": "varchar"
+					},
+					{
+						"name": "FREQUENCY",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_COMMISSION_FLAT_RATE",
+						"type": "varchar"
+					},
+					{
+						"name": "STANDARD_AMOUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "PERCENT_OF_FB_PAYMENT",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 6
+					},
+					{
+						"name": "OVERRIDE_1_PERCENT_OF_FB_PAYMENT",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 6
+					},
+					{
+						"name": "OVERRIDE_2_PERCENT_OF_FB_PAYMENT",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 6
+					},
+					{
+						"name": "PAYMENT_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER1_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER2_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER3_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER4_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER5_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER6_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER7_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER8_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER9_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER10_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "ORIGINAL_EFFECTIVE_DATE_START_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "ORIGINAL_EFFECTIVE_DATE_END_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "ENROLLMENT_YEAR_START",
+						"type": "date"
+					},
+					{
+						"name": "ENROLLMENT_YEAR_END",
+						"type": "date"
+					},
+					{
+						"name": "ROLE_AS_EARNED_ELIGBLE_COUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "OVERIDE_ROLE_AS_EARNED_1_ELIGBLE_COUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "OVERIDE_ROLE_2_AS_EARNED_ELIGBLE_COUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "CARRIER",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "AQI_104",
+					"table": "MIA_AGENCY_ANNUAL_RATE_DETAILS_BLUECHIP_STG"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MIA_AGENCY_ANNUAL_RATE_DETAILS_BLUECHIP_STG_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "e2eiS_UAT",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "YEAR",
+						"type": "varchar"
+					},
+					{
+						"name": "COMPENSATION_DATE",
+						"type": "date"
+					},
+					{
+						"name": "SEGMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_CONTRACT_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "PATICIPANT_RELATION",
+						"type": "varchar"
+					},
+					{
+						"name": "PATICIPANT_RELATION_1_PRODUCER",
+						"type": "varchar"
+					},
+					{
+						"name": "PATICIPANT_RELATION_2_REF",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_COMP_STATEMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_PRODUCT_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_COMP_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_COMP_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "CONTRACT_STARTS_WITH",
+						"type": "varchar"
+					},
+					{
+						"name": "E2E_PLAN_DESCRIPTION",
+						"type": "varchar"
+					},
+					{
+						"name": "FREQUENCY",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_COMMISSION_FLAT_RATE",
+						"type": "varchar"
+					},
+					{
+						"name": "STANDARD_AMOUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "PERCENT_OF_FB_PAYMENT",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 6
+					},
+					{
+						"name": "OVERRIDE_1_PERCENT_OF_FB_PAYMENT",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 6
+					},
+					{
+						"name": "OVERRIDE_2_PERCENT_OF_FB_PAYMENT",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 6
+					},
+					{
+						"name": "PAYMENT_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER1_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER2_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER3_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER4_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER5_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER6_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER7_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER8_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER9_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER10_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "ORIGINAL_EFFECTIVE_DATE_START_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "ORIGINAL_EFFECTIVE_DATE_END_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "ENROLLMENT_YEAR_START",
+						"type": "date"
+					},
+					{
+						"name": "ENROLLMENT_YEAR_END",
+						"type": "date"
+					},
+					{
+						"name": "ROLE_AS_EARNED_ELIGBLE_COUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "OVERIDE_ROLE_AS_EARNED_1_ELIGBLE_COUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "OVERIDE_ROLE_2_AS_EARNED_ELIGBLE_COUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "CARRIER",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "MIA_104",
+					"table": "MIA_AGENCY_ANNUAL_RATE_DETAILS_BLUECHIP_STG"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MIA_AGENCY_ANNUAL_RATE_DETAILS_BLUECHIP_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "e2eiS_UAT",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "YEAR",
+						"type": "varchar"
+					},
+					{
+						"name": "COMPENSATION_DATE",
+						"type": "date"
+					},
+					{
+						"name": "SEGMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_CONTRACT_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "PATICIPANT_RELATION",
+						"type": "varchar"
+					},
+					{
+						"name": "PATICIPANT_RELATION_1_PRODUCER",
+						"type": "varchar"
+					},
+					{
+						"name": "PATICIPANT_RELATION_2_REF",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_COMP_STATEMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_PRODUCT_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_COMP_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_COMP_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "CONTRACT_STARTS_WITH",
+						"type": "varchar"
+					},
+					{
+						"name": "E2E_PLAN_DESCRIPTION",
+						"type": "varchar"
+					},
+					{
+						"name": "FREQUENCY",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_COMMISSION_FLAT_RATE",
+						"type": "varchar"
+					},
+					{
+						"name": "STANDARD_AMOUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "OVERRIDE_1_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "OVERRIDE_2_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "PAYMENT_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER1_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER2_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER3_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER4_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER5_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER6_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER7_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER8_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER9_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER10_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "ORIGINAL_EFFECTIVE_DATE_START_DATE",
+						"type": "date"
+					},
+					{
+						"name": "ORIGINAL_EFFECTIVE_DATE_END_DATE",
+						"type": "date"
+					},
+					{
+						"name": "ENROLLMENT_YEAR_START",
+						"type": "varchar"
+					},
+					{
+						"name": "ENROLLMENT_YEAR_END",
+						"type": "varchar"
+					},
+					{
+						"name": "ROLE_AS_EARNED_ELIGBLE_COUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "OVERIDE_ROLE_AS_EARNED_1_ELIGBLE_COUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "OVERIDE_ROLE_2_AS_EARNED_ELIGBLE_COUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "CARRIER",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "AS_EARNED_ANNUAL_QUALIFIED_2",
+						"type": "varchar"
+					},
+					{
+						"name": "AS_EARNED_ANNUAL_QUALIFIED_3",
+						"type": "varchar"
+					},
+					{
+						"name": "AS_EARNED_ANNUAL_QUALIFIED_1",
+						"type": "varchar"
+					},
+					{
+						"name": "COMMENTS",
+						"type": "varchar"
+					},
+					{
+						"name": "DEVELOPMENT_ONLY",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "MIA_104",
+					"table": "MIA_AGENCY_ANNUAL_RATE_DETAILS_BLUECHIP"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MIA_AGENCY_ANNUAL_RATE_DETAILS_FB_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "e2eis_APP_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "YEAR",
+						"type": "varchar"
+					},
+					{
+						"name": "COMPENSATION_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "SEGMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_CONTRACT_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "PATICIPANT_RELATION",
+						"type": "varchar"
+					},
+					{
+						"name": "PATICIPANT_RELATION_1",
+						"type": "varchar"
+					},
+					{
+						"name": "PATICIPANT_RELATION_2",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_COMP_STATEMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_PRODUCT_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_COMP_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENCY_COMP_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "CONTRACT_STARTS_WITH",
+						"type": "varchar"
+					},
+					{
+						"name": "E2E_PLAN_DESCRIPTION",
+						"type": "varchar"
+					},
+					{
+						"name": "FREQUENCY",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_COMMISSION_FLAT_RATE",
+						"type": "varchar"
+					},
+					{
+						"name": "STANDARD_AMOUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "OVERRIDE_1_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "OVERRIDE_2_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "PAYMENT_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER1_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER2_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER3_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER4_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER5_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER6_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER7_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER8_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER9_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "TIER10_PERCENT_OF_FB_PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "ORIGINAL_EFFECTIVE_DATE_START_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "ORIGINAL_EFFECTIVE_DATE_END_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "ENROLLMENT_YEAR_START",
+						"type": "varchar"
+					},
+					{
+						"name": "ENROLLMENT_YEAR_END",
+						"type": "varchar"
+					},
+					{
+						"name": "ROLE_AS_EARNED_ELIGBLE_COUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "OVERIDE_ROLE_AS_EARNED_1_ELIGBLE_COUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "OVERIDE_ROLE_2_AS_EARNED_ELIGBLE_COUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "CARRIER",
 						"type": "varchar"
 					},
 					{
@@ -2072,7 +2171,8 @@
 					},
 					{
 						"name": "AGENCY_ID",
-						"type": "nvarchar"
+						"type": "smallint",
+						"precision": 5
 					},
 					{
 						"name": "RECORD_LOAD_DATE",
@@ -2089,341 +2189,11 @@
 					{
 						"name": "RECORD_FLAG_STATUS",
 						"type": "char"
-					},
-					{
-						"name": "FILE_RECORD_BIRTH_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "SOURCE",
-						"type": "varchar"
 					}
 				],
 				"typeProperties": {
-					"schema": "SIM_103",
-					"table": "SIM_BCBS_TX_AHM_MHA_NPA_POLICY_DETAILS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_BCBS_TX_AHM_MHA_NPA_POLICY_DETAILS_HISTORY_APP_PROD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "e2eis_APP_PROD",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "LAST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "FIRST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "DOB",
-						"type": "varchar"
-					},
-					{
-						"name": "RECORD_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "E_APP_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "EXCHANGE_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENT_APP_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_COUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "GROUP_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "ACCOUNT_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "POLICY_STATUS",
-						"type": "varchar"
-					},
-					{
-						"name": "PRODUCT_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "PLAN_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "APTC",
-						"type": "varchar"
-					},
-					{
-						"name": "RENEWAL_INDICATOR",
-						"type": "varchar"
-					},
-					{
-						"name": "COVERAGE_EFFECTIVE_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "PAID_TO_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "TERMED",
-						"type": "varchar"
-					},
-					{
-						"name": "PRODUCER_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "NINE_DIGIT_PRODUCER_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENT_ADDRESS_1",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENT_ADDRESS_2",
-						"type": "varchar"
-					},
-					{
-						"name": "CITY",
-						"type": "varchar"
-					},
-					{
-						"name": "STATE",
-						"type": "varchar"
-					},
-					{
-						"name": "ZIP_CODE",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENT_PRIMARY_PHONE",
-						"type": "varchar"
-					},
-					{
-						"name": "EMAIL",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					},
-					{
-						"name": "FILE_RECORD_BIRTH_DATE",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "SIM_103",
-					"table": "SIM_BCBS_TX_AHM_MHA_NPA_POLICY_DETAILS_HISTORY"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_BCBS_TX_AHM_MHA_NPA_POLICY_DETAILS_HISTORY_PROD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServere2eis_PROD",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "LAST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "FIRST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "DOB",
-						"type": "varchar"
-					},
-					{
-						"name": "RECORD_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "E_APP_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "EXCHANGE_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENT_APP_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_COUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "GROUP_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "ACCOUNT_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "POLICY_STATUS",
-						"type": "varchar"
-					},
-					{
-						"name": "PRODUCT_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "PLAN_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "APTC",
-						"type": "varchar"
-					},
-					{
-						"name": "RENEWAL_INDICATOR",
-						"type": "varchar"
-					},
-					{
-						"name": "COVERAGE_EFFECTIVE_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "PAID_TO_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "TERMED",
-						"type": "varchar"
-					},
-					{
-						"name": "PRODUCER_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "NINE_DIGIT_PRODUCER_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENT_ADDRESS_1",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENT_ADDRESS_2",
-						"type": "varchar"
-					},
-					{
-						"name": "CITY",
-						"type": "varchar"
-					},
-					{
-						"name": "STATE",
-						"type": "varchar"
-					},
-					{
-						"name": "ZIP_CODE",
-						"type": "varchar"
-					},
-					{
-						"name": "CLIENT_PRIMARY_PHONE",
-						"type": "varchar"
-					},
-					{
-						"name": "EMAIL",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					},
-					{
-						"name": "FILE_RECORD_BIRTH_DATE",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "SIM_103",
-					"table": "SIM_BCBS_TX_AHM_MHA_NPA_POLICY_DETAILS_HISTORY"
+					"schema": "MIA_104",
+					"table": "MIA_AGENCY_ANNUAL_RATE_DETAILS_FB"
 				}
 			},
 			"dependsOn": []
