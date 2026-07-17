@@ -13,6 +13,37 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/MIA_BCBSNC_ONETIME_PAYMENT_FEED_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "MIA_BCBSNC_ONETIME_PAYMENT_FEED_UAT.txt",
+						"folderPath": "/MSL_Cloud_Uat/FromAgency/MIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Contract Id\tFrequency\tEff Dt\tAccounting Date\tPayment\tAgent Name\tAgent Code",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/MIA_BCBSSC_INDIVIDUAL_COMMISSION_DETAILS_DEV')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -3181,114 +3212,6 @@
 				"typeProperties": {
 					"schema": "MIA_104",
 					"table": "MIA_BCBS_NC_INDIVIDUAL_COMMISSION_DETAILS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/MIA_BCBS_NC_INDIVIDUAL_COMMISSION_DETAILS_STG_DEV')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_msldev",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "PRODUCER_CODE",
-						"type": "varchar"
-					},
-					{
-						"name": "PRODUCER_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "IND_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "CUSTOMER_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "CUSTOMER_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "PRODUCT",
-						"type": "varchar"
-					},
-					{
-						"name": "COVERAGE_EFF_DATE",
-						"type": "date"
-					},
-					{
-						"name": "COVERAGE_TO",
-						"type": "date"
-					},
-					{
-						"name": "PREMIUM_PERIOD",
-						"type": "date"
-					},
-					{
-						"name": "ORIGINAL_EFF_DATE",
-						"type": "date"
-					},
-					{
-						"name": "BILLED_MEMBERS",
-						"type": "varchar"
-					},
-					{
-						"name": "PREMIUM_AMOUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "TERM",
-						"type": "varchar"
-					},
-					{
-						"name": "PERCENTAGE",
-						"type": "varchar"
-					},
-					{
-						"name": "COMMISSION_EARNED",
-						"type": "decimal",
-						"precision": 14,
-						"scale": 2
-					},
-					{
-						"name": "COMPENSATION_DATE",
-						"type": "date"
-					},
-					{
-						"name": "Transaction_Id",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "Contract_rank",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "CARRIER_PRODUCER_CODE",
-						"type": "varchar"
-					},
-					{
-						"name": "CARRIER_PRODUCER_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "Transaction_Comments",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "MIA_104",
-					"table": "MIA_BCBS_NC_INDIVIDUAL_COMMISSION_DETAILS_STG"
 				}
 			},
 			"dependsOn": []

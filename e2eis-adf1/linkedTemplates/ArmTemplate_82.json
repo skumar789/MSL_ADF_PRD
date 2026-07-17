@@ -13,6 +13,37 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/MSL_OOS_RATE_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "MSL_OOS_RATE_DEV.txt",
+						"folderPath": "/E2EIS_Cloud_Demo_Dev/E2EIS"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "YEAR\tSEGMENT\tAGENT_ROLE\tCOMP_STATEMENT\tPRODUCT_TYPE\tCOMMISSION_TYPE\tAGENCY_COMP_TYPE\tCONTRACT_STARTS_WITH\tE2E_PLAN_DESCRIPTION\tFREQUENCY\tCARRIER_RATE\tEMPLOYEE_RATE\tPAYMENT_RATE\tOverride_Rate_1\tOverride_Rate_2\tRATE_TYPE\tENROLLMENT_YEAR_START\tENROLLMENT_YEAR_END\tGROUP_SIZE_RANGE_START\tGROUP_SIZE_RANGE_END\tGROUP_COUNTY\tTIER1_AMOUNT\tTIER2_AMOUNT\tTIER3_AMOUNT\tSTATE\tDEPARTMENT\tCARRIER\tCOMPENSATION_DATE",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/MSL_OOS_TRANSACTIONS_DETAILS_APP_PRD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -2040,37 +2071,6 @@
 				"schema": [
 					{
 						"name": "RESOURCE_NAME\tWORK_HOUR_EST_TIME_ZONE\tWORK_HOUR_INDIA_TIME_ZONE\tLOCATION\tDAILY_HOURS\tTOTAL_WEEKLY_HOURS\tBILLING_STATUS\tSUPPORT_AREA\tCELL_PHONE_NUMBER\tEMAIL_ID\tHOURLY_BILLING_RATES\tEMPLOYEE_BILLING_START_DATE\tEMPLOYEE_BILLING_END_DATE",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/MSTUSER')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp_connection_ALL_FEED",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "MSTUSER.txt",
-						"folderPath": "/MSL_Cloud_Prd/FromAgency/AIA"
-					},
-					"columnDelimiter": "\t",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "FirstName\tLastName\tEmail\tPasswords\tStatus\tCreatedAt\tUpdatedAt\tLastLoginAT\tUserID\tisAdmin\tGroupID\tAgencyID\tCompanyURL\tCompanyName\tisBOBData\tDepartmentID\tFailedLoginCount\tIs_MFA\tIs_2Factor",
 						"type": "String"
 					}
 				]
