@@ -13,6 +13,79 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/MIA_BCBSNC_ONETIME_PAYMENT_AS_EARNED_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msldev",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "CONTRACT_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FREQUENCY",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EFFECTIVE_DATE",
+						"type": "date"
+					},
+					{
+						"name": "ACCOUNTING_DATE",
+						"type": "date"
+					},
+					{
+						"name": "PAYMENT",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AGENT_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AGENT_CODE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "MIA_104",
+					"table": "MIA_BCBSNC_ONETIME_PAYMENT_AS_EARNED"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/MIA_BCBSNC_ONETIME_PAYMENT_AS_EARNED_UAT')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -3142,37 +3215,6 @@
 					"schema": "MIA_104",
 					"table": "MIA_BCBS_NC_GROUP_DETAILS_STG"
 				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/MIA_BCBS_NC_GROUP_MONTHLY_FEED_UAT')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp_connection_ALL_FEED",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "MIA_BCBSNC_GROUP_MONTHLY_FEED_UAT.txt",
-						"folderPath": "/MSL_Cloud_Uat/FromAgency/MIA"
-					},
-					"columnDelimiter": "\t",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "PRODUCER_ID\tPRODUCER_NAME\tCUSTOMER_NUMBER\tORIGINAL_SUBSCRIBER_COUNT\tCUSTOMER_NAME\tRENEWAL_DATE\tPRODUCT_NAME\tPREMIUM_PERIOD\tPRODUCT\tCOVERAGE_EFFECTIVE_DATE\tBILL_AMOUNT\tBILLED_SUBSCRIBER\tPERCENTAGE_PCPM_RATE\tCOMMISSION\tCOMPENSATION_DATE",
-						"type": "String"
-					}
-				]
 			},
 			"dependsOn": []
 		}

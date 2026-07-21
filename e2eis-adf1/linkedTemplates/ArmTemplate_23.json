@@ -13,6 +13,32 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/AIAWEEKLYEXTRACTS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_WEEKLY_EXTRACTS_28thApril2024.csv",
+						"folderPath": "/MSL_Cloud_Prd/ToAgency/AIA"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AIA_102_AIA_IMS_BOB_WEEKLY_DATA_LOADS_CONSOLIDATION_DEV')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -2528,25 +2554,6 @@
 						"type": "char"
 					}
 				],
-				"typeProperties": {
-					"schema": "AIA_102",
-					"table": "AIA_AGENCY_ANNUAL_RATE_DETAILS_HISTORY"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AIA_AGENCY_ANNUAL_RATE_DETAILS_HISTORY_DEV')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_msldev",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [],
 				"typeProperties": {
 					"schema": "AIA_102",
 					"table": "AIA_AGENCY_ANNUAL_RATE_DETAILS_HISTORY"

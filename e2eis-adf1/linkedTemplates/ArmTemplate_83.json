@@ -13,6 +13,37 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/MSL_RESORCE_AND_OFFICE_MAPPING_DEV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "MSL_RESORCE_AND_OFFICE_MAPPING_DEV.txt",
+						"folderPath": "/E2EIS_Cloud_Demo_Dev/E2EIS"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "FIRST_OFFICE_DETAILS\tSECOND_OFFICE_DETAILS\tTHIRD_OFFICE_DETAILS\tFOURTH_OFFICE_DETAILS\tFIFTH_OFFICE_DETAILS",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/MSL_RESORCE_ROSTER_DEV')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -3646,92 +3677,6 @@
 				"typeProperties": {
 					"schema": "SIM_103",
 					"table": "SIM_AETNA_COMMISSION_FEED_2023_2022"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_AETNA_COMMISSION_NOVEMBER_2025_APP_PROD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_APP_PROD",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "CUSTOMER_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "CUSTOMER_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "COMMISSION_PLAN",
-						"type": "varchar"
-					},
-					{
-						"name": "PREMIUM",
-						"type": "varchar"
-					},
-					{
-						"name": "SUBSCRIBER",
-						"type": "varchar"
-					},
-					{
-						"name": "TOTAL_COMPENSATION",
-						"type": "varchar"
-					},
-					{
-						"name": "TAX_WITHHOLDING",
-						"type": "varchar"
-					},
-					{
-						"name": "NET_COMPENSATION",
-						"type": "varchar"
-					},
-					{
-						"name": "FILE_RECORD_BIRTH_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "smallint",
-						"precision": 5
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "SIM_103",
-					"table": "SIM_AETNA_COMMISSION_NOVEMBER_2025"
 				}
 			},
 			"dependsOn": []

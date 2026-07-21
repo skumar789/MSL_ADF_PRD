@@ -13,6 +13,162 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/VW_ABI_Commision_All_Sales_Report_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_mslprd",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "Payee_AOR",
+						"type": "varchar"
+					},
+					{
+						"name": "Payee_AORName",
+						"type": "varchar"
+					},
+					{
+						"name": "WritingAgentName",
+						"type": "varchar"
+					},
+					{
+						"name": "Carrier",
+						"type": "varchar"
+					},
+					{
+						"name": "Period_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "AccountingDate",
+						"type": "date"
+					},
+					{
+						"name": "FB_CompType",
+						"type": "varchar"
+					},
+					{
+						"name": "AgencyCompType",
+						"type": "varchar"
+					},
+					{
+						"name": "Prior_CompType",
+						"type": "varchar"
+					},
+					{
+						"name": "SubscriberName",
+						"type": "varchar"
+					},
+					{
+						"name": "ProductType",
+						"type": "varchar"
+					},
+					{
+						"name": "MemberCount",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ContractCount",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "FBContractId",
+						"type": "varchar"
+					},
+					{
+						"name": "OriginalEffectiveDate",
+						"type": "date"
+					},
+					{
+						"name": "CoverageFromDate",
+						"type": "date"
+					},
+					{
+						"name": "CoverageToDate",
+						"type": "date"
+					},
+					{
+						"name": "CancelDate",
+						"type": "date"
+					},
+					{
+						"name": "County",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Number",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "FBPaymentAmount",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "Frequency",
+						"type": "varchar"
+					},
+					{
+						"name": "FileType",
+						"type": "varchar"
+					},
+					{
+						"name": "CommissionRate",
+						"type": "decimal",
+						"precision": 10,
+						"scale": 4
+					},
+					{
+						"name": "RateType",
+						"type": "varchar"
+					},
+					{
+						"name": "Agent_Commission",
+						"type": "decimal",
+						"precision": 10,
+						"scale": 4
+					},
+					{
+						"name": "CommissionType",
+						"type": "varchar"
+					},
+					{
+						"name": "WritingAgentRole",
+						"type": "varchar"
+					},
+					{
+						"name": "WritingAgentPayrollId",
+						"type": "varchar"
+					},
+					{
+						"name": "ManualAdjComments",
+						"type": "varchar"
+					},
+					{
+						"name": "FB_Commission_Flat_Rate",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "VW_ABI_Commision_All_Sales_Report"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/com_temp_table_Contract_Accounting_UAT')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -353,228 +509,6 @@
 					}
 				],
 				"typeProperties": {}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/PIPELINE_FOR_PAG_BOB_GENERATION_copy1')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "UpdateStatusInProgress",
-						"type": "SqlServerStoredProcedure",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "[[ABI_101].[ABI_SP_UPDATE_STATUS]",
-							"storedProcedureParameters": {
-								"PeriodName": {
-									"value": {
-										"value": "@pipeline().parameters.PeriodName",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"State": {
-									"value": {
-										"value": "@pipeline().parameters.State",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"Status": {
-									"value": "IN PROGRESS",
-									"type": "String"
-								}
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "AzureSqlLinkedService",
-							"type": "LinkedServiceReference"
-						}
-					},
-					{
-						"name": "ExecuteBOBProcess",
-						"type": "SqlServerStoredProcedure",
-						"dependsOn": [
-							{
-								"activity": "UpdateStatusInProgress",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": {
-								"value": "@if(equals(pipeline().parameters.State, 'OOS'), '[ABI_101].[ABI_SP_BOB_PROCESS_OOS]', if(equals(pipeline().parameters.State, 'FL'), '[ABI_101].[ABI_SP_BOB_PROCESS_FL]', '[ABI_101].[ABI_SP_BOB_PROCESS_MEDICARE]'))",
-								"type": "Expression"
-							},
-							"storedProcedureParameters": {
-								"PeriodName": {
-									"value": {
-										"value": "@pipeline().parameters.PeriodName",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"PreviousPeriodName": {
-									"value": {
-										"value": "@pipeline().parameters.PreviousPeriodName",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"IsRegeneration": {
-									"value": {
-										"value": "@pipeline().parameters.IsRegeneration",
-										"type": "Expression"
-									},
-									"type": "Boolean"
-								}
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "AzureSqlLinkedService",
-							"type": "LinkedServiceReference"
-						}
-					},
-					{
-						"name": "UpdateStatusSuccess",
-						"type": "SqlServerStoredProcedure",
-						"dependsOn": [
-							{
-								"activity": "ExecuteBOBProcess",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "[[ABI_101].[ABI_SP_UPDATE_STATUS]",
-							"storedProcedureParameters": {
-								"PeriodName": {
-									"value": {
-										"value": "@pipeline().parameters.PeriodName",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"State": {
-									"value": {
-										"value": "@pipeline().parameters.State",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"Status": {
-									"value": "COMPLETED",
-									"type": "String"
-								}
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "AzureSqlLinkedService",
-							"type": "LinkedServiceReference"
-						}
-					},
-					{
-						"name": "UpdateStatusFailure",
-						"type": "SqlServerStoredProcedure",
-						"dependsOn": [
-							{
-								"activity": "ExecuteBOBProcess",
-								"dependencyConditions": [
-									"Failed"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "[[ABI_101].[ABI_SP_UPDATE_STATUS]",
-							"storedProcedureParameters": {
-								"PeriodName": {
-									"value": {
-										"value": "@pipeline().parameters.PeriodName",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"State": {
-									"value": {
-										"value": "@pipeline().parameters.State",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"Status": {
-									"value": "FAILED",
-									"type": "String"
-								}
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "AzureSqlLinkedService",
-							"type": "LinkedServiceReference"
-						}
-					}
-				],
-				"concurrency": 2,
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"parameters": {
-					"PeriodName": {
-						"type": "string"
-					},
-					"PreviousPeriodName": {
-						"type": "string"
-					},
-					"State": {
-						"type": "string"
-					},
-					"IsRegeneration": {
-						"type": "bool",
-						"defaultValue": false
-					},
-					"AuditID": {
-						"type": "int",
-						"defaultValue": 0
-					}
-				},
-				"annotations": [],
-				"lastPublishTime": "2026-07-01T11:43:44Z"
 			},
 			"dependsOn": []
 		},

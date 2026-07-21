@@ -13,6 +13,37 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/MIA_BCBS_NC_GROUP_MONTHLY_FEED_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "MIA_BCBSNC_GROUP_MONTHLY_FEED_UAT.txt",
+						"folderPath": "/MSL_Cloud_Uat/FromAgency/MIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "PRODUCER_ID\tPRODUCER_NAME\tCUSTOMER_NUMBER\tORIGINAL_SUBSCRIBER_COUNT\tCUSTOMER_NAME\tRENEWAL_DATE\tPRODUCT_NAME\tPREMIUM_PERIOD\tPRODUCT\tCOVERAGE_EFFECTIVE_DATE\tBILL_AMOUNT\tBILLED_SUBSCRIBER\tPERCENTAGE_PCPM_RATE\tCOMMISSION\tCOMPENSATION_DATE",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/MIA_BCBS_NC_INDIVIDUAL_COMMISSION_DETAILS_DEV')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1910,120 +1941,6 @@
 				"typeProperties": {
 					"schema": "MIA_104",
 					"table": "MIA_EG01_FHCP_COMMISION_DETAILS_FB_STG"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/MIA_EG01_FHCP_COMMISION_DETAILS_FB_UAT')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_msluat",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "AGENCY_CODE",
-						"type": "nvarchar"
-					},
-					{
-						"name": "AGENCY_NAME",
-						"type": "nvarchar"
-					},
-					{
-						"name": "WRITING_AGENT",
-						"type": "nvarchar"
-					},
-					{
-						"name": "INTERNAL_REP",
-						"type": "nvarchar"
-					},
-					{
-						"name": "AGENCY_NUMBER",
-						"type": "nvarchar"
-					},
-					{
-						"name": "OVERRIDE_AGENT_CODE",
-						"type": "nvarchar"
-					},
-					{
-						"name": "GROUP_NUMBER",
-						"type": "nvarchar"
-					},
-					{
-						"name": "GROUP_NAME",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CONTRACT_COUNT",
-						"type": "nvarchar"
-					},
-					{
-						"name": "COVERAGE",
-						"type": "nvarchar"
-					},
-					{
-						"name": "BILLING_PERIOD_FROM",
-						"type": "date"
-					},
-					{
-						"name": "BILLING_PERIOD_TO",
-						"type": "date"
-					},
-					{
-						"name": "RECONCILED_PREMIUM",
-						"type": "nvarchar"
-					},
-					{
-						"name": "COMM_RATE_OR_FLAT_RATE",
-						"type": "nvarchar"
-					},
-					{
-						"name": "COPENSATION_AMOUNT",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ADJUSTMENT",
-						"type": "nvarchar"
-					},
-					{
-						"name": "COMPENSATION_DATE",
-						"type": "date"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "smallint",
-						"precision": 5
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "MIA_104",
-					"table": "MIA_EG01_FHCP_COMMISION_DETAILS_FB"
 				}
 			},
 			"dependsOn": []
