@@ -357,6 +357,228 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/PIPELINE_FOR_PAG_BOB_GENERATION_copy1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "UpdateStatusInProgress",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[ABI_101].[ABI_SP_UPDATE_STATUS]",
+							"storedProcedureParameters": {
+								"PeriodName": {
+									"value": {
+										"value": "@pipeline().parameters.PeriodName",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"State": {
+									"value": {
+										"value": "@pipeline().parameters.State",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"Status": {
+									"value": "IN PROGRESS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "AzureSqlLinkedService",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "ExecuteBOBProcess",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "UpdateStatusInProgress",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": {
+								"value": "@if(equals(pipeline().parameters.State, 'OOS'), '[ABI_101].[ABI_SP_BOB_PROCESS_OOS]', if(equals(pipeline().parameters.State, 'FL'), '[ABI_101].[ABI_SP_BOB_PROCESS_FL]', '[ABI_101].[ABI_SP_BOB_PROCESS_MEDICARE]'))",
+								"type": "Expression"
+							},
+							"storedProcedureParameters": {
+								"PeriodName": {
+									"value": {
+										"value": "@pipeline().parameters.PeriodName",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"PreviousPeriodName": {
+									"value": {
+										"value": "@pipeline().parameters.PreviousPeriodName",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"IsRegeneration": {
+									"value": {
+										"value": "@pipeline().parameters.IsRegeneration",
+										"type": "Expression"
+									},
+									"type": "Boolean"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "AzureSqlLinkedService",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "UpdateStatusSuccess",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "ExecuteBOBProcess",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[ABI_101].[ABI_SP_UPDATE_STATUS]",
+							"storedProcedureParameters": {
+								"PeriodName": {
+									"value": {
+										"value": "@pipeline().parameters.PeriodName",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"State": {
+									"value": {
+										"value": "@pipeline().parameters.State",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"Status": {
+									"value": "COMPLETED",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "AzureSqlLinkedService",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "UpdateStatusFailure",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "ExecuteBOBProcess",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[ABI_101].[ABI_SP_UPDATE_STATUS]",
+							"storedProcedureParameters": {
+								"PeriodName": {
+									"value": {
+										"value": "@pipeline().parameters.PeriodName",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"State": {
+									"value": {
+										"value": "@pipeline().parameters.State",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"Status": {
+									"value": "FAILED",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "AzureSqlLinkedService",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"concurrency": 2,
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"PeriodName": {
+						"type": "string"
+					},
+					"PreviousPeriodName": {
+						"type": "string"
+					},
+					"State": {
+						"type": "string"
+					},
+					"IsRegeneration": {
+						"type": "bool",
+						"defaultValue": false
+					},
+					"AuditID": {
+						"type": "int",
+						"defaultValue": 0
+					}
+				},
+				"annotations": [],
+				"lastPublishTime": "2026-07-01T11:43:44Z"
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ABI_COMMISSION_CALCULATION_PRD')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -32132,6 +32354,304 @@
 				},
 				"annotations": [],
 				"lastPublishTime": "2025-11-11T18:20:00Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PIPELINE_FOR_ALL_PAG_WEEKLY_DATA_FEEDS_TEST')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "ForEachProcesses",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "DELETE_BY_FILERECORDBIRTHDATE",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@pipeline().parameters.processControls",
+								"type": "Expression"
+							},
+							"batchCount": 5,
+							"activities": [
+								{
+									"name": "IfEnabled",
+									"type": "IfCondition",
+									"dependsOn": [],
+									"userProperties": [
+										{
+											"name": "TargetTable",
+											"value": "@concat(item().TargetSchema, '.', item().TargetTable)"
+										},
+										{
+											"name": "SourceFile",
+											"value": "@item().FileName"
+										}
+									],
+									"typeProperties": {
+										"expression": {
+											"value": "@item().Enabled",
+											"type": "Expression"
+										},
+										"ifTrueActivities": [
+											{
+												"name": "Copy",
+												"type": "Copy",
+												"dependsOn": [],
+												"policy": {
+													"timeout": "0.12:00:00",
+													"retry": 0,
+													"retryIntervalInSeconds": 30,
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [
+													{
+														"name": "TargetTable",
+														"value": "@concat(item().TargetSchema, '.', item().TargetTable)"
+													},
+													{
+														"name": "SourceFile",
+														"value": "@item().FileName"
+													}
+												],
+												"typeProperties": {
+													"source": {
+														"type": "DelimitedTextSource",
+														"storeSettings": {
+															"type": "SftpReadSettings",
+															"recursive": true,
+															"enablePartitionDiscovery": false,
+															"disableChunking": false
+														},
+														"formatSettings": {
+															"type": "DelimitedTextReadSettings"
+														}
+													},
+													"sink": {
+														"type": "AzureSqlSink",
+														"writeBehavior": "insert",
+														"sqlWriterUseTableLock": false
+													},
+													"enableStaging": false,
+													"translator": {
+														"type": "TabularTranslator",
+														"typeConversion": true,
+														"typeConversionSettings": {
+															"allowDataTruncation": true,
+															"treatBooleanAsNumber": false
+														}
+													}
+												},
+												"inputs": [
+													{
+														"referenceName": "SftpDelimitedParam",
+														"type": "DatasetReference",
+														"parameters": {
+															"p_folderPath": {
+																"value": "@item().FolderPath",
+																"type": "Expression"
+															},
+															"p_fileName": {
+																"value": "@item().FileName",
+																"type": "Expression"
+															}
+														}
+													}
+												],
+												"outputs": [
+													{
+														"referenceName": "SqlTableParam",
+														"type": "DatasetReference",
+														"parameters": {
+															"p_schema": {
+																"value": "@item().TargetSchema",
+																"type": "Expression"
+															},
+															"p_table": {
+																"value": "@item().TargetTable",
+																"type": "Expression"
+															}
+														}
+													}
+												]
+											}
+										]
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "SP_MarkSuccess",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "ForEachProcesses",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[PAG_105].[PAG_SP_ETL_AUDIT_UPDATE_BY_PIPELINE]",
+							"storedProcedureParameters": {
+								"PipelineRunId": {
+									"value": {
+										"value": "@pipeline().RunId",
+										"type": "Expression"
+									}
+								},
+								"Status": {
+									"value": "Succeeded",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer_msluat",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "SP_MarkFailure",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "ForEachProcesses",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[PAG_101].[PAG_SP_ETL_AUDIT_UPDATE_BY_PIPELINE]",
+							"storedProcedureParameters": {
+								"PipelineRunId": {
+									"value": {
+										"value": "@pipeline().RunId",
+										"type": "Expression"
+									}
+								},
+								"Status": {
+									"value": "Failed",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer_msluat",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "DELETE_BY_FILERECORDBIRTHDATE",
+						"description": "This procedure will delete the records based on the input in the FileRecordBirthDate for each table",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[PAG_105].[PAG_SP_ETL_DELETE_BY_FILERECORDBIRTHDATE]",
+							"storedProcedureParameters": {
+								"FileRecordBirthDate": {
+									"value": {
+										"value": "@pipeline().parameters.fileRecordBirthDate",
+										"type": "Expression"
+									},
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer_msluat",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "SP_MarkFailure_Truncate",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "DELETE_BY_FILERECORDBIRTHDATE",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[PAG_105].[PAG_SP_ETL_AUDIT_UPDATE_BY_PIPELINE]",
+							"storedProcedureParameters": {
+								"PipelineRunId": {
+									"value": {
+										"value": "@pipeline().RunId",
+										"type": "Expression"
+									}
+								},
+								"Status": {
+									"value": "Fails ",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer_msluat",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"concurrency": 5,
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"processControls": {
+						"type": "array"
+					},
+					"fileRecordBirthDate": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"lastPublishTime": "2026-06-25T09:26:37Z"
 			},
 			"dependsOn": []
 		},
