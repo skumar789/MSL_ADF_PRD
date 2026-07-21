@@ -13,6 +13,69 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/AIA_BCBSTX_Monthly_Feed')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_BCBSTX_Monthly_Feed_20240315.csv",
+						"folderPath": "/MSL_Cloud_Dev/FromAgency/AIA"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Receive_Date",
+						"type": "String"
+					},
+					{
+						"name": "Billing_Date",
+						"type": "String"
+					},
+					{
+						"name": "Carrier_Name",
+						"type": "String"
+					},
+					{
+						"name": "Policy_Type",
+						"type": "String"
+					},
+					{
+						"name": "Policy_Number",
+						"type": "String"
+					},
+					{
+						"name": "Effective_Date",
+						"type": "String"
+					},
+					{
+						"name": "Client_Name",
+						"type": "String"
+					},
+					{
+						"name": "Transaction_Type",
+						"type": "String"
+					},
+					{
+						"name": "Agent_Comm",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AIA_BCBSTX_Monthly_Feed_UAT')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -2911,25 +2974,6 @@
 						"type": "String"
 					}
 				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY_WEEKLY_VIEW_DEV')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_msldev",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTION_ID_HISTORY_WEEKLY_VIEW"
-				}
 			},
 			"dependsOn": []
 		}

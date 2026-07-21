@@ -13,6 +13,223 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/PIPELINE_FOR_SIM_OOS_BOB_GENERATION_Testing')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "UpdateStatusInProgress",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[SIM_103].[SIM_SP_UPDATE_STATUS]",
+							"storedProcedureParameters": {
+								"PeriodName": {
+									"value": {
+										"value": "@pipeline().parameters.PeriodName",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"State": {
+									"value": {
+										"value": "@pipeline().parameters.State",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"Status": {
+									"value": "IN PROGRESS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "AzureSqlLinkedService",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "ExecuteBobProcess",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "UpdateStatusInProgress",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": {
+								"value": "@if(equals(pipeline().parameters.State, 'OOS'), '[SIM_103].[SIM_SP_BOB_PROCESS_OOS]', '[SIM_103].[SIM_SP_BOB_PROCESS_FL]')",
+								"type": "Expression"
+							},
+							"storedProcedureParameters": {
+								"PeriodName ": {
+									"value": {
+										"value": "@pipeline().parameters.PeriodName",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"PreviousPeriodName ": {
+									"value": {
+										"value": "@pipeline().parameters.PreviousPeriodName",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"IsRegeneration ": {
+									"value": {
+										"value": "@pipeline().parameters.IsRegeneration",
+										"type": "Expression"
+									},
+									"type": "Boolean"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "AzureSqlLinkedService",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "UpdateStatusSuccess",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "ExecuteBobProcess",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[SIM_103].[SIM_SP_UPDATE_STATUS]",
+							"storedProcedureParameters": {
+								"PeriodName": {
+									"value": {
+										"value": "@pipeline().parameters.PeriodName",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"State": {
+									"value": {
+										"value": "@pipeline().parameters.State",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"Status": {
+									"value": "COMPLETED",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "AzureSqlLinkedService",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "UpdateStatusFailure",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "ExecuteBobProcess",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[SIM_103].[SIM_SP_UPDATE_STATUS]",
+							"storedProcedureParameters": {
+								"PeriodName": {
+									"value": {
+										"value": "@pipeline().parameters.PeriodName",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"State": {
+									"value": {
+										"value": "@pipeline().parameters.State",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"Status": {
+									"value": "FAILED",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "AzureSqlLinkedService",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"PeriodName": {
+						"type": "string"
+					},
+					"PreviousPeriodName": {
+						"type": "string"
+					},
+					"State": {
+						"type": "string"
+					},
+					"IsRegeneration": {
+						"type": "bool",
+						"defaultValue": false
+					}
+				},
+				"annotations": [],
+				"lastPublishTime": "2025-10-13T18:30:46Z"
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AA_COMMISSION_ADVANCE_DETAILS_APP_PROD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -2743,179 +2960,6 @@
 			"properties": {
 				"linkedServiceName": {
 					"referenceName": "SqlServer_msldev",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2eis_Seq_Number",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "Agency_Code",
-						"type": "varchar"
-					},
-					{
-						"name": "Agent_Code",
-						"type": "varchar"
-					},
-					{
-						"name": "Agent_Last_Name",
-						"type": "varchar"
-					},
-					{
-						"name": "Agent_First_Name",
-						"type": "varchar"
-					},
-					{
-						"name": "FB_UID",
-						"type": "varchar"
-					},
-					{
-						"name": "Member_Contract_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "Comp_Amount",
-						"type": "varchar"
-					},
-					{
-						"name": "Flat_Rate",
-						"type": "varchar"
-					},
-					{
-						"name": "Member_Count",
-						"type": "varchar"
-					},
-					{
-						"name": "Percent_Of_Prem",
-						"type": "varchar"
-					},
-					{
-						"name": "Prem_Paid_Amt",
-						"type": "varchar"
-					},
-					{
-						"name": "Comp_Type",
-						"type": "varchar"
-					},
-					{
-						"name": "Event_Type",
-						"type": "varchar"
-					},
-					{
-						"name": "Initial_Payment_Date",
-						"type": "varchar"
-					},
-					{
-						"name": "Owning_Agency_AOR_Effective_Date",
-						"type": "varchar"
-					},
-					{
-						"name": "Accounting_Date",
-						"type": "varchar"
-					},
-					{
-						"name": "Compensation_Date",
-						"type": "varchar"
-					},
-					{
-						"name": "Original_Effective_Date",
-						"type": "varchar"
-					},
-					{
-						"name": "Benefit_Effective_Date",
-						"type": "varchar"
-					},
-					{
-						"name": "Cancel_Date",
-						"type": "varchar"
-					},
-					{
-						"name": "Product_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "Product_Type",
-						"type": "varchar"
-					},
-					{
-						"name": "Product_Tier_Metal_Level",
-						"type": "varchar"
-					},
-					{
-						"name": "Count_Name",
-						"type": "varchar"
-					},
-					{
-						"name": "Bonus_County_Indicator",
-						"type": "varchar"
-					},
-					{
-						"name": "App_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "Exchange_Ind",
-						"type": "varchar"
-					},
-					{
-						"name": "Subscriber_Last_Name",
-						"type": "varchar"
-					},
-					{
-						"name": "Subscriber_First_Name",
-						"type": "varchar"
-					},
-					{
-						"name": "Subscriber_Middle_Name",
-						"type": "varchar"
-					},
-					{
-						"name": "Coverage_From_Date",
-						"type": "varchar"
-					},
-					{
-						"name": "Coverage_To_Date",
-						"type": "varchar"
-					},
-					{
-						"name": "Agency_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "Record_Load_Date",
-						"type": "date"
-					},
-					{
-						"name": "Record_Loaded_By",
-						"type": "char"
-					},
-					{
-						"name": "Record_Data_Source",
-						"type": "char"
-					},
-					{
-						"name": "Record_Flag_Status",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "ABI_AGENCY_NEWSALE_RENEWALS_PRIOR_YEAR_DETAILS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ABI_AGENCY_NEWSALE_RENEWALS_PRIOR_YEAR_DETAILS_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_mslprd",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],

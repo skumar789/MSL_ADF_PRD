@@ -13,6 +13,37 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/AIA_FB_COMMISSION_ADVANCES_DETAILS_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_connection_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_FB_COMMISSION_ADVANCE_DETAILS_PRD.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Department ID\tPayee_Name\tDate Paid\tAmount\tFor Period",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AIA_FB_COMMISSION_ADVANCES_DETAILS_STG_PRD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -2160,44 +2191,6 @@
 			"properties": {
 				"linkedServiceName": {
 					"referenceName": "SqlServer_APP_PROD",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "DEPARTMENT_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "PAYEE_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "RESERVE_AMOUNT",
-						"type": "decimal",
-						"precision": 14,
-						"scale": 3
-					},
-					{
-						"name": "FOR_PERIOD",
-						"type": "date"
-					}
-				],
-				"typeProperties": {
-					"schema": "AIA_102",
-					"table": "AIA_FB_RESERVE_PAYMENT_STG"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AIA_FB_RESERVE_PAYMENT_STG_PROD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "E2EIS_PROD_HISTORY",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
