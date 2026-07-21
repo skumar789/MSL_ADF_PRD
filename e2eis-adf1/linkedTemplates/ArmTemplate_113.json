@@ -13,6 +13,31 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/ds_Blob_SIM_FLORIDA_BOB_csv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"container": "sftpcontainer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ds_Blob_SIM_FLORIDA_BOB_excel')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -4575,7 +4600,8 @@
 				"lastPublishTime": "2025-10-15T09:59:41Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ds_SQL_SIM_FLORIDA_BOB')]"
+				"[concat(variables('factoryId'), '/datasets/ds_SQL_SIM_FLORIDA_BOB')]",
+				"[concat(variables('factoryId'), '/datasets/ds_Blob_SIM_FLORIDA_BOB_csv')]"
 			]
 		},
 		{
