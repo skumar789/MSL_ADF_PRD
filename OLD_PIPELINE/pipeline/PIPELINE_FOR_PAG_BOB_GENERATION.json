@@ -1,0 +1,217 @@
+{
+	"name": "PIPELINE_FOR_PAG_BOB_GENERATION",
+	"properties": {
+		"activities": [
+			{
+				"name": "UpdateStatusInProgress",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[PAG_105].[PAG_SP_UPDATE_STATUS]",
+					"storedProcedureParameters": {
+						"PeriodName": {
+							"value": {
+								"value": "@pipeline().parameters.PeriodName",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"State": {
+							"value": {
+								"value": "@pipeline().parameters.State",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Status": {
+							"value": "IN PROGRESS",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureSqlLinkedService",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "ExecuteBOBProcess",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "UpdateStatusInProgress",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": {
+						"value": "@if(equals(pipeline().parameters.State, 'OOS'), '[PAG_105].[PAG_SP_BOB_PROCESS_OOS]', if(equals(pipeline().parameters.State, 'FL'), '[PAG_105].[PAG_SP_BOB_PROCESS_FL]', '[PAG_105].[PAG_SP_BOB_PROCESS_MEDICARE]'))",
+						"type": "Expression"
+					},
+					"storedProcedureParameters": {
+						"PeriodName": {
+							"value": {
+								"value": "@pipeline().parameters.PeriodName",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"PreviousPeriodName": {
+							"value": {
+								"value": "@pipeline().parameters.PreviousPeriodName",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"IsRegeneration": {
+							"value": {
+								"value": "@pipeline().parameters.IsRegeneration",
+								"type": "Expression"
+							},
+							"type": "Boolean"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureSqlLinkedService",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "UpdateStatusSuccess",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "ExecuteBOBProcess",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[PAG_105].[PAG_SP_UPDATE_STATUS]",
+					"storedProcedureParameters": {
+						"PeriodName": {
+							"value": {
+								"value": "@pipeline().parameters.PeriodName",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"State": {
+							"value": {
+								"value": "@pipeline().parameters.State",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Status": {
+							"value": "COMPLETED",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureSqlLinkedService",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "UpdateStatusFailure",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "ExecuteBOBProcess",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[PAG_105].[PAG_SP_UPDATE_STATUS]",
+					"storedProcedureParameters": {
+						"PeriodName": {
+							"value": {
+								"value": "@pipeline().parameters.PeriodName",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"State": {
+							"value": {
+								"value": "@pipeline().parameters.State",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Status": {
+							"value": "FAILED",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureSqlLinkedService",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"concurrency": 2,
+		"parameters": {
+			"PeriodName": {
+				"type": "string"
+			},
+			"PreviousPeriodName": {
+				"type": "string"
+			},
+			"State": {
+				"type": "string"
+			},
+			"IsRegeneration": {
+				"type": "bool",
+				"defaultValue": false
+			},
+			"AuditID": {
+				"type": "int",
+				"defaultValue": 0
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2026-07-01T11:43:44Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
