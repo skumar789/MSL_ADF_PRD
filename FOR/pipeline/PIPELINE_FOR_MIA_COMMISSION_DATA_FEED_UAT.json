@@ -7,7 +7,14 @@
 				"type": "Copy",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "MIA_BLUECHIP_SUMMARY_RAW_STG",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -3231,6 +3238,169 @@
 				"outputs": [
 					{
 						"referenceName": "MIA_BLUECHIP_ALL_SALES_DETAILS_RAW_STG_UAT",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "MIA_BLUECHIP_SUMMARY_RAW_STG",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "SftpReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false,
+							"disableChunking": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "SqlServerSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "Agent_or_Agency",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "AGENT_OR_AGENCY",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Company_Name",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "COMPANY_NAME",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Payee_Name",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "PAYEE_NAME",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Payroll_Id",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "PAYROLL_ID",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Agent_Statement_Total",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "AGENT_STATEMENT_TOTAL",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Agency_Commission",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "AGENCY_COMMISSION",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Agent_Commission",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "AGENT_COMMISSION",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Override_Commission",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "OVERRIDE_COMMISSION",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Manual_Adjustments",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "MANUAL_ADJUSTMENTS",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "MIA_BLUECHIP_SUMMARY_FEED_UAT",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "MIA_BLUECHIP_SUMMARY_RAW_STG_UAT",
 						"type": "DatasetReference"
 					}
 				]
