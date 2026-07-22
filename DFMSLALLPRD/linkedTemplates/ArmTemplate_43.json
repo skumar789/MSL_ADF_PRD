@@ -786,6 +786,118 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/MIA_BLUECHIP_SUMMARY_FEED_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "MIA_BLUECHIP_SUMMARY_FEED_UAT.txt",
+						"folderPath": "/MSL_Cloud_Uat/FromAgency/MIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Agent_or_Agency\tCompany_Name\tPayee_Name\tPayroll_Id\tAgent_Statement_Total\tAgency_Commission\tAgent_Commission\tOverride_Commission\tManual_Adjustments",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MIA_BLUECHIP_SUMMARY_RAW_STG_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "e2eiS_UAT",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "AGENT_OR_AGENCY",
+						"type": "nvarchar"
+					},
+					{
+						"name": "COMPANY_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PAYEE_NAME",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PAYROLL_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AGENT_STATEMENT_TOTAL",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AGENCY_COMMISSION",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AGENT_COMMISSION",
+						"type": "nvarchar"
+					},
+					{
+						"name": "OVERRIDE_COMMISSION",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MANUAL_ADJUSTMENTS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "MIA_104",
+					"table": "MIA_BLUECHIP_SUMMARY_RAW_STG"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/MIA_BUDDY_AGENT_LOCK_LIST_DETAILS_HISTORY_PROD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1759,234 +1871,6 @@
 				"typeProperties": {
 					"schema": "MIA_104",
 					"table": "MIA_EG01_COMMISION_DETAILS_FB"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/MIA_EG01_COMMISION_DETAILS_FB_CDR_PROD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "e2eiS_UAT",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "AGENCY_CODE",
-						"type": "nvarchar"
-					},
-					{
-						"name": "AGENCY_NAME",
-						"type": "nvarchar"
-					},
-					{
-						"name": "WRITING_AGENT",
-						"type": "nvarchar"
-					},
-					{
-						"name": "INTERNAL_REP",
-						"type": "nvarchar"
-					},
-					{
-						"name": "AGENCY_NUMBER",
-						"type": "nvarchar"
-					},
-					{
-						"name": "OVERRIDE_AGENT_CODE",
-						"type": "nvarchar"
-					},
-					{
-						"name": "GROUP_NUMBER",
-						"type": "nvarchar"
-					},
-					{
-						"name": "GROUP_NAME",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CONTRACT_COUNT",
-						"type": "nvarchar"
-					},
-					{
-						"name": "COVERAGE",
-						"type": "nvarchar"
-					},
-					{
-						"name": "BILLING_PERIOD_FROM",
-						"type": "date"
-					},
-					{
-						"name": "BILLING_PERIOD_TO",
-						"type": "date"
-					},
-					{
-						"name": "RECONCILED_PREMIUM",
-						"type": "nvarchar"
-					},
-					{
-						"name": "COMM_RATE_OR_FLAT_RATE",
-						"type": "nvarchar"
-					},
-					{
-						"name": "COPENSATION_AMOUNT",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ADJUSTMENT",
-						"type": "nvarchar"
-					},
-					{
-						"name": "COMPENSATION_DATE",
-						"type": "date"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "smallint",
-						"precision": 5
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "AQI_104",
-					"table": "MIA_EG01_COMMISION_DETAILS_FB"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/MIA_EG01_COMMISION_DETAILS_FB_HISTORY_PROD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "E2EIS_PROD_HISTORY",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "AGENCY_CODE",
-						"type": "nvarchar"
-					},
-					{
-						"name": "AGENCY_NAME",
-						"type": "nvarchar"
-					},
-					{
-						"name": "WRITING_AGENT",
-						"type": "nvarchar"
-					},
-					{
-						"name": "INTERNAL_REP",
-						"type": "nvarchar"
-					},
-					{
-						"name": "AGENCY_NUMBER",
-						"type": "nvarchar"
-					},
-					{
-						"name": "OVERRIDE_AGENT_CODE",
-						"type": "nvarchar"
-					},
-					{
-						"name": "GROUP_NUMBER",
-						"type": "nvarchar"
-					},
-					{
-						"name": "GROUP_NAME",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CONTRACT_COUNT",
-						"type": "nvarchar"
-					},
-					{
-						"name": "COVERAGE",
-						"type": "nvarchar"
-					},
-					{
-						"name": "BILLING_PERIOD_FROM",
-						"type": "date"
-					},
-					{
-						"name": "BILLING_PERIOD_TO",
-						"type": "date"
-					},
-					{
-						"name": "RECONCILED_PREMIUM",
-						"type": "nvarchar"
-					},
-					{
-						"name": "COMM_RATE_OR_FLAT_RATE",
-						"type": "nvarchar"
-					},
-					{
-						"name": "COPENSATION_AMOUNT",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ADJUSTMENT",
-						"type": "nvarchar"
-					},
-					{
-						"name": "COMPENSATION_DATE",
-						"type": "date"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "smallint",
-						"precision": 5
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "MIA_104",
-					"table": "MIA_EG01_COMMISION_DETAILS_FB_HISTORY"
 				}
 			},
 			"dependsOn": []

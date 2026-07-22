@@ -13,6 +13,79 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/com_temp_table_Contract_Accounting_UAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "e2eiS_UAT",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "FBContractId",
+						"type": "varchar"
+					},
+					{
+						"name": "AccountingDate",
+						"type": "date"
+					},
+					{
+						"name": "FBCompType",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Contract_TransactionId",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "AgencyCompType",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "ABI_101",
+					"table": "com_temp_table_Contract_Accounting"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/new_mapping_sim')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "new_mapping_sim.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/SIM"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "E2E_SEQ_NO\tFILE_NAME\tFILE_FREQUENCY\tFILE_ENABLED\tETL_PROCESS_NAME\tTABLE_NAME\tSCHEMA_TABLE",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AUTOMATED_PIPELINE_FOR_ALL_ABI_WEEKLY_DATA_FEEDS_DOTNET')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
