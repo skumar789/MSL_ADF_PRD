@@ -1,5 +1,5 @@
 {
-	"name": "PIPELINE_FOR_ALL_PAG_WEEKLY_DATA_FEEDS_UAT",
+	"name": "PIPELINE_FOR_ALL_VIP_WEEKLY_DATA_FEEDS_UAT",
 	"properties": {
 		"activities": [
 			{
@@ -480,10 +480,8 @@
 				]
 			},
 			{
-				"name": "PAG_U65_APPLICATION_TRACKER_FEED_UAT",
+				"name": "VIP_U65_APPLICATION_TRACKER_FEED_UAT",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "PAG_FHCP_WEEKLY_FEED_UAT",
@@ -1012,25 +1010,23 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "PAG_U65_APPLICATION_TRACKER_FEED_UAT",
+						"referenceName": "VIP_U65_APPLICATION_TRACKER_FEED_UAT",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "PAG_U65_APPLICATION_TRACKER_STG_UAT",
+						"referenceName": "VIP_U65_APPLICATION_TRACKER_STG_UAT",
 						"type": "DatasetReference"
 					}
 				]
 			},
 			{
-				"name": "PAG_U65_EASY_RENEWAL_FEED_UAT",
+				"name": "VIP_U65_EASY_RENEWAL_FEED_UAT",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "PAG_U65_APPLICATION_TRACKER_FEED_UAT",
+						"activity": "VIP_U65_APPLICATION_TRACKER_FEED_UAT",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -1067,8 +1063,15 @@
 						"type": "TabularTranslator",
 						"mappings": [
 							{
+								"sink": {
+									"name": "E2EIS_SEQ_NUMBER",
+									"type": "Int64",
+									"physicalType": "bigint"
+								}
+							},
+							{
 								"source": {
-									"name": "AGENCY_ID",
+									"name": "AGENCY_IDENTIFIER",
 									"type": "String",
 									"physicalType": "String"
 								},
@@ -1512,7 +1515,7 @@
 							},
 							{
 								"source": {
-									"name": "OEP_LAST_ACTIVITY_DATETIME",
+									"name": "OEP_LAST_ACTIVITY_DATE_TIME",
 									"type": "String",
 									"physicalType": "String"
 								},
@@ -1548,7 +1551,7 @@
 							},
 							{
 								"source": {
-									"name": "OEP_SUBSEQUENT_ACTIVITY_DATETIME",
+									"name": "OEP_SUBSEQUENT_ACTIVITY_DATE_TIME",
 									"type": "String",
 									"physicalType": "String"
 								},
@@ -1787,6 +1790,41 @@
 								}
 							},
 							{
+								"sink": {
+									"name": "AGENCY_ID",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"sink": {
+									"name": "RECORD_LOAD_DATE",
+									"type": "Date",
+									"physicalType": "date"
+								}
+							},
+							{
+								"sink": {
+									"name": "RECORD_LOADED_BY",
+									"type": "String",
+									"physicalType": "char"
+								}
+							},
+							{
+								"sink": {
+									"name": "RECORD_DATA_SOURCE",
+									"type": "String",
+									"physicalType": "char"
+								}
+							},
+							{
+								"sink": {
+									"name": "RECORD_FLAG_STATUS",
+									"type": "String",
+									"physicalType": "char"
+								}
+							},
+							{
 								"source": {
 									"name": "FILE_RECORD_BIRTH_DATE",
 									"type": "String",
@@ -1808,25 +1846,23 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "PAG_U65_EASY_RENEWAL_FEED_UAT",
+						"referenceName": "VIP_U65_EASY_RENEWAL_FEED_UAT",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "PAG_U65_EASY_RENEWAL_STG_UAT",
+						"referenceName": "VIP_U65_EASY_RENEWAL_STG_UAT",
 						"type": "DatasetReference"
 					}
 				]
 			},
 			{
-				"name": "PAG_O65_APPLICATION_TRACKER_STG",
+				"name": "VIP_O65_APPLICATION_TRACKER_STG",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "PAG_U65_EASY_RENEWAL_FEED_UAT",
+						"activity": "VIP_U65_EASY_RENEWAL_FEED_UAT",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -2136,25 +2172,23 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "PAG_O65_APPLICATION_TRACKER_FEED_UAT",
+						"referenceName": "VIP_O65_APPLICATION_TRACKER_FEED_UAT",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "PAG_O65_APPLICATION_TRACKER_STG_UAT",
+						"referenceName": "VIP_O65_APPLICATION_TRACKER_STG_UAT",
 						"type": "DatasetReference"
 					}
 				]
 			},
 			{
-				"name": "PAG_O65_ALIGNED_ACCOUNTS_FEED_UAT",
+				"name": "VIP_O65_ALIGNED_ACCOUNTS_FEED_UAT",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "PAG_O65_APPLICATION_TRACKER_STG",
+						"activity": "VIP_O65_APPLICATION_TRACKER_STG",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -2692,25 +2726,23 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "PAG_O65_ALIGNED_ACCOUNTS_FEED_UAT",
+						"referenceName": "VIP_O65_ALIGNED_ACCOUNTS_FEED_UAT",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "PAG_O65_ALIGNED_ACCOUNTS_STG_UAT",
+						"referenceName": "VIP_O65_ALIGNED_ACCOUNTS_STG_UAT",
 						"type": "DatasetReference"
 					}
 				]
 			},
 			{
-				"name": "PAG_U65_DELINQUENCY_FEED_UAT",
+				"name": "VIP_U65_DELINQUENCY_FEED_UAT",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "PAG_O65_ALIGNED_ACCOUNTS_FEED_UAT",
+						"activity": "VIP_O65_ALIGNED_ACCOUNTS_FEED_UAT",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -3212,25 +3244,23 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "PAG_U65_DELINQUENCY_FEED_UAT",
+						"referenceName": "VIP_U65_DELINQUENCY_FEED_UAT",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "PAG_U65_DELINQUENCY_STG_UAT",
+						"referenceName": "VIP_U65_DELINQUENCY_STG_UAT",
 						"type": "DatasetReference"
 					}
 				]
 			},
 			{
-				"name": "PAG_U65_ALIGNED_ACCOUNTS_FEED_UAT",
+				"name": "VIP_U65_ALIGNED_ACCOUNTS_FEED_UAT",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "PAG_U65_DELINQUENCY_FEED_UAT",
+						"activity": "VIP_U65_DELINQUENCY_FEED_UAT",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -4068,25 +4098,23 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "PAG_U65_ALIGNED_ACCOUNTS_FEED_UAT",
+						"referenceName": "VIP_U65_ALIGNED_ACCOUNTS_FEED_UAT",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "PAG_U65_ALIGNED_ACCOUNTS_STG_UAT",
+						"referenceName": "VIP_U65_ALIGNED_ACCOUNTS_STG_UAT",
 						"type": "DatasetReference"
 					}
 				]
 			},
 			{
-				"name": "PAG_U65_RENEWAL_LIST_FEED_UAT",
+				"name": "VIP_U65_RENEWAL_LIST_FEED_UAT",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "PAG_U65_ALIGNED_ACCOUNTS_FEED_UAT",
+						"activity": "VIP_U65_ALIGNED_ACCOUNTS_FEED_UAT",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -4420,13 +4448,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "PAG_U65_RENEWAL_LIST_FEED_UAT",
+						"referenceName": "VIP_U65_RENEWAL_LIST_FEED_UAT",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "PAG_U65_RENEWAL_LIST_STG_UAT",
+						"referenceName": "VIP_U65_RENEWAL_LIST_STG_UAT",
 						"type": "DatasetReference"
 					}
 				]
