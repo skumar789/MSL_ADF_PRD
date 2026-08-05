@@ -13,6 +13,77 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/AIA_OOS_Commission_Advances_APP_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_OOS_Commission_Advance_PRD.txt",
+						"folderPath": "/MSL_Cloud_App_Prd/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Department_ID\tPayee_Name\tDate_Paid\tFor_Period\tAdvance_Used\tAdvance_Amount\tCurrent_Period\tAdvance_Remaining",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AIA_OOS_Commission_PAID_2025_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "e2eis_APP_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "Policy_Id",
+						"type": "varchar"
+					},
+					{
+						"name": "Policy_Number",
+						"type": "varchar"
+					},
+					{
+						"name": "Bill_From_date",
+						"type": "varchar"
+					},
+					{
+						"name": "Effective_date",
+						"type": "varchar"
+					},
+					{
+						"name": "Commission_Amount",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "AIA_102",
+					"table": "AIA_OOS_Commission_PAID_2025"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AIA_OOS_Commission_PAID_2025_PRD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1741,62 +1812,6 @@
 				"typeProperties": {
 					"schema": "AIA_102",
 					"table": "AIA_RPT_Commission_Statement"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AIA_TEMP_DEPARTMENT_NAME_PAYEE_APP_PROD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "e2eis_APP_PROD",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "Department_Name",
-						"type": "nvarchar"
-					},
-					{
-						"name": "PAYEE_NAME",
-						"type": "nvarchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "AIA_102",
-					"table": "AIA_TEMP_DEPARTMENT_NAME_PAYEE"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AIA_TEMP_DEPARTMENT_NAME_PAYEE_PROD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServere2eis_PROD",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "Department_Name",
-						"type": "nvarchar"
-					},
-					{
-						"name": "PAYEE_NAME",
-						"type": "nvarchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "AIA_102",
-					"table": "AIA_TEMP_DEPARTMENT_NAME_PAYEE"
 				}
 			},
 			"dependsOn": []
