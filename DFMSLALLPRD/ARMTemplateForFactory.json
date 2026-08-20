@@ -79421,6 +79421,8 @@
 					{
 						"name": "MIA_FHCP_WEEKLY_DETAILS_APP",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "ABI_NEW_FHCP_WEEKLY_DETAILS",
@@ -90661,7 +90663,7 @@
 						"typeProperties": {
 							"source": {
 								"type": "SqlServerSource",
-								"sqlReaderQuery": "select * from [MIA_104].[MIA_BCBS_NCSC_COMISSIONS]\nwhere Period_Name='June 2026';",
+								"sqlReaderQuery": "select * from [MIA_104].[MIA_BCBS_NCSC_COMISSIONS]\nwhere Period_Name='July 2026';",
 								"queryTimeout": "02:00:00",
 								"partitionOption": "None"
 							},
@@ -91286,7 +91288,7 @@
 						"typeProperties": {
 							"source": {
 								"type": "SqlServerSource",
-								"sqlReaderQuery": "select * from [MIA_104].[MIA_BCBS_FB_COMISSIONS]\nwhere Period_Name='May 2026';",
+								"sqlReaderQuery": "select * from [MIA_104].[MIA_BCBS_FB_COMISSIONS]\nwhere Period_Name='June 2026';",
 								"queryTimeout": "02:00:00",
 								"partitionOption": "None"
 							},
@@ -96407,7 +96409,7 @@
 						"typeProperties": {
 							"source": {
 								"type": "SqlServerSource",
-								"sqlReaderQuery": "select * from [MIA_104].[MIA_BCBS_NCSC_COMISSIONS]\nwhere Period_Name='June 2026';",
+								"sqlReaderQuery": "select * from [MIA_104].[MIA_BCBS_NCSC_COMISSIONS]\nwhere Period_Name='July 2026';",
 								"queryTimeout": "02:00:00",
 								"partitionOption": "None"
 							},
@@ -97032,7 +97034,7 @@
 						"typeProperties": {
 							"source": {
 								"type": "SqlServerSource",
-								"sqlReaderQuery": "select * from [MIA_104].[MIA_BCBS_FB_COMISSIONS]\nwhere Period_Name='May 2026';",
+								"sqlReaderQuery": "select * from [MIA_104].[MIA_BCBS_FB_COMISSIONS]\nwhere Period_Name='June 2026';",
 								"queryTimeout": "02:00:00",
 								"partitionOption": "None"
 							},
@@ -100401,8 +100403,6 @@
 						"name": "MIA_BCBS_NCSC_COMISSIONS",
 						"description": "MIA NC AND SC COMMISSION DATA LOCK EVERY MONTH CYCLE CLOSE",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [
 							{
 								"activity": "MIA_BCBS_FB_COMISSIONS",
@@ -100422,7 +100422,7 @@
 						"typeProperties": {
 							"source": {
 								"type": "SqlServerSource",
-								"sqlReaderQuery": "select * from MIA_104.MIA_BCBS_NCSC_COMISSIONS\nwhere Period_Name='June 2026';",
+								"sqlReaderQuery": "select * from MIA_104.MIA_BCBS_NCSC_COMISSIONS\nwhere Period_Name='July 2026';",
 								"queryTimeout": "02:00:00",
 								"partitionOption": "None"
 							},
@@ -263385,7 +263385,14 @@
 						"type": "Copy",
 						"state": "Inactive",
 						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [],
+						"dependsOn": [
+							{
+								"activity": "SIM_DIRECTCARRIER_DIFF_AETNA_GS_MA_POLICY_DETAILS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
 						"policy": {
 							"timeout": "0.12:00:00",
 							"retry": 0,
@@ -263720,7 +263727,14 @@
 						"type": "Copy",
 						"state": "Inactive",
 						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [],
+						"dependsOn": [
+							{
+								"activity": "SIM_AP_WELLCARE_SM_COMMISSION_FEED",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
 						"policy": {
 							"timeout": "0.12:00:00",
 							"retry": 0,
@@ -264081,6 +264095,839 @@
 								"parameters": {}
 							}
 						]
+					},
+					{
+						"name": "SIM_AP_WELLCARE_SM_COMMISSION_FEED",
+						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"enableStaging": false
+						}
+					},
+					{
+						"name": "SIM_DIRECTCARRIER_DIFF_AETNA_GS_MA_POLICY_DETAILS",
+						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "SftpReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false,
+									"disableChunking": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "SqlServerSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "MEMBER_ID",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "MEMBER_ID",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "LEGACY_MEMBER_ID",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "LEGACY_MEMBER_ID",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "MEDICARE_NUMBER",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "MEDICARE_NUMBER",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "APPLICATION_ID",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "APPLICATION_ID",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "FIRST_NAME",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "FIRST_NAME",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "MIDDLE_INITIAL",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "MIDDLE_INITIAL",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "LAST_NAME",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "LAST_NAME",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "DATE_OF_BIRTH",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "DATE_OF_BIRTH",
+											"type": "Date",
+											"physicalType": "date"
+										}
+									},
+									{
+										"source": {
+											"name": "PHONE_NUMBER",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PHONE_NUMBER",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "ADDRESS_LINE_1",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "ADDRESS_LINE_1",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "ADDRESS_LINE_2",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "ADDRESS_LINE_2",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CITY",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "CITY",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "STATE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "STATE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "ZIP_CODE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "ZIP_CODE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "APPLICATION_SIGNED_DATE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "APPLICATION_SIGNED_DATE",
+											"type": "Date",
+											"physicalType": "date"
+										}
+									},
+									{
+										"source": {
+											"name": "APPLICATION_RECEIVED_DATE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "APPLICATION_RECEIVED_DATE",
+											"type": "Date",
+											"physicalType": "date"
+										}
+									},
+									{
+										"source": {
+											"name": "COVERAGE_EFFECTIVE_DATE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "COVERAGE_EFFECTIVE_DATE",
+											"type": "Date",
+											"physicalType": "date"
+										}
+									},
+									{
+										"source": {
+											"name": "MEMBER_STATUS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "MEMBER_STATUS",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "TERM_DATE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TERM_DATE",
+											"type": "Date",
+											"physicalType": "date"
+										}
+									},
+									{
+										"source": {
+											"name": "TERM_REASON_CODE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TERM_REASON_CODE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PLAN_NAME",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PLAN_NAME",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PLAN_EFFECTIVE_DATE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PLAN_EFFECTIVE_DATE",
+											"type": "Date",
+											"physicalType": "date"
+										}
+									},
+									{
+										"source": {
+											"name": "SUPPLEMENT_PLANS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "SUPPLEMENT_PLANS",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "WRITING_AGENT_NPN",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "WRITING_AGENT_NPN",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "WRITING_AGENT_TIN",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "WRITING_AGENT_TIN",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "WRITING_AGENT_FIRST_NAME",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "WRITING_AGENT_FIRST_NAME",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "WRITING_AGENT_LAST_NAME",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "WRITING_AGENT_LAST_NAME",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PAYMENT_METHOD",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PAYMENT_METHOD",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "BILL_OPTION",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "BILL_OPTION",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "INVOICE_AMOUNT",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "INVOICE_AMOUNT",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "INVOICE_DATE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "INVOICE_DATE",
+											"type": "Date",
+											"physicalType": "date"
+										}
+									},
+									{
+										"source": {
+											"name": "CMS_CONTRACT_NUMBER",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "CMS_CONTRACT_NUMBER",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PBP_CODE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PBP_CODE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "ID_CARD_ISSUE_DATE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "ID_CARD_ISSUE_DATE",
+											"type": "Date",
+											"physicalType": "date"
+										}
+									},
+									{
+										"source": {
+											"name": "AFFINITY_CODE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "AFFINITY_CODE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PRODUCER_LEVEL_1_NAME",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PRODUCER_LEVEL_1_NAME",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PRODUCER_LEVEL_1_TIN_NPN",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PRODUCER_LEVEL_1_TIN_NPN",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PRODUCER_LEVEL_1_CODE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PRODUCER_LEVEL_1_CODE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PRODUCER_LEVEL_2_NAME",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PRODUCER_LEVEL_2_NAME",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PRODUCER_LEVEL_2_TIN_NPN",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PRODUCER_LEVEL_2_TIN_NPN",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PRODUCER_LEVEL_2_CODE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PRODUCER_LEVEL_2_CODE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PRODUCER_LEVEL_3_NAME",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PRODUCER_LEVEL_3_NAME",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PRODUCER_LEVEL_3_TIN_NPN",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PRODUCER_LEVEL_3_TIN_NPN",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PRODUCER_LEVEL_3_CODE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PRODUCER_LEVEL_3_CODE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PRODUCER_LEVEL_4_NAME",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PRODUCER_LEVEL_4_NAME",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PRODUCER_LEVEL_4_TIN_NPN",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PRODUCER_LEVEL_4_TIN_NPN",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PRODUCER_LEVEL_4_CODE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PRODUCER_LEVEL_4_CODE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PRODUCER_LEVEL_5_NAME",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PRODUCER_LEVEL_5_NAME",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PRODUCER_LEVEL_5_TIN_NPN",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PRODUCER_LEVEL_5_TIN_NPN",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PRODUCER_LEVEL_5_CODE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PRODUCER_LEVEL_5_CODE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PRODUCER_LEVEL_6_NAME",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PRODUCER_LEVEL_6_NAME",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PRODUCER_LEVEL_6_TIN_NPN",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PRODUCER_LEVEL_6_TIN_NPN",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PRODUCER_LEVEL_6_CODE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PRODUCER_LEVEL_6_CODE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PRODUCER_LEVEL_7_NAME",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PRODUCER_LEVEL_7_NAME",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PRODUCER_LEVEL_7_TIN_NPN",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PRODUCER_LEVEL_7_TIN_NPN",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PRODUCER_LEVEL_7_CODE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PRODUCER_LEVEL_7_CODE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PRODUCER_LEVEL_8_NAME",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PRODUCER_LEVEL_8_NAME",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PRODUCER_LEVEL_8_TIN_NPN",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PRODUCER_LEVEL_8_TIN_NPN",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PRODUCER_LEVEL_8_CODE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PRODUCER_LEVEL_8_CODE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PRODUCER_LEVEL_9_NAME",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PRODUCER_LEVEL_9_NAME",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PRODUCER_LEVEL_9_TIN_NPN",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PRODUCER_LEVEL_9_TIN_NPN",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PRODUCER_LEVEL_9_CODE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PRODUCER_LEVEL_9_CODE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "FILE_RECORD_BIRTH_DATE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "FILE_RECORD_BIRTH_DATE",
+											"type": "Date",
+											"physicalType": "date"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SIM_DIRECTCARRIER_DIFF_AETNA_GS_MA_WEEKLY_FEED_PRD",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SIM_DIRECTCARRIER_DIFF_AETNA_GS_MA_POLICY_DETAILS_APP_PRD",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
 					}
 				],
 				"policy": {
@@ -264190,7 +265037,9 @@
 				"[concat(variables('factoryId'), '/datasets/SIM_DIRECTCARRIER_ZING_GS_MA_WEEKLY_FEED_PRD')]",
 				"[concat(variables('factoryId'), '/datasets/SIM_DIRECTCARRIER_ZING_GS_MA_POLICY_DETAILS_APP_PRD')]",
 				"[concat(variables('factoryId'), '/datasets/SIM_AP_HUMANA_SM_COMMISSION_FEED_PRD')]",
-				"[concat(variables('factoryId'), '/datasets/SIM_AP_HUMANA_SM_COMMISSION_DETAILS_APP_PRD')]"
+				"[concat(variables('factoryId'), '/datasets/SIM_AP_HUMANA_SM_COMMISSION_DETAILS_APP_PRD')]",
+				"[concat(variables('factoryId'), '/datasets/SIM_DIRECTCARRIER_DIFF_AETNA_GS_MA_WEEKLY_FEED_PRD')]",
+				"[concat(variables('factoryId'), '/datasets/SIM_DIRECTCARRIER_DIFF_AETNA_GS_MA_POLICY_DETAILS_APP_PRD')]"
 			]
 		},
 		{
@@ -455931,6 +456780,338 @@
 					"location": {
 						"type": "SftpLocation",
 						"fileName": "SIM_DIRECTCARRIER_CIGNA_GS_MA_WEEKLY_FEED_PRD.txt",
+						"folderPath": "/MSL_Cloud_App_Prd/FromAgency/SIM"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "APPLICATION_NAME\tAPPLICATION_ID\tFIRST_NAME\tLAST_NAME\tMEDICARE_NUMBER\tMEMBER_ID\tEFFECTIVE_DATE\tAPPLICANT_SIGNED_DATE\tAPPLICATION_RECEIVED_DATE\tSTATUS\tDISENROLL_EFFECTIVE_DATE\tDATE_OF_BIRTH\tPHONE_NUMBER\tRESIDENTIAL_ADDRESS\tRESIDENTIAL_ADDRESS_LINE_2\tRESIDENTIAL_CITY\tRESIDENTIAL_STATE\tRESIDENTIAL_ZIP_CODE\tAGENT_NPN\tCURRENT_AGENT_ID\tCURRENT_AGENT_NAME\tGA\tGA_NPN\tMGA\tMGA_NPN\tSGA\tSGA_NPN\tSGA2\tSGA2_NPN\tFMO\tFMO_NPN\tTOPLINE\tAFMO\tAFMO_NPN\tNFMO\tNFMO_NPN\tRFMO\tRFMO_NPN\tPRODUCT\tPRODUCT_TYPE\tPBP_CODE\tMARKET\tMICROMARKET\tFILE_RECORD_BIRTH_DATE",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Sftp1_connections_ALL_FEED')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_DIRECTCARRIER_DIFF_AETNA_GS_MA_POLICY_DETAILS_APP_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "e2eis_APP_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "MEMBER_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "LEGACY_MEMBER_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "MEDICARE_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "APPLICATION_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "FIRST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "MIDDLE_INITIAL",
+						"type": "varchar"
+					},
+					{
+						"name": "LAST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "DATE_OF_BIRTH",
+						"type": "date"
+					},
+					{
+						"name": "PHONE_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "ADDRESS_LINE_1",
+						"type": "varchar"
+					},
+					{
+						"name": "ADDRESS_LINE_2",
+						"type": "varchar"
+					},
+					{
+						"name": "CITY",
+						"type": "varchar"
+					},
+					{
+						"name": "STATE",
+						"type": "varchar"
+					},
+					{
+						"name": "ZIP_CODE",
+						"type": "varchar"
+					},
+					{
+						"name": "APPLICATION_SIGNED_DATE",
+						"type": "date"
+					},
+					{
+						"name": "APPLICATION_RECEIVED_DATE",
+						"type": "date"
+					},
+					{
+						"name": "COVERAGE_EFFECTIVE_DATE",
+						"type": "date"
+					},
+					{
+						"name": "MEMBER_STATUS",
+						"type": "varchar"
+					},
+					{
+						"name": "TERM_DATE",
+						"type": "date"
+					},
+					{
+						"name": "TERM_REASON_CODE",
+						"type": "varchar"
+					},
+					{
+						"name": "PLAN_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "PLAN_EFFECTIVE_DATE",
+						"type": "date"
+					},
+					{
+						"name": "SUPPLEMENT_PLANS",
+						"type": "varchar"
+					},
+					{
+						"name": "WRITING_AGENT_NPN",
+						"type": "varchar"
+					},
+					{
+						"name": "WRITING_AGENT_TIN",
+						"type": "varchar"
+					},
+					{
+						"name": "WRITING_AGENT_FIRST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "WRITING_AGENT_LAST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "PAYMENT_METHOD",
+						"type": "varchar"
+					},
+					{
+						"name": "BILL_OPTION",
+						"type": "varchar"
+					},
+					{
+						"name": "INVOICE_AMOUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "INVOICE_DATE",
+						"type": "date"
+					},
+					{
+						"name": "CMS_CONTRACT_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "PBP_CODE",
+						"type": "varchar"
+					},
+					{
+						"name": "ID_CARD_ISSUE_DATE",
+						"type": "date"
+					},
+					{
+						"name": "AFFINITY_CODE",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCER_LEVEL_1_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCER_LEVEL_1_TIN_NPN",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCER_LEVEL_1_CODE",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCER_LEVEL_2_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCER_LEVEL_2_TIN_NPN",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCER_LEVEL_2_CODE",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCER_LEVEL_3_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCER_LEVEL_3_TIN_NPN",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCER_LEVEL_3_CODE",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCER_LEVEL_4_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCER_LEVEL_4_TIN_NPN",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCER_LEVEL_4_CODE",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCER_LEVEL_5_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCER_LEVEL_5_TIN_NPN",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCER_LEVEL_5_CODE",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCER_LEVEL_6_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCER_LEVEL_6_TIN_NPN",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCER_LEVEL_6_CODE",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCER_LEVEL_7_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCER_LEVEL_7_TIN_NPN",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCER_LEVEL_7_CODE",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCER_LEVEL_8_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCER_LEVEL_8_TIN_NPN",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCER_LEVEL_8_CODE",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCER_LEVEL_9_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCER_LEVEL_9_TIN_NPN",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCER_LEVEL_9_CODE",
+						"type": "varchar"
+					},
+					{
+						"name": "FILE_RECORD_BIRTH_DATE",
+						"type": "date"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_DIRECTCARRIER_DIFF_AETNA_GS_MA_POLICY_DETAILS"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/e2eis_APP_PROD')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_DIRECTCARRIER_DIFF_AETNA_GS_MA_WEEKLY_FEED_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "SIM_DIRECTCARRIER_DIFF_AETNA_GS_MA_WEEKLY_FEED_PRD.txt",
 						"folderPath": "/MSL_Cloud_App_Prd/FromAgency/SIM"
 					},
 					"columnDelimiter": "\t",
