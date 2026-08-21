@@ -13,6 +13,478 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/SIM_CALENDAR_DETAILS_ANNUAL_FEED_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "SIM_CALENDAR_DETAILS_ANNUAL_FEED_PRD.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/SIM"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "CALENDAR_SEQ_NO\tPERIOD_NAME\tDESCRIPTION\tPERIOD_START_DATE\tPERIOD_END_DATE\tACTIVE",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_CALENDAR_DETAILS_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServere2eis_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "CALENDAR_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "DESCRIPTION",
+						"type": "varchar"
+					},
+					{
+						"name": "EFFECTIVE_START_DATE",
+						"type": "date"
+					},
+					{
+						"name": "EFFECTIVE_END_DATE",
+						"type": "date"
+					},
+					{
+						"name": "ACTIVE",
+						"type": "bit"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_CALENDAR_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_CENTENE_MA_BONUS_COMMISSION_DETAILS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "e2eis_APP_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "WRITING_BROKER_NPN",
+						"type": "varchar"
+					},
+					{
+						"name": "WRITING_BROKER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "EARNER_NPN",
+						"type": "varchar"
+					},
+					{
+						"name": "EARNER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "PAY_PERIOD",
+						"type": "varchar"
+					},
+					{
+						"name": "STATEMENT_DATE",
+						"type": "date"
+					},
+					{
+						"name": "PAYMENT_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "PAYMENT_DESCRIPTION",
+						"type": "varchar"
+					},
+					{
+						"name": "PAYMENT_AMOUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "CHECK_DATE",
+						"type": "date"
+					},
+					{
+						"name": "CHECK_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "MBI",
+						"type": "varchar"
+					},
+					{
+						"name": "MEMBER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "SIGNED_DATE",
+						"type": "date"
+					},
+					{
+						"name": "EFFECTIVE_DATE",
+						"type": "date"
+					},
+					{
+						"name": "CYCLE_YEAR",
+						"type": "varchar"
+					},
+					{
+						"name": "PRIOR_PLAN_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "POLICY_STATE",
+						"type": "varchar"
+					},
+					{
+						"name": "PLAN_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "PLAN_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "MEMBER_ORIGINAL_EFFECTIVE_DATE",
+						"type": "date"
+					},
+					{
+						"name": "MEMBER_TERM_DATE",
+						"type": "date"
+					},
+					{
+						"name": "CMS_CONTRACT_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "PBP",
+						"type": "varchar"
+					},
+					{
+						"name": "TRANSACTION_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "PAYMENT_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "CENTENE_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "FILE_RECORD_BIRTH_DATE",
+						"type": "date"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_CENTENE_MA_BONUS_COMMISSION_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_CENTENE_MA_BONUS_COMMISSION_FEED_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "SIM_CENTENE_MA_BONUS_COMMISSION_FEED_PRD.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/SIM Commission"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "WRITING_BROKER_NPN\tWRITING_BROKER_NAME\tEARNER_NPN\tEARNER_NAME\tPAY_PERIOD\tSTATEMENT_DATE\tPAYMENT_TYPE\tPAYMENT_DESCRIPTION\tPAYMENT_AMOUNT\tCHECK_DATE\tCHECK_NUMBER\tMBI\tMEMBER_NAME\tSIGNED_DATE\tEFFECTIVE_DATE\tCYCLE_YEAR\tPRIOR_PLAN_TYPE\tPOLICY_STATE\tPLAN_TYPE\tPLAN_NAME\tMEMBER_ORIGINAL_EFFECTIVE_DATE\tMEMBER_TERM_DATE\tCMS_CONTRACT_NUMBER\tPBP\tTRANSACTION_TYPE\tPAYMENT_ID\tCENTENE_ID",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_CENTENE_MA_COMMISSION_DETAILS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "e2eis_APP_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "WRITING_BROKER_NPN",
+						"type": "varchar"
+					},
+					{
+						"name": "WRITING_BROKER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "EARNER_NPN",
+						"type": "varchar"
+					},
+					{
+						"name": "EARNER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "PAY_PERIOD",
+						"type": "varchar"
+					},
+					{
+						"name": "STATEMENT_DATE",
+						"type": "date"
+					},
+					{
+						"name": "PAYMENT_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "PAYMENT_DESCRIPTION",
+						"type": "varchar"
+					},
+					{
+						"name": "PAYMENT_AMOUNT",
+						"type": "varchar"
+					},
+					{
+						"name": "CHECK_DATE",
+						"type": "date"
+					},
+					{
+						"name": "CHECK_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "MBI",
+						"type": "varchar"
+					},
+					{
+						"name": "MEMBER_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "SIGNED_DATE",
+						"type": "date"
+					},
+					{
+						"name": "EFFECTIVE_DATE",
+						"type": "date"
+					},
+					{
+						"name": "CYCLE_YEAR",
+						"type": "varchar"
+					},
+					{
+						"name": "PRIOR_PLAN_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "POLICY_STATE",
+						"type": "varchar"
+					},
+					{
+						"name": "PLAN_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "PLAN_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "MEMBER_ORIGINAL_EFFECTIVE_DATE",
+						"type": "date"
+					},
+					{
+						"name": "MEMBER_TERM_DATE",
+						"type": "date"
+					},
+					{
+						"name": "CMS_CONTRACT_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "PBP",
+						"type": "varchar"
+					},
+					{
+						"name": "TRANSACTION_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "PAYMENT_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "CENTENE_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "FILE_RECORD_BIRTH_DATE",
+						"type": "date"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_CENTENE_MA_COMMISSION_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_CENTENE_MA_COMMISSION_FEED_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "SIM_CENTENE_MA_COMMISSION_FEED_PRD.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/SIM Commission"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "WRITING_BROKER_NPN\tWRITING_BROKER_NAME\tEARNER_NPN\tEARNER_NAME\tPAY_PERIOD\tSTATEMENT_DATE\tPAYMENT_TYPE\tPAYMENT_DESCRIPTION\tPAYMENT_AMOUNT\tCHECK_DATE\tCHECK_NUMBER\tMBI\tMEMBER_NAME\tSIGNED_DATE\tEFFECTIVE_DATE\tCYCLE_YEAR\tPRIOR_PLAN_TYPE\tPOLICY_STATE\tPLAN_TYPE\tPLAN_NAME\tMEMBER_ORIGINAL_EFFECTIVE_DATE\tMEMBER_TERM_DATE\tCMS_CONTRACT_NUMBER\tPBP\tTRANSACTION_TYPE\tPAYMENT_ID\tCENTENE_ID\tFILE_RECORD_BIRTH_DATE",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SIM_CIGNA_ACTIVE_POLICY_DETAILS_APP_PROD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1028,7 +1500,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "SftpLocation",
-						"fileName": "SIM_CIGNA_GS_MA_DETAILS_COMMISSION_FEED_PRD.txt",
+						"fileName": "SIM_CIGNA_GS_MA_COMMISSION_FEED_PRD.txt",
 						"folderPath": "/MSL_Cloud_Prd/FromAgency/SIM Commission"
 					},
 					"columnDelimiter": "\t",
@@ -1807,796 +2279,6 @@
 						"type": "String"
 					}
 				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_CIGNA_MA_POLICY_DETAILS_APP_PROD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "e2eis_APP_PROD",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "APPLICATION_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_NPN",
-						"type": "varchar"
-					},
-					{
-						"name": "CURRENT_AGENT_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "MEDICARE_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "FIRST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "LAST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "APPLICANT_SIGNED_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "EFFECTIVE_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "DISENROLL_EFFECTIVE_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "STATUS",
-						"type": "varchar"
-					},
-					{
-						"name": "SEP_CODE",
-						"type": "varchar"
-					},
-					{
-						"name": "RESIDENTIAL_ADDRESS",
-						"type": "varchar"
-					},
-					{
-						"name": "RESIDENTIAL_CITY",
-						"type": "varchar"
-					},
-					{
-						"name": "RESIDENTIAL_STATE",
-						"type": "varchar"
-					},
-					{
-						"name": "RESIDENTIAL_ZIP_CODE",
-						"type": "varchar"
-					},
-					{
-						"name": "RESIDENTIAL_COUNTY",
-						"type": "varchar"
-					},
-					{
-						"name": "APPLICATION_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "CURRENT_AGENT_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "APPLICATION_CREATED_BY",
-						"type": "varchar"
-					},
-					{
-						"name": "GA",
-						"type": "varchar"
-					},
-					{
-						"name": "MGA",
-						"type": "varchar"
-					},
-					{
-						"name": "SGA",
-						"type": "varchar"
-					},
-					{
-						"name": "FMO",
-						"type": "varchar"
-					},
-					{
-						"name": "AFMO",
-						"type": "varchar"
-					},
-					{
-						"name": "TOPLINE",
-						"type": "varchar"
-					},
-					{
-						"name": "PRODUCT",
-						"type": "varchar"
-					},
-					{
-						"name": "PRODUCT_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "GMO_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "GMO_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "LMO_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "LMO_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "EFFECTIVE_MONTH/YEAR",
-						"type": "varchar"
-					},
-					{
-						"name": "ATN_AFFINITY",
-						"type": "varchar"
-					},
-					{
-						"name": "PLAN_CHANGE",
-						"type": "varchar"
-					},
-					{
-						"name": "GA_WRITING_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "MGA_WRITING_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "SGA_WRITING_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "SGA2",
-						"type": "varchar"
-					},
-					{
-						"name": "SGA2_WRITING_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "FMO_WRITING_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "AFMO_WRITING_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "NFMO",
-						"type": "varchar"
-					},
-					{
-						"name": "NFMO_WRITING_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "RFMO",
-						"type": "varchar"
-					},
-					{
-						"name": "RFMO_WRITING_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "PBP_CODE",
-						"type": "varchar"
-					},
-					{
-						"name": "FILE_RECORD_BIRTH_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "SIM_103",
-					"table": "SIM_CIGNA_MA_POLICY_DETAILS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_CIGNA_MA_POLICY_DETAILS_DEV')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "E2EIS_DEV",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "APPLICATION_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENT_NPN",
-						"type": "varchar"
-					},
-					{
-						"name": "CURRENT_AGENT_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "MEDICARE_NUMBER",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "FIRST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "LAST_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "APPLICANT_SIGNED_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "EFFECTIVE_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "DISENROLL_EFFECTIVE_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "STATUS",
-						"type": "varchar"
-					},
-					{
-						"name": "SEP_CODE",
-						"type": "varchar"
-					},
-					{
-						"name": "RESIDENTIAL_ADDRESS",
-						"type": "varchar"
-					},
-					{
-						"name": "RESIDENTIAL_CITY",
-						"type": "varchar"
-					},
-					{
-						"name": "RESIDENTIAL_STATE",
-						"type": "varchar"
-					},
-					{
-						"name": "RESIDENTIAL_ZIP_CODE",
-						"type": "varchar"
-					},
-					{
-						"name": "RESIDENTIAL_COUNTY",
-						"type": "varchar"
-					},
-					{
-						"name": "APPLICATION_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "CURRENT_AGENT_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "APPLICATION_CREATED_BY",
-						"type": "varchar"
-					},
-					{
-						"name": "GA",
-						"type": "varchar"
-					},
-					{
-						"name": "MGA",
-						"type": "varchar"
-					},
-					{
-						"name": "SGA",
-						"type": "varchar"
-					},
-					{
-						"name": "FMO",
-						"type": "varchar"
-					},
-					{
-						"name": "AFMO",
-						"type": "varchar"
-					},
-					{
-						"name": "TOPLINE",
-						"type": "varchar"
-					},
-					{
-						"name": "PRODUCT",
-						"type": "varchar"
-					},
-					{
-						"name": "PRODUCT_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "GMO_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "GMO_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "LMO_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "LMO_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "EFFECTIVE_MONTH/YEAR",
-						"type": "varchar"
-					},
-					{
-						"name": "ATN_AFFINITY",
-						"type": "varchar"
-					},
-					{
-						"name": "PLAN_CHANGE",
-						"type": "varchar"
-					},
-					{
-						"name": "GA_WRITING_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "MGA_WRITING_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "SGA_WRITING_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "SGA2",
-						"type": "varchar"
-					},
-					{
-						"name": "SGA2_WRITING_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "FMO_WRITING_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "AFMO_WRITING_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "NFMO",
-						"type": "varchar"
-					},
-					{
-						"name": "NFMO_WRITING_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "RFMO",
-						"type": "varchar"
-					},
-					{
-						"name": "RFMO_WRITING_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "PBP_CODE",
-						"type": "varchar"
-					},
-					{
-						"name": "FILE_RECORD_BIRTH_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					},
-					{
-						"name": "PRODUCT_1",
-						"type": "varchar"
-					},
-					{
-						"name": "PRODUCT_TYPE_1",
-						"type": "varchar"
-					},
-					{
-						"name": "RESIDENTIAL_ADDRESS_LINE_2",
-						"type": "varchar"
-					},
-					{
-						"name": "APPLICATION_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "APPLICATION_RECEIVED_DATE",
-						"type": "varchar"
-					},
-					{
-						"name": "DATE_OF_BIRTH",
-						"type": "varchar"
-					},
-					{
-						"name": "PHONE_NUMBER",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "SIM_103",
-					"table": "SIM_CIGNA_MA_POLICY_DETAILS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_CIGNA_MA_WEEKLY_FEED')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp1_connections_ALL_FEED",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "SIM_CIGNA_MA_WEEKLY_FEED_PRD.txt",
-						"folderPath": "/MSL_Cloud_Prd/FromAgency/SIM_Medicare"
-					},
-					"columnDelimiter": "\t",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "APPLICATION_NAME\tAGENT_NPN\tCURRENT_AGENT_ID\tMEDICARE_NUMBER\tMEMBER_ID\tFIRST_NAME\tLAST_NAME\tAPPLICANT_SIGNED_DATE\tEFFECTIVE_DATE\tDISENROLL_EFFECTIVE_DATE\tSTATUS\tSEP_CODE\tRESIDENTIAL_ADDRESS\tRESIDENTIAL_CITY\tRESIDENTIAL_STATE\tRESIDENTIAL_ZIP_CODE\tRESIDENTIAL_COUNTY\tAPPLICATION_TYPE\tCURRENT_AGENT_NAME\tAPPLICATION:_CREATED_BY\tGA\tMGA\tSGA\tFMO\tAFMO\tTOPLINE\tPRODUCT\tPRODUCT_TYPE\tGMO_ID\tGMO_NAME\tLMO_ID\tLMO_NAME\tEFFECTIVE_MONTH/YEAR\tATN_AFFINITY\tPLAN_CHANGE\tGA_WRITING_ID\tMGA_WRITING_ID\tSGA_WRITING_ID\tSGA2\tSGA2_WRITING_ID\tFMO_WRITING_ID\tAFMO_WRITING_ID\tNFMO\tNFMO_WRITING_ID\tRFMO\tRFMO_WRITING_ID\tPBP_CODE\tFILE_RECORD_BIRTHDATE",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_CIGNA_SM_MA_ACTIVITY_COMMISSION_DETAILS')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "e2eis_APP_PROD",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "REP_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "NPN",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "MBI",
-						"type": "varchar"
-					},
-					{
-						"name": "ACTIVITY_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "ACTIVITY_DATE",
-						"type": "date"
-					},
-					{
-						"name": "ACTIVITY_ENROLLMENT_EFFECTIVE_DATE",
-						"type": "date"
-					},
-					{
-						"name": "PAYMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "FILE_RECORD_BIRTH_DATE",
-						"type": "date"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "SIM_103",
-					"table": "SIM_CIGNA_SM_MA_ACTIVITY_COMMISSION_DETAILS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_CIGNA_SM_MA_ACTIVITY_COMMISSION_FEED_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp1_connections_ALL_FEED",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "SIM_CIGNA_SM_MA_ACTIVITY_COMMISSION_FEED_PRD.txt",
-						"folderPath": "/MSL_Cloud_Prd/FromAgency/SIM Commission"
-					},
-					"columnDelimiter": "\t",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "REP_NAME\tNPN\tMEMBER_NAME\tMBI\tACTIVITY_TYPE\tACTIVITY_DATE\tACTIVITY_ENROLLMENT_EFFECTIVE_DATE\tPAYMENT\tFILE_RECORD_BIRTH_DATE",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_CIGNA_SM_MA_DETAILS_COMMISSION_DETAILS_APP_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "e2eis_APP_PROD",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "PAYMENT_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "PAYMENT_DESCRIPTION",
-						"type": "varchar"
-					},
-					{
-						"name": "WRITING_BROKER_NPN",
-						"type": "varchar"
-					},
-					{
-						"name": "WRITING_BROKER_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "EARNER_NPN",
-						"type": "varchar"
-					},
-					{
-						"name": "EARNER_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "PAY_PERIOD",
-						"type": "varchar"
-					},
-					{
-						"name": "PAYMENT_AMOUNT",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "MEDICARE_BENEFICIARY_IDENTIFIER",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "SIGNED_DATE",
-						"type": "date"
-					},
-					{
-						"name": "EFFECTIVE_DATE",
-						"type": "date"
-					},
-					{
-						"name": "MEMBER_TERM_DATE",
-						"type": "date"
-					},
-					{
-						"name": "CYCLE_YEAR",
-						"type": "varchar"
-					},
-					{
-						"name": "PRIOR_PLAN_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "POLICY_STATE",
-						"type": "varchar"
-					},
-					{
-						"name": "PLAN_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "PLAN_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "ORIGINAL_EFFECTIVE_DATE",
-						"type": "date"
-					},
-					{
-						"name": "CMS_CONTRACT",
-						"type": "varchar"
-					},
-					{
-						"name": "PBP",
-						"type": "varchar"
-					},
-					{
-						"name": "SEGMENT_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "DESCRIPTION",
-						"type": "varchar"
-					},
-					{
-						"name": "FILE_RECORD_BIRTH_DATE",
-						"type": "date"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "SIM_103",
-					"table": "SIM_CIGNA_SM_MA_DETAILS_COMMISSION_DETAILS"
-				}
 			},
 			"dependsOn": []
 		}
