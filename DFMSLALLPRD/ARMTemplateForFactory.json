@@ -266410,7 +266410,14 @@
 						"type": "Copy",
 						"state": "Inactive",
 						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [],
+						"dependsOn": [
+							{
+								"activity": "SIM_ELEVANCE_OVERRIDE_COMMISSION_FEED",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
 						"policy": {
 							"timeout": "0.12:00:00",
 							"retry": 0,
@@ -266617,7 +266624,7 @@
 								"mappings": [
 									{
 										"source": {
-											"name": "WASAN0",
+											"name": "WASAN",
 											"type": "String",
 											"physicalType": "String"
 										},
@@ -266775,7 +266782,14 @@
 						"type": "Copy",
 						"state": "Inactive",
 						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [],
+						"dependsOn": [
+							{
+								"activity": "SIM_ELEVANCE_AC_COMMISSION_FEED",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
 						"policy": {
 							"timeout": "0.12:00:00",
 							"retry": 0,
@@ -267054,7 +267068,7 @@
 									},
 									{
 										"source": {
-											"name": "EFFECTIVE_DATE",
+											"name": " EFF_DATE",
 											"type": "String",
 											"physicalType": "String"
 										},
@@ -267134,6 +267148,32 @@
 											"name": "FILE_RECORD_BIRTH_DATE",
 											"type": "Date",
 											"physicalType": "date"
+										}
+									},
+									{
+										"source": {
+											"name": "NPN",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "NPN",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "OWED",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "OWED",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 18
 										}
 									}
 								],
@@ -269353,6 +269393,512 @@
 								"parameters": {}
 							}
 						]
+					},
+					{
+						"name": "SIM_ELEVANCE_OVERRIDE_COMMISSION_FEED",
+						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "SftpReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false,
+									"disableChunking": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "SqlServerSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "UPLINE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "UPLINE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "AGENT_NAME",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "AGENT_NAME",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "NPN",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "NPN",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CLIENT_NAME",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "CLIENT_NAME",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "POLICY_#",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "POLICY_NUMBER",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "EFFECTIVE_DATE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "EFFECTIVE_DATE",
+											"type": "Date",
+											"physicalType": "date"
+										}
+									},
+									{
+										"source": {
+											"name": "TYPE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TYPE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PRODUCT_TYPE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PRODUCT_TYPE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "DUE_DATE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "DUE_DATE",
+											"type": "Date",
+											"physicalType": "date"
+										}
+									},
+									{
+										"source": {
+											"name": "STATE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "STATE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PREMIUM",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PREMIUM",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "#_OF_MONTHS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "NUMBER_OF_MONTHS",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "OWED",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "OWED",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "FILE_RECORD_BIRTH_DATE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "FILE_RECORD_BIRTH_DATE",
+											"type": "Date",
+											"physicalType": "date"
+										}
+									},
+									{
+										"source": {
+											"name": "PRODUCER NUMBER",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PRODUCER_NUMBER",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": " AGENT COMMISSION",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "AGENT_COMMISSION",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 18
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SIM_ELEVANCE_OVERRIDE_COMMISSION_FEED_PRD",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SIM_ELEVANCE_OVERRIDE_COMMISSION_DETAILS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "SIM_ELEVANCE_AC_COMMISSION_FEED",
+						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "SftpReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false,
+									"disableChunking": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "SqlServerSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "UPLINE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "UPLINE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "AGENT_NAME",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "AGENT_NAME",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "NPN",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "NPN",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CLIENT_NAME",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "CLIENT_NAME",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "POLICY_NUMBER",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "POLICY_NUMBER",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "EFFECTIVE_DATE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "EFFECTIVE_DATE",
+											"type": "Date",
+											"physicalType": "date"
+										}
+									},
+									{
+										"source": {
+											"name": "TYPE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TYPE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PRODUCT_TYPE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PRODUCT_TYPE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "DUE_DATE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "DUE_DATE",
+											"type": "Date",
+											"physicalType": "date"
+										}
+									},
+									{
+										"source": {
+											"name": "STATE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "STATE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PREMIUM",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PREMIUM",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "#_OF_MONTHS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "NUMBER_OF_MONTHS",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "AGENT_COMMISSION",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "AGENT_COMMISSION",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "FILE_RECORD_BIRTH_DATE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "FILE_RECORD_BIRTH_DATE",
+											"type": "Date",
+											"physicalType": "date"
+										}
+									},
+									{
+										"source": {
+											"name": "PRODUCER_NUMBER",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PRODUCER_NUMBER",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "OWED",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "OWED",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 2,
+											"precision": 18
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SIM_ELEVANCE_AC_COMMISSION_FEED_PRD",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SIM_ELEVANCE_AC_COMMISSION_DETAILS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
 					}
 				],
 				"policy": {
@@ -269490,7 +270036,11 @@
 				"[concat(variables('factoryId'), '/datasets/SIM_AMERILIFE_WELLCARE_MA_COMMISSION_FEED_PRD')]",
 				"[concat(variables('factoryId'), '/datasets/SIM_AMERILIFE_WELLCARE_MA_COMMISSION_DETAILS')]",
 				"[concat(variables('factoryId'), '/datasets/SIM_ELEVANCE_SUMMARY_SM_MA_COMMISSION_FEED_PRD')]",
-				"[concat(variables('factoryId'), '/datasets/SIM_ELEVANCE_SUMMARY_SM_MA_COMMISSION_DETAILS')]"
+				"[concat(variables('factoryId'), '/datasets/SIM_ELEVANCE_SUMMARY_SM_MA_COMMISSION_DETAILS')]",
+				"[concat(variables('factoryId'), '/datasets/SIM_ELEVANCE_OVERRIDE_COMMISSION_FEED_PRD')]",
+				"[concat(variables('factoryId'), '/datasets/SIM_ELEVANCE_OVERRIDE_COMMISSION_DETAILS')]",
+				"[concat(variables('factoryId'), '/datasets/SIM_ELEVANCE_AC_COMMISSION_FEED_PRD')]",
+				"[concat(variables('factoryId'), '/datasets/SIM_ELEVANCE_AC_COMMISSION_DETAILS')]"
 			]
 		},
 		{
@@ -463774,6 +464324,142 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/SIM_ELEVANCE_AC_COMMISSION_DETAILS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "e2eis_APP_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "UPLINE",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "NPN",
+						"type": "varchar"
+					},
+					{
+						"name": "CLIENT_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "POLICY_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "EFFECTIVE_DATE",
+						"type": "date"
+					},
+					{
+						"name": "TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCT_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "DUE_DATE",
+						"type": "date"
+					},
+					{
+						"name": "STATE",
+						"type": "varchar"
+					},
+					{
+						"name": "PREMIUM",
+						"type": "varchar"
+					},
+					{
+						"name": "NUMBER_OF_MONTHS",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_COMMISSION",
+						"type": "varchar"
+					},
+					{
+						"name": "FILE_RECORD_BIRTH_DATE",
+						"type": "date"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_ELEVANCE_AC_COMMISSION_DETAILS"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/e2eis_APP_PROD')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_ELEVANCE_AC_COMMISSION_FEED_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "SIM_ELEVANCE_AC_COMMISSION_FEED_PRD.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/SIM Commission"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "UPLINE\tAGENT_NAME\tPRODUCER_NUMBER\tCLIENT_NAME\tPOLICY_NUMBER\tMEDICARE_ID\tEFFECTIVE_DATE\tTYPE\tPRODUCT_TYPE\tDUE_DATE\tSTATE\tPREMIUM\t#_OF_MONTHS\tAGENT_COMMISSION\tFILE_RECORD_BIRTH_DATE\tNPN\tOWED",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Sftp1_connections_ALL_FEED')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SIM_ELEVANCE_GS_MA_POLICY_DETAILS_APP_PROD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -464875,6 +465561,142 @@
 				"schema": [
 					{
 						"name": "AGENT_TIN\tAGENT_ENCRYPTED_TIN\tAGENT_MEDISYSID\tAGENT_PARENT_TIN\tAGENT_PARENT_ENCRYPTED_TIN\tAGENT_FIRST_NAME\tAGENT_LAST_NAME\tSOURCE\tBENEFICIARY_FIRST_NAME\tBENEFICIARY_LAST_NAME\tBENEFICIARY_MID_INITIAL\tADDRESS1\tADDRESS2\tSTATE\tCITY\tZIP_CODE\tCOUNTY\tMEMBER_PHONE\tHCID\tBENEFICIARY_CLAIM_NUMBER\tPRODUCT_DESCRIPTION\tEFFECTIVE_DATE\tPRODUCT_TYPE_DESCRIPTION\tTERM_DATE\tCONTRACT\tAPPLICATION_RECEIVED_DATE\tCHANGE_TYPE\tENROLLMENT_STATUS\tAGENT_DATA_SOURCE\tOEC_CONFIRMATION_NUMBER\tSTATUS_REASON\tSTATUS_REASON_DESCRIPTION\tRECORD_STATUS\tPRODUCT_TYPE\tPBP\tSEGMENT_ID\tGROUP_NUMBER\tSUB_GROUP_NUMBER\tOSB_PACKAGE\tSALES_TYPE\tAGENTPARENTNAMEHIERARCHY2\tAGENTPARENTTINHIERARCHY2\tAGENTPARENTNAMEHIERARCHY3\tAGENTPARENTTINHIERARCHY3\tAGENTPARENTNAMEHIERARCHY4\tAGENTPARENTTINHIERARCHY4\tAGENTPARENTNAMEHIERARCHY5\tAGENTPARENTTINHIERARCHY5\tAGENTPARENTNAMEHIERARCHY6\tAGENTPARENTTINHIERARCHY6\tFILE_RECORD_BIRTHDATE",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Sftp1_connections_ALL_FEED')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_ELEVANCE_OVERRIDE_COMMISSION_DETAILS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "e2eis_APP_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "UPLINE",
+						"type": "varchar"
+					},
+					{
+						"name": "AGENT_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "NPN",
+						"type": "varchar"
+					},
+					{
+						"name": "CLIENT_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "POLICY_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "EFFECTIVE_DATE",
+						"type": "date"
+					},
+					{
+						"name": "TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "PRODUCT_TYPE",
+						"type": "varchar"
+					},
+					{
+						"name": "DUE_DATE",
+						"type": "date"
+					},
+					{
+						"name": "STATE",
+						"type": "varchar"
+					},
+					{
+						"name": "PREMIUM",
+						"type": "varchar"
+					},
+					{
+						"name": "NUMBER_OF_MONTHS",
+						"type": "varchar"
+					},
+					{
+						"name": "OWED",
+						"type": "varchar"
+					},
+					{
+						"name": "FILE_RECORD_BIRTH_DATE",
+						"type": "date"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_ELEVANCE_OVERRIDE_COMMISSION_DETAILS"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/e2eis_APP_PROD')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_ELEVANCE_OVERRIDE_COMMISSION_FEED_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "SIM_ELEVANCE_OVERRIDE_COMMISSION_FEED_PRD.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/SIM Commission"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "UPLINE\tAGENT_NAME\tNPN\tCLIENT_NAME\tPOLICY_#\tEFFECTIVE_DATE\tTYPE\tPRODUCT_TYPE\tDUE_DATE\tSTATE\tPREMIUM\t#_OF_MONTHS\tOWED\tFILE_RECORD_BIRTH_DATE\tPRODUCER NUMBER\t AGENT COMMISSION ",
 						"type": "String"
 					}
 				]
