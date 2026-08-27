@@ -152398,7 +152398,7 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "MIA_FB_RAW_EG01_APP_PRD",
+								"referenceName": "MIA_EG01_COMMISION_DETAILS_FB_APP_PROD",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -153106,7 +153106,7 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "MIA_FB_RAW_EI13_APP_PRD",
+								"referenceName": "MIA_EI13U_COMMISION_DETAILS_FB_APP_PROD",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -153915,7 +153915,7 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "MIA_FB_RAW_EI14_APP_PRD",
+								"referenceName": "MIA_EI14U_COMMISION_DETAILS_FB_APP_PROD",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -154245,7 +154245,7 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "MIA_FB_RAW_EI16_APP_PRD",
+								"referenceName": "MIA_EI16U_COMMISION_DETAILS_FB_APP_PROD",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -158951,251 +158951,6 @@
 								"parameters": {}
 							}
 						]
-					},
-					{
-						"name": "MIA_FB_RAW_F07_ADJUSTMENTS",
-						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [
-							{
-								"activity": "MIA_FHCP_GROUP_COMMISSION_FEED",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "SftpReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false,
-									"disableChunking": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"sink": {
-								"type": "SqlServerSink",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "DATE",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "DATE",
-											"type": "Date",
-											"physicalType": "date"
-										}
-									},
-									{
-										"source": {
-											"name": "ADJUSTMENT_REASON",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "ADJUSTMENT_REASON",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "AMOUNT",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "AMOUNT",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "MIA_F07_COMMISSION_ADJUSTMENT_DETAILS_FB_STG",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "MIA_FB_RAW_F07_ADJUSTMENTS_APP_PRD",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "MIA_FB_PRE_ACA_PRODUCTS_DETAILS",
-						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [
-							{
-								"activity": "MIA_FB_RAW_F07_ADJUSTMENTS",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SqlServerSource",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "SqlServerSink",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "E2EIS_SEQ_NUMBER",
-											"type": "Int64",
-											"physicalType": "bigint"
-										},
-										"sink": {
-											"name": "E2EIS_SEQ_NUMBER",
-											"type": "Int64",
-											"physicalType": "bigint"
-										}
-									},
-									{
-										"source": {
-											"name": "PRODUCT_TYPE",
-											"type": "String",
-											"physicalType": "nvarchar"
-										},
-										"sink": {
-											"name": "PRODUCT_TYPE",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "AGENCY_ID",
-											"type": "String",
-											"physicalType": "nvarchar"
-										},
-										"sink": {
-											"name": "AGENCY_ID",
-											"type": "Int16",
-											"physicalType": "smallint"
-										}
-									},
-									{
-										"source": {
-											"name": "RECORD_LOAD_DATE",
-											"type": "Date",
-											"physicalType": "date"
-										},
-										"sink": {
-											"name": "RECORD_LOAD_DATE",
-											"type": "Date",
-											"physicalType": "date"
-										}
-									},
-									{
-										"source": {
-											"name": "RECORD_LOADED_BY",
-											"type": "String",
-											"physicalType": "char"
-										},
-										"sink": {
-											"name": "RECORD_LOADED_BY",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "RECORD_DATA_SOURCE",
-											"type": "String",
-											"physicalType": "char"
-										},
-										"sink": {
-											"name": "RECORD_DATA_SOURCE",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "RECORD_FLAG_STATUS",
-											"type": "String",
-											"physicalType": "char"
-										},
-										"sink": {
-											"name": "RECORD_FLAG_STATUS",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "MIA_FB_PRE_ACA_PRODUCTS_DETAILS_UAT",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "MIA_FB_RAW_PRE_ACA_PRODUCTS_APP_PRD",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
 					}
 				],
 				"policy": {
@@ -159222,17 +158977,17 @@
 				"[concat(variables('factoryId'), '/datasets/MIA_AGENCY_ANNUAL_RATE_DETAILS_FB_HISTORY_APP_PROD')]",
 				"[concat(variables('factoryId'), '/datasets/MIA_FB_RATE_SHEET_WEEKLY_FEED_APP_PROD')]",
 				"[concat(variables('factoryId'), '/datasets/MIA_FB_EG01_COMMISSION_FEED_APP_PROD')]",
-				"[concat(variables('factoryId'), '/datasets/MIA_FB_RAW_EG01_APP_PRD')]",
+				"[concat(variables('factoryId'), '/datasets/MIA_EG01_COMMISION_DETAILS_FB_APP_PROD')]",
 				"[concat(variables('factoryId'), '/datasets/MIA_FB_EG01_FHCP_COMMISSION_FEED_APP_PROD')]",
 				"[concat(variables('factoryId'), '/datasets/MIA_FB_RAW_EG01_FHCP_APP_PRD')]",
 				"[concat(variables('factoryId'), '/datasets/MIA_FB_EI13U_COMMISSION_FEED_APP_PROD')]",
-				"[concat(variables('factoryId'), '/datasets/MIA_FB_RAW_EI13_APP_PRD')]",
+				"[concat(variables('factoryId'), '/datasets/MIA_EI13U_COMMISION_DETAILS_FB_APP_PROD')]",
 				"[concat(variables('factoryId'), '/datasets/MIA_EI13U_FHCP_COMMISION_DETAILS_FB_STG')]",
 				"[concat(variables('factoryId'), '/datasets/MIA_FB_RAW_EI13_FHCP_APP_PRD')]",
 				"[concat(variables('factoryId'), '/datasets/MIA_FB_EI14U_COMMISSION_FEED_APP_PROD')]",
-				"[concat(variables('factoryId'), '/datasets/MIA_FB_RAW_EI14_APP_PRD')]",
+				"[concat(variables('factoryId'), '/datasets/MIA_EI14U_COMMISION_DETAILS_FB_APP_PROD')]",
 				"[concat(variables('factoryId'), '/datasets/MIA_FB_EI16U_COMMISSION_FEED_APP_PROD')]",
-				"[concat(variables('factoryId'), '/datasets/MIA_FB_RAW_EI16_APP_PRD')]",
+				"[concat(variables('factoryId'), '/datasets/MIA_EI16U_COMMISION_DETAILS_FB_APP_PROD')]",
 				"[concat(variables('factoryId'), '/datasets/MIA_FB_NEW_AS_EARNED_CMMISSION_FEED_APP_PROD')]",
 				"[concat(variables('factoryId'), '/datasets/MIA_FB_NEW_AS_EARNED_EXISTING_APP_PROD')]",
 				"[concat(variables('factoryId'), '/datasets/MIA_FB_MANUAL_ADJUSTMENTS_COMMISSION_FEED_APP_PROD')]",
@@ -159258,11 +159013,7 @@
 				"[concat(variables('factoryId'), '/datasets/MIA_BLUECHIP_BUDDY_NAME_FEED_APP_PROD')]",
 				"[concat(variables('factoryId'), '/datasets/MIA_BLUECHIP_BUDDYNAME_APP_PROD')]",
 				"[concat(variables('factoryId'), '/datasets/MIA_BLUECHIP_RATE_SHEET_DETAILS')]",
-				"[concat(variables('factoryId'), '/datasets/MIA_BLUECHIP_RATE_SHEET_APP_PRD')]",
-				"[concat(variables('factoryId'), '/datasets/MIA_F07_COMMISSION_ADJUSTMENT_DETAILS_FB_STG')]",
-				"[concat(variables('factoryId'), '/datasets/MIA_FB_RAW_F07_ADJUSTMENTS_APP_PRD')]",
-				"[concat(variables('factoryId'), '/datasets/MIA_FB_PRE_ACA_PRODUCTS_DETAILS_UAT')]",
-				"[concat(variables('factoryId'), '/datasets/MIA_FB_RAW_PRE_ACA_PRODUCTS_APP_PRD')]"
+				"[concat(variables('factoryId'), '/datasets/MIA_BLUECHIP_RATE_SHEET_APP_PRD')]"
 			]
 		},
 		{
