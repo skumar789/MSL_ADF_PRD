@@ -64773,14 +64773,7 @@
 						"type": "Copy",
 						"state": "Inactive",
 						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [
-							{
-								"activity": "ABI_F07_COMMISSION_ADJUSTMENT_DETAILS_STG",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
+						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
 							"retry": 0,
@@ -65020,7 +65013,7 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "ABI_RAW_EG01_APP_PRD",
+								"referenceName": "ABI_EG01_COMMISION_DETAILS_APP_PROD",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -65470,7 +65463,7 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "ABI_RAW_EI13_APP_PRD",
+								"referenceName": "ABI_EI13U_COMMISION_DETAILS_APP_PROD",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -65884,7 +65877,7 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "ABI_RAW_EI14_APP_PRD",
+								"referenceName": "ABI_EI14U_COMMISION_DETAILS_APP_PROD",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -66226,7 +66219,7 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "ABI_RAW_EI16_APP_PRD",
+								"referenceName": "ABI_EI16U_COMMISION_DETAILS_APP_PROD",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -81562,101 +81555,6 @@
 						]
 					},
 					{
-						"name": "ABI_F07_COMMISSION_ADJUSTMENT_DETAILS_STG",
-						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "SftpReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false,
-									"disableChunking": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"sink": {
-								"type": "SqlServerSink",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "DATE",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "DATE",
-											"type": "Date",
-											"physicalType": "date"
-										}
-									},
-									{
-										"source": {
-											"name": "ADJUSTMENT_REASON",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "ADJUSTMENT_REASON",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "AMOUNT",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "AMOUNT",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "ABI_F07_COMMISSION_ADJUSTMENT_MONTHLY_FEED_PRD",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "ABI_RAW_F07_APP_PRD",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
 						"name": "ABI_FB_PREACA_PRODUCTLIST",
 						"type": "Copy",
 						"state": "Inactive",
@@ -82306,13 +82204,13 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ABI_EG01_Monthly_Feed_PRD')]",
-				"[concat(variables('factoryId'), '/datasets/ABI_RAW_EG01_APP_PRD')]",
+				"[concat(variables('factoryId'), '/datasets/ABI_EG01_COMMISION_DETAILS_APP_PROD')]",
 				"[concat(variables('factoryId'), '/datasets/ABI_EI13U_Monthly_Feed_PRD')]",
-				"[concat(variables('factoryId'), '/datasets/ABI_RAW_EI13_APP_PRD')]",
+				"[concat(variables('factoryId'), '/datasets/ABI_EI13U_COMMISION_DETAILS_APP_PROD')]",
 				"[concat(variables('factoryId'), '/datasets/ABI_EI14U_Monthly_Feed_PRD')]",
-				"[concat(variables('factoryId'), '/datasets/ABI_RAW_EI14_APP_PRD')]",
+				"[concat(variables('factoryId'), '/datasets/ABI_EI14U_COMMISION_DETAILS_APP_PROD')]",
 				"[concat(variables('factoryId'), '/datasets/ABI_EI16U_Monthly_Feed_PRD')]",
-				"[concat(variables('factoryId'), '/datasets/ABI_RAW_EI16_APP_PRD')]",
+				"[concat(variables('factoryId'), '/datasets/ABI_EI16U_COMMISION_DETAILS_APP_PROD')]",
 				"[concat(variables('factoryId'), '/datasets/ABI_LSV_MONTHLY_FEED_APP_PROD')]",
 				"[concat(variables('factoryId'), '/datasets/ABI_LIFE_SPECIALTY_VENTURE_DETAILS_APP_PROD')]",
 				"[concat(variables('factoryId'), '/datasets/ABI_Agency_Manual_Adjustment_Monthly_Feed_APP_PROD')]",
@@ -82369,8 +82267,6 @@
 				"[concat(variables('factoryId'), '/datasets/ABI_AUDIT_RETRO_CORRECTIONS')]",
 				"[concat(variables('factoryId'), '/datasets/ABI_COMMISSION_ALL_SALES_REPORT_DETAIL_TEMP')]",
 				"[concat(variables('factoryId'), '/datasets/ABI_AUDIT_RETRO_CORRECTIONS_PRD')]",
-				"[concat(variables('factoryId'), '/datasets/ABI_F07_COMMISSION_ADJUSTMENT_MONTHLY_FEED_PRD')]",
-				"[concat(variables('factoryId'), '/datasets/ABI_RAW_F07_APP_PRD')]",
 				"[concat(variables('factoryId'), '/datasets/ABI_FB_PREACA_PRODUCTLIST_UAT')]",
 				"[concat(variables('factoryId'), '/datasets/ABI_FB_PREACA_PRODUCTLIST_APP_PRD')]",
 				"[concat(variables('factoryId'), '/datasets/ABI_FB_AGENCY_LIST_2025_UAT')]",
