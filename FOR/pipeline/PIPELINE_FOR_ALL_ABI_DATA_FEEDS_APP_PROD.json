@@ -7,14 +7,7 @@
 				"type": "Copy",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "ABI_F07_COMMISSION_ADJUSTMENT_DETAILS_STG",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -253,7 +246,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "ABI_RAW_EG01_APP_PRD",
+						"referenceName": "ABI_EG01_COMMISION_DETAILS_APP_PROD",
 						"type": "DatasetReference"
 					}
 				]
@@ -701,7 +694,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "ABI_RAW_EI13_APP_PRD",
+						"referenceName": "ABI_EI13U_COMMISION_DETAILS_APP_PROD",
 						"type": "DatasetReference"
 					}
 				]
@@ -1113,7 +1106,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "ABI_RAW_EI14_APP_PRD",
+						"referenceName": "ABI_EI14U_COMMISION_DETAILS_APP_PROD",
 						"type": "DatasetReference"
 					}
 				]
@@ -1453,7 +1446,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "ABI_RAW_EI16_APP_PRD",
+						"referenceName": "ABI_EI16U_COMMISION_DETAILS_APP_PROD",
 						"type": "DatasetReference"
 					}
 				]
@@ -16707,99 +16700,6 @@
 				"outputs": [
 					{
 						"referenceName": "ABI_COMMISSION_ALL_SALES_REPORT_DETAIL_TEMP",
-						"type": "DatasetReference"
-					}
-				]
-			},
-			{
-				"name": "ABI_F07_COMMISSION_ADJUSTMENT_DETAILS_STG",
-				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "DelimitedTextSource",
-						"storeSettings": {
-							"type": "SftpReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false,
-							"disableChunking": false
-						},
-						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
-						}
-					},
-					"sink": {
-						"type": "SqlServerSink",
-						"writeBehavior": "insert",
-						"sqlWriterUseTableLock": false
-					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"mappings": [
-							{
-								"source": {
-									"name": "DATE",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "DATE",
-									"type": "Date",
-									"physicalType": "date"
-								}
-							},
-							{
-								"source": {
-									"name": "ADJUSTMENT_REASON",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "ADJUSTMENT_REASON",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "AMOUNT",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "AMOUNT",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							}
-						],
-						"typeConversion": true,
-						"typeConversionSettings": {
-							"allowDataTruncation": true,
-							"treatBooleanAsNumber": false
-						}
-					}
-				},
-				"inputs": [
-					{
-						"referenceName": "ABI_F07_COMMISSION_ADJUSTMENT_MONTHLY_FEED_PRD",
-						"type": "DatasetReference"
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "ABI_RAW_F07_APP_PRD",
 						"type": "DatasetReference"
 					}
 				]
