@@ -13,6 +13,87 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/SIM_Molina_Weekly_Feed_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "SIM_Molina_Weekly_Feed_PRD.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/SIM"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "BROKER_NPN\tBROKER_FIRST_NAME\tBROKER_LAST_NAME\tMEMBER_FIRST_NAME\tMEMBER_LAST_NAME\tADDRESS1\tADDRESS2\tCITY\tSTATE\tZIP\tSTATE2\tDOB\tGENDER\tAPPLICATION_DATE\tEFFECTIVE_DATE\tPRODUCT\tEND_DATE\tSTATUS\tMEMBER_PREMIUM\tTOTAL_PREMIUM\tPAID_THROUGH_DATE\tNET_DUE_AMOUNT\tSCHEDULED_TERM_DATE\tHIX_ID\tSUBSCRIBER_ID\tMEMBER_COUNT\tMEMBER_BUSSINESS_PHONE\tORIGINAL_EFFECTIVE_DATE\tBROKER_START_DATE\tBROKER_END_DATE",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_NATIONAL_BOB_WEEKLY_EXTRACT_ACTIVE')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_outgoing_file",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"folderPath": "/Msl_Cloud_Prd/ToAgency/SIM"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_NATIONAL_BOB_WEEKLY_EXTRACT_FALLOUT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp_outgoing_file",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"folderPath": "/Msl_Cloud_Prd/ToAgency/SIM"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SIM_NATIONAL_BOB_WEEKLY_EXTRACT_INACTIVE_PRD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1699,149 +1780,6 @@
 					"schema": "SIM_103",
 					"table": "SIM_SCAN_HEALTH_BOB_SM_MA_POLICY_DETAILS"
 				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_SCAN_HEALTH_BOB_SM_MA_WEEKLY_FEED')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp1_connections_ALL_FEED",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "SIM_SCAN_HEALTH_BOB_SM_MA_WEEKLY_FEED_PRD.txt",
-						"folderPath": "/MSL_Cloud_Prd/FromAgency/SIM_Medicare"
-					},
-					"columnDelimiter": "\t",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "BROKER_NPN\tBROKER_NAME\tMEMBER_ID\tMBI\tMEMBER_FIRST_NAME\tMEMBER_LAST_NAME\tMEMBER_DOB\tCYCLE_YEAR\tAPPLICATION_DATE\tEFFECTIVE_DATE\tTERMINATION_DATE\tCMS_CONTRACT\tPLAN_NUMBER\tPLAN_NAME\tPRIOR_PLAN_TYPE\tCURRENT_MEMBER_YEAR\tADDRESS_1\tADDRESS_2\tCITY\tSTATE\tZIP\tPHONE\tPCP_ID\tPCP_NAME\tMEDICAL_GROUP_ID\tMEDICAL_GROUP_NAME\tEMAIL\tMEMBER_DEATH_DATE\tFILE_RECORD_BIRTH_DATE",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_SCAN_HEALTH_SM_MA_ACTIVITY_COMMISSION_DETAILS')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "e2eis_APP_PROD",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "REP_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "NPN",
-						"type": "varchar"
-					},
-					{
-						"name": "ACTIVITY_TYPE",
-						"type": "varchar"
-					},
-					{
-						"name": "MBI",
-						"type": "varchar"
-					},
-					{
-						"name": "MEMBER_NAME",
-						"type": "varchar"
-					},
-					{
-						"name": "ACTIVITY_DATE",
-						"type": "date"
-					},
-					{
-						"name": "ACTIVITY_ENROLLMENT_EFFECTIVE_DATE",
-						"type": "date"
-					},
-					{
-						"name": "PAYMENT",
-						"type": "varchar"
-					},
-					{
-						"name": "FILE_RECORD_BIRTH_DATE",
-						"type": "date"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "SIM_103",
-					"table": "SIM_SCAN_HEALTH_SM_MA_ACTIVITY_COMMISSION_DETAILS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SIM_SCAN_HEALTH_SM_MA_ACTIVITY_COMMISSION_FEED_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Sftp1_connections_ALL_FEED",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": "SIM_SCAN_HEALTH_SM_MA_ACTIVITY_COMMISSION_FEED_PRD.txt",
-						"folderPath": "/MSL_Cloud_Prd/FromAgency/SIM Commission"
-					},
-					"columnDelimiter": "\t",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "REP_NAME\tNPN\tACTIVITY_TYPE\tMBI\tMEMBER_NAME\tACTIVITY_DATE\tACTIVITY_ENROLLMENT_EFFECTIVE_DATE\tPAYMENT\tFILE_RECORD_BIRTH_DATE",
-						"type": "String"
-					}
-				]
 			},
 			"dependsOn": []
 		}

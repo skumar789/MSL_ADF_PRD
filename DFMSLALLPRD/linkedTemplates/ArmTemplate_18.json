@@ -13,6 +13,37 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/AIA_Agency_Rate_Annual_Feed_APP_PROD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "AIA_Agency_Rate_Annual_Feed_PRD.txt",
+						"folderPath": "/MSL_Cloud_App_Prd/FromAgency/AIA"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "YEAR\tSEGMENT\tAGENT_ROLE\tCOMP_STATEMENT\tPRODUCT_TYPE\tCOMMISSION_TYPE\tAGENCY_COMP_TYPE\tCONTRACT_STARTS_WITH\tE2E_PLAN_DESCRIPTION\tFREQUENCY\tCARRIER_RATE\tEMPLOYEE_RATE\tPAYMENT_RATE\tOVERRIDE_RATE\tRATE_TYPE\tENROLLMENT_YEAR_START\tENROLLMENT_YEAR_END\tGROUP_SIZE_RANGE_START\tGROUP_SIZE_RANGE_END\tGROUP_COUNTY\tTIER1_AMOUNT\tTIER2_AMOUNT\tTIER3_AMOUNT\tSTATE\tDEPARTMENT\tCARRIER",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AIA_Agency_Rate_Annual_Feed_PRD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1727,68 +1758,6 @@
 				"typeProperties": {
 					"schema": "AIA_102",
 					"table": "AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTIONS_MANUAL_FEED"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTIONS_STG_PRD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServere2eis_PROD",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "E2EIS_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "E2EIS_SATLITE_SEQ_NUMBER",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "CARRIER",
-						"type": "varchar"
-					},
-					{
-						"name": "POLICY_STATUS",
-						"type": "varchar"
-					},
-					{
-						"name": "POLICY_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "AGENCY_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "RECORD_LOAD_DATE",
-						"type": "date"
-					},
-					{
-						"name": "RECORD_LOADED_BY",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_DATA_SOURCE",
-						"type": "char"
-					},
-					{
-						"name": "RECORD_FLAG_STATUS",
-						"type": "char"
-					}
-				],
-				"typeProperties": {
-					"schema": "AIA_102",
-					"table": "AIA_BOB_ALL_AGENCY_ALL_POLICY_ALL_TRANSACTIONS_STG"
 				}
 			},
 			"dependsOn": []
