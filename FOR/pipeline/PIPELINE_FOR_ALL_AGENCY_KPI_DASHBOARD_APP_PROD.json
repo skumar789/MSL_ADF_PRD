@@ -128,7 +128,14 @@
 				"type": "SqlServerStoredProcedure",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "VIP_SP_KPI_REFRESH_RUN_ALL",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -197,6 +204,29 @@
 				"userProperties": [],
 				"typeProperties": {
 					"storedProcedureName": "[AIA_102].AIA_SP_KPI_DATA_POPULATE_MONTHLY_NEWDS"
+				},
+				"linkedServiceName": {
+					"referenceName": "e2eis_APP_PROD",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "VIP_SP_KPI_REFRESH_RUN_ALL",
+				"description": "VIP dashboard refresh step 1",
+				"type": "SqlServerStoredProcedure",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[VIP_105].[VIP_SP_KPI_REFRESH_RUN_ALL]"
 				},
 				"linkedServiceName": {
 					"referenceName": "e2eis_APP_PROD",
