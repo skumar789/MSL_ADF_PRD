@@ -28588,7 +28588,14 @@
 						"type": "Copy",
 						"state": "Inactive",
 						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [],
+						"dependsOn": [
+							{
+								"activity": "SIM_MEDICARE_AGENCY_ANNUAL_RATE_DETAILS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
 						"policy": {
 							"timeout": "0.12:00:00",
 							"retry": 0,
@@ -28995,7 +29002,14 @@
 						"type": "Copy",
 						"state": "Inactive",
 						"onInactiveMarkAs": "Succeeded",
-						"dependsOn": [],
+						"dependsOn": [
+							{
+								"activity": "SIM_MEDICARE_AGENCY_ANNUAL_RATE_DETAILS_UAT",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
 						"policy": {
 							"timeout": "0.12:00:00",
 							"retry": 0,
@@ -29491,6 +29505,429 @@
 						"outputs": [
 							{
 								"referenceName": "SIM_ELEVANCE_AC_COMMISSION_DETAILS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "SIM_MEDICARE_AGENCY_ANNUAL_RATE_DETAILS",
+						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "SftpReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false,
+									"disableChunking": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "SqlServerSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "CARRIER",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "CARRIER",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "ADMIN_LEVEL",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "ADMIN_LEVEL",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "RATE_PRODUCT_MARKET",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "RATE_PRODUCT_MARKET",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "STATE_GEOGRAPHY",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "STATE_GEOGRAPHY",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "COMPENSATION_CATEGORY",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "COMPENSATION_CATEGORY",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "EXPECTED_RATE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "EXPECTED_RATE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PAYMENT_METHOD",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "PAYMENT_METHOD",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "EFFECTIVE_RULE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "EFFECTIVE_RULE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "BUILD_STATUS",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "BUILD_STATUS",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "SOURCE_NOTE",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "SOURCE_NOTE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SIM_MEDICARE_AGENCY_ANNUAL_RATE_FEED_PRD",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SIM_MEDICARE_AGENCY_ANNUAL_RATE_DETAILS_APP_PRD",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "SIM_MEDICARE_AGENCY_ANNUAL_RATE_DETAILS_UAT",
+						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "SqlServerSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "E2EIS_SEQ_NUMBER",
+											"type": "Int64",
+											"physicalType": "bigint"
+										},
+										"sink": {
+											"name": "E2EIS_SEQ_NUMBER",
+											"type": "Int64",
+											"physicalType": "bigint"
+										}
+									},
+									{
+										"source": {
+											"name": "CARRIER",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CARRIER",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "ADMIN_LEVEL",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "ADMIN_LEVEL",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "RATE_PRODUCT_MARKET",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "RATE_PRODUCT_MARKET",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "STATE_GEOGRAPHY",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "STATE_GEOGRAPHY",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "COMPENSATION_CATEGORY",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "COMPENSATION_CATEGORY",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "EXPECTED_RATE",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "EXPECTED_RATE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PAYMENT_METHOD",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "PAYMENT_METHOD",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "EFFECTIVE_RULE",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "EFFECTIVE_RULE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "BUILD_STATUS",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "BUILD_STATUS",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "SOURCE_NOTE",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "SOURCE_NOTE",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "AGENCY_ID",
+											"type": "Int16",
+											"physicalType": "smallint"
+										},
+										"sink": {
+											"name": "AGENCY_ID",
+											"type": "Int16",
+											"physicalType": "smallint"
+										}
+									},
+									{
+										"source": {
+											"name": "RECORD_LOAD_DATE",
+											"type": "Date",
+											"physicalType": "date"
+										},
+										"sink": {
+											"name": "RECORD_LOAD_DATE",
+											"type": "Date",
+											"physicalType": "date"
+										}
+									},
+									{
+										"source": {
+											"name": "RECORD_LOADED_BY",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "RECORD_LOADED_BY",
+											"type": "String",
+											"physicalType": "char"
+										}
+									},
+									{
+										"source": {
+											"name": "RECORD_DATA_SOURCE",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "RECORD_DATA_SOURCE",
+											"type": "String",
+											"physicalType": "char"
+										}
+									},
+									{
+										"source": {
+											"name": "RECORD_FLAG_STATUS",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "RECORD_FLAG_STATUS",
+											"type": "String",
+											"physicalType": "char"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SIM_MEDICARE_AGENCY_ANNUAL_RATE_DETAILS_APP_PROD",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SIM_MEDICARE_AGENCY_ANNUAL_RATE_DETAILS_UAT",
 								"type": "DatasetReference",
 								"parameters": {}
 							}

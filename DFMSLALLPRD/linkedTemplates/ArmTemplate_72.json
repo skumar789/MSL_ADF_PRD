@@ -13,6 +13,225 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/SIM_ZING_GS_MA_ACTIVITY_COMMISSION_FEED_APP_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "SIM_ZING_GS_MA_ACTIVITY_COMMISSION_FEED_PRD.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/SIM Commission"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "REP_NAME\tNPN\tACTIVITY_TYPE\tACTIVITY_DATE\tACTIVITY_ENROLLMENT_EFFECTIVE_DATE\tPAYMENT\tMEMBER_ID\tMEMBER_NAME\tFILE_RECORD_BIRTH_DATE",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_ZING_GS_MA_DETAILS_COMMISSION_DETAILS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "e2eis_APP_PROD",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "E2EIS_SEQ_NUMBER",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "REP_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "NPN",
+						"type": "varchar"
+					},
+					{
+						"name": "EFFECTIVE_DATE",
+						"type": "date"
+					},
+					{
+						"name": "TERM_DATE",
+						"type": "date"
+					},
+					{
+						"name": "PLAN_GROUP",
+						"type": "varchar"
+					},
+					{
+						"name": "PLAN_GROUP_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "PLAN",
+						"type": "varchar"
+					},
+					{
+						"name": "MEMBER_HIC",
+						"type": "varchar"
+					},
+					{
+						"name": "MEMBER_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "MEMBER_FIRST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "MEMBER_LAST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "MEMBER_YEAR",
+						"type": "varchar"
+					},
+					{
+						"name": "PRIOR_PLAN",
+						"type": "varchar"
+					},
+					{
+						"name": "CAL_MONTH",
+						"type": "varchar"
+					},
+					{
+						"name": "CAL_YEAR",
+						"type": "varchar"
+					},
+					{
+						"name": "PAYMENT",
+						"type": "varchar"
+					},
+					{
+						"name": "LEVEL",
+						"type": "varchar"
+					},
+					{
+						"name": "FILE_RECORD_BIRTH_DATE",
+						"type": "date"
+					},
+					{
+						"name": "AGENCY_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RECORD_LOAD_DATE",
+						"type": "date"
+					},
+					{
+						"name": "RECORD_LOADED_BY",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_DATA_SOURCE",
+						"type": "char"
+					},
+					{
+						"name": "RECORD_FLAG_STATUS",
+						"type": "char"
+					}
+				],
+				"typeProperties": {
+					"schema": "SIM_103",
+					"table": "SIM_ZING_GS_MA_COMMISSION_DETAILS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SIM_ZING_GS_MA_DETAILS_COMMISSION_FEED_APP_PRD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Sftp1_connections_ALL_FEED",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": "SIM_ZING_GS_MA_DETAILS_COMMISSION_FEED_PRD.txt",
+						"folderPath": "/MSL_Cloud_Prd/FromAgency/SIM Commission"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "REP_NAME\tNPN\tEFFECTIVE_DATE\tTERM_DATE\tPLAN_GROUP\tPLAN_GROUP_NAME\tPLAN\tMEMBER_HIC\tMEMBER_ID\tMEMBER_FIRST_NAME\tMEMBER_LAST_NAME\tMEMBER_YEAR\tPRIOR_PLAN\tCAL_MONTH\tCAL_YEAR\tPAYMENT\tLEVEL\tFILE_RECORD_BIRTH_DATE",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SftpDelimitedParam')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SFTP",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"p_folderPath": {
+						"type": "string"
+					},
+					"p_fileName": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": {
+							"value": "@dataset().p_fileName",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@dataset().p_folderPath",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SqlTableParam')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -808,6 +1027,7 @@
 				"lastPublishTime": "2026-07-12T09:37:40Z"
 			},
 			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SftpDelimitedParam')]",
 				"[concat(variables('factoryId'), '/datasets/SqlTableParam')]"
 			]
 		},
@@ -1057,6 +1277,7 @@
 				"lastPublishTime": "2025-09-08T11:05:57Z"
 			},
 			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SftpDelimitedParam')]",
 				"[concat(variables('factoryId'), '/datasets/SqlTableParam')]"
 			]
 		},
@@ -1306,6 +1527,7 @@
 				"lastPublishTime": "2026-07-12T09:37:40Z"
 			},
 			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SftpDelimitedParam')]",
 				"[concat(variables('factoryId'), '/datasets/SqlTableParam')]"
 			]
 		},
