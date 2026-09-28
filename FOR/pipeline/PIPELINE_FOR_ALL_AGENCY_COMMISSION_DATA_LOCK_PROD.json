@@ -810,7 +810,14 @@
 				"type": "Copy",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -8153,6 +8160,766 @@
 				"outputs": [
 					{
 						"referenceName": "MIA_BCBS_FB_COMISSIONS_HISTORY_APP_PROD",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SqlServerSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "E2EIS_SEQ_NUMBER",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "E2EIS_SEQ_NUMBER",
+									"type": "Int64",
+									"physicalType": "bigint"
+								}
+							},
+							{
+								"source": {
+									"name": "BOB_PERIODNAME",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "BOB_PERIODNAME",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "PROCESS_MONTH",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "PROCESS_MONTH",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "PROCESS_YEAR",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "PROCESS_YEAR",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "CONTRACT_ID",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "CONTRACT_ID",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "MEMBER_FB_UID",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "MEMBER_FB_UID",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "MEMBER_FIRST_NAME",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "MEMBER_FIRST_NAME",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "MEMBER_LAST_NAME",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "MEMBER_LAST_NAME",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "MEMBER_DOB",
+									"type": "Date",
+									"physicalType": "date"
+								},
+								"sink": {
+									"name": "MEMBER_DOB",
+									"type": "Date",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "MEMBER_COUNT",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "MEMBER_COUNT",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "PRODUCT",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "PRODUCT",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "PLAN_NAME",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "PLAN_NAME",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "COVERAGE_EFFECTIVE_DATE",
+									"type": "Date",
+									"physicalType": "date"
+								},
+								"sink": {
+									"name": "COVERAGE_EFFECTIVE_DATE",
+									"type": "Date",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "COVERAGE_EXPIRATION_DATE",
+									"type": "Date",
+									"physicalType": "date"
+								},
+								"sink": {
+									"name": "COVERAGE_EXPIRATION_DATE",
+									"type": "Date",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "AGENT_CONTRACT_START_DATE",
+									"type": "Date",
+									"physicalType": "date"
+								},
+								"sink": {
+									"name": "AGENT_CONTRACT_START_DATE",
+									"type": "Date",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "AGENT_CONTRACT_TERM_DATE",
+									"type": "Date",
+									"physicalType": "date"
+								},
+								"sink": {
+									"name": "AGENT_CONTRACT_TERM_DATE",
+									"type": "Date",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "ACCOUNTING_START_DATE",
+									"type": "Date",
+									"physicalType": "date"
+								},
+								"sink": {
+									"name": "ACCOUNTING_START_DATE",
+									"type": "Date",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "ACCOUNTING_END_DATE",
+									"type": "Date",
+									"physicalType": "date"
+								},
+								"sink": {
+									"name": "ACCOUNTING_END_DATE",
+									"type": "Date",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "CONTRACT_STATUS",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "CONTRACT_STATUS",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "ACCOUNTING_DATE",
+									"type": "Date",
+									"physicalType": "date"
+								},
+								"sink": {
+									"name": "ACCOUNTING_DATE",
+									"type": "Date",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "ONETIME_MONTHLY",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "ONETIME_MONTHLY",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "SUBSCRIBER_ORIG_EFF_DATE_FB",
+									"type": "Date",
+									"physicalType": "date"
+								},
+								"sink": {
+									"name": "SUBSCRIBER_ORIG_EFF_DATE_FB",
+									"type": "Date",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "COMPENSATION_TYPE",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "COMPENSATION_TYPE",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "ACTIVE_MONTHS",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "ACTIVE_MONTHS",
+									"type": "Int64",
+									"physicalType": "bigint"
+								}
+							},
+							{
+								"source": {
+									"name": "RATE",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 14
+								},
+								"sink": {
+									"name": "RATE",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 14
+								}
+							},
+							{
+								"source": {
+									"name": "PMPM",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 14
+								},
+								"sink": {
+									"name": "PMPM",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 14
+								}
+							},
+							{
+								"source": {
+									"name": "COMMISSIONS",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 14
+								},
+								"sink": {
+									"name": "COMMISSIONS",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 14
+								}
+							},
+							{
+								"source": {
+									"name": "PRORATED_COMMISSIONS",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 14
+								},
+								"sink": {
+									"name": "PRORATED_COMMISSIONS",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 14
+								}
+							},
+							{
+								"source": {
+									"name": "ACCOUNTINGMONTH",
+									"type": "Int16",
+									"physicalType": "smallint"
+								},
+								"sink": {
+									"name": "ACCOUNTINGMONTH",
+									"type": "Int16",
+									"physicalType": "smallint"
+								}
+							},
+							{
+								"source": {
+									"name": "ACCOUNTINGYEAR",
+									"type": "Int16",
+									"physicalType": "smallint"
+								},
+								"sink": {
+									"name": "ACCOUNTINGYEAR",
+									"type": "Int16",
+									"physicalType": "smallint"
+								}
+							},
+							{
+								"source": {
+									"name": "FB_COMMISSIONS",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 14
+								},
+								"sink": {
+									"name": "FB_COMMISSIONS",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 14
+								}
+							},
+							{
+								"source": {
+									"name": "COMMISSION_DIFFERENCE",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 14
+								},
+								"sink": {
+									"name": "COMMISSION_DIFFERENCE",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 14
+								}
+							},
+							{
+								"source": {
+									"name": "PERIOD_COMMISSION_RESOLUTION",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "PERIOD_COMMISSION_RESOLUTION",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "COMMENTS",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "COMMENTS",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "ORIGINAL_COVERAGE_END_DATE",
+									"type": "Date",
+									"physicalType": "date"
+								},
+								"sink": {
+									"name": "ORIGINAL_COVERAGE_END_DATE",
+									"type": "Date",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "E13_MEMBER_COUNT",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 2,
+									"precision": 14
+								},
+								"sink": {
+									"name": "E13_MEMBER_COUNT",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 2,
+									"precision": 14
+								}
+							},
+							{
+								"source": {
+									"name": "EI13_ACCOUNTING_DATE",
+									"type": "Date",
+									"physicalType": "date"
+								},
+								"sink": {
+									"name": "EI13_ACCOUNTING_DATE",
+									"type": "Date",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "EI13_Cancel_Date",
+									"type": "Date",
+									"physicalType": "date"
+								},
+								"sink": {
+									"name": "EI13_Cancel_Date",
+									"type": "Date",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "BOB_CONTRACT_STATUS",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "BOB_CONTRACT_STATUS",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "BOB_ACTIVITY_FLAG",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "BOB_ACTIVITY_FLAG",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "POLICY_ADDED_DATE",
+									"type": "Date",
+									"physicalType": "date"
+								},
+								"sink": {
+									"name": "POLICY_ADDED_DATE",
+									"type": "Date",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "POLICY_CANCELLED_DATE",
+									"type": "Date",
+									"physicalType": "date"
+								},
+								"sink": {
+									"name": "POLICY_CANCELLED_DATE",
+									"type": "Date",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "POLICY_REMOVED_DATE",
+									"type": "Date",
+									"physicalType": "date"
+								},
+								"sink": {
+									"name": "POLICY_REMOVED_DATE",
+									"type": "Date",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "AGENCY_IDENTIFIER",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "AGENCY_IDENTIFIER",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Recon_OrderId",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "Recon_OrderId",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CURRENT_PREVIOUS",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "CURRENT_PREVIOUS",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "ContractRank",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "ContractRank",
+									"type": "Int64",
+									"physicalType": "bigint"
+								}
+							},
+							{
+								"source": {
+									"name": "Eligibility",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "Eligibility",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "DATEDIFF_SUBORIG_EFFDATE",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "DATEDIFF_SUBORIG_EFFDATE",
+									"type": "Int64",
+									"physicalType": "bigint"
+								}
+							},
+							{
+								"source": {
+									"name": "RENEWAL_LIST",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "RENEWAL_LIST",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "DATE_DIFF",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "DATE_DIFF",
+									"type": "Int64",
+									"physicalType": "bigint"
+								}
+							},
+							{
+								"source": {
+									"name": "CURRENT_PROJECTION",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "CURRENT_PROJECTION",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CONTRACT_CHANGE",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "CONTRACT_CHANGE",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "MEMBERFB_CONTRACT_GAPINCOVERAGE",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "MEMBERFB_CONTRACT_GAPINCOVERAGE",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "MEMBERFB_CONSIDER_FOR_ONETIME",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "MEMBERFB_CONSIDER_FOR_ONETIME",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "MEMBERFB_AGENTEFFECT_GAPINCOVERAGE",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "MEMBERFB_AGENTEFFECT_GAPINCOVERAGE",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "ADDITIONAL_COMMENTS",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "ADDITIONAL_COMMENTS",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SIM_BOB_COMMISSIONS_RECON_RESULTS_APP",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "SIM_BOB_COMMISSIONS_RECON_RESULTS_UAT",
 						"type": "DatasetReference"
 					}
 				]
