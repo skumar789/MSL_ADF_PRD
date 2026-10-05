@@ -1,0 +1,103 @@
+{
+	"name": "dataflow2",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "MIA_FB_EG01_FHCP_COMMISSION_UAT",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "MIA_EG01_FHCP_COMMISION_DETAILS_FB_STG_UAT",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "derivedColumn1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          GROUP_NUMBER as string,",
+				"          SUB_GROUP as boolean,",
+				"          PLAN_CODE as string,",
+				"          GROUP_NAME as string,",
+				"          BEGIN_COMMISSION_DATE as date,",
+				"          END_COMMISSION_DATE as date,",
+				"          AGENT_FIRST_NAME as string,",
+				"          AGENT_LAST_NAME as string,",
+				"          CURRENT_PREMIUM_TOTAL as string,",
+				"          COMMISSION_AMOUNT as double,",
+				"          COMMISSION_PAID as string,",
+				"          COMMISSION_ADJUSTMENT as string,",
+				"          ADJ_REASON as string,",
+				"          ADJ_EFFECTIVE_DATE as date,",
+				"          RECOVERY_AMOUNT as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 derive(AGENT_FULL_NAME = concat(     coalesce(AGENT_FIRST_NAME,''),     ' ',     coalesce(AGENT_LAST_NAME,'') ),",
+				"     partitionBy('hash', 1)) ~> derivedColumn1",
+				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          E2EIS_SEQ_NUMBER as long,",
+				"          AGENT_NUMBER as string,",
+				"          GROUP_NUMBER as string,",
+				"          SUB_GROUP as string,",
+				"          PLAN_CODE as string,",
+				"          GROUP_NAME as string,",
+				"          BEGIN_COMMISSION_DATE as string,",
+				"          END_COMMISSION_DATE as string,",
+				"          AGENT_FULL_NAME as string,",
+				"          CURRENT_PREMIUM_TOTAL as string,",
+				"          COMMISSION_AMOUNT as string,",
+				"          COMMISSION_PAID as string,",
+				"          COMMISSION_ADJUSTMENT as string,",
+				"          ADJ_REASON as string,",
+				"          ADJ_EFFECTIVE_DATE as string,",
+				"          RECOVERY_AMOUNT as string,",
+				"          COMPENSATION_DATE as date,",
+				"          AGENCY_ID as integer,",
+				"          RECORD_LOAD_DATE as date,",
+				"          RECORD_LOADED_BY as string,",
+				"          RECORD_DATA_SOURCE as string,",
+				"          RECORD_FLAG_STATUS as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     mapColumn(",
+				"          GROUP_NUMBER,",
+				"          SUB_GROUP,",
+				"          PLAN_CODE,",
+				"          GROUP_NAME,",
+				"          BEGIN_COMMISSION_DATE,",
+				"          END_COMMISSION_DATE,",
+				"          CURRENT_PREMIUM_TOTAL,",
+				"          COMMISSION_AMOUNT,",
+				"          COMMISSION_PAID,",
+				"          COMMISSION_ADJUSTMENT,",
+				"          ADJ_REASON,",
+				"          ADJ_EFFECTIVE_DATE,",
+				"          RECOVERY_AMOUNT",
+				"     )) ~> sink1"
+			]
+		}
+	}
+}
