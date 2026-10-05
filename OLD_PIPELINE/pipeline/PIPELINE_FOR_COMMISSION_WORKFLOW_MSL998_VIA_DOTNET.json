@@ -1,0 +1,282 @@
+{
+	"name": "PIPELINE_FOR_COMMISSION_WORKFLOW_MSL998_VIA_DOTNET",
+	"properties": {
+		"activities": [
+			{
+				"name": "UpdateStatusInProgress",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[MSL_998].[SP_LOG_COMMISSION_WORKFLOW_ETL]",
+					"storedProcedureParameters": {
+						"Period": {
+							"value": {
+								"value": "@concat(pipeline().parameters.MONTH, '/', pipeline().parameters.YEAR)\r\n",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"State": {
+							"value": {
+								"value": "@pipeline().parameters.State",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Status": {
+							"value": "IN PROGRESS",
+							"type": "String"
+						},
+						"RunID": {
+							"value": {
+								"value": "@pipeline().RunId",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"StartDateTime": {
+							"value": {
+								"value": "@formatDateTime(convertTimeZone(utcNow(), 'UTC', 'Eastern Standard Time'), 'MM:dd:yyyy HH:mm:ss')\n",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Week": {
+							"value": {
+								"value": "@pipeline().parameters.WEEK",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msldev",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "ExeCommissionWorkflow",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "UpdateStatusInProgress",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": {
+						"value": "@if(equals(pipeline().parameters.State, 'OOS'), '[MSL_998].[MSL_COMMISSION_CALCULATION_OOS]', '[MSL_998].[MSL_COMMISSION_CALCULATION_FB]')\n\n",
+						"type": "Expression"
+					},
+					"storedProcedureParameters": {
+						"MONTH": {
+							"value": {
+								"value": "@pipeline().parameters.MONTH",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"YEAR": {
+							"value": {
+								"value": "@pipeline().parameters.YEAR",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"WEEK": {
+							"value": {
+								"value": "@pipeline().parameters.WEEK",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msldev",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "UpdateStatusSuccess",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "ExeCommissionWorkflow",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[MSL_998].[SP_LOG_COMMISSION_WORKFLOW_ETL]",
+					"storedProcedureParameters": {
+						"Period": {
+							"value": {
+								"value": "@concat(pipeline().parameters.MONTH, '/', pipeline().parameters.YEAR)",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"State": {
+							"value": {
+								"value": "@pipeline().parameters.State",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Status": {
+							"value": "COMPLETED",
+							"type": "String"
+						},
+						"RunID": {
+							"value": {
+								"value": "@pipeline().RunId",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"EndDateTime": {
+							"value": {
+								"value": "@formatDateTime(convertTimeZone(utcNow(), 'UTC', 'Eastern Standard Time'), 'MM:dd:yyyy HH:mm:ss')",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Week": {
+							"value": {
+								"value": "@pipeline().parameters.WEEK",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msldev",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "UpdateStatusFailure",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "ExeCommissionWorkflow",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[MSL_998].[SP_LOG_COMMISSION_WORKFLOW_ETL]",
+					"storedProcedureParameters": {
+						"Period": {
+							"value": {
+								"value": "@concat(pipeline().parameters.MONTH, '/', pipeline().parameters.YEAR)",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"State": {
+							"value": {
+								"value": "@pipeline().parameters.State",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Status": {
+							"value": "FAILED",
+							"type": "String"
+						},
+						"Error": {
+							"value": {
+								"value": "@activity('ExeCommissionWorkflow').error.message",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"RunID": {
+							"value": {
+								"value": "@pipeline().RunId",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"EndDateTime": {
+							"value": {
+								"value": "@formatDateTime(convertTimeZone(utcNow(), 'UTC', 'Eastern Standard Time'), 'MM:dd:yyyy HH:mm:ss')",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Week": {
+							"value": {
+								"value": "@pipeline().parameters.WEEK",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServer_msldev",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"concurrency": 2,
+		"parameters": {
+			"MONTH": {
+				"type": "string"
+			},
+			"YEAR": {
+				"type": "string"
+			},
+			"State": {
+				"type": "string"
+			},
+			"WEEK": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2026-01-12T07:23:36Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
