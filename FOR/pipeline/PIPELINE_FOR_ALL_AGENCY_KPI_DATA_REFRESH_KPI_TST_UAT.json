@@ -5,6 +5,8 @@
 			{
 				"name": "VIP_BOB_KPI_MONTHLY_ATTRITION",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -261,6 +263,8 @@
 			{
 				"name": "VIP_KPI_DATA_POPULATE_FOR_TABLE_CHART_CURWEEK",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "VIP_BOB_KPI_MONTHLY_ATTRITION",
@@ -283,11 +287,354 @@
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
-					"enableStaging": false
+					"sink": {
+						"type": "SqlServerSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "Carrier_Period",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "Carrier_Period"
+								}
+							},
+							{
+								"source": {
+									"name": "Carrier",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "Carrier"
+								}
+							},
+							{
+								"source": {
+									"name": "Period_Description",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "Period_Description"
+								}
+							},
+							{
+								"source": {
+									"name": "Record_Load_Month",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "Record_Load_Month"
+								}
+							},
+							{
+								"source": {
+									"name": "Period_Start_Date",
+									"type": "Date",
+									"physicalType": "date"
+								},
+								"sink": {
+									"name": "Period_Start_Date"
+								}
+							},
+							{
+								"source": {
+									"name": "Period_End_Date",
+									"type": "Date",
+									"physicalType": "date"
+								},
+								"sink": {
+									"name": "Period_End_Date"
+								}
+							},
+							{
+								"source": {
+									"name": "Policy_Status",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "Policy_Status"
+								}
+							},
+							{
+								"source": {
+									"name": "BILL_STATUS",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "BILL_STATUS"
+								}
+							},
+							{
+								"source": {
+									"name": "PRODUCT_TYPE",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "PRODUCT_TYPE"
+								}
+							},
+							{
+								"source": {
+									"name": "rnk",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "rnk"
+								}
+							},
+							{
+								"source": {
+									"name": "Opening_Balance",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "Opening_Balance"
+								}
+							},
+							{
+								"source": {
+									"name": "Adds",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 38
+								},
+								"sink": {
+									"name": "Adds"
+								}
+							},
+							{
+								"source": {
+									"name": "Reactivation",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 38
+								},
+								"sink": {
+									"name": "Reactivation"
+								}
+							},
+							{
+								"source": {
+									"name": "Cancels",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 38
+								},
+								"sink": {
+									"name": "Cancels"
+								}
+							},
+							{
+								"source": {
+									"name": "Removals",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 38
+								},
+								"sink": {
+									"name": "Removals"
+								}
+							},
+							{
+								"source": {
+									"name": "Retention_Adds",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 14
+								},
+								"sink": {
+									"name": "Retention_Adds"
+								}
+							},
+							{
+								"source": {
+									"name": "Retention_Cancels",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 14
+								},
+								"sink": {
+									"name": "Retention_Cancels"
+								}
+							},
+							{
+								"source": {
+									"name": "Closing_Balance",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 38
+								},
+								"sink": {
+									"name": "Closing_Balance"
+								}
+							},
+							{
+								"source": {
+									"name": "Accounting_Date",
+									"type": "Date",
+									"physicalType": "date"
+								},
+								"sink": {
+									"name": "Accounting_Date"
+								}
+							},
+							{
+								"source": {
+									"name": "Agency_Subscriber_Orig_Effdate",
+									"type": "Date",
+									"physicalType": "date"
+								},
+								"sink": {
+									"name": "Agency_Subscriber_Orig_Effdate"
+								}
+							},
+							{
+								"source": {
+									"name": "Annual_Compensation_Type",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "Annual_Compensation_Type"
+								}
+							},
+							{
+								"source": {
+									"name": "Activity_Flag",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "Activity_Flag"
+								}
+							},
+							{
+								"source": {
+									"name": "Coverage_Start_Date",
+									"type": "Date",
+									"physicalType": "date"
+								},
+								"sink": {
+									"name": "Coverage_Start_Date"
+								}
+							},
+							{
+								"source": {
+									"name": "Unknown_Activity",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 14
+								},
+								"sink": {
+									"name": "Unknown_Activity"
+								}
+							},
+							{
+								"source": {
+									"name": "Future_Adds",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 14
+								},
+								"sink": {
+									"name": "Future_Adds"
+								}
+							},
+							{
+								"source": {
+									"name": "Future_Effective",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 14
+								},
+								"sink": {
+									"name": "Future_Effective"
+								}
+							},
+							{
+								"source": {
+									"name": "AGENCY_TYPE",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "AGENCY_TYPE"
+								}
+							},
+							{
+								"source": {
+									"name": "Retention_Future_Adds",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 3,
+									"precision": 14
+								},
+								"sink": {
+									"name": "Retention_Future_Adds"
+								}
+							},
+							{
+								"source": {
+									"name": "AGENT_FULL_NAME",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "AGENT_FULL_NAME"
+								}
+							},
+							{
+								"source": {
+									"name": "CARRIER_AGENT",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "CARRIER_AGENT"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
 				},
 				"inputs": [
 					{
 						"referenceName": "VIP_KPI_DATA_POPULATE_FOR_TABLE_CHART_CURWEEK_APP_PROD",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "VIP_KPI_DATA_POPULATE_FOR_TABLE_CHART_CURWEEK_UAT",
 						"type": "DatasetReference"
 					}
 				]
@@ -295,6 +642,8 @@
 			{
 				"name": "VIP_KPI_DATA_POPULATE_FOR_TABLE_CHART_MONTHLY_NEWDS",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "VIP_KPI_DATA_POPULATE_FOR_TABLE_CHART_CURWEEK",
@@ -666,6 +1015,8 @@
 			{
 				"name": "VIP_UNIFIED_MEMBER_TRACKER",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "VIP_KPI_DATA_POPULATE_FOR_TABLE_CHART_MONTHLY_NEWDS",
@@ -1045,6 +1396,8 @@
 			{
 				"name": "VIP_BOB_KPI_ACTIVE_ENROLLMENT_BYCARRIER",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "VIP_UNIFIED_MEMBER_TRACKER",
@@ -1308,6 +1661,8 @@
 			{
 				"name": "VIP_BOB_KPI_ACTIVE_ENROLLMENT_BYCARRIER_RENEWAL",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "VIP_BOB_KPI_ACTIVE_ENROLLMENT_BYCARRIER",
@@ -1487,6 +1842,8 @@
 			{
 				"name": "VIP_PERSISTENCY_FINAL",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "VIP_BOB_KPI_ACTIVE_ENROLLMENT_BYCARRIER_RENEWAL",
