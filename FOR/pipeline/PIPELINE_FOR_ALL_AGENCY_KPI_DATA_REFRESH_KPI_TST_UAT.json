@@ -242,7 +242,7 @@
 				}
 			},
 			{
-				"name": "ABI_KPI_UAT",
+				"name": "ABI_KPI_TEST",
 				"type": "ForEach",
 				"dependsOn": [],
 				"userProperties": [],
@@ -254,7 +254,7 @@
 					"isSequential": true,
 					"activities": [
 						{
-							"name": "Copy data2",
+							"name": "Data load in TEST",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
@@ -268,7 +268,10 @@
 							"typeProperties": {
 								"source": {
 									"type": "SqlServerSource",
-									"sqlReaderQuery": "@concat('SELECT * FROM [ABI_101].[', item(), ']')",
+									"sqlReaderQuery": {
+										"value": "@concat('SELECT * FROM [ABI_101].[', item(), ']')",
+										"type": "Expression"
+									},
 									"queryTimeout": "02:00:00",
 									"partitionOption": "None"
 								},
@@ -303,6 +306,78 @@
 											"type": "Expression"
 										}
 									}
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"name": "ABI_KPI_UAT",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "ABI_KPI_TEST",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@createArray('ABI_BOB_KPI_MONTHLY_ATTRITION','ABI_KPI_DATA_POPULATE_FOR_TABLE_CHART_CURWEEK','ABI_KPI_DATA_POPULATE_FOR_TABLE_CHART_MONTHLY_NEWDS','ABI_BOB_KPI_ACTIVE_ENROLLMENT_BYCARRIER','ABI_BOB_KPI_ACTIVE_ENROLLMENT_BYCARRIER_RENEWAL','ABI_UNIFIED_MEMBER_TRACKER','ABI_PERSISTENCY_FINAL')",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Data load in UAT",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"sqlReaderQuery": {
+										"value": "@concat('SELECT * FROM [ABI_101].[', item(), ']')",
+										"type": "Expression"
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "SqlServerSink",
+									"writeBehavior": "insert",
+									"sqlWriterUseTableLock": false
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "E2EIS_APP_PROD",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "ABI_UAT",
+									"type": "DatasetReference"
 								}
 							]
 						}
