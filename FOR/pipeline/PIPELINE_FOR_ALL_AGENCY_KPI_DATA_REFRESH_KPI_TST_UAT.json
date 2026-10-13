@@ -477,6 +477,8 @@
 			{
 				"name": "SIM_KPI_TEST",
 				"type": "ForEach",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
@@ -541,6 +543,80 @@
 											"type": "Expression"
 										}
 									}
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"name": "SIM_KPI_DEV",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "SIM_KPI_TEST",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@createArray('[SIM_103].[SIM_BOB_KPI_ACTIVE_ENROLLMENT_BYCARRIER_RENEWAL]','[SIM_103].[SIM_BOB_KPI_ACTIVE_ENROLLMENT_BYCARRIER]','[SIM_103].SIM_KPI_DATA_POPULATE_FOR_TABLE_CHART_CURWEEK','[SIM_103].SIM_KPI_DATA_POPULATE_FOR_TABLE_CHART_MONTHLY_NEWDS','SIM_103.SIM_BOB_KPI_MONTHLY_ATTRITION','[SIM_103].SIM_BOB_ENDING_MEMBER_CNT_ADDS_CNLS_RMVLS','SIMCDM_103.SIM_PERSISTENCY_FINAL')",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "DATA LOAD DEV",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "SqlServerSink",
+									"writeBehavior": "insert",
+									"sqlWriterUseTableLock": false
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "SIM_KPI_APP_PROD",
+									"type": "DatasetReference",
+									"parameters": {
+										"tablename": {
+											"value": "@item()",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "SIM_KPI_DEV",
+									"type": "DatasetReference"
 								}
 							]
 						}
