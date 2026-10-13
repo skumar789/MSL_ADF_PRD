@@ -563,7 +563,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@createArray('[SIM_103].[SIM_BOB_KPI_ACTIVE_ENROLLMENT_BYCARRIER_RENEWAL]','[SIM_103].[SIM_BOB_KPI_ACTIVE_ENROLLMENT_BYCARRIER]','[SIM_103].SIM_KPI_DATA_POPULATE_FOR_TABLE_CHART_CURWEEK','[SIM_103].SIM_KPI_DATA_POPULATE_FOR_TABLE_CHART_MONTHLY_NEWDS','SIM_103.SIM_BOB_KPI_MONTHLY_ATTRITION','[SIM_103].SIM_BOB_ENDING_MEMBER_CNT_ADDS_CNLS_RMVLS','SIMCDM_103.SIM_PERSISTENCY_FINAL')",
+						"value": "@createArray('SIM_103.SIM_BOB_KPI_ACTIVE_ENROLLMENT_BYCARRIER_RENEWAL','SIM_103.SIM_BOB_KPI_ACTIVE_ENROLLMENT_BYCARRIER','SIM_103.SIM_KPI_DATA_POPULATE_FOR_TABLE_CHART_CURWEEK','SIM_103.SIM_KPI_DATA_POPULATE_FOR_TABLE_CHART_MONTHLY_NEWDS','SIM_103.SIM_BOB_KPI_MONTHLY_ATTRITION','SIM_103.SIM_BOB_ENDING_MEMBER_CNT_ADDS_CNLS_RMVLS','SIM_103.SIM_PERSISTENCY_FINAL')",
 						"type": "Expression"
 					},
 					"isSequential": true,
@@ -607,11 +607,11 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"tablename": {
-											"value": "@item()",
+											"value": "@split(replace(replace(item(),'[',''),']',''),'.')[1]",
 											"type": "Expression"
 										},
 										"schemaname": {
-											"value": "@item()",
+											"value": "@split(replace(replace(item(),'[',''),']',''),'.')[0]",
 											"type": "Expression"
 										}
 									}
@@ -623,7 +623,11 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"tablename": {
-											"value": "@item()",
+											"value": "@split(item(),'.')[1]",
+											"type": "Expression"
+										},
+										"schemaname": {
+											"value": "@split(item(),'.')[0]",
 											"type": "Expression"
 										}
 									}
