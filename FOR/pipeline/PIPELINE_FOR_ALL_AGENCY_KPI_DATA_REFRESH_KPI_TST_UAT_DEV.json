@@ -3,8 +3,10 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "VIP_KPI_UAT",
+				"name": "VIP_KPI_DEV",
 				"type": "ForEach",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
@@ -76,13 +78,13 @@
 				}
 			},
 			{
-				"name": "VIP_KPI_DEV",
+				"name": "VIP_KPI_UAT",
 				"type": "ForEach",
 				"state": "Inactive",
 				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "VIP_KPI_UAT",
+						"activity": "VIP_KPI_DEV",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -143,7 +145,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "UAT_DATABASE",
+									"referenceName": "VIP_UAT",
 									"type": "DatasetReference",
 									"parameters": {
 										"tablename": {
@@ -164,7 +166,7 @@
 				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "VIP_KPI_DEV",
+						"activity": "VIP_KPI_UAT",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -315,6 +317,8 @@
 			{
 				"name": "ABI_KPI_UAT",
 				"type": "ForEach",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "ABI_KPI_TEST",
