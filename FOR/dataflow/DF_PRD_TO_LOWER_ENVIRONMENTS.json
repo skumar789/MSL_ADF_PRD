@@ -1,0 +1,52 @@
+{
+	"name": "DF_PRD_TO_LOWER_ENVIRONMENTS",
+	"properties": {
+		"description": "This data flow will be used to copy the data from production to the lower environment by admin team ",
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ABI_AGENCY_ADMIN_CONTACT_DETAILS_PRD",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          E2eis_Seq_Number as long,",
+				"          Agency_Code as string,",
+				"          Agency_Name as string,",
+				"          Agency_Address as string,",
+				"          Agency_Phone as string,",
+				"          Agency_Email as string,",
+				"          Agency_Primary_Contact_Name as string,",
+				"          Agency_Secondary_Contact_Name as string,",
+				"          Agency_Role as string,",
+				"          Agency_E2EDS_Application_Access_Status as string,",
+				"          Agency_Contract_Start_Date as string,",
+				"          Agency_Contract_End_Date as string,",
+				"          Agency_Contract_Renewal_Date as string,",
+				"          Agency_Contract_Termination_Date as string,",
+				"          Agency_Contract_Signed_By as string,",
+				"          Agency_Primary_Login_Id as string,",
+				"          Agency_Primary_Login_Password as string,",
+				"          Agency_Logo as binary,",
+				"          Agency_Web_URL_Address as string,",
+				"          Agency_ID as string,",
+				"          Record_Load_Date as date,",
+				"          Record_Loaded_By as string,",
+				"          Record_Data_Source as string,",
+				"          Record_Flag_Status as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source1"
+			]
+		}
+	}
+}
