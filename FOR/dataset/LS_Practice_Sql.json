@@ -3,15 +3,32 @@
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LS_Practice_Sql",
-			"type": "LinkedServiceReference"
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"ServerName": "dbserver-e2eis-prod.database.windows.net",
+				"DatabaseName": "E2EIS_UAT"
+			}
 		},
 		"parameters": {
 			"TableName": {
+				"type": "string"
+			},
+			"SchemaName": {
 				"type": "string"
 			}
 		},
 		"annotations": [],
 		"type": "SqlServerTable",
-		"schema": []
+		"schema": [],
+		"typeProperties": {
+			"schema": {
+				"value": "@dataset().SchemaName",
+				"type": "Expression"
+			},
+			"table": {
+				"value": "@dataset().TableName",
+				"type": "Expression"
+			}
+		}
 	}
 }
