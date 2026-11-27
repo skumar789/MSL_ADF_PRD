@@ -5,10 +5,6 @@
 		"typeProperties": {
 			"sources": [
 				{
-					"dataset": {
-						"referenceName": "AIA_AGENCY_EMP_HIER_DETAILS_HISTORY_APP_PROD",
-						"type": "DatasetReference"
-					},
 					"name": "sourcehierarchyexport"
 				}
 			],
@@ -43,10 +39,7 @@
 				"          RECORD_FLAG_STATUS as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     query: 'SELECT User_Id, \\n       First_Name, \\n       Last_Name, \\n       Email_Address, \\n       Termination_Flag, \\n       Department_Name, \\n       NPN_Grouping, \\n       Upline_Id,\\n       Upline_First_Name, \\n       Upline_Last_Name, \\n       Level_Seq, \\n       MAX(Record_Load_date) AS Max_Record_Load_date\\nFROM [AIA_102].[AIA_AGENCY_EMP_HIER_DETAILS_HISTORY] AS emp\\nWHERE NOT EXISTS (\\n    SELECT 1\\n    FROM [AIA_102].[AIA_AGENCY_PAYEE_DETAILS] AS payee\\n    WHERE payee.Employee_ID = emp.USER_ID\\n)\\nGROUP BY User_Id, \\n         First_Name, \\n         Last_Name, \\n         Email_Address, \\n         Termination_Flag, \\n         Department_Name, \\n         NPN_Grouping, \\n         Upline_Id,\\n         Upline_First_Name, \\n         Upline_Last_Name, \\n         Level_Seq',",
-				"     format: 'query') ~> sourcehierarchyexport",
+				"     validateSchema: false) ~> sourcehierarchyexport",
 				"sourcehierarchyexport sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
